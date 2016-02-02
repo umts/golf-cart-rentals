@@ -65,18 +65,18 @@ class ApplicationController < ActionController::Base
   end
 
   def has_permission?
-  #   if Rails.env.test?
-  #     true
-  #   elsif @current_user && (params[:action] == "render_404" || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
-  #     true
-  #   else
-  #     flash[:warning] = "Your account does not have access to this page."
-  #     begin
-  #       redirect_to :back
-  #     rescue ActionController::RedirectBackError
-  #       redirect_to root_path
-  #     end
-  #   end
+    if Rails.env.test?
+      true
+    elsif @current_user && (params[:action] == "render_404" || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
+      true
+    else
+      flash[:warning] = "Your account does not have access to this page."
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError
+        redirect_to root_path
+      end
+    end
   end
 
   def current_user_no_shibboleth
@@ -90,11 +90,15 @@ class ApplicationController < ActionController::Base
   # redirects:: to login page with an error if noone is logged in
   def require_login #:doc:
     if false
-    unless logged_in?
-      session[:return_to] = request.fullpath
-      flash[:error] = "You must be logged in to access this page."
-      redirect_to new_session_path
+      unless logged_in?
+        session[:return_to] = request.fullpath
+        flash[:error] = "You must be logged in to access this page."
+        redirect_to new_session_path
+      end
     end
-    end
+  end
+  
+  def self.get_actions(controller)
+    controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
   end
 end
