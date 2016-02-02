@@ -1,0 +1,24 @@
+# MySQL.  Versions 5.0+ are recommended.
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+
+default: &default
+  adapter:  mysql2
+  encoding: utf8
+  pool: 5
+  username: your-username-or-root-here
+  password: your-password-here
+  host: 127.0.0.1
+  socket: /tmp/mysql.sock
+
+development:
+  <<: *default
+  database: probabledev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: probabletest
