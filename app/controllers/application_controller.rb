@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def has_permission?
+  def has_permission?
   #   if Rails.env.test?
   #     true
   #   elsif @current_user && (params[:action] == "render_404" || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
   #       redirect_to root_path
   #     end
   #   end
-  # end
+  end
 
   def current_user_no_shibboleth
     if Rails.env.development?
