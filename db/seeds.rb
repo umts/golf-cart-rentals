@@ -1,7 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+if Rails.env.development?
+  puts "Creating users"
+  users = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'users.yml'))
+  users.each do |user|
+    u = User.where(spire: user["spire"]).first_or_create user
+  end
+  puts ''
+end
