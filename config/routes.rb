@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :home, only: [:index]
 
   resources :groups
-  resources :permissions
   resources :users
 
   #Errors --------------------------------------------------------------
