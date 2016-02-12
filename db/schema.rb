@@ -51,19 +51,18 @@ ActiveRecord::Schema.define(version: 20160202195506) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",       limit: 30,                  null: false
-    t.string   "last_name",        limit: 30,                  null: false
-    t.string   "username",         limit: 30,                  null: false
-    t.string   "email",            limit: 255,                 null: false
-    t.integer  "phone",            limit: 4,                   null: false
-    t.integer  "spire",            limit: 4,                   null: false
-    t.boolean  "active",                       default: true,  null: false
-    t.boolean  "department_head?",             default: false, null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.string   "first_name", limit: 30,                 null: false
+    t.string   "last_name",  limit: 30,                 null: false
+    t.string   "username",   limit: 30,                 null: false
+    t.string   "email",      limit: 255,                null: false
+    t.integer  "phone",      limit: 4,                  null: false
+    t.integer  "spire_id",   limit: 4,                  null: false
+    t.boolean  "active",                 default: true, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
-  add_index "users", ["spire"], name: "index_users_on_spire", unique: true, using: :btree
+  add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  limit: 255,   null: false

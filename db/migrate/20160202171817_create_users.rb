@@ -6,14 +6,13 @@ class CreateUsers < ActiveRecord::Migration
       t.string :username, limit: 30, null: false
       t.string :email, limit: 255, null: false
       t.integer :phone, null: false
-      t.integer :spire, null: false
+      t.integer :spire_id, null: false
       t.boolean :active, default: true, null: false
-      t.boolean :department_head?, default: false, null: false
 
       # standard audit data
       t.timestamps null: false
     end
 
-    add_index(:users, :spire, unique: true)
+    add_index(:users, :spire_id, unique: true)
   end
 end

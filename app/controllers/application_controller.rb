@@ -48,9 +48,9 @@ class ApplicationController < ActionController::Base
   def current_user
     if Rails.env.production? || Rails.env.staging?
       if request.env['fcIdNumber']
-        spire = request.env['fcIdNumber'].split("@").first
+        spire_id = request.env['fcIdNumber'].split("@").first
         eppn = request.env['eppn'].split("@").first
-        @current_user = User.find_by(spire: spire, username: eppn)
+        @current_user = User.find_by(spire_id: spire_id, username: eppn)
         if @current_user
           session[:user_id] = @current_user.id
         end

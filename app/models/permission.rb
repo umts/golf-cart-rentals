@@ -24,7 +24,6 @@ class Permission < ActiveRecord::Base
 
       # Create a new full access permission for all controller actions that do not have one
       ApplicationController.descendants.each do |controller|      # get all children and grand children
-        #passing false excludes model/helper methods
         ApplicationController.get_actions(controller).each do |action|
           Permission.find_or_create_by(controller: controller.name.gsub!("Controller","").underscore, action: action, id_field: nil)
         end
