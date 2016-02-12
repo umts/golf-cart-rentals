@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ProbableEngine</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render partial: 'layouts/shared/header' %>
+  <!-- <%= render partial: 'layouts/shared/loading' %> -->
+  <%= render partial: 'layouts/shared/navbar' %>
+
+  <div class="container main-content">
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, nil, class: "alert alert-#{name} container-fluid" do %>
+        <% glyph = "glyphicon glyphicon-alert flash-icon" if name == 'warning' %>
+        <% glyph = "glyphicon glyphicon-remove flash-icon" if name == 'danger' %>
+        <% glyph = "glyphicon glyphicon-ok flash-icon" if name == 'success' %>
+
+        <table class="flash-message"><tr>
+          <td><%= content_tag :span, nil, class: glyph %></td>
+          <!-- If there is an array of messages, print them all -->
+          <td>
+            <% if msg.is_a? Array %>
+              <% msg.each do |m| %>
+                <div>
+                  <%= m %>
+                </div>
+              <% end %>
+            <!-- Otherwise, print the one -->
+            <% else %>
+              <div><%= msg  %></div>
+            <% end %>
+          </td>
+        </tr></table>
+
+      <% end %>
+    <% end %>
+
+    <h1>
+      <%= yield :page_header %>
+    </h1>
+
+    <%= yield %>
+
+    <% if !yield( :pagination ).blank? %>
+      <span id='pagination-info'>
+        Displaying <%= yield( :pagination ) %> <strong id='pagination-number'></strong> of <strong id='pagination-total'></strong>
+      </span>
+      <nav id='pagination'><ul></ul></nav>
+    <% end %>
+  </div>
+
+  <%= render partial: 'layouts/shared/footer' %>
+
+</body>
+</html>

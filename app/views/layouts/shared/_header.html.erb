@@ -1,0 +1,27 @@
+<div class="page-header">
+	<div class="container">
+		<a href="http://umass.edu/"><%= image_tag "umass-wordmark-wht.png", alt: "UMass Amherst", width: "175", height: "23" %></a>
+
+
+		<form class="pull-right" action="http://googlebox.oit.umass.edu/search" method="get" name="gs" onsubmit="if (this.q.value==&#39;Search UMass Amherst&#39;) return false;" style="margin: 0; padding: 0" id="gs">
+			<div>
+				<label for="q" style="display:inline-block">
+					<input id="q" name="q" size="22" type="text" value="Search UMass Amherst"
+					onblur="if (this.value==&#39;&#39;) this.value=&#39;Search UMass Amherst&#39;"
+					onfocus="if (this.value==&#39;Search UMass Amherst&#39;) this.value=&#39;&#39;"
+					style="font-size:11px; font-family:Verdana,sans-serif; padding-left:2px; width:150px">
+				</label>
+				<input name="sa" style="font-size: 11px; font-family: Verdana, sans-serif;" type="submit" value="Go">
+				<input name="site" type="hidden" value="default_collection">
+				<input name="client" type="hidden" value="default_frontend">
+				<input name="proxystylesheet" type="hidden" value="default_frontend">
+				<input name="output" type="hidden" value="xml_no_dtd">
+			</div>
+		</form>
+	</div>
+</div>
+<div class="sub-header">
+	<div class="container">
+	  <p><a href="https://parking.umass.edu/"><%= image_tag "placeholder.png", alt: "UMass Parking Services" %> RPP</p>
+	</div>
+</div>
