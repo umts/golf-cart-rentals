@@ -58,4 +58,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'rake'
   gem 'timecop'
+  gem "codeclimate-test-reporter"
 end
