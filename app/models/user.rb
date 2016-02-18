@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
   has_many :groups, through: :groups_users
   has_many :permissions, -> {uniq}, through: :groups
 
-  validates :first_name, :last_name, :username, :spire_id, :phone, :email, presence: true
-  validates :spire_id, uniqueness: { scope: [:username] }
+  validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
+  validates :spire_id, uniqueness: true
 
   scope :active, -> { where(active: true) }
 

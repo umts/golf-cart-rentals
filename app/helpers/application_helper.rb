@@ -36,9 +36,7 @@ module ApplicationHelper
     #raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
   end
 
-  def button_to(name = nil, options = nil, html_options = nil, &block)
-    # link = super(name, options, html_options, &block)
-    # binding.pry
+  def button_to(*args)
     raise "Button to is not protected by permissions"
   end
 end
