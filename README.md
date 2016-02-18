@@ -1,4 +1,7 @@
 # probable-engine
+[![Build Status](https://travis-ci.org/umts/probable-engine.svg?branch=master)](https://travis-ci.org/umts/probable-engine)
+<a href="https://codeclimate.com/github/umts/probable-engine"><img src="https://codeclimate.com/github/umts/probable-engine/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/umts/probable-engine/coverage"><img src="https://codeclimate.com/github/umts/probable-engine/badges/coverage.svg" /></a>
 
 Probable Engine is a piece of web-based rental control software.
 
