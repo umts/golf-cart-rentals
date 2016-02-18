@@ -7,7 +7,7 @@ class Permission < ActiveRecord::Base
       # Delete all permissions that do not map to a valid controller action
       Rails.application.eager_load!
       Permission.all.each do|permission|
-        controller = ApplicationController.descendants.select{ |controller| controller.name == "#{permission.controller}_controller".camelcase }.first
+        controller = ApplicationController.descendants.find{ |c| c.name == "#{permission.controller}_controller".camelcase }
         # Destroy the permission if the controller doesn't exist
         if controller.nil?
           permission.destroy!
@@ -15,7 +15,7 @@ class Permission < ActiveRecord::Base
         end
 
         # Destroy the permission if the action doesn't exist
-        action = ApplicationController.get_actions(controller).select{ |action| action == "#{permission.action}" }.first
+        action = ApplicationController.get_actions(controller).find{ |a| a == "#{permission.action}" }
         if action.nil?
           permission.destroy!
           next
@@ -38,10 +38,6 @@ class Permission < ActiveRecord::Base
   end
 
   def model
-    begin
-      return controller.classify.constantize
-    rescue => e
-      return nil
-    end
+    return controller.classify.constantize
   end
 end

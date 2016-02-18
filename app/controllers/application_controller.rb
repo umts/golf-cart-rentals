@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   before_action :current_user
-  before_action :current_user_no_shibboleth
   before_action :has_permission?
 
   # Set auto papertrail
@@ -46,54 +45,48 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
+    #handle users approprately in production
     if Rails.env.production? || Rails.env.staging?
+
+      #handle shibboleth login
       if request.env['fcIdNumber']
         spire_id = request.env['fcIdNumber'].split("@").first
-        eppn = request.env['eppn'].split("@").first
-        @current_user = User.find_by(spire_id: spire_id, username: eppn)
-        if @current_user
-          session[:user_id] = @current_user.id
-        end
+        @current_user = User.find_by(spire_id: spire_id)
+        session[:user_id] = @current_user.id if @current_user
+
+      #handle user already logged in
       elsif session[:user_id]
         @current_user = User.find(session[:user_id])
       end
 
+      #raise error if user failed to log in
       unless @current_user
-        raise 'Please make this a view'
+        raise "Error occured logging user in"
       end
-    end
-  end
 
-  def has_permission?
-    if Rails.env.test?
-      true
-    elsif @current_user && (params[:action] == "render_404" || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
-      true
-    else
-      flash[:warning] = "Your account does not have access to this page."
-      begin
-        redirect_to :back
-      rescue ActionController::RedirectBackError
-        redirect_to root_path
-      end
-    end
-  end
-
-  def current_user_no_shibboleth
-    if Rails.env.development?
+    #assign the first user when in development
+    elsif Rails.env.development?
       @current_user = User.first
       session[:user_id] = @current_user.id
     end
   end
 
-  # Makes sure the user is logged in
-  # redirects:: to login page with an error if noone is logged in
-  def require_login #:doc:
-    if false
-      unless logged_in?
-        session[:return_to] = request.fullpath
-        flash[:error] = "You must be logged in to access this page."
-        redirect_to new_session_path
+  def has_permission?
+    #allow anyone in test
+    if Rails.env.test?
+      true
+
+    #allow logged in users to view 404 and pages they have access to
+    elsif @current_user && (params[:action] == "render_404" || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
+      true
+
+    #raise an error and redirect if the current user cannot view the page
+    elsif @current_user
+      flash[:warning] = "Your account does not have access to this page."
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError
+        redirect_to root_path
       end
     end
   end
