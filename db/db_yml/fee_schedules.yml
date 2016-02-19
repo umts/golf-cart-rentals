@@ -1,0 +1,5 @@
+- base_amount: 75
+  amount_per_day: 35
+
+- base_amount: 100
+  amount_per_day: 40
