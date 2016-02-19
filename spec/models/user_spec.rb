@@ -20,6 +20,10 @@ RSpec.describe User, type: :model do
     build(:user, spire_id: nil).should_not be_valid
   end
   
-  describe ''
-  it "returns a contact's full name as a string"
+  describe 'full_name' do
+    let(:user) { create :user }
+    it 'returns first name and last name with a space in between' do
+      expect(user.full_name).to eql "#{user.first_name} #{user.last_name}"
+    end
+  end
 end

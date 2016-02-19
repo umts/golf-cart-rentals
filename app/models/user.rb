@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   def full_name
-    return "#{self.first_name} #{self.last_name}"
+    [first_name, last_name].join ' '
   end
 
   # Can take 1, 2, or 3 params
