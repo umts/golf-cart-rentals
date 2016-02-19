@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :groups_users, dependent: :destroy
   has_many :groups, through: :groups_users
-  has_many :permissions, -> {uniq}, through: :groups
+  has_many :permissions, -> { uniq }, through: :groups
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
   validates :spire_id, uniqueness: true
@@ -11,14 +11,14 @@ class User < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   def full_name
-    return "#{self.first_name} #{self.last_name}"
+    [first_name, last_name].join ' '
   end
 
   # Can take 1, 2, or 3 params
   # 1 param -> has_permission?(permission_object)
   # 2-3 params -> has_permission?(controller, action, id=nil)
   def has_permission?(*args)
-  # def has_permission?(controller, action, id=nil)
+    # def has_permission?(controller, action, id=nil)
     return permissions.include? args[0] if args.size == 1
 
     controller = args[0]
@@ -43,14 +43,14 @@ class User < ActiveRecord::Base
     relevant_permissions.each do |perm|
       id_field_val = model.find(id).send(perm[:id_field])
 
-      return true if id_field_val == self or (id_field_val.methods.include? :include? and id_field_val.include? self)
+      return true if id_field_val == self || (id_field_val.methods.include?(:include?) && id_field_val.include?(self))
     end
 
     # Deny if everything fails
-    return false
+    false
   end
 
   def has_group?(group)
-    return groups.include? group
+    groups.include? group
   end
 end
