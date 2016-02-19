@@ -17,12 +17,12 @@ module ApplicationHelper
     end
 
     # Always create the link if it isn't a relative path
-    return super(name, url_options, html_options, &block) if !url.start_with?("/")
+    return super(name, url_options, html_options, &block) unless url.start_with?('/')
 
     # Assume get
     method = :get
     # Replace with specific method if provided
-    method = options[:method] if options and options[:method]
+    method = options[:method] if options && options[:method]
     # Replace put with patch to fix issue with some routes and rails 4
     method = :patch if method == :put
 
@@ -33,12 +33,10 @@ module ApplicationHelper
     return super(name, url_options, html_options, &block) if @current_user.has_permission?(route[:controller], route[:action], route[:id])
 
     # Raise an error if the link is hidden but the user is omni and should see all links
-    #raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
+    # raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
   end
 
-  def button_to(name = nil, options = nil, html_options = nil, &block)
-    # link = super(name, options, html_options, &block)
-    # binding.pry
-    raise "Button to is not protected by permissions"
+  def button_to(*_args)
+    fail 'Button to is not protected by permissions'
   end
 end
