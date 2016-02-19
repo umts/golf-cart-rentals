@@ -60,4 +60,5 @@ group :test do
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'rubocop', require: false
 end
