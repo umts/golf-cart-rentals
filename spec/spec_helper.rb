@@ -1,5 +1,6 @@
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
+
 require 'factory_girl_rails'
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
