@@ -30,9 +30,7 @@ if Rails.env.development?
   fee_schedules = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'fee_schedules.yml'))
   fee_schedules.each do |fee_schedule|
     item_type = ItemType.find_by(name: fee_schedule["type_name"])
-
     FeeSchedule.where(base_amount: fee_schedule['base_amount'], amount_per_day: fee_schedule['amount_per_day'], item_type: item_type).first_or_create
-
   end
 
   puts " "
