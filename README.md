@@ -12,3 +12,5 @@ Users belong to 1 department, which will be invoiced for rentals.
 Admin users can create, edit, and delete users, items, item types, departments, and handle individual user/group permissions.
 
 The home page shows a view of the current users reservations, and can be used to view item availability and if the user is an admin, all existing reservations.
+
+![Proposed table relationships](https://github.com/umts/probable-engine/blob/master/Golfcart%20Schema.png)
