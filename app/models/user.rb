@@ -14,17 +14,7 @@ class User < ActiveRecord::Base
     [first_name, last_name].join ' '
   end
 
-  # Can take 1, 2, or 3 params
-  # 1 param -> has_permission?(permission_object)
-  # 2-3 params -> has_permission?(controller, action, id=nil)
   def has_permission?(controller, action, id)
-    # def has_permission?(controller, action, id=nil)
-    # return permissions.include? args[0] if args.size == 1
-
-    # controller = args[0]
-    # action = args[1]
-    # id = args[2]
-
     # Allow anyone to access the home page
     return true if (controller == 'application' && action == 'root') || (controller == 'home' && action == 'index')
 
