@@ -43,6 +43,7 @@ RSpec.describe User, type: :model do
 
       expect(user.has_permission?(permission.controller, permission.action, nil)).to eq true
     end
+
     it 'returns true if the user has a permission with the requested controller, action, and an id_field, and their id matches the id of the requested instance' do
       user = create(:user)
       group = create(:group)
@@ -51,16 +52,47 @@ RSpec.describe User, type: :model do
       group.permissions << permission
       user.groups << group
 
-      # binding.pry
       expect(user.has_permission?(permission.controller, permission.action, user.id)).to eq true
     end
 
-    it 'returns false if the user does not have a permission with the requested controller, action'
-    it 'returns false if the user has a permission with the requested controller, action and an id_field, and their id does not match the id of the requested instance'
+    it 'returns false if the user does not have a permission with the requested controller, action' do
+      user = create(:user)
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
+
+      user.groups << group
+
+      expect(user.has_permission?(permission.controller, permission.action, nil)).to eq false
+    end
+
+    it 'returns false if the user has a permission with the requested controller, action and an id_field, and their id does not match the id of the requested instance' do
+      user = create(:user)
+      user2 = create(:user)
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
+
+      group.permissions << permission
+      user.groups << group
+
+      expect(user.has_permission?(permission.controller, permission.action, user2.id)).to eq false
+    end
   end
 
   describe '#has_group?' do
-    it 'returns true if the user has the requested group'
-    it 'returns false if the user does not have the requested group'
+    it 'returns true if the user has the requested group' do
+      user = create(:user)
+      group = create(:group)
+
+      user.groups << group
+
+      expect(user.has_group?(group)).to eq true
+    end
+
+    it 'returns false if the user does not have the requested group' do
+      user = create(:user)
+      group = create(:group)
+
+      expect(user.has_group?(group)).to eq false
+    end
   end
 end

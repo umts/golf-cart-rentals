@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     # Deny if the list is empty
     return false if relevant_permissions.empty?
 
-    # Permit if list has a permission with no id field
+    # Permit if list has a permission with no id_field
     return true if relevant_permissions.where(id_field: nil).present?
 
     # Permit if the list has a permission with an id field, and the model instance we want matches
@@ -43,8 +43,7 @@ class User < ActiveRecord::Base
     relevant_permissions.each do |perm|
       id_field_val = model.find(id).send(perm[:id_field])
 
-      binding.pry
-      return true if id_field_val == self || (id_field_val.methods.include?(:include?) && id_field_val.include?(self))
+      return true if id_field_val == self.id || (id_field_val.methods.include?(:include?) && id_field_val.include?(self))
     end
 
     # Deny if everything fails
