@@ -25,6 +25,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #for tracking created/updated user info on a per model basis
 gem 'paper_trail', '~> 4.0.0.rc'
 
+# for handling the state machine behind rental statuses
+gem 'aasm'
+
 # bootstrap!
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
