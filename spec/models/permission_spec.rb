@@ -20,7 +20,7 @@ RSpec.describe Permission, type: :model do
 
   describe '#model' do
     it 'returns a reference to the model class that this permission references' do
-      p = create(:permission, controller: "users")
+      p = create(:permission, controller: 'users')
       expect(p.model).to eq(User)
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe Permission, type: :model do
   describe '.update_permissions_table' do
     it "adds new controller actions to the permissions table" do
       Permission.update_permissions_table
-      expect(Permission.find_by(controller: "test")).to be_nil
+      expect(Permission.find_by(controller: 'test')).to be_nil
 
       class TestController < ApplicationController
         def index
@@ -36,10 +36,10 @@ RSpec.describe Permission, type: :model do
       end
 
       Permission.update_permissions_table
-      expect(Permission.find_by(controller: "test", action: "index")).to be_a(Permission)
+      expect(Permission.find_by(controller: 'test', action: 'index')).to be_a(Permission)
     end
 
-    it "removes missing controllers from the permissions table" do
+    it 'deletes permissions with non-existant controllers' do
       p = create(:permission)
       expect(Permission.find_by(controller: p.controller, action: p.action)).to be_a(Permission)
 
@@ -47,9 +47,9 @@ RSpec.describe Permission, type: :model do
       expect(Permission.find_by(controller: p.controller, action: p.action)).to be_nil
     end
 
-    it "removes missing controller actions from the permissions table" do
+    it 'deletes permissions with non-existant actions' do
       Permission.update_permissions_table
-      p = create(:permission, controller: Permission.all.first.controller, action: "dummy_action")
+      p = create(:permission, controller: Permission.all.first.controller, action: 'dummy_action')
       expect(Permission.find_by(controller: p.controller, action: p.action)).to be_a(Permission)
 
       Permission.update_permissions_table
