@@ -17,13 +17,13 @@ class User < ActiveRecord::Base
   # Can take 1, 2, or 3 params
   # 1 param -> has_permission?(permission_object)
   # 2-3 params -> has_permission?(controller, action, id=nil)
-  def has_permission?(*args)
+  def has_permission?(controller, action, id)
     # def has_permission?(controller, action, id=nil)
-    return permissions.include? args[0] if args.size == 1
+    # return permissions.include? args[0] if args.size == 1
 
-    controller = args[0]
-    action = args[1]
-    id = args[2]
+    # controller = args[0]
+    # action = args[1]
+    # id = args[2]
 
     # Allow anyone to access the home page
     return true if (controller == 'application' && action == 'root') || (controller == 'home' && action == 'index')
@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
     relevant_permissions.each do |perm|
       id_field_val = model.find(id).send(perm[:id_field])
 
+      binding.pry
       return true if id_field_val == self || (id_field_val.methods.include?(:include?) && id_field_val.include?(self))
     end
 

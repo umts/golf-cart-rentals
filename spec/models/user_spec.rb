@@ -19,10 +19,48 @@ RSpec.describe User, type: :model do
   it 'is invalid without a spire_id' do
     expect(build :user, spire_id: nil).not_to be_valid
   end
-  describe 'full_name' do
+  it "does not allow duplicate spire_ids" do
+    user = create(:user)
+    expect(build :user, spire_id: user.spire_id).not_to be_valid
+  end
+
+  describe '#full_name' do
     let(:user) { create :user }
     it 'returns first name and last name with a space in between' do
       expect(user.full_name).to eql "#{user.first_name} #{user.last_name}"
     end
+  end
+
+  describe '#has_permission?' do
+    # params[:controller], params[:action], params[:id]
+    it 'returns true if the user has a permission with the requested controller, action, and no id_field' do
+      user = create(:user)
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
+
+      group.permissions << permission
+      user.groups << group
+
+      expect(user.has_permission?(permission.controller, permission.action, nil)).to eq true
+    end
+    it 'returns true if the user has a permission with the requested controller, action, and an id_field, and their id matches the id of the requested instance' do
+      user = create(:user)
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
+
+      group.permissions << permission
+      user.groups << group
+
+      # binding.pry
+      expect(user.has_permission?(permission.controller, permission.action, user.id)).to eq true
+    end
+
+    it 'returns false if the user does not have a permission with the requested controller, action'
+    it 'returns false if the user has a permission with the requested controller, action and an id_field, and their id does not match the id of the requested instance'
+  end
+
+  describe '#has_group?' do
+    it 'returns true if the user has the requested group'
+    it 'returns false if the user does not have the requested group'
   end
 end
