@@ -55,17 +55,11 @@ class ApplicationController < ActionController::Base
   def current_user
     # handle users approprately in production
     if Rails.env.production? || Rails.env.staging?
+      # try logging in user with shibboleth info
+      user_from_shibboleth
 
-      # handle shibboleth login
-      if request.env['fcIdNumber']
-        spire_id = request.env['fcIdNumber'].split('@').first
-        @current_user = User.find_by(spire_id: spire_id)
-        session[:user_id] = @current_user.id if @current_user
-
-      # handle user already logged in
-      elsif session[:user_id]
-        @current_user = User.find(session[:user_id])
-      end
+      # try to retrieve user from session if didn't log in
+      user_from_session if @current_user.nil?
 
       # raise error if user failed to log in
       fail 'Error occured logging user in' unless @current_user
@@ -77,23 +71,46 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def user_from_shibboleth
+    if request.env['fcIdNumber']
+      spire_id = request.env['fcIdNumber'].split('@').first
+      @current_user = User.find_by(spire_id: spire_id)
+      session[:user_id] = @current_user.id if @current_user
+    end
+  end
+
+  def user_from_session
+    @current_user = User.find(session[:user_id]) if session[:user_id]
+  end
+
   def has_permission?
     # allow anyone in test
-    if Rails.env.test?
-      true
+    return true if Rails.env.test?
+
+    # allow anyone to view the root page
+    return true if has_global_permission?
 
     # allow logged in users to view 404 and pages they have access to
-    elsif @current_user && (params[:action] == 'render_404' || @current_user.has_permission?(params[:controller], params[:action], params[:id]))
-      true
+    return true if @current_user &&
+                   @current_user.has_permission?(params[:controller], params[:action], params[:id])
 
-    # raise an error and redirect if the current user cannot view the page
-    elsif @current_user
-      flash[:warning] = 'Your account does not have access to this page.'
-      begin
-        redirect_to :back
-      rescue ActionController::RedirectBackError
-        redirect_to root_path
-      end
+    # prevent users without permission
+    handle_no_permission if @current_user
+  end
+
+  def has_global_permission?
+    # allow anyone to access root and 404 page
+    (params[:controller] == 'application' && params[:action] == 'root') ||
+      (params[:controller] == 'home' && params[:action] == 'index') ||
+      params[:action] == 'render_404'
+  end
+
+  def handle_no_permission
+    flash[:warning] = 'Your account does not have access to this page.'
+    begin
+      redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to root_path
     end
   end
 end

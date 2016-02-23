@@ -13,19 +13,27 @@ module SessionsHelper
   end
 
   def keep_session_alive
+    # only run if there is a session cookie
     unless cookies.signed[:remember_token].nil?
-      s = Session.find_by(remember_token: encrypt(cookies.signed[:remember_token]))
-      if s.nil?
+      # Check if the session exists
+      session = Session.find_by(remember_token: encrypt(cookies.signed[:remember_token]))
+      # Clear the cookie if it doesn't
+      if session.nil?
         cookies.clear
+      # Refresh the session if it does
       else
-        # If someone is signed in make their cookie valid for another hour
-        remember_token = cookies.signed[:remember_token]
-        cookies.signed[:remember_token] = { value: remember_token, expires: 1.hour.from_now }
-        # Also update the last time that they took an action
-        s.updated_at = Time.zone.now
-        s.save
+        refresh_session
       end
     end
+  end
+
+  def refresh_session(session)
+    # If someone is signed in make their cookie valid for another hour
+    remember_token = cookies.signed[:remember_token]
+    cookies.signed[:remember_token] = { value: remember_token, expires: 1.hour.from_now }
+    # Also update the last time that they took an action
+    session.updated_at = Time.zone.now
+    session.save
   end
 
   def log_in(user)
