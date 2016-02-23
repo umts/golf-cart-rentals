@@ -3,7 +3,7 @@ module SessionsHelper
     if @current_user.nil?
       remember_token = encrypt(cookies.signed[:remember_token])
       user_id = begin
-                  Session.where('created_at > :time OR updated_at > :time', time: Time.now - 1.hour).find_by(remember_token: remember_token).user_id
+                  Session.where('created_at > :time OR updated_at > :time', time: Time.zone.now - 1.hour).find_by(remember_token: remember_token).user_id
                 rescue
                   nil
                 end
@@ -22,7 +22,7 @@ module SessionsHelper
         remember_token = cookies.signed[:remember_token]
         cookies.signed[:remember_token] = { value: remember_token, expires: 1.hour.from_now }
         # Also update the last time that they took an action
-        s.updated_at = Time.now
+        s.updated_at = Time.zone.now
         s.save
       end
     end

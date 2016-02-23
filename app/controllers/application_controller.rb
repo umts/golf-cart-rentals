@@ -46,6 +46,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def self.get_actions(controller)
+    controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
+  end
+
   private
 
   def current_user
@@ -91,9 +95,5 @@ class ApplicationController < ActionController::Base
         redirect_to root_path
       end
     end
-  end
-
-  def self.get_actions(controller)
-    controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
   end
 end

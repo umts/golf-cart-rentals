@@ -2,26 +2,26 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it 'has a valid factory' do
-    expect(build :user).to be_valid
+    expect(build(:user)).to be_valid
   end
   it 'is invalid without a first_name' do
-    expect(build :user, first_name: nil).not_to be_valid
+    expect(build(:user, first_name: nil)).not_to be_valid
   end
   it 'is invalid without a last_name' do
-    expect(build :user, last_name: nil).not_to be_valid
+    expect(build(:user, last_name: nil)).not_to be_valid
   end
   it 'is invalid without an email' do
-    expect(build :user, email: nil).not_to be_valid
+    expect(build(:user, email: nil)).not_to be_valid
   end
   it 'is invalid without a phone' do
-    expect(build :user, phone: nil).not_to be_valid
+    expect(build(:user, phone: nil)).not_to be_valid
   end
   it 'is invalid without a spire_id' do
-    expect(build :user, spire_id: nil).not_to be_valid
+    expect(build(:user, spire_id: nil)).not_to be_valid
   end
-  it "does not allow duplicate spire_ids" do
+  it 'does not allow duplicate spire_ids' do
     user = create(:user)
-    expect(build :user, spire_id: user.spire_id).not_to be_valid
+    expect(build(:user, spire_id: user.spire_id)).not_to be_valid
   end
 
   describe '#full_name' do
@@ -46,7 +46,8 @@ RSpec.describe User, type: :model do
                                       nil
     end
 
-    it 'returns true if the user has a permission with the requested controller, action, and an id_field, and their id matches the id of the requested instance' do
+    it 'returns true if the user has a permission with the requested controller, action, and an id_field,
+                        and their id matches the id of the requested instance' do
       user = create(:user)
       group = create(:group)
       permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
@@ -71,7 +72,8 @@ RSpec.describe User, type: :model do
                                           nil
     end
 
-    it 'returns false if the user has a permission with the requested controller, action and an id_field, and their id does not match the id of the requested instance' do
+    it 'returns false if the user has a permission with the requested controller, action and an id_field,
+                         and their id does not match the id of the requested instance' do
       user = create(:user)
       user2 = create(:user)
       group = create(:group)
@@ -90,7 +92,7 @@ RSpec.describe User, type: :model do
     it 'returns true if the user has the requested group' do
       user = create(:user)
       group = create(:group)
-      
+
       user.groups << group
 
       expect(user).to have_group group

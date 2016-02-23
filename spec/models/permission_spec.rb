@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Permission, type: :model do
   it 'has a valid factory' do
-    expect(build :permission).to be_valid
+    expect(build(:permission)).to be_valid
   end
   it 'is invalid without a controller' do
-    expect(build :permission, controller: nil).not_to be_valid
+    expect(build(:permission, controller: nil)).not_to be_valid
   end
   it 'is invalid without an action' do
-    expect(build :permission, action: nil).not_to be_valid
+    expect(build(:permission, action: nil)).not_to be_valid
   end
 
   describe '#name' do
@@ -26,7 +26,7 @@ RSpec.describe Permission, type: :model do
   end
 
   describe '.update_permissions_table' do
-    it "adds new controller actions to the permissions table" do
+    it 'adds new controller actions to the permissions table' do
       Permission.update_permissions_table
       expect(Permission.find_by(controller: 'test')).to be_nil
 

@@ -4,6 +4,6 @@ FactoryGirl.define do
     last_name 'Doe'
     email 'jdoe@test.com'
     phone 1_234_567_890
-    sequence(:spire_id) 
+    sequence(:spire_id)
   end
 end
