@@ -21,7 +21,6 @@ class Permission < ActiveRecord::Base
     controller.classify.constantize
   end
 
-  private
   def self.delete_outdated_permissions
     # Delete all permissions that do not map to a valid controller action
     Rails.application.eager_load!
