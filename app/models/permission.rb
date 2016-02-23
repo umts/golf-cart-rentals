@@ -2,6 +2,8 @@ class Permission < ActiveRecord::Base
   has_many :groups_permissions, dependent: :destroy
   has_many :groups, through: :groups_permissions
 
+  validates :controller, :action, presence: true
+
   def self.update_permissions_table
     ActiveRecord::Base.transaction do
       # Delete all permissions that do not map to a valid controller action
