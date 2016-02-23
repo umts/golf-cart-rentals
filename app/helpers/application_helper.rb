@@ -16,15 +16,13 @@ module ApplicationHelper
       options = html_options
     end
 
-    # Always create the link if it isn't a relative path
+    # Always create the link if it isn't a relative path and not permission controlled
     return super(name, url_options, html_options, &block) unless url.start_with?('/')
 
     # Assume get
-    method = :get
-    # Replace with specific method if provided
-    method = options[:method] if options && options[:method]
-    # Replace put with patch to fix issue with some routes and rails 4
-    method = :patch if method == :put
+    method = 'get'
+    # Replace with specific method if provided, replacing put with patch to fix issue with some routes and rails 4
+    method = options[:method].to_s.gsub('put', 'patch') if options && options[:method]
 
     # Try to recognize the route
     route = Rails.application.routes.recognize_path url, method: method

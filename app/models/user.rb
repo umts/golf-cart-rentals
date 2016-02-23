@@ -15,9 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def has_permission?(controller, action, id)
-    # Allow anyone to access the home page
-    return true if (controller == 'application' && action == 'root') || (controller == 'home' && action == 'index')
-
     # Get a list of permissions associated with this controller and action
     relevant_permissions = permissions.where(controller: controller, action: action)
 

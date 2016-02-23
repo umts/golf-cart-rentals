@@ -1,4 +1,3 @@
-inherit_from: .rubocop_todo.yml
 Rails:
   Enabled: true
 
@@ -20,3 +19,7 @@ Metrics/AbcSize:
   Max: 20
 Metrics/MethodLength:
   Max: 20
+Metrics/LineLength:
+  Max: 160
+Style/PredicateName:
+  Enabled: false
