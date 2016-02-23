@@ -11,7 +11,18 @@ class Permission < ActiveRecord::Base
     end
   end
 
-  def delete_outdated_permissions
+  def name
+    name = "#{controller.humanize.titleize} - #{action.humanize.titleize}"
+    name += " - #{id_field}" if id_field
+    name
+  end
+
+  def model
+    controller.classify.constantize
+  end
+
+  private
+  def self.delete_outdated_permissions
     # Delete all permissions that do not map to a valid controller action
     Rails.application.eager_load!
     Permission.all.find_each do|permission|
@@ -31,22 +42,12 @@ class Permission < ActiveRecord::Base
     end
   end
 
-  def create_new_permissions
+  def self.create_new_permissions
     # Create a new full access permission for all controller actions that do not have one
     ApplicationController.descendants.each do |controller| # get all children and grand children
       ApplicationController.get_actions(controller).each do |action|
         Permission.find_or_create_by(controller: controller.name.gsub!('Controller', '').underscore, action: action, id_field: nil)
       end
     end
-  end
-
-  def name
-    name = "#{controller.humanize.titleize} - #{action.humanize.titleize}"
-    name += " - #{id_field}" if id_field
-    name
-  end
-
-  def model
-    controller.classify.constantize
   end
 end
