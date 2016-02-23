@@ -41,7 +41,9 @@ RSpec.describe User, type: :model do
       group.permissions << permission
       user.groups << group
 
-      expect(user.has_permission?(permission.controller, permission.action, nil)).to eq true
+      expect(user).to have_permission permission.controller,
+                                      permission.action,
+                                      nil
     end
 
     it 'returns true if the user has a permission with the requested controller, action, and an id_field, and their id matches the id of the requested instance' do
@@ -52,7 +54,9 @@ RSpec.describe User, type: :model do
       group.permissions << permission
       user.groups << group
 
-      expect(user.has_permission?(permission.controller, permission.action, user.id)).to eq true
+      expect(user).to have_permission permission.controller,
+                                      permission.action,
+                                      user.id
     end
 
     it 'returns false if the user does not have a permission with the requested controller, action' do
@@ -62,7 +66,9 @@ RSpec.describe User, type: :model do
 
       user.groups << group
 
-      expect(user.has_permission?(permission.controller, permission.action, nil)).to eq false
+      expect(user).not_to have_permission permission.controller,
+                                          permission.action,
+                                          nil
     end
 
     it 'returns false if the user has a permission with the requested controller, action and an id_field, and their id does not match the id of the requested instance' do
@@ -74,7 +80,9 @@ RSpec.describe User, type: :model do
       group.permissions << permission
       user.groups << group
 
-      expect(user.has_permission?(permission.controller, permission.action, user2.id)).to eq false
+      expect(user).not_to have_permission permission.controller,
+                                          permission.action,
+                                          user2.id
     end
   end
 
@@ -82,17 +90,17 @@ RSpec.describe User, type: :model do
     it 'returns true if the user has the requested group' do
       user = create(:user)
       group = create(:group)
-
+      
       user.groups << group
 
-      expect(user.has_group?(group)).to eq true
+      expect(user).to have_group group
     end
 
     it 'returns false if the user does not have the requested group' do
       user = create(:user)
       group = create(:group)
 
-      expect(user.has_group?(group)).to eq false
+      expect(user).not_to have_group group
     end
   end
 end

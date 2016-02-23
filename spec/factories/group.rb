@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :group do |f|
-    f.name 'group'
-    f.description 'this is a group'
+  factory :group do
+    sequence(:name){ |n| "Group #{n}" }
+    description 'Description'
   end
 end
