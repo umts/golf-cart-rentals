@@ -1,0 +1,11 @@
+language: ruby
+env: "CODECLIMATE_REPO_TOKEN=15ed3ea3aa5e152f478928dbb01e5747253e54be2b90553170931dbc842428c7"
+rvm: 2.2.3
+script:
+  - bundle exec rspec spec/
+before_script:
+  - cp config/database.travis.yml config/database.yml
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+addons:
+  mariadb: '10.0'

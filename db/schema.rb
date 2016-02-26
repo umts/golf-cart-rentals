@@ -11,6 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 7320397a0b2224e2514f2df1001da779f573abee
 ActiveRecord::Schema.define(version: 20160222142237) do
 
   create_table "fee_schedules", force: :cascade do |t|
@@ -68,7 +72,6 @@ ActiveRecord::Schema.define(version: 20160222142237) do
   create_table "users", force: :cascade do |t|
     t.string   "first_name", limit: 30,                 null: false
     t.string   "last_name",  limit: 30,                 null: false
-    t.string   "username",   limit: 30,                 null: false
     t.string   "email",      limit: 255,                null: false
     t.integer  "phone",      limit: 4,                  null: false
     t.integer  "spire_id",   limit: 4,                  null: false
