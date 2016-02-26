@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218175640) do
+
+ActiveRecord::Schema.define(version: 20160222142237) do
+
+  create_table "fee_schedules", force: :cascade do |t|
+    t.float    "base_amount",    limit: 24
+    t.float    "amount_per_day", limit: 24
+    t.integer  "item_type_id",   limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -41,6 +50,13 @@ ActiveRecord::Schema.define(version: 20160218175640) do
   add_index "groups_users", ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true, using: :btree
   add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id", using: :btree
   add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id", using: :btree
+
+  create_table "item_types", force: :cascade do |t|
+    t.string   "name",            limit: 255
+    t.integer  "fee_schedule_id", limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false

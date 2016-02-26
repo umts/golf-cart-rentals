@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Item Type</th>
       <th>Base amount</th>
       <th>Amount per day</th>
       <th colspan="3"></th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @fee_schedules.each do |fee_schedule| %>
       <tr>
+        <td><%= fee_schedule.item_type.name %></td>
         <td><%= fee_schedule.base_amount %></td>
         <td><%= fee_schedule.amount_per_day %></td>
         <td><%= link_to 'Show', fee_schedule %></td>
