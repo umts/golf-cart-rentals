@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7320397a0b2224e2514f2df1001da779f573abee
 ActiveRecord::Schema.define(version: 20160222142237) do
 
   create_table "fee_schedules", force: :cascade do |t|
