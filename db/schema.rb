@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< a5606bdf467f4390bd723053952bde070d2121d0
 ActiveRecord::Schema.define(version: 20160226153041) do
+=======
+
+ActiveRecord::Schema.define(version: 20160222142237) do
+>>>>>>> edit the merge conflict
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
