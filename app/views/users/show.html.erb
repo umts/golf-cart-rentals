@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1><%= @user.full_name %></h1>
+<% provide( :page_header, @user.full_name ) %>
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Phone</label>

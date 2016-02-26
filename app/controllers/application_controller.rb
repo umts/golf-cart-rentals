@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
       user_from_session if @current_user.nil?
 
       # raise error if user failed to log in
-      fail 'Error occured logging user in' unless @current_user
+      raise 'Error occured logging user in' unless @current_user
 
     # assign the first user when in development
     elsif Rails.env.development?

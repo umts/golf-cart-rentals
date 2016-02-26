@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<% page_header: 'Users' %>
+<% provide( :page_header, 'Users' ) %>
 
 <%= link_to 'New User', new_user_path, class: "btn btn-primary" %>
 <br><br>

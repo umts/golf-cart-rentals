@@ -39,7 +39,8 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User Was Successfully Destroyed' }
+    flash[:success] = 'User Was Successfully Deleted'
+    redirect_to users_url
   end
 
   private
@@ -51,6 +52,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params[:user]
+    binding.pry
+    params.require(:user).permit(:first_name, :last_name, :phone, :email, :spire_id)
   end
 end
