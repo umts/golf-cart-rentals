@@ -28,7 +28,7 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="email">Email</label>
+    <label class="col-xs-2 control-label" for="email">Email Address</label>
     <div class="col-xs-6">
       <%= text_field :user, :email, size: 20, placeholder: "user@example.com", class:"form-control" %>
     </div>
@@ -36,7 +36,7 @@
 
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit 'Create', class: "btn btn-primary" %>
+      <%= f.submit class: "btn btn-primary" %>
       <%= link_to 'Back', users_path, class: "btn btn-default" %>
     </div>
   </div>
