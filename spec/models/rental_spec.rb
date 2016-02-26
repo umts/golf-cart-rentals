@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Rental, type: :model do
-
   describe 'rental_status' do
-
     before(:each) do
-      @rental = Rental.create({user_id: 0, department_id: 0,
-        reservation_id: 0, fee_schedule_id: 0})
+      @rental = Rental.create(user_id: 0, department_id: 0, reservation_id: 0, fee_schedule_id: 0)
     end
 
     it 'is reserved upon creation' do
@@ -47,5 +44,4 @@ RSpec.describe Rental, type: :model do
       expect(@rental).to be_available
     end
   end
-
 end
