@@ -1,5 +1,3 @@
-- name: '4 Seat'
-  id: 1
+- name: "4 Seat"
 
-- name: '6 Seat'
-  id: 2
+- name: "6 Seat"
