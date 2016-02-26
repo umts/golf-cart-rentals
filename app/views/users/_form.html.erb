@@ -11,7 +11,45 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="first_name">First Name</label>
+    <div class="col-xs-6">
+      <input id="first_name" name="first_name" type="text" placeholder="Jane" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="last_name">Last Name</label>
+    <div class="col-xs-6">
+      <input id="last_name" name="last_name" type="text" placeholder="Doe" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="spire_id">Spire ID</label>
+    <div class="col-xs-6">
+      <input id="spire_id" name="spire_id" type="text" placeholder="1234567" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="phone">Phone Number</label>
+    <div class="col-xs-6">
+      <input id="phone" name="phone" type="text" placeholder="111-222-3333" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="email">Email</label>
+    <div class="col-xs-6">
+      <input id="email" name="email" type="text" placeholder="user@example.com" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit 'Create', class: "btn btn-primary" %>
+      <%= link_to 'Back', users_path, class: "btn btn-default" %>
+    </div>
   </div>
 <% end %>
