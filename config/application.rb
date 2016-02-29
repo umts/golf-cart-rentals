@@ -24,13 +24,12 @@ module ProbableEngine
     config.active_record.raise_in_transactional_callbacks = true
 
     config.generators do |g|
+      g.assets         false
+      g.helper         false
       g.test_framework :rspec,
         :view_specs    => false,
         :request_specs => false,
         :routing_specs => false
-      g.assets     false
-      # g.javascripts     false
-      g.helper         false
     end
   end
 end
