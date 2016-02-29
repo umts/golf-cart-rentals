@@ -16,14 +16,14 @@ class Rental < ActiveRecord::Base
     event :pickup do
       transitions from: :reserved, to: :checked_out
       after do
-        self.checked_out_at = Time.zone.now
+        update(checked_out_at: Time.zone.now)
       end
     end
 
     event :return do
       transitions from: :checked_out, to: :checked_in
       after do
-        self.checked_in_at = Time.zone.now
+        update(checked_in_at: Time.zone.now)
       end
     end
 

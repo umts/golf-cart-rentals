@@ -10,5 +10,7 @@ class CreateRentals < ActiveRecord::Migration
       t.datetime :checked_in_at
       t.timestamps null: false
     end
+
+    add_index :rentals, :rental_status
   end
 end
