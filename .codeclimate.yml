@@ -1,0 +1,41 @@
+---
+engines:
+  brakeman:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+    exclude_fingerprints:
+    - ea40ffc72bdccb98765f1305d56e3395
+ratings:
+  paths:
+  - Gemfile.lock
+  - "**.erb"
+  - "**.haml"
+  - "**.rb"
+  - "**.rhtml"
+  - "**.slim"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+exclude_paths:
+- config/
+- db/
+- spec/
+- vendor/
