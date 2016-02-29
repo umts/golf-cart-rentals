@@ -26,25 +26,28 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
 
     if @<%= orm_instance.save %>
-      @<%= singular_table_name %>.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} was successfully created.'" %>
+      flash[:success] = <%= "'#{human_name} Was Successfully Created'" %>
+      redirect_to @<%= singular_table_name %>
     else
+      @<%= singular_table_name %>.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end
   # PATCH/PUT <%= route_url %>/1
   def update
     if @<%= orm_instance.update("#{singular_table_name}_params") %>
-      @<%= singular_table_name %>.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} was successfully updated.'" %>
+      flash[:success] = <%= "'#{human_name} Was Successfully Updated'" %>
+      redirect_to @<%= singular_table_name %>
     else
+      @<%= singular_table_name %>.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
   end
   # DELETE <%= route_url %>/1
   def destroy
     @<%= orm_instance.destroy %>
-    redirect_to <%= index_helper %>_url, notice: <%= "'#{human_name} was successfully destroyed.'" %>
+    flash[:success] = <%= "'#{human_name} Was Successfully Deleted'" %>
+    redirect_to <%= index_helper %>_url
   end
   private
     # Use callbacks to share common setup or constraints between actions.
