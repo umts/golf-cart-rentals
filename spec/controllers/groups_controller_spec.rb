@@ -47,10 +47,15 @@ describe GroupsController do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new group in the database' do
-binding.pry
         expect do
           post :create, group: attributes_for(:group)
         end.to change(Group, :count).by(1)
+      end
+      it 'attaches the group to users and permissions' do
+        attributes = attributes_for(:group_with_users_and_permissions)
+        post :create, group: attributes
+        expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
+        expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
       it 'redirects to the group page' do
         post :create, group: attributes_for(:group)
@@ -97,6 +102,12 @@ binding.pry
         post :update, id: group, group: {name: new_name}
         group.reload
         expect(group.name).to eq(new_name)
+      end
+      it 'updates the groups attached users and permissions' do
+        attributes = attributes_for(:group_with_users_and_permissions)
+        post :create, group: attributes
+        expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
+        expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
       it 'redirects to the group page' do
         new_name = group.name + "new"

@@ -1,6 +1,3 @@
-<h1>Editing Group</h1>
+<% provide( :page_header, "Editing #{@group.name}" ) %>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @group %> |
-<%= link_to 'Back', groups_path %>

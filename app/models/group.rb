@@ -6,4 +6,7 @@ class Group < ActiveRecord::Base
 
   validates :name, :description, presence: true
   validates :name, uniqueness: true
+
+  accepts_nested_attributes_for :users
+  accepts_nested_attributes_for :permissions
 end

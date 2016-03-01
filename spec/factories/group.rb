@@ -4,6 +4,11 @@ FactoryGirl.define do
     description 'Description'
   end
 
+  factory :group_with_users_and_permissions, parent: :group do
+    user_ids { [create(:user), create(:user)] }
+    permission_ids { [create(:permission), create(:permission)] }
+  end
+
   factory :admin_group, parent: :group do
     name 'Admin'
     description 'Admin group'
