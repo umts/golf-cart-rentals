@@ -10,10 +10,13 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    @permissions = Permission.all
+    @users = User.all
   end
 
-  # GET /groups/1/edit
   def edit
+    @permissions = Permission.all
+    @users = User.all
   end
 
   def create

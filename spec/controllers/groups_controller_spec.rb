@@ -31,15 +31,23 @@ describe GroupsController do
       get :new
       expect(assigns[:group]).to be_a_new(Group)
     end
+    it 'assigns all the permissions to @permissions' do
+      get :index
+      expect(assigns[:groups]).to eq([group, group2])
+    end
+    it 'assigns all the users to @users' do
+      get :index
+      expect(assigns[:groups]).to eq([group, group2])
+    end
     it 'renders the :new template' do
       get :new
       expect(response).to render_template :new
     end
   end
-
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new group in the database' do
+binding.pry
         expect do
           post :create, group: attributes_for(:group)
         end.to change(Group, :count).by(1)
@@ -67,6 +75,14 @@ describe GroupsController do
     it 'assigns the requested group to @group' do
       get :edit, id: group
       expect(assigns[:group]).to eq(group)
+    end
+    it 'assigns all the permissions to @permissions' do
+      get :index
+      expect(assigns[:groups]).to eq([group, group2])
+    end
+    it 'assigns all the users to @users' do
+      get :index
+      expect(assigns[:groups]).to eq([group, group2])
     end
     it 'renders the :edit template' do
       get :edit, id: group
