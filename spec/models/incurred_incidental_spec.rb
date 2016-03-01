@@ -9,8 +9,15 @@ RSpec.describe IncurredIncidental, type: :model do
 
     it 'doesnt build when given inproper params' do
       expect(IncurredIncidental.new(notes: "this isnt real")).not_to be_valid
-      expect(IncurredIncidental.new(notes: "this isnt real")).not_to be_valid
       expect(IncurredIncidental.new(times_modified: 1.0)).not_to be_valid
+    end
+  end
+
+  context 'properly does fee calculation' do
+    it 'calculates a fee properly' do
+      incident = create(:incurred_incidental)
+      type = incident.incidental_type
+      expect(incident.get_fee).to eq(type.base + (incident.times_modified * type.modifier_amount))
     end
   end
 end
