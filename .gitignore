@@ -18,3 +18,5 @@
 
 # Ignore sensitive config files
 /config/database.yml
+
+/.idea/*
