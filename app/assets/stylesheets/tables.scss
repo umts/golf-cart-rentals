@@ -1,0 +1,33 @@
+tbody tr.parent-row{
+  border-bottom-color: #999;
+}
+
+tbody tr.child-row{
+  border-top: none;
+}
+
+tbody .table-inner{
+  margin-bottom: 0px;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th{
+   background-color: #f6f6f6;
+}
+
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th{
+  background-color: #F6F4CB;
+}
+
+th.min-width ,td.min-width{
+  width: 1px;
+  white-space: nowrap;
+}
+
+table.flash-message{
+  border-collapse: separate;
+  border-spacing: 10px 0;
+}
+
+.table-center > thead > tr > th, .table-center > tbody > tr > td{
+    text-align: center;
+}

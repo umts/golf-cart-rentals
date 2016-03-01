@@ -1,20 +1,17 @@
 - first_name: Admin
   last_name: User
-  username: parking
   phone: 1234567890
   email: 'parking@ggg.com'
   spire_id: 11223344
 
 - first_name: Test2
   last_name: User2
-  username: parking2
   phone: 1234567890
   email: 'parking2@ggg.com'
   spire_id: 11223345
 
 - first_name: Test3
   last_name: User3
-  username: parking3
   phone: 1234567890
-  email: 'parkingpco@ggg.com'
+  email: 'parking3@ggg.com'
   spire_id: 11223346
