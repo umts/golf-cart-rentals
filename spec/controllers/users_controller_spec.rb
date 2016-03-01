@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UsersController do
   let!(:user) { create(:user) }
   let!(:user2) { create(:user) }
-  
+
   describe 'GET #index' do
     it 'populates an array of users' do
       get :index
@@ -14,7 +14,7 @@ describe UsersController do
       expect(response).to render_template :index
     end
   end
-  
+
   describe 'GET #show' do
     it 'assigns the requested user to @user' do
       get :show, id: user
@@ -25,7 +25,7 @@ describe UsersController do
       expect(response).to render_template :show
     end
   end
-  
+
   describe 'GET #new' do
     it 'assigns a new user to @user' do
       get :new
@@ -36,25 +36,25 @@ describe UsersController do
       expect(response).to render_template :new
     end
   end
-  
+
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new user in the database' do
-        expect{
+        expect do
           post :create, user: attributes_for(:user)
-        }.to change(User, :count).by(1)
+        end.to change(User, :count).by(1)
       end
       it 'redirects to the user page' do
         post :create, user: attributes_for(:user)
         expect(response).to redirect_to User.last
       end
     end
-    
+
     context 'with invalid attributes' do
       it 'does not save the new contact in the database' do
-        expect{
+        expect do
           post :create, user: attributes_for(:invalid_user)
-        }.to_not change(User, :count)
+        end.to_not change(User, :count)
       end
       it 're-renders the :new template' do
         post :create, user: attributes_for(:invalid_user)
@@ -73,7 +73,7 @@ describe UsersController do
       expect(response).to render_template :edit
     end
   end
-  
+
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
@@ -86,7 +86,7 @@ describe UsersController do
         expect(response).to redirect_to user
       end
     end
-    
+
     context 'with invalid attributes' do
       it 'does not save the contact in the database' do
         old_name = user.first_name
@@ -103,9 +103,9 @@ describe UsersController do
 
   describe 'POST #destroy' do
     it 'deletes the user from the database' do
-      expect{
+      expect do
         delete :destroy, id: user
-      }.to change(User, :count).by(-1)
+      end.to change(User, :count).by(-1)
     end
     it 'redirects to the users index page' do
       delete :destroy, id: user
