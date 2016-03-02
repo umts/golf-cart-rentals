@@ -62,7 +62,7 @@ class FeeSchedulesController < ApplicationController
   end
 
   private
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_fee_schedule
     @fee_schedule = FeeSchedule.find(params[:id])
