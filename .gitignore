@@ -18,9 +18,3 @@
 
 # Ignore sensitive config files
 /config/database.yml
-
-# Ignore editor temp files
-*.*~
-*.swp
-*.DS_Store
-.idea/
