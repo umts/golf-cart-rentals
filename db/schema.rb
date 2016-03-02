@@ -11,10 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7320397a0b2224e2514f2df1001da779f573abee
 ActiveRecord::Schema.define(version: 20160222142237) do
 
   create_table "fee_schedules", force: :cascade do |t|
@@ -60,6 +56,8 @@ ActiveRecord::Schema.define(version: 20160222142237) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
+
+  add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false

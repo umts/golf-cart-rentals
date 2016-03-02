@@ -62,13 +62,14 @@ class ItemTypesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item_type
-      @item_type = ItemType.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def item_type_params
-      params.require(:item_type).permit(:name, :string, :fee_schedule, :references)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item_type
+    @item_type = ItemType.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def item_type_params
+    params.require(:item_type).permit(:name, :string, :fee_schedule, :references)
+  end
 end

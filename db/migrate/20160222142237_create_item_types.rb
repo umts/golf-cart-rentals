@@ -6,5 +6,7 @@ class CreateItemTypes < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index :item_types, :fee_schedule_id
   end
 end

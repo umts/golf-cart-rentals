@@ -62,13 +62,14 @@ class FeeSchedulesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fee_schedule
-      @fee_schedule = FeeSchedule.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def fee_schedule_params
-      params.require(:fee_schedule).permit(:base_amount, :amount_per_day)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fee_schedule
+    @fee_schedule = FeeSchedule.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def fee_schedule_params
+    params.require(:fee_schedule).permit(:base_amount, :amount_per_day)
+  end
 end

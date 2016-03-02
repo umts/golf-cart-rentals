@@ -1,4 +1,4 @@
 class FeeSchedule < ActiveRecord::Base
-  #need to one to one relationship with car type table.
   belongs_to :item_type
+  validates :base_amount, :amount_per_day, presence: true
 end
