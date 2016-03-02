@@ -1,7 +1,7 @@
 class IncurredIncidental < ActiveRecord::Base
   belongs_to :rental
   belongs_to :incidental_type
-  validate :times_modified, :notes, presence: true
+  validates :times_modified, :notes, presence: true
   validates_associated :incidental_type
 
   def get_fee
