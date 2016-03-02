@@ -4,7 +4,7 @@ class IncurredIncidental < ActiveRecord::Base
   validates :times_modified, :notes, presence: true
   validates_associated :incidental_type
 
-  def get_fee
+  def fee
     incidental_type.base + (times_modified * incidental_type.modifier_amount)
   end
 end
