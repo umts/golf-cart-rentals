@@ -14,7 +14,7 @@ RSpec.describe IncidentalType, type: :model do
     end
     it 'wont create two types with the same name' do
       same = create :incidental_type, name: 'same'
-      expect(create :incidental_type, name: same.name).to raise_errors
+      expect(build :incidental_type, name: same.name).not_to be_valid
     end
   end
 end
