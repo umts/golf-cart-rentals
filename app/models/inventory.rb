@@ -10,6 +10,15 @@ class Inventory < ActiveRecord::Base
                           {"name": "Granny Smith"}]}]')
   end
 
+  def self.item_types_by_uuid(uuid)
+    JSON.parse("{\"id\": #{uuid}, \"name\": \"Apples\",
+                \"allowed_keys\": [\"flavor\"],
+                \"items\": [{\"id\": 400, \"name": \"Macintosh\"},
+                {\"id\": 401, \"name\": \"Granny Smith\"}]}")
+  end
+
+  def self.update_item_types()
+
   def self.create_reservation(item_type, start_time, end_time)
     JSON.parse("{\"id\": #{SecureRandom.uuid},
     \"start_time\": \"#{start_time}\",
@@ -47,5 +56,4 @@ class Inventory < ActiveRecord::Base
     JSON.parse('[{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
                 {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]')
   end
-
 end
