@@ -82,8 +82,8 @@ class Inventory < ActiveRecord::Base
   def self.delete_reservation(_uuid)
     # returns nothing on success
   end
-  
-  def self.update_reservation(_key, _value)
+
+  def self.update_reservation_data(_key, _value)
     # returns nothing
   end
 
