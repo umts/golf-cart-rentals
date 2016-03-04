@@ -6,4 +6,8 @@ FactoryGirl.define do
     phone 1_234_567_890
     sequence(:spire_id)
   end
+
+  factory :invalid_user, parent: :user do
+    first_name nil
+  end
 end
