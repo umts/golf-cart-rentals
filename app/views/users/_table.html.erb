@@ -1,0 +1,31 @@
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Spire</th>
+      <% if action_name == 'edit' || controller_name == 'users' %>
+        <th class="min-width">Actions</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.spire_id %></td>
+        <% if action_name == 'edit' || controller_name == 'users' %>
+        <td class="min-width">
+          <% if controller_name == 'groups' %>
+            <%= render partial: 'groups/actions', locals: { group: @group, user: user } %>
+          <% else %>
+            <%= render partial: 'users/actions', locals: { user: user } %>
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

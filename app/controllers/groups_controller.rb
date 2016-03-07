@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user]
 
   def index
     @groups = Group.all
@@ -41,12 +41,31 @@ class GroupsController < ApplicationController
     end
   end
 
-  # DELETE /groups/1
-  # DELETE /groups/1.json
   def destroy
     @group.destroy
     flash[:success] = 'Group Was Successfully Deleted'
     redirect_to groups_url
+  end
+
+  def update_permission
+    #remove the outdated permission
+    old_permission = @group.permissions.where(controller: old_permission_params[:controller], action: old_permission_params[:action], id_field: old_permission_params[:old_id_field])
+    @group.permissions.delete(old_permission)
+    #find or create the new permission
+    permission = Permission.find_or_create_by(permission_params)
+    @group.permissions << permission if @group.permissions.exclude? permission
+    redirect_to edit_group_path(@group)
+  end
+
+  def remove_permission
+    permission = Permission.find(params[:permission_id])
+    @group.permissions.delete(permission)
+    redirect_to edit_group_path(@group)
+  end
+
+  def remove_user
+    @group.users.delete(params[:user_id])
+    redirect_to edit_group_path(@group)
   end
 
   private
@@ -59,5 +78,13 @@ class GroupsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_params
     params.require(:group).permit(:name, :description, :user_ids => [], :permission_ids => [])
+  end
+
+  def old_permission_params
+    params.require(:permission).permit(:controller, :action, :old_id_field).delete_if {|k,v| v.blank?}
+  end
+
+  def permission_params
+    params.require(:permission).permit(:controller, :action, :id_field).delete_if {|k,v| v.blank?}
   end
 end

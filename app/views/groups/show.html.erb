@@ -15,9 +15,9 @@
   <span class="form-control-static">
     <table class="table table-nonfluid table-striped table-bordered table-hover">
       <tbody>
-        <!-- <th>Controller</th>
+        <th>Controller</th>
         <th>Action</th>
-        <th>ID Field</th> -->
+        <th>ID Field</th>
         <% @group.permissions.order(controller: :asc, action: :asc).each do |permission| %>
           <tr>
             <td><%= permission.controller.humanize.titleize %></td>
@@ -28,7 +28,23 @@
               <% else %>
                 Full Access
               <% end %>
+
+              <% values = permission.model.reflections.select{|key, hash| hash.class_name == "User" }.values if permission.model %>
+              <%= form_tag update_permission_group_path(@group) do %>
+                <%= fields_for :permission do |perm_f| %>
+                  <%= perm_f.hidden_field :controller, value: permission.controller %>
+                  <%= perm_f.hidden_field :action, value: permission.action %>
+                  <%= perm_f.hidden_field :old_id_field, value: permission.id_field %>
+                  <%= perm_f.select :id_field, options_from_collection_for_select(values, "name", "name", selected: permission.id_field), {include_blank: "Full Access"}, :onchange => "this.form.submit();" if permission.model and permission.model.reflect_on_all_associations().present? %>
+                <% end %>
+              <% end %>
+              
             </td>
+            <!-- 
+            <td class="min-width">
+              <%#= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Remove"), group_remove_permission_path(@group, permission_id: perm.id), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+            </td>
+             -->
           </tr>
         <% end %>
       </tbody>
@@ -55,7 +71,7 @@
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2">
-    <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-primary" %>
+    <%= link_to 'Edit Group', edit_group_path(@group), class: "btn btn-primary" %>
     <%= link_to 'Back', groups_path, class: "btn btn-default" %>
   </div>
 </div>
