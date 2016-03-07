@@ -50,6 +50,20 @@ ActiveRecord::Schema.define(version: 20160226153041) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "rentals", force: :cascade do |t|
+    t.string   "rental_status",   limit: 255
+    t.integer  "user_id",         limit: 4,   null: false
+    t.integer  "department_id",   limit: 4,   null: false
+    t.integer  "reservation_id",  limit: 4,   null: false
+    t.integer  "fee_schedule_id", limit: 4,   null: false
+    t.datetime "checked_out_at"
+    t.datetime "checked_in_at"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name", limit: 30,                 null: false
     t.string   "last_name",  limit: 30,                 null: false
