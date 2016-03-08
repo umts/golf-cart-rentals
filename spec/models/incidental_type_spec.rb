@@ -13,7 +13,7 @@ RSpec.describe IncidentalType, type: :model do
       expect(build :incidental_type, modifier_description: nil).not_to be_valid
     end
     it 'wont create two types with the same name' do
-      same = create :incidental_type, name: 'same'
+      same = create :incidental_type
       expect(build :incidental_type, name: same.name).not_to be_valid
     end
   end
