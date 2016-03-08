@@ -80,7 +80,7 @@ describe UsersController do
         new_name = user.first_name + "new"
         post :update, id: user, user: { first_name: new_name }
         user.reload
-        expect(user.first_name).to eq('new_name')
+        expect(user.first_name).to eq(new_name)
       end
       it 'redirects to the user page' do
         new_name = user.first_name + "new"
@@ -92,12 +92,12 @@ describe UsersController do
     context 'with invalid attributes' do
       it 'does not save the contact in the database' do
         old_name = user.first_name
-        post :update, id: user, attributes_for(:invalid_user)
+        post :update, id: user, user: attributes_for(:invalid_user)
         user.reload
         expect(user.first_name).to eq(old_name)
       end
       it 're-renders the :edit template' do
-        post :update, id: user, attributes_for(:invalid_user)
+        post :update, id: user, user: attributes_for(:invalid_user)
         expect(response).to render_template :edit
       end
     end
