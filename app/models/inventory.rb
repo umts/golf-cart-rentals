@@ -1,5 +1,5 @@
 require 'json'
-class Inventory < ActiveRecord::Base
+class Inventory
   # this class is all mocked for now
   # in the future it should raise an exception if the api doesnt return a sucess status
 
