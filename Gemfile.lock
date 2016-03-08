@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.8.0)
     actionmailer (4.2.5.1)
       actionpack (= 4.2.5.1)
       actionview (= 4.2.5.1)
@@ -237,6 +238,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   bootstrap-sass (~> 3.3.5)
   bootstrap-switch-rails
   bootstrap3-datetimepicker-rails (~> 4.14.30)
