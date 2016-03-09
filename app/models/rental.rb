@@ -1,5 +1,6 @@
 class Rental < ActiveRecord::Base
   include AASM
+  has_many :financial_transactions
 
   aasm column: :rental_status do
     state :reserved, initial: true

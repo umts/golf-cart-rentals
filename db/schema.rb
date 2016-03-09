@@ -11,24 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307163431) do
-
-  create_table "financial_transactions", force: :cascade do |t|
-    t.integer  "financial_type_id", limit: 4
-    t.integer  "amount",            limit: 4
-    t.integer  "adjustment",        limit: 4
-    t.text     "note_field",        limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
-  add_index "financial_transactions", ["financial_type_id"], name: "index_financial_transactions_on_financial_type_id", using: :btree
-
-  create_table "financial_types", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
+ActiveRecord::Schema.define(version: 20160301211032) do
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -36,6 +19,14 @@ ActiveRecord::Schema.define(version: 20160307163431) do
     t.integer  "item_type_id",   limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "financial_transactions", force: :cascade do |t|
+    t.integer  "amount",     limit: 4
+    t.integer  "adjustment", limit: 4
+    t.text     "note_field", limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "groups", force: :cascade do |t|
@@ -87,7 +78,7 @@ ActiveRecord::Schema.define(version: 20160307163431) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  
+
   create_table "item_types", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "fee_schedule_id", limit: 4
