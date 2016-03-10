@@ -3,6 +3,10 @@ class Inventory
   # this class is all mocked for now
   # in the future it should raise an exception if the api doesnt return a sucess status
 
+  def self.mock_exception
+    raise InventoryError
+  end
+  
   def self.item_types
     JSON.parse('[{"id": 100, "name": "Apples",
                 "allowed_keys": ["flavor"],
