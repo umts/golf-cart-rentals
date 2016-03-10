@@ -18,7 +18,9 @@ class Permission < ActiveRecord::Base
   end
 
   def model
-    controller.classify.constantize
+    return controller.classify.constantize
+  rescue NameError
+    return nil
   end
 
   def self.delete_outdated_permissions

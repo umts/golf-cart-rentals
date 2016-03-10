@@ -1,6 +1,49 @@
-<h1>Editing Group</h1>
+<% provide( :page_header, "Editing #{@group.name}" ) %>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @group %> |
-<%= link_to 'Back', groups_path %>
+<hr/>
+
+<h3>Permissions</h3>
+<table class="table table-striped table-bordered table-hover">
+  <tbody>
+    <tr>
+      <th>Controller</th>
+      <th>Action</th>
+      <th>ID Field</th>
+      <th class="min-width">Actions</th>
+    </tr>
+    <% @group.permissions.order(controller: :asc, action: :asc).each do |perm| %>
+      <tr>
+        <td><%= perm.controller.humanize.titleize %></td>
+        <td><%= perm.action.humanize.titleize %></td>
+        <td>
+          <%# x if perm.model == DailyLog %>
+          <%# perm.model.reflections.select{|key, hash| hash.class_name == "User" } %>
+          <% values = nil %>
+          <% values = perm.model.reflections.select{|key, hash| hash.class_name == "User" }.values if perm.model %>
+          <% if values.present? && (["new", "create", "index", "help"].exclude? perm.action) %>
+            <%= form_tag update_permission_group_path(@group) do %>
+              <%= fields_for :permission do |perm_f| %>
+                <%= perm_f.hidden_field :controller, value: perm.controller %>
+                <%= perm_f.hidden_field :action, value: perm.action %>
+                <%= perm_f.hidden_field :old_id_field, value: perm.id_field %>
+                <%= perm_f.select :id_field, options_from_collection_for_select(values, "name", "name", selected: perm.id_field), {include_blank: "Full Access"}, :onchange => "this.form.submit();" if perm.model and perm.model.reflect_on_all_associations().present? %>
+              <% end %>
+            <% end %>
+          <% else %>
+            Full Access
+          <% end %>
+        </td>
+        <td class="min-width">
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Remove"), remove_permission_group_path(@group, permission_id: perm.id), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr/>
+
+<h3>Users</h3>
+<%= render partial: 'users/tabs', locals: { users: @group.users.all } %>

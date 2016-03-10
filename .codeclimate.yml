@@ -12,6 +12,12 @@ engines:
       - javascript
       - python
       - php
+    exclude_fingerprints:
+    - 3ea75d20bf2a7ff7c1981cb051620e8e
+    - 1b4c600e85265b79c1f7ee140ff5c800
+    - c5f08d507e17e0aed6c7c2e902f0a3e6
+    - 0a1abbc6557d2ad3a4848cf0e4e7ac02
+    - f1259ddb555cc7f9253bd0dba0e4e076
   eslint:
     enabled: true
   fixme:

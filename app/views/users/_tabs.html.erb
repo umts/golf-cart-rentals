@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+  <li><a data-toggle="tab" href="#tab-all">All</a></li>
+  <li class="active"><a data-toggle="tab" href="#tab-active">Active</a></li>
+  <li><a data-toggle="tab" href="#tab-inactive">Inactive</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="tab-all" class="tab-pane fade">
+    <%= render partial: 'users/table', locals: { users: users } %>
+  </div>
+  <div id="tab-active" class="tab-pane fade in active">
+    <%= render partial: 'users/table', locals: { users: users.where(active: true) } %>
+  </div>
+  <div id="tab-inactive" class="tab-pane fade">
+    <%= render partial: 'users/table', locals: { users: users.where(active: false) } %>
+  </div>
+</div>
