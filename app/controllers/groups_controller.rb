@@ -49,7 +49,11 @@ class GroupsController < ApplicationController
 
   def update_permission
     # remove the outdated permission
-    old_permission = @group.permissions.where(controller: old_permission_params[:controller], action: old_permission_params[:action], id_field: old_permission_params[:old_id_field])
+    old_permission = @group.permissions.where(
+      controller: old_permission_params[:controller],
+      action: old_permission_params[:action],
+      id_field: old_permission_params[:old_id_field]
+    )
     @group.permissions.delete(old_permission)
     # find or create the new permission
     permission = Permission.find_or_create_by(permission_params)

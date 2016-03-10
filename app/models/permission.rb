@@ -19,7 +19,7 @@ class Permission < ActiveRecord::Base
 
   def model
     return controller.classify.constantize
-  rescue => e
+  rescue NameError
     return nil
   end
 
