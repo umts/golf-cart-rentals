@@ -1,5 +1,6 @@
 class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
+  after_create :create_financial_transaction
 
   def index
     @rentals = Rental.all
@@ -42,6 +43,7 @@ class RentalsController < ApplicationController
     flash[:success] = 'Rental Was Successfully Deleted'
     redirect_to rentals_url
   end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rental
@@ -52,4 +54,23 @@ class RentalsController < ApplicationController
     def rental_params
       params.fetch(:rental, {})
     end
+
+    def create_financial_transaction
+      # Set values are tentative and subjected to future changes based on spec
+
+      # Created Upon Rental Creation
+      fee = FeeSchedule.first.id
+      FinancialTransaction.create rental_id: Rental.last.id,
+                                  transactable_id: fee,
+                                  transactable_type: FeeSchedule.name,
+                                  amount: fee.base_amount,
+                                  adjustment: 0
+
+       # Created Upon Rental Checkin
+
+       # Created Upon Rental Adjustments or possible Coupons
+    end
+
+
+
 end
