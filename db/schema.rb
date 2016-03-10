@@ -22,12 +22,18 @@ ActiveRecord::Schema.define(version: 20160301211032) do
   end
 
   create_table "financial_transactions", force: :cascade do |t|
-    t.integer  "amount",     limit: 4
-    t.integer  "adjustment", limit: 4
-    t.text     "note_field", limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "rental_id",         limit: 4
+    t.integer  "transactable_id",   limit: 4
+    t.string   "transactable_type", limit: 255
+    t.integer  "amount",            limit: 4
+    t.integer  "adjustment",        limit: 4
+    t.text     "note_field",        limit: 65535
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
+
+  add_index "financial_transactions", ["rental_id"], name: "index_financial_transactions_on_rental_id", using: :btree
+  add_index "financial_transactions", ["transactable_id"], name: "index_financial_transactions_on_transactable_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
