@@ -77,13 +77,13 @@ describe UsersController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
-        new_name = user.first_name + "new"
+        new_name = user.first_name + 'new'
         post :update, id: user, user: { first_name: new_name }
         user.reload
         expect(user.first_name).to eq(new_name)
       end
       it 'redirects to the user page' do
-        new_name = user.first_name + "new"
+        new_name = user.first_name + 'new'
         post :update, id: user, user: { first_name: new_name }
         expect(response).to redirect_to user
       end

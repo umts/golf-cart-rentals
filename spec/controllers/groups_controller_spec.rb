@@ -98,8 +98,8 @@ describe GroupsController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the group in the database' do
-        new_name = group.name + "new"
-        post :update, id: group, group: {name: new_name}
+        new_name = group.name + 'new'
+        post :update, id: group, group: { name: new_name }
         group.reload
         expect(group.name).to eq(new_name)
       end
@@ -110,8 +110,8 @@ describe GroupsController do
         expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
       it 'redirects to the group page' do
-        new_name = group.name + "new"
-        post :update, id: group, group: {name: new_name}
+        new_name = group.name + 'new'
+        post :update, id: group, group: { name: new_name }
         expect(response).to redirect_to group
       end
     end
@@ -150,7 +150,7 @@ describe GroupsController do
       new_permission = create(:permission, controller: old_permission.controller, action: old_permission.action, id_field: "#{old_permission.id_field}new")
       new_attributes = new_permission.attributes
       new_attributes[:old_id_field] = old_permission.id_field
-      
+
       post :update_permission, id: group, permission: new_attributes
 
       group.reload
@@ -164,7 +164,7 @@ describe GroupsController do
     it 'removes the permission from the group' do
       old_permission = create(:permission)
       group.permissions << old_permission
-      
+
       post :remove_permission, id: group, permission_id: old_permission
 
       group.reload
@@ -177,7 +177,7 @@ describe GroupsController do
     it 'removes the user from the group' do
       old_user = create(:user)
       group.users << old_user
-      
+
       post :remove_user, id: group, user_id: old_user
 
       group.reload

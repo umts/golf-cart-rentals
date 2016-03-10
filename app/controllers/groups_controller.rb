@@ -48,10 +48,10 @@ class GroupsController < ApplicationController
   end
 
   def update_permission
-    #remove the outdated permission
+    # remove the outdated permission
     old_permission = @group.permissions.where(controller: old_permission_params[:controller], action: old_permission_params[:action], id_field: old_permission_params[:old_id_field])
     @group.permissions.delete(old_permission)
-    #find or create the new permission
+    # find or create the new permission
     permission = Permission.find_or_create_by(permission_params)
     @group.permissions << permission if @group.permissions.exclude? permission
     redirect_to edit_group_path(@group)
@@ -77,14 +77,14 @@ class GroupsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_params
-    params.require(:group).permit(:name, :description, :user_ids => [], :permission_ids => [])
+    params.require(:group).permit(:name, :description, user_ids: [], permission_ids: [])
   end
 
   def old_permission_params
-    params.require(:permission).permit(:controller, :action, :old_id_field).delete_if {|k,v| v.blank?}
+    params.require(:permission).permit(:controller, :action, :old_id_field).delete_if { |_k, v| v.blank? }
   end
 
   def permission_params
-    params.require(:permission).permit(:controller, :action, :id_field).delete_if {|k,v| v.blank?}
+    params.require(:permission).permit(:controller, :action, :id_field).delete_if { |_k, v| v.blank? }
   end
 end
