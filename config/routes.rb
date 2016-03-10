@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   # Home Pages -------------------------------------------------------
   resources :home, only: [:index]
 
-  resources :groups
+  resources :groups do
+    post :update_permission, on: :member
+    post :remove_permission, on: :member
+    post :remove_user, on: :member
+  end
   resources :users
   resources :fee_schedules
   resources :item_types

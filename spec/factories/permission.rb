@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :permission do
     controller 'Controller'
-    action 'Action'
+    sequence(:action) { |n| "Action #{n}" }
   end
 end

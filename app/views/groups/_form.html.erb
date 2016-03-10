@@ -1,17 +1,36 @@
 <%= form_for(@group) do |f| %>
-  <% if @group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
-
-      <ul>
-      <% @group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="name">Name</label>
+    <div class="col-xs-6">
+      <%= text_field :group, :name, size: 20, placeholder: "Group", class:"form-control" %>
     </div>
-  <% end %>
+  </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="description">Description</label>
+    <div class="col-xs-6">
+      <%= text_field :group, :description, size: 20, placeholder: "Description", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="permissions">Permissions</label>
+    <div class="col-xs-6">
+      <%= f.select :permission_ids, options_from_collection_for_select(@permissions.order(controller: :asc, action: :asc), "id", "name", selected: @group.permissions.ids), {}, multiple: true, class: "selectpicker form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="users">Users</label>
+    <div class="col-xs-6">
+      <%= f.select :user_ids, options_from_collection_for_select(@users, 'id', 'full_name', selected: @group.users.ids), {}, multiple: true, class: "selectpicker form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit class: "btn btn-primary" %>
+      <%= link_to 'Back', groups_path, class: "btn btn-default" %>
+    </div>
   </div>
 <% end %>
