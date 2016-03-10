@@ -141,4 +141,48 @@ describe GroupsController do
       expect(response).to redirect_to groups_url
     end
   end
+
+  describe 'POST #update_permission' do
+    it 'removes the old permission and appends the new permission to the group' do
+      old_permission = create(:permission)
+      group.permissions << old_permission
+
+      new_permission = create(:permission, controller: old_permission.controller, action: old_permission.action, id_field: "#{old_permission.id_field}new")
+      new_attributes = new_permission.attributes
+      new_attributes[:old_id_field] = old_permission.id_field
+      
+      post :update_permission, id: group, permission: new_attributes
+
+      group.reload
+      expect(group.permissions).not_to include(old_permission)
+      expect(group.permissions).to include(new_permission)
+      expect(response).to redirect_to edit_group_url(group)
+    end
+  end
+
+  describe 'POST #remove_permission' do
+    it 'removes the permission from the group' do
+      old_permission = create(:permission)
+      group.permissions << old_permission
+      
+      post :remove_permission, id: group, permission_id: old_permission
+
+      group.reload
+      expect(group.permissions).not_to include(old_permission)
+      expect(response).to redirect_to edit_group_url(group)
+    end
+  end
+
+  describe 'POST #remove_user' do
+    it 'removes the user from the group' do
+      old_user = create(:user)
+      group.users << old_user
+      
+      post :remove_user, id: group, user_id: old_user
+
+      group.reload
+      expect(group.users).not_to include(old_user)
+      expect(response).to redirect_to edit_group_url(group)
+    end
+  end
 end
