@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :groups
   resources :users
+  resources :rentals
   resources :fee_schedules
   resources :item_types
 
