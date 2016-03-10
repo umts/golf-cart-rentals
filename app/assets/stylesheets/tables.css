@@ -31,8 +31,3 @@ table.flash-message{
 .table-center > thead > tr > th, .table-center > tbody > tr > td{
     text-align: center;
 }
-
-.table-nonfluid {
-  margin-bottom: auto;
-  width: auto !important;
-}
