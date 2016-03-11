@@ -49,4 +49,7 @@ $(document).ready(function() {
 function update_disclaimer(element){
   $('.disclaimer').hide();
   $('#disclaimer-'+$(element).val()).show();
+
+  if($('#disclaimer-checkbox')[0].checked)
+    $('#disclaimer-checkbox').click();
 }

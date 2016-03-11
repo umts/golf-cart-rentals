@@ -20,6 +20,11 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
+    #call aggressive-epsilon API to make reservation
+    #if successful, make the rental object and redirect to it
+    #if unsuccessful, render an error and rerender the new page
+
+
     @rental = Rental.new(rental_params)
 
     if @rental.save
