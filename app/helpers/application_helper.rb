@@ -38,6 +38,37 @@ module ApplicationHelper
     fail 'Button to is not protected by permissions'
   end
 
+  #pre-format date and time fields to use bootstrap versions which work across browsers
+  def date_field_tag(method, options = {})
+    content_tag :div, {class: "input-group date datepicker"} do
+      options[:placeholder] = "YYYY-MM-DD"
+      concat text_field_tag(method, nil, options)
+      concat content_tag :span, (
+        content_tag :span, nil, {class: "glyphicon glyphicon-calendar"}
+        ), {class: "input-group-addon"}
+    end
+  end
+
+  def date_field(object_name, method, options = {})
+    content_tag :div, {class: "input-group date datepicker"} do
+      options[:placeholder] = "YYYY-MM-DD"
+      concat text_field(object_name, method, options)
+      concat content_tag :span, (
+        content_tag :span, nil, {class: "glyphicon glyphicon-calendar"}
+        ), {class: "input-group-addon"}
+    end
+  end
+
+  def time_field(object_name, method, options = {})
+    content_tag :div, {class: "input-group date timepicker"} do
+      options[:placeholder] = "HH:MM AM"
+      concat text_field(object_name, method, options)
+      concat content_tag :span, (
+        content_tag :span, nil, {class: "glyphicon glyphicon-time"}
+        ), {class: "input-group-addon"}
+    end
+  end
+
   # Helper to handle and render multiple flash messages
   def flash_message(type, text, now = nil)
     if now

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226153041) do
+ActiveRecord::Schema.define(version: 20160311173906) do
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -70,12 +70,13 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  
+
   create_table "item_types", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "fee_schedule_id", limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.text     "disclaimer",      limit: 65535
   end
 
   add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree

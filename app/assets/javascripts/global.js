@@ -18,16 +18,16 @@ $(function(){
 $(document).ready(function() {
     $('.selectpicker').selectpicker();
 
-    // $( ".datepicker" ).datetimepicker({
-    //   format: 'YYYY-MM-DD',
-    //   showTodayButton: true,
-    //   showClear: true,
-    //   showClose: true
-    // });
+    $( ".datepicker" ).datetimepicker({
+      format: 'YYYY-MM-DD',
+      showTodayButton: true,
+      showClear: true,
+      showClose: true
+    });
 
-    // $( ".timepicker" ).datetimepicker({
-    //   format: 'h:mm A'
-    // });
+    $( ".timepicker" ).datetimepicker({
+      format: 'h:mm A'
+    });
 });
 
 //Toggle the loading div
@@ -37,4 +37,16 @@ $(function(){
 });
 function toggle_loading(){
   $('#loading').toggle();
+}
+
+//Toggle a forms submit button when a checkbox is checked/unchecked
+$(document).ready(function() {
+  $('#disclaimer-checkbox').click(function(){
+    $(':submit').prop("disabled", !this.checked);
+  });
+});
+
+function update_disclaimer(element){
+  $('.disclaimer').hide();
+  $('#disclaimer-'+$(element).val()).show();
 }

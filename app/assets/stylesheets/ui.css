@@ -1,45 +1,58 @@
+/*UMass header*/
 .page-header{
+  /*re-enable this and find colors that work */
   background-color: #881c1c;
+  /*background-color: #881B90;*/
   padding: 1em 0;
   margin: 0;
   border: none;
 }
-
-.sub-header{
-  padding-top: 1em;
-  background-color: #ece9d4;
-}
+/*end UMass*/
 
 .footer{
+  color: #111;
   padding-top: 15px;
-  background-color: #beb395;
+  background-color: #7721FB;
 }
 
-.navbar.main{
+.footer a {
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.navbar.main,
+.navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
   border-width: 0px;
   border-radius: 0px;
-  background-color: #dbd3ba;
+  background-color: #26A5F5;
   margin: 0;
 }
 
-.navbar-toggle.main{
-  background-color: #dbd3ba !important;
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a,
+.navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a{
+  color: #111;
 }
 
-.navbar-collapse > .nav.main > li,
-.navbar-collapse > .nav.main > .open > a{
-  background-color: #dbd3ba !important;
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-collapse > .nav.main > .open > a,
+.navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a:hover
+{
+  color: initial;
+  background-color: #7721FB;
+}
+
+.navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
+  border: none;
 }
 
 ul.main.nav{
   margin:0px;
 }
-
-.navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
-  border-color: #dbd3ba;
-  background-color: #dbd3ba;
-}
-
 
 .main-content{
   margin-bottom: 15px;
@@ -84,4 +97,8 @@ hr{
 
 .alert{
   margin-top: 10px;
+}
+
+.disabled{
+  background: rgb(250, 255, 140);
 }
