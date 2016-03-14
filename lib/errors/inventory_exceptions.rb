@@ -1,9 +1,10 @@
 module InventoryExceptions
+  class AuthError < StandardError; end
   class InventoryError < StandardError
-    attr_reader :error
-    def initialize(error_response)
-      @error = error_response
-    end
+    #attr_reader :error
+    #def initialize(error_response)
+    #  @error = error_response
+    #end
   end
   class ReservationNotAvailable < InventoryError; end
   class InvalidUpdateReservationTime < InventoryError; end

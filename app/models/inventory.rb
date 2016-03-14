@@ -1,29 +1,32 @@
 require 'json'
 class Inventory
-  base_url = Rails.application.config.inventory_api_uri
-  api_key = 'f8c503df23d6acc61c89284d3436fbca'
+  @base_uri = Rails.application.config.inventory_api_uri
+  @api_key = 'f8c503df23d6acc61c89284d3436fbca'
 
   def self.mock_exception
     raise InventoryError, 'test'
   end
 
   def self.item_types
-    if Rails.env.production? || true
-      response = HTTParty.get(base_url + "item_types/", headers: {'Authorization' => "Token #{api_key}"} )
-      JSON.parse(response)
-    else
-      JSON.parse('[{"id": 100, "name": "Apples",
-                  "allowed_keys": ["flavor"],
-                  "items": [{"name": "Macintosh"},
-                            {"name": "Granny Smith"}]}]')
-    end
+    response = HTTParty.get(@base_uri + 'item_types/', headers: {'Authorization' => "Token #{@api_key}"} )
+    raise AuthError if response.code == 401
+    raise InventoryError if response.code != 200 # handles stuff like 422 and 500
+    JSON.parse(response.body)
+    # JSON.parse('[{"id": 100, "name": "Apples",
+    #            "allowed_keys": ["flavor"],
+    #            "items": [{"name": "Macintosh"},
+    #                      {"name": "Granny Smith"}]}]')
   end
 
   def self.item_type(uuid)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
-                \"allowed_keys\": [\"flavor\"],
-                \"items\": [{\"id\": 400, \"name\": \"Macintosh\"},
-                {\"id\": 401, \"name\": \"Granny Smith\"}]}")
+    response = HTTParty.get(@base_uri + "item_type/#{uuid}", headers: {'Authorization' => "Token #{@api_key}"} )
+    raise AuthError if response.code == 401
+    raise InventoryError if response.code == 422
+    JSON.parse(response.body)
+    # JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
+    #            \"allowed_keys\": [\"flavor\"],
+    #            \"items\": [{\"id\": 400, \"name\": \"Macintosh\"},
+    #            {\"id\": 401, \"name\": \"Granny Smith\"}]}")
   end
 
   def self.update_item_type(uuid, _key, _value)
