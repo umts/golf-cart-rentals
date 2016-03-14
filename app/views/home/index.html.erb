@@ -1,1 +1,9 @@
 <% provide( :page_header, "Welcome to UMass Parking Services Rental Purchasing Program AKA RPP" ) %>
+
+<h4><%= link_to 'New Rental', new_rental_path, class: "btn btn-primary" %></h4>
+
+<% if @rentals %>
+  <%= render partial: 'rentals', locals: { rentals: @rentals } %>
+
+  <%= will_paginate @rentals %>
+<% end %>

@@ -1,22 +1,22 @@
 <%= form_for(@rental) do |f| %>
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="type_id">Type</label>
+    <label class="col-xs-2 control-label" for="item_type_id">Type</label>
     <div class="col-xs-6">
-      <%= select_tag :type_id, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name"), class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+      <%= select :rental, :item_type_id, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="start_date">Start Date</label>
     <div class="col-xs-6">
-      <%= date_field_tag :start_date, value: Date.today, required: true, class: "form-control" %>
+      <%= date_field :rental, :start_date, value: @start_date || Date.today, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="end_date">End Date</label>
     <div class="col-xs-6">
-      <%= date_field_tag :end_date, value: Date.today, required: true, class: "form-control" %>
+      <%= date_field :rental, :end_date, value: @end_date || Date.today, required: true, class: "form-control" %>
     </div>
   </div>
 
@@ -30,7 +30,7 @@
       
       </br></br>
 
-      <label><%= check_box_tag 'disclaimer_checkbox' %> I Agree To The Above Terms And Conditions</label>
+      <label><%= check_box_tag 'disclaimer' %> I Agree To The Above Terms And Conditions</label>
     </div>
   </div>
 

@@ -33,6 +33,12 @@ gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'bootstrap-switch-rails'
 
+# pagination
+gem 'will_paginate'
+
+# date validations
+gem 'date_validator'
+
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'

@@ -1,43 +1,67 @@
 class Rental < ActiveRecord::Base
   include AASM
 
-  belongs_to :user, through: :users_rentals
-  belongs_to :department, through: :departments_rentals
+  belongs_to :user
+  belongs_to :department
+  belongs_to :item_type
 
-  validates :reservation_id, :user_id, :department_id, presence: true
+  validates :reservation_id, presence: true, unless: :skip_reservation_validation
+  validates :reservation_id, uniqueness: true
+  validates :user_id, :start_date, :end_date, :item_type_id, presence: true
+  validates :start_date, date: { after_or_equal_to: Date.today, message: "must be no earlier than today" }
+  validates :end_date, date: { after_or_equal_to: :start_date, message: "must be no earlier than today" }
 
-  aasm column: :rental_status do
-    state :reserved, initial: true
-    state :checked_out
-    state :checked_in
-    state :inspected
-    state :available
-    state :canceled
 
-    event :cancel do
-      transitions from: :reserved, to: :canceled
-    end
 
-    event :pickup do
-      transitions from: :reserved, to: :checked_out
-      after do
-        update(checked_out_at: Time.zone.now)
-      end
-    end
 
-    event :return do
-      transitions from: :checked_out, to: :checked_in
-      after do
-        update(checked_in_at: Time.zone.now)
-      end
-    end
 
-    event :inspect do
-      transitions from: :checked_in, to: :inspected
-    end
+  # aasm column: :rental_status do
+  #   state :reserved, initial: true
+  #   state :checked_out
+  #   state :checked_in
+  #   state :inspected
+  #   state :available
+  #   state :canceled
 
-    event :process do
-      transitions from: [:inspected, :canceled], to: :available
-    end
+  #   event :cancel do
+  #     transitions from: :reserved, to: :canceled
+  #   end
+
+  #   event :pickup do
+  #     transitions from: :reserved, to: :checked_out
+  #     after do
+  #       update(checked_out_at: Time.zone.now)
+  #     end
+  #   end
+
+  #   event :return do
+  #     transitions from: :checked_out, to: :checked_in
+  #     after do
+  #       update(checked_in_at: Time.zone.now)
+  #     end
+  #   end
+
+  #   event :inspect do
+  #     transitions from: :checked_in, to: :inspected
+  #   end
+
+  #   event :process do
+  #     transitions from: [:inspected, :canceled], to: :available
+  #   end
+  # end
+
+
+
+
+
+
+  def mostly_valid?
+    self.skip_reservation_validation = true
+    is_valid = valid?
+    self.skip_reservation_validation = false
+    is_valid
   end
+
+  # private
+    attr_accessor :skip_reservation_validation
 end

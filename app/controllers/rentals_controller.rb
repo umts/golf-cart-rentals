@@ -1,5 +1,6 @@
 class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
+
   # GET /rentals
   def index
     @rentals = Rental.all
@@ -14,47 +15,39 @@ class RentalsController < ApplicationController
     @item_types = ItemType.all
   end
 
-  # GET /rentals/1/edit
-  def edit
-  end
-
   # POST /rentals
   def create
-    #call aggressive-epsilon API to make reservation
-    #if successful, make the rental object and redirect to it
-    #if unsuccessful, render an error and rerender the new page
+    if params[:disclaimer] != '1'
+      flash[:success] = 'You must agree to the terms and conditions before creating a rental'
+      render :new and return
+    end
 
-binding.pry
-    # @rental = Rental.new(rental_params)
+    @rental = Rental.new(rental_params)
 
-    # if @rental.save
-    #   flash[:success] = 'Rental Was Successfully Created'
-    #   redirect_to @rental
-    # else
-    #   @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-    #   render :new
-    # end
-  end
-  # PATCH/PUT /rentals/1
-  def update
-    #call aggressive-epsilon API to update reservation
-    #if successful, update the rental object and redirect to it
-    #if unsuccessful, render an error and rerender the edit page
-
-    # if @rental.update(rental_params)
-    #   flash[:success] = 'Rental Was Successfully Updated'
-    #   redirect_to @rental
-    # else
-    #   @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-    #   render :edit
-    # end
+    if @rental.mostly_valid?
+      reservation = Inventory.create_reservation(@rental.item_type.name, @rental.start_date, @rental.start_date)
+      if reservation
+        @rental.reservation_id = reservation[:id]
+        if @rental.save
+          flash[:success] = 'Rental Was Successfully Created'
+          redirect_to @rental and return
+        end
+      else
+        flash_message :warning, 'Error occured in aggressive epsilon: real error or unable to create reservation', :now
+      end
+    else
+      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+    end
+    @item_types = ItemType.all
+    render :new
   end
   # DELETE /rentals/1
   def destroy
     #call aggressive-epsilon API to delete reservation
     #if successful, delete the rental object and redirect to it
     #if unsuccessful, render an error and rerender the show page
-
+    # @rental = @rental.destroy_rental
+    
     # @rental.destroy
     # flash[:success] = 'Rental Was Successfully Deleted'
     # redirect_to rentals_url
@@ -67,6 +60,9 @@ binding.pry
 
     # Only allow a trusted parameter "white list" through.
     def rental_params
-      params.permit(:start_date, :end_date, :type_id, :disclaimer_checkbox)
+      p = params.require(:rental).permit(:start_date, :end_date, :item_type_id).merge( { user_id: @current_user.id, department_id: @current_user.department_id } )
+      p[:start_date] = p[:start_date].to_datetime if p[:start_date]
+      p[:end_date] = p[:end_date].to_datetime if p[:end_date]
+      p
     end
 end

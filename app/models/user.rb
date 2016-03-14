@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many :groups_users, dependent: :destroy
-  has_many :groups, through: :groups_users
-  has_many :permissions, -> { uniq }, through: :groups
+  has_many   :groups_users, dependent: :destroy
+  has_many   :groups, through: :groups_users
+  has_many   :permissions, -> { uniq }, through: :groups
+  has_many   :rentals
+  belongs_to :department
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
   validates :spire_id, uniqueness: true

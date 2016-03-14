@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314130416) do
+ActiveRecord::Schema.define(version: 20160222142237) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -22,17 +22,6 @@ ActiveRecord::Schema.define(version: 20160314130416) do
   end
 
   add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
-
-  create_table "departments_rentals", force: :cascade do |t|
-    t.integer  "department_id", limit: 4, null: false
-    t.integer  "rental_id",     limit: 4, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "departments_rentals", ["department_id", "rental_id"], name: "index_departments_rentals_on_department_id_and_rental_id", unique: true, using: :btree
-  add_index "departments_rentals", ["department_id"], name: "index_departments_rentals_on_department_id", using: :btree
-  add_index "departments_rentals", ["rental_id"], name: "index_departments_rentals_on_rental_id", using: :btree
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -93,11 +82,11 @@ ActiveRecord::Schema.define(version: 20160314130416) do
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
-    t.string   "name",            limit: 255
+    t.string   "name",            limit: 255,   null: false
+    t.text     "disclaimer",      limit: 65535
     t.integer  "fee_schedule_id", limit: 4
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.text     "disclaimer",      limit: 65535
   end
 
   add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
@@ -111,42 +100,35 @@ ActiveRecord::Schema.define(version: 20160314130416) do
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.string   "rental_status",   limit: 255
-    t.integer  "user_id",         limit: 4,   null: false
-    t.integer  "department_id",   limit: 4,   null: false
-    t.integer  "reservation_id",  limit: 4,   null: false
-    t.integer  "fee_schedule_id", limit: 4,   null: false
-    t.datetime "checked_out_at"
+    t.string   "rental_status",  limit: 255
+    t.integer  "user_id",        limit: 4,   null: false
+    t.integer  "department_id",  limit: 4
+    t.integer  "reservation_id", limit: 4,   null: false
+    t.integer  "item_type_id",   limit: 4,   null: false
+    t.datetime "start_date",                 null: false
+    t.datetime "end_date",                   null: false
     t.datetime "checked_in_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "checked_out_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
+  add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 30,                 null: false
-    t.string   "last_name",  limit: 30,                 null: false
-    t.string   "email",      limit: 255,                null: false
-    t.integer  "phone",      limit: 8,                  null: false
-    t.integer  "spire_id",   limit: 4,                  null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "first_name",    limit: 30,                 null: false
+    t.string   "last_name",     limit: 30,                 null: false
+    t.string   "email",         limit: 255,                null: false
+    t.integer  "phone",         limit: 8,                  null: false
+    t.integer  "spire_id",      limit: 4,                  null: false
+    t.integer  "department_id", limit: 4
+    t.boolean  "active",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
-
-  create_table "users_rentals", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4, null: false
-    t.integer  "rental_id",  limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "users_rentals", ["rental_id"], name: "index_users_rentals_on_rental_id", using: :btree
-  add_index "users_rentals", ["user_id", "rental_id"], name: "index_users_rentals_on_user_id_and_rental_id", unique: true, using: :btree
-  add_index "users_rentals", ["user_id"], name: "index_users_rentals_on_user_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  limit: 255,   null: false
@@ -159,13 +141,9 @@ ActiveRecord::Schema.define(version: 20160314130416) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  add_foreign_key "departments_rentals", "departments", name: "fk_departments_rentals_departments"
-  add_foreign_key "departments_rentals", "rentals", name: "fk_departments_rentals_rentals"
   add_foreign_key "groups_permissions", "groups", name: "fk_groups_permissions_groups"
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
-  add_foreign_key "users_rentals", "rentals", name: "fk_users_rentals_rentals"
-  add_foreign_key "users_rentals", "users", name: "fk_users_rentals_users"
 end

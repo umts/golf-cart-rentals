@@ -30,6 +30,10 @@
   background-color: #218FD4;
   margin: 0;
 }
+.navbar.main,
+.navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a:hover{
+  background-color: #19D1EB;
+}
 
 .navbar-default .navbar-brand,
 .navbar-default .navbar-nav > li > a,
@@ -39,11 +43,9 @@
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-nav > li > a:hover,
-.navbar-collapse > .nav.main > .open > a,
-.navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a:hover
-{
+.navbar-collapse > .nav.main > .open > a{
   color: initial;
-  background-color: #1963EB;
+  background-color: #218FD4;
 }
 
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu{

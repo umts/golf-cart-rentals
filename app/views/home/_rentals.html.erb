@@ -1,0 +1,5 @@
+<h4>Upcoming Rentals</h4>
+<%= render partial: 'rental_table', locals: { rentals: rentals.select { |r| r.end_date >= Date.today } } %>
+
+<h4>Past Rentals</h4>
+<%= render partial: 'rental_table', locals: { rentals: rentals.select { |r| r.end_date < Date.today } } %>
