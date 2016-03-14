@@ -78,5 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Inventory api url
-  config.inventory_api_url = nil # not sure what this is yet
+  config.inventory_api_url = 'http://pvta.com/apis/aggressive/v1/' # not sure what this is yet
 end

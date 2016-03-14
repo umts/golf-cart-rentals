@@ -1,17 +1,22 @@
 require 'json'
 class Inventory
-  # this class is all mocked for now
-  # in the future it should raise an exception if the api doesnt return a sucess status
+  base_url = Rails.application.config.inventory_api_uri
+  api_key = 'f8c503df23d6acc61c89284d3436fbca'
 
   def self.mock_exception
     raise InventoryError, 'test'
   end
 
   def self.item_types
-    JSON.parse('[{"id": 100, "name": "Apples",
-                "allowed_keys": ["flavor"],
-                "items": [{"name": "Macintosh"},
-                          {"name": "Granny Smith"}]}]')
+    if Rails.env.production?
+      response = HTTParty.get(base_url + "item_types/", headers: {'Authorization' => "Token #{api_key}"} )
+      JSON.parse(response)
+    else
+      JSON.parse('[{"id": 100, "name": "Apples",
+                  "allowed_keys": ["flavor"],
+                  "items": [{"name": "Macintosh"},
+                            {"name": "Granny Smith"}]}]')
+    end
   end
 
   def self.item_type(uuid)
