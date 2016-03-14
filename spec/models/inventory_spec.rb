@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Inventory, type: :model do
   before :all do # this is only for the mocks!
-    @uuid = 'not a real uuid'
+    @uuid = "not real uuid"
   end
 
   context 'item types' do
@@ -12,7 +12,8 @@ RSpec.describe Inventory, type: :model do
     end
 
     it 'returns the one item given a uuid' do
-      expect(Inventory.item_type(@uuid)).to be_a(Hash)
+      expect(response = Inventory.item_type(@uuid)).to be_a(Hash)
+      expect(response["id"]).to eq(@uuid)
     end
 
     it 'updates item type' do
