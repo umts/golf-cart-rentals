@@ -8,7 +8,7 @@ class Inventory
   end
 
   def self.item_types
-    if Rails.env.production?
+    if Rails.env.production? || true
       response = HTTParty.get(base_url + "item_types/", headers: {'Authorization' => "Token #{api_key}"} )
       JSON.parse(response)
     else
