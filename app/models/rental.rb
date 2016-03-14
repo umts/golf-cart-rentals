@@ -1,6 +1,11 @@
 class Rental < ActiveRecord::Base
   include AASM
 
+  belongs_to :user, through: :users_rentals
+  belongs_to :department, through: :departments_rentals
+
+  validates :reservation_id, :user_id, :department_id, presence: true
+
   aasm column: :rental_status do
     state :reserved, initial: true
     state :checked_out

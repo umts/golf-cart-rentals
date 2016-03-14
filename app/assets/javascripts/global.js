@@ -41,15 +41,15 @@ function toggle_loading(){
 
 //Toggle a forms submit button when a checkbox is checked/unchecked
 $(document).ready(function() {
-  $('#disclaimer-checkbox').click(function(){
+  $('#disclaimer_checkbox').change(function(){
     $(':submit').prop("disabled", !this.checked);
   });
 });
 
 function update_disclaimer(element){
   $('.disclaimer').hide();
-  $('#disclaimer-'+$(element).val()).show();
+  $('#disclaimer_'+$(element).val()).show();
 
-  if($('#disclaimer-checkbox')[0].checked)
-    $('#disclaimer-checkbox').click();
+  $('#disclaimer_checkbox').attr('checked', false);
+  $('#disclaimer_checkbox').trigger('change');
 }

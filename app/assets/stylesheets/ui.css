@@ -12,7 +12,7 @@
 .footer{
   color: #111;
   padding-top: 15px;
-  background-color: #7721FB;
+  background-color: #1963EB;
 }
 
 .footer a {
@@ -27,7 +27,7 @@
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
   border-width: 0px;
   border-radius: 0px;
-  background-color: #26A5F5;
+  background-color: #218FD4;
   margin: 0;
 }
 
@@ -43,7 +43,7 @@
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a:hover
 {
   color: initial;
-  background-color: #7721FB;
+  background-color: #1963EB;
 }
 
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu{

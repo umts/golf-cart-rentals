@@ -9,14 +9,14 @@
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="start_date">Start Date</label>
     <div class="col-xs-6">
-      <%= date_field 'rental', 'start_date', value: Date.today, required: true, class: "form-control" %>
+      <%= date_field_tag :start_date, value: Date.today, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="end_date">End Date</label>
     <div class="col-xs-6">
-      <%= date_field 'rental', 'end_date', value: Date.today, required: true, class: "form-control" %>
+      <%= date_field_tag :end_date, value: Date.today, required: true, class: "form-control" %>
     </div>
   </div>
 
@@ -25,12 +25,12 @@
       <% @item_types.each do |type| %>
         <% hidden = '' %>
         <% hidden = 'display:none; ' unless type == @item_types.first %>
-        <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer-#{type.id}", style: "#{hidden}white-space: pre;" %>
+        <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
       <% end %>
       
       </br></br>
 
-      <label><%= check_box_tag 'disclaimer-checkbox' %> I Agree To The Above Terms And Conditions</label>
+      <label><%= check_box_tag 'disclaimer_checkbox' %> I Agree To The Above Terms And Conditions</label>
     </div>
   </div>
 

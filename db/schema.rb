@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311173906) do
+ActiveRecord::Schema.define(version: 20160314130416) do
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "name",       limit: 255,                null: false
+    t.integer  "user_id",    limit: 4,                  null: false
+    t.boolean  "active",                 default: true, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
+
+  create_table "departments_rentals", force: :cascade do |t|
+    t.integer  "department_id", limit: 4, null: false
+    t.integer  "rental_id",     limit: 4, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "departments_rentals", ["department_id", "rental_id"], name: "index_departments_rentals_on_department_id_and_rental_id", unique: true, using: :btree
+  add_index "departments_rentals", ["department_id"], name: "index_departments_rentals_on_department_id", using: :btree
+  add_index "departments_rentals", ["rental_id"], name: "index_departments_rentals_on_rental_id", using: :btree
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -116,6 +137,17 @@ ActiveRecord::Schema.define(version: 20160311173906) do
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
 
+  create_table "users_rentals", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "rental_id",  limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "users_rentals", ["rental_id"], name: "index_users_rentals_on_rental_id", using: :btree
+  add_index "users_rentals", ["user_id", "rental_id"], name: "index_users_rentals_on_user_id_and_rental_id", unique: true, using: :btree
+  add_index "users_rentals", ["user_id"], name: "index_users_rentals_on_user_id", using: :btree
+
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  limit: 255,   null: false
     t.integer  "item_id",    limit: 4,     null: false
@@ -127,9 +159,13 @@ ActiveRecord::Schema.define(version: 20160311173906) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "departments_rentals", "departments", name: "fk_departments_rentals_departments"
+  add_foreign_key "departments_rentals", "rentals", name: "fk_departments_rentals_rentals"
   add_foreign_key "groups_permissions", "groups", name: "fk_groups_permissions_groups"
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "users_rentals", "rentals", name: "fk_users_rentals_rentals"
+  add_foreign_key "users_rentals", "users", name: "fk_users_rentals_users"
 end
