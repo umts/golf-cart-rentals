@@ -42,8 +42,8 @@ class Inventory
   end
 
   def self.items_by_type(item_type_uuid)
-    JSON.parse("{[{\"id\": 300, \"name\": \"Awesome new couch\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {}},
-                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]}")
+    JSON.parse("[{\"id\": 300, \"name\": \"Awesome new couch\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {}},
+                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]")
   end
 
   def self.item(uuid)
@@ -88,7 +88,7 @@ class Inventory
   end
 
   def self.update_reservation_data(_key, _value)
-    # returns nothing
+    # returns nothing on success
   end
 
   # is this distinct enough from the singular method?

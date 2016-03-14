@@ -52,7 +52,7 @@ RSpec.describe Inventory, type: :model do
     it 'gets items by type' do
       response = nil
       expect { response = Inventory.items_by_type(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
+      expect(response).to be_a(Array)
     end
     it 'get item by uuid' do
       response = nil
@@ -69,6 +69,39 @@ RSpec.describe Inventory, type: :model do
       response = nil
       expect { response = Inventory.delete_item(@uuid) }.not_to raise_error
       expect(response).to be_nil
+    end
+  end
+
+  context 'reservations' do
+    it 'creates reservation' do
+      response = nil
+      expect { response = Inventory.create_reservation(@uuid, Time.now, 6.days.from_now)}.not_to raise_error
+      expect(response).to be_a(Hash)
+    end
+    it 'update reservation' do
+      response = nil
+      expect { response = Inventory.update_reservation(@uuid, "key", "value")}.not_to raise_error
+      expect(response).to be_a(Hash)
+    end
+    it 'get reservation' do
+      response = nil
+      expect { response = Inventory.reservation(@uuid)}.not_to raise_error
+      expect(response).to be_a(Hash)
+    end
+    it 'delete reservation' do
+      response = nil
+      expect { response = Inventory.delete_reservation(@uuid)}.not_to raise_error
+      expect(response).to be_nil
+    end
+    it 'updates reservation\'s metadata' do
+      response = nil
+      expect { response = Inventory.update_reservation_data("key", "value")}.not_to raise_error
+      expect(response).to be_nil
+    end
+    it 'searches by time period' do
+      response = nil
+      expect { response = Inventory.reservations(Time.now, 6.days.from_now)}.not_to raise_error
+      expect(response).to be_a(Array)
     end
   end
 end
