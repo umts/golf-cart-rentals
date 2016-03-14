@@ -58,6 +58,27 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
+  
+  create_table "incidental_types", force: :cascade do |t|
+    t.string   "name",                 limit: 255
+    t.string   "description",          limit: 255
+    t.decimal  "base",                             precision: 10
+    t.decimal  "modifier_amount",                  precision: 10
+    t.string   "modifier_description", limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  create_table "incurred_incidentals", force: :cascade do |t|
+    t.integer  "incidental_type_id", limit: 4
+    t.decimal  "times_modified",                   precision: 10
+    t.text     "notes",              limit: 65535
+    t.text     "document",           limit: 65535
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false
@@ -109,4 +130,5 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
+  add_foreign_key "incurred_incidentals", "incidental_types"
 end
