@@ -21,7 +21,7 @@ RSpec.describe Inventory, type: :model do
       response = nil
       expect { response = Inventory.item_type(@uuid) }.not_to raise_error
       expect(response).to be_a(Hash)
-      expect(response["id"]).to eq(@uuid)
+      expect(response[:id]).to eq(@uuid)
     end
 
     it 'updates item type' do
