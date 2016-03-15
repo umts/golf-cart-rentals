@@ -1,13 +1,18 @@
 require 'json'
 class Inventory
   @base_uri = Rails.application.config.inventory_api_uri
-  @api_key = 'f8c503df23d6acc61c89284d3436fbca' # this needs to be handles privatly
+  @api_key = Rails.application.secrets[:inventory_api_key]
 
   def self.item_types
     response = HTTParty.get(@base_uri + 'item_types/', headers: {'Authorization' => "Token #{@api_key}"} )
     raise AuthError if response.code == 401
     raise InventoryError if response.code != 200 # handles stuff like 422 and 500
     JSON.parse(response.body)
+  end
+
+  def self.create_item_type(name, allowed_keys = [])
+    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\", \"name\": \"#{name}\", \"allowed_keys\": #{allowed_keys},
+                \"items\": []}")
   end
 
   def self.item_type(uuid)
@@ -26,11 +31,6 @@ class Inventory
 
   def self.delete_item_type(_uuid)
     # returns nothing on success
-  end
-
-  def self.create_item_type(name, allowed_keys = [])
-    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\", \"name\": \"#{name}\", \"allowed_keys\": #{allowed_keys},
-                \"items\": []}")
   end
 
   def self.create_item(name, item_type_uuid, metadata = {})
@@ -71,6 +71,16 @@ class Inventory
     \"item\": \"Dummy Data\"}")
   end
 
+  def self.update_reservation_data(_key, _value)
+    # returns nothing on success
+  end
+
+  # is this distinct enough from the singular method?
+  def self.reservations(_start_time = 100.years.ago, _end_time = 100.years.from_now, _item_type)
+    JSON.parse('[{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
+                {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]')
+  end
+
   def self.reservation(uuid)
     JSON.parse("{\"id\": \"#{uuid}\",
     \"start_time\": \"2016-02-16T15:30:00-05:00\",
@@ -81,15 +91,5 @@ class Inventory
 
   def self.delete_reservation(_uuid)
     # returns nothing on success
-  end
-
-  def self.update_reservation_data(_key, _value)
-    # returns nothing on success
-  end
-
-  # is this distinct enough from the singular method?
-  def self.reservations(_start_time = 100.years.ago, _end_time = 100.years.from_now, _item_type)
-    JSON.parse('[{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
-                {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]')
   end
 end

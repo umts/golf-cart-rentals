@@ -1,17 +1,16 @@
 require 'rails_helper'
 include InventoryExceptions
 
-RSpec.describe Inventory, type: :model do
-  before :all do # this is only for the mocks!
-    @uuid = 'not real uuid'
-  end
-
-  it 'can raise an exception' do
-    expect { Inventory.mock_exception }.to raise_error(InventoryError)
-  end
+RSpec.describe Inventory, order: :defined, type: :model do
 
   context 'item types' do
-    it 'returns an array of types' do
+    it 'creates item type' do
+      response = nil
+      expect { response = Inventory.create_item_type('Alpaca', ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
+      expect(response).to be_a(Hash)
+    end
+
+    it 'returns an array of types' do # even if there are no item types then this will still return an array, an empty array but still an array!
       response = nil
       expect { response = Inventory.item_types }.not_to raise_error
       expect(response).to be_a(Array)
@@ -34,12 +33,6 @@ RSpec.describe Inventory, type: :model do
       response = nil
       expect { response = Inventory.delete_item_type(@uuid) } .not_to raise_error
       expect(response).to be_nil
-    end
-
-    it 'creates item type' do
-      response = nil
-      expect { response = Inventory.create_item_type('Alpaca', ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
-      expect(response).to be_a(Hash)
     end
   end
 
