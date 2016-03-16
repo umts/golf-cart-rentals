@@ -39,6 +39,13 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#dates' do
+    it 'returns a string with dates' do
+      rental = create(:rental)
+      expect(rental.dates).to be_a(String)
+    end
+  end
+
   # describe 'rental_status' do
   #   let(:rental) { create :rental }
 

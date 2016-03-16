@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     [first_name, last_name].join ' '
   end
 
-  def has_permission?(controller, action, id)
+  def has_permission?(controller, action, id=nil)
     # Get a list of permissions associated with this controller and action
     relevant_permissions = permissions.where(controller: controller, action: action)
 

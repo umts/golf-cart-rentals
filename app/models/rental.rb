@@ -66,6 +66,12 @@ class Rental < ActiveRecord::Base
     is_valid
   end
 
+  def dates
+    date_string = start_date.strftime("%a %m/%d/%Y")
+    date_string += " - #{end_date.strftime("%a %m/%d/%Y")}" if start_date != end_date
+    date_string
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 end

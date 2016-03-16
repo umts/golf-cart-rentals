@@ -104,3 +104,7 @@ hr{
 .disabled{
   background: rgb(250, 255, 140);
 }
+
+.header-no-margin, .pagination{
+  margin: 0px;
+}
