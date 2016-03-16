@@ -43,7 +43,8 @@ class Inventory
 
   def self.items_by_type(item_type_uuid)
     JSON.parse("[{\"id\": 300, \"name\": \"Awesome new couch\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {}},
-                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]", symbolize_names: true)
+                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]",
+               symbolize_names: true)
   end
 
   def self.item(uuid)

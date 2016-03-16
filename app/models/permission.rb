@@ -26,7 +26,7 @@ class Permission < ActiveRecord::Base
   def self.delete_outdated_permissions
     # Delete all permissions that do not map to a valid controller action
     Rails.application.eager_load!
-    Permission.all.find_each do|permission|
+    Permission.all.find_each do |permission|
       controller = ApplicationController.descendants.find { |c| c.name == "#{permission.controller}_controller".camelcase }
       # Destroy the permission if the controller doesn't exist
       if controller.nil?

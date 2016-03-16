@@ -9,14 +9,14 @@
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="start_date">Start Date</label>
     <div class="col-xs-6">
-      <%= date_field :rental, :start_date, value: @start_date || Date.today, required: true, class: "form-control" %>
+      <%= date_field :rental, :start_date, value: @start_date || Time.zone.today, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="end_date">End Date</label>
     <div class="col-xs-6">
-      <%= date_field :rental, :end_date, value: @end_date || Date.today, required: true, class: "form-control" %>
+      <%= date_field :rental, :end_date, value: @end_date || Time.zone.today, required: true, class: "form-control" %>
     </div>
   </div>
 

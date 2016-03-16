@@ -6,7 +6,7 @@ describe RentalsController do
 
   before(:each) do
     @current_user = create(:user)
-    controller.instance_variable_set("@current_user", @current_user)
+    controller.instance_variable_set('@current_user', @current_user)
   end
 
   describe 'GET #index' do
@@ -55,7 +55,7 @@ describe RentalsController do
           expect(response).to redirect_to Rental.last
         end
       end
-      
+
       context 'without accepting the disclaimer' do
         it 'does not save the new Rental in the database' do
           expect do

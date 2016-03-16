@@ -3,9 +3,9 @@ FactoryGirl.define do
     user_id 0
     department_id 0
     sequence(:reservation_id)
-    item_type_id {create(:item_type).id}
-    start_date Date.today
-    end_date Date.today
+    item_type_id { create(:item_type).id }
+    start_date Time.zone.today
+    end_date Time.zone.today
   end
 
   factory :invalid_rental, parent: :rental do
@@ -16,7 +16,7 @@ FactoryGirl.define do
     user_id nil
     department_id nil
     reservation_id nil
-    start_date Date.today.to_s
-    end_date Date.today.to_s
+    start_date Time.zone.today.to_s
+    end_date Time.zone.today.to_s
   end
 end

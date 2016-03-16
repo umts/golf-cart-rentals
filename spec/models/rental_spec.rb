@@ -20,10 +20,10 @@ RSpec.describe Rental do
     expect(build(:rental, end_date: nil)).not_to be_valid
   end
   it 'is invalid with a start_date before today' do
-    expect(build(:rental, start_date: Date.yesterday)).not_to be_valid
+    expect(build(:rental, start_date: Time.zone.yesterday)).not_to be_valid
   end
   it 'is invalid with an end_date before the start_date' do
-    expect(build(:rental, start_date: Date.tomorrow, end_date: Date.today)).not_to be_valid
+    expect(build(:rental, start_date: Time.zone.tomorrow, end_date: Time.zone.today)).not_to be_valid
   end
   it 'does not allow duplicate reservation_id' do
     rental = create(:rental)

@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe IncurredIncidental, type: :model do
   context 'will properly do validations' do
     it 'builds a IncurredIncidental given proper parameters' do
-      expect(build :incurred_incidental).to be_valid
+      expect(build(:incurred_incidental)).to be_valid
     end
 
     it 'doesnt build when given inproper params' do
-      expect(build :incurred_incidental, notes: nil).not_to be_valid
-      expect(build :incurred_incidental, times_modified: nil).not_to be_valid
+      expect(build(:incurred_incidental, notes: nil)).not_to be_valid
+      expect(build(:incurred_incidental, times_modified: nil)).not_to be_valid
     end
   end
 
