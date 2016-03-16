@@ -1,7 +1,7 @@
 require 'json'
 class Inventory
   @base_uri = Rails.application.config.inventory_api_uri
-  @api_key = Rails.application.secrets[:inventory_api_key]
+  @api_key = INVENTORY_API_KEY
 
   def self.item_types
     response = HTTParty.get(@base_uri + 'item_types/', headers: {'Authorization' => "Token #{@api_key}"} )
@@ -11,8 +11,12 @@ class Inventory
   end
 
   def self.create_item_type(name, allowed_keys = [])
-    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\", \"name\": \"#{name}\", \"allowed_keys\": #{allowed_keys},
-                \"items\": []}")
+    response = HTTParty.post(@base_uri + 'item_types/', 
+                             body: {"name" => name, "allowed_keys" => allowed_keys}.to_json,
+                             headers: {'Authorization' => "Token #{@api_key}"} )
+    raise AuthError if response.code == 401
+    raise InventoryError if response.code != 200 # handles stuff like 422 and 500
+    JSON.parse(response.body)
   end
 
   def self.item_type(uuid)
