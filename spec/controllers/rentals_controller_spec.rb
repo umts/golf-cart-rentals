@@ -82,15 +82,18 @@ describe RentalsController do
     end
   end
 
-  # describe 'POST #destroy' do
-  #   it 'deletes the rental from the database' do
-  #     expect do
-  #       delete :destroy, id: rental
-  #     end.to change(Rental, :count).by(-1)
-  #   end
-  #   it 'redirects to the rentals index page' do
-  #     delete :destroy, id: rental
-  #     expect(response).to redirect_to rentals_url
-  #   end
-  # end
+  describe 'POST #destroy' do
+    before :each do
+      request.env["HTTP_REFERER"] = "back_page"
+    end
+    it 'deletes the rental from the database' do
+      expect do
+        delete :destroy, id: rental
+      end.to change(Rental, :count).by(-1)
+    end
+    it 'redirects back a page' do
+      delete :destroy, id: rental
+      expect(response).to redirect_to "back_page"
+    end
+  end
 end

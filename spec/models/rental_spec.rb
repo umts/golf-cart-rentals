@@ -30,6 +30,9 @@ RSpec.describe Rental do
     expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
   end
 
+  pending '#create_reservation'
+  pending '#delete_reservation'
+
   describe '#mostly_valid?' do
     it 'returns true if the item is valid except for a missing reservation_id' do
       expect(build(:rental, reservation_id: nil).mostly_valid?).to be true

@@ -8,6 +8,7 @@ class RentalsController < ApplicationController
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @@per_page)
+    @users = User.all
   end
 
   # GET /rentals/1
@@ -33,21 +34,20 @@ class RentalsController < ApplicationController
       redirect_to(@rental)
     else
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      @item_types = ItemType.all
       render :new
     end
   end
 
   # DELETE /rentals/1
   def destroy
-    # call aggressive-epsilon API to delete reservation
-    # if successful, delete the rental object and redirect to it
-    # if unsuccessful, render an error and rerender the show page
-    # @rental = @rental.destroy_rental
-
-    # @rental.destroy
-    # flash[:success] = 'Rental Was Successfully Deleted'
-    # redirect_to rentals_url
+    if @rental.delete_reservation
+      @rental.destroy
+      flash[:success] = 'Rental Was Successfully Deleted'
+      redirect_to :back
+    else
+      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      redirect_to :back
+    end
   end
 
   private

@@ -59,6 +59,16 @@ class Rental < ActiveRecord::Base
     save
   end
 
+  def delete_reservation
+    reservation = Inventory.delete_reservation(reservation_id)
+    if reservation
+      errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
+      return false
+    else
+      return true
+    end
+  end
+
   def mostly_valid?
     self.skip_reservation_validation = true
     is_valid = valid?
