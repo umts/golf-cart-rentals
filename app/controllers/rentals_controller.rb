@@ -1,9 +1,13 @@
 class RentalsController < ApplicationController
+  @@per_page = 10
+
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
+  before_action :get_item_types, only: [:index, :new, :create, :edit, :update]
 
   # GET /rentals
   def index
-    @rentals = Rental.all
+    @q = Rental.all.search(params[:q])
+    @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @@per_page)
   end
 
   # GET /rentals/1
@@ -13,7 +17,6 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @item_types = ItemType.all
   end
 
   # POST /rentals
@@ -52,6 +55,10 @@ class RentalsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
+  end
+
+  def get_item_types
+    @item_types = ItemType.all
   end
 
   # Only allow a trusted parameter "white list" through.
