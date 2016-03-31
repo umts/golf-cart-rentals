@@ -1,16 +1,22 @@
 module InventoryExceptions
-  class AuthError < StandardError; end
-  class InventoryError < StandardError
-    #attr_reader :error
-    #def initialize(error_response)
-    #  @error = error_response
-    #end
-  end
-  class ReservationNotAvailable < InventoryError; end
-  class InvalidUpdateReservationTime < InventoryError; end
-  class InvalidUpdateReservationMetadata < InventoryError; end
-  class InvalidUpdateItemTypeMetadata < InventoryError; end
-  class InvalidItemTypeCreation < InventoryError; end
-  class InvalidItemCreation < InventoryError; end
-  class InvalidUpdateItem < InventoryError; end
+  class AuthError < StandardError; end # 401 unauth
+  class InventoryError < StandardError; end # 500 server error or anything remaining
+
+  class ItemTypeError < InventoryError; end
+  class ItemError < InventoryError; end
+  class ReservationError < InventoryError; end
+
+  class ItemTypeNotFound < ItemTypeError; end # 404 not found
+  class ReservationNotFound < ReservationError; end
+  class ItemNotFound < ItemError; end
+
+  class ReservationNotAvailable < ReservationError; end
+  class InvalidUpdateReservationTime < ReservationError; end
+  class InvalidUpdateReservationMetadata < ReservationError; end
+
+  class InvalidUpdateItemTypeMetadata < ItemTypeError; end
+  class InvalidItemTypeCreation < ItemTypeError; end
+
+  class InvalidItemCreation < ItemError; end
+  class InvalidUpdateItem < ItemError; end
 end

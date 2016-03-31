@@ -3,7 +3,7 @@ class InventoryMock
   @base_uri = Rails.application.config.inventory_api_uri
 
   def self.mock_exception
-    raise InventoryError, 'test'
+    fail InventoryError, 'test'
   end
 
   def self.item_types

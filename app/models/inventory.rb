@@ -2,28 +2,33 @@ require 'json'
 class Inventory
   @base_uri = Rails.application.config.inventory_api_uri
   @api_key = INVENTORY_API_KEY
+  @post_headers = { 'Authorization' => "Token #{@api_key}", 'Content-Type' => 'application/json' }
+  @get_headers = { 'Authorization' => "Token #{@api_key}" }
 
   def self.item_types
-    response = HTTParty.get(@base_uri + 'item_types/', headers: {'Authorization' => "Token #{@api_key}"} )
-    raise AuthError if response.code == 401
-    raise InventoryError if response.code != 200 # handles stuff like 422 and 500
+    response = HTTParty.get(@base_uri + 'item_types/', headers: @get_headers)
+    fail AuthError if response.code == 401
+    fail InventoryError if response.code != 200 # handles stuff like 422 and 500
     JSON.parse(response.body)
   end
 
   def self.create_item_type(name, allowed_keys = [])
-    response = HTTParty.post(@base_uri + 'item_types/', 
-                             body: {"name" => name, "allowed_keys" => allowed_keys}.to_json,
-                             headers: {'Authorization' => "Token #{@api_key}"} )
-    raise AuthError if response.code == 401
-    raise InventoryError if response.code != 200 # handles stuff like 422 and 500
+    response = HTTParty.post(@base_uri + 'item_types/',
+                             body: { 'name' => name, 'allowed_keys' => allowed_keys }.to_json,
+                             headers: @post_headers)
+    fail AuthError if response.code == 401
+    fail InvalidItemTypeCreation if response.code == 422
+    fail InventoryError if response.code != 200 # handles stuff like a 500
     JSON.parse(response.body)
   end
 
   def self.item_type(uuid)
-    response = HTTParty.get(@base_uri + "item_type/#{uuid}", headers: {'Authorization' => "Token #{@api_key}"} )
-    raise AuthError if response.code == 401
-    raise InventoryError if response.code == 422
-    JSON.parse(response.body) 
+    response = HTTParty.get(@base_uri + "item_types/#{uuid}", headers: @get_headers)
+    fail AuthError if response.code == 401
+    fail ItemTypeError if response.code == 422
+    fail ItemTypeNotFound if response.code == 404
+    fail InventoryError if response.code != 200
+    JSON.parse(response.body)
   end
 
   def self.update_item_type(uuid, _key, _value)
