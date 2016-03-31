@@ -1,50 +1,39 @@
 require 'rails_helper'
 include InventoryExceptions
-
+# these tests must be run in order and all at once
 RSpec.describe Inventory, order: :defined, type: :model do
   
-  context 'item types' do
-    let(:name) { # im decently sure this makes me worse than stalin
-      name = ""
-      until name.length > 120 do
-        name += (rand(26) + 65).chr
-      end
-      name
-    }
-    
-    # even if there are no item types then this will still return an array, an empty array but still an array!
-    it 'returns an array of types' do 
-      response = nil
-      expect { response = Inventory.item_types }.not_to raise_error
-      expect(response).to be_a(Array)
-      expect(response.count).not_to eq 0
+  it 'item types' do
+    uuid = nil
+    name = ""
+    response = nil
+    until name.length > 120 do
+      name += (rand(26) + 65).chr
     end
     
-    it 'creates item type' do
-      response = nil
-      expect { response = Inventory.create_item_type(name, ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
-      expect(response).to be_a(Hash)
-      expect(@item_type_uuid = response.try(:[],'id')).not_to be_nil
-    end
+    #create
+    expect { response = Inventory.create_item_type(name, ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(uuid = response.try(:[],'id')).not_to be_nil
+    
+    # get all
+    expect { response = Inventory.item_types }.not_to raise_error
+    expect(response).to be_a(Array)
+    expect(response.count).not_to eq 0
+    
+    # get one
+    expect { response = Inventory.item_type(uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[],'id')).to eq(uuid)
+    expect(response.try(:[],'name')).to eq(name)
 
-    it 'returns the one item given a uuid' do
-      response = nil
-      expect { response = Inventory.item_type(@item_type_uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-      expect(response.try(:[],'id')).to eq(@item_type_uuid)
-    end
+    # update it
+    expect { response = Inventory.update_item_type(uuid, params = nil) }.not_to raise_error
+    expect(response).to be_a(Hash)
 
-    it 'updates item type' do
-      response = nil
-      expect { response = Inventory.update_item_type($item_type_uuid, 'some key', 'some value') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-
-    it 'deletes item type' do
-      response = nil
-      expect { response = Inventory.delete_item_type($item_type_uuid) } .not_to raise_error
-      expect(response).to be_nil
-    end
+    # delete it
+    expect { response = Inventory.delete_item_type(uuid) } .not_to raise_error
+    expect(response).to be_nil
   end
 
   context 'items' do
@@ -109,3 +98,8 @@ RSpec.describe Inventory, order: :defined, type: :model do
     end
   end
 end
+
+RSpec.describe Inventory, order: :defined, type: :model do
+  @value = 'kowla'
+end
+  

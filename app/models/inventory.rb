@@ -31,7 +31,8 @@ class Inventory
     JSON.parse(response.body)
   end
 
-  def self.update_item_type(uuid, _key, _value)
+  def self.update_item_type(uuid, params = {})
+    fail ArgumentError if params.empty?
     JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
                 \"allowed_keys\": [\"flavor\"],
                 \"items\": [{\"name\": \"Macintosh\"},
