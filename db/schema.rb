@@ -79,8 +79,6 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-<<<<<<< HEAD
-=======
   
   create_table "item_types", force: :cascade do |t|
     t.string   "name",            limit: 255
@@ -90,7 +88,6 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
->>>>>>> ca1281e3956a25ad49fb86ee3ef4a494980ed288
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false

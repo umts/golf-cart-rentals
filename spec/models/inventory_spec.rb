@@ -24,14 +24,14 @@ RSpec.describe Inventory, order: :defined, type: :model do
       response = nil
       expect { response = Inventory.create_item_type(name, ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
       expect(response).to be_a(Hash)
-      expect($item_type_uuid = response.try(:[],'id')).not_to be_nil
+      expect(@item_type_uuid = response.try(:[],'id')).not_to be_nil
     end
 
     it 'returns the one item given a uuid' do
       response = nil
-      expect { response = Inventory.item_type($item_type_uuid) }.not_to raise_error
+      expect { response = Inventory.item_type(@item_type_uuid) }.not_to raise_error
       expect(response).to be_a(Hash)
-      expect(response.try(:[],'id')).to eq($item_type_uuid)
+      expect(response.try(:[],'id')).to eq(@item_type_uuid)
     end
 
     it 'updates item type' do
