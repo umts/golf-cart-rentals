@@ -11,40 +11,40 @@ class Rental < ActiveRecord::Base
   validates :start_date, date: { after_or_equal_to: Time.zone.today, message: 'must be no earlier than today' }
   validates :end_date, date: { after_or_equal_to: :start_date, message: 'must be no earlier than today' }
 
-  # aasm column: :rental_status do
-  #   state :reserved, initial: true
-  #   state :checked_out
-  #   state :checked_in
-  #   state :inspected
-  #   state :available
-  #   state :canceled
+  aasm column: :rental_status do
+    state :reserved, initial: true
+    state :checked_out
+    state :checked_in
+    state :inspected
+    state :available
+    state :canceled
 
-  #   event :cancel do
-  #     transitions from: :reserved, to: :canceled
-  #   end
+    event :cancel do
+      transitions from: :reserved, to: :canceled
+    end
 
-  #   event :pickup do
-  #     transitions from: :reserved, to: :checked_out
-  #     after do
-  #       update(checked_out_at: Time.zone.now)
-  #     end
-  #   end
+    event :pickup do
+      transitions from: :reserved, to: :checked_out
+      after do
+        update(checked_out_at: Time.zone.now)
+      end
+    end
 
-  #   event :return do
-  #     transitions from: :checked_out, to: :checked_in
-  #     after do
-  #       update(checked_in_at: Time.zone.now)
-  #     end
-  #   end
+    event :return do
+      transitions from: :checked_out, to: :checked_in
+      after do
+        update(checked_in_at: Time.zone.now)
+      end
+    end
 
-  #   event :inspect do
-  #     transitions from: :checked_in, to: :inspected
-  #   end
+    event :approve do
+      transitions from: :checked_in, to: :inspected
+    end
 
-  #   event :process do
-  #     transitions from: [:inspected, :canceled], to: :available
-  #   end
-  # end
+    event :process do
+      transitions from: [:inspected, :canceled], to: :available
+    end
+  end
 
   def create_reservation
     return false unless mostly_valid?
