@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class Rental < ActiveRecord::Base
   include AASM
+<<<<<<< 83802fc12fd99d488e1b90388fc1ae952cf858f3
   include InventoryExceptions
 
   has_many :incurred_incidentals, dependent: :destroy
@@ -11,6 +12,9 @@ class Rental < ActiveRecord::Base
   before_create :create_reservation
   before_destroy :delete_reservation
   after_create :create_financial_transaction
+=======
+  has_many :incurred_incidentals
+>>>>>>> started work on incurred incidentals. created controller with basic actions, views, and routes. added seeds for incidentals. added relation between rentals and incidentals
 
   belongs_to :user
   belongs_to :department

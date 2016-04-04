@@ -1,3 +1,4 @@
+<<<<<<< 83802fc12fd99d488e1b90388fc1ae952cf858f3
 <%= form_for(@incurred_incidental) do |f| %>
   <div class="form-group col-xs-12">
     <%= f.label :incidental_type_id, 'Incidental Type', class: 'control-label col-xs-2' %>
@@ -32,4 +33,17 @@
       <%= link_to 'Back', incurred_incidentals_path, class: "btn btn-default" %>
     </div>
   </div>
+=======
+<%= form_for(@incidental) do |i| %>
+  <%= i.label :times_modified %>
+  <%= i.text_field :times_modified %>
+
+  <%= i.label :notes %>
+  <%= i.text_field :notes %>
+
+  <%= i.label :document %>
+  <%= i.text_field :document %>
+
+  <%= i.submit %>
+>>>>>>> started work on incurred incidentals. created controller with basic actions, views, and routes. added seeds for incidentals. added relation between rentals and incidentals
 <% end %>

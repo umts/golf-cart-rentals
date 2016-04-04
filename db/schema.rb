@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< fce9b953848d44afb562946c7f4f23f26d680759
 ActiveRecord::Schema.define(version: 20160801150013) do
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.boolean  "active",     default: true, null: false
-=======
-ActiveRecord::Schema.define(version: 20160408192747) do
-
-  create_table "fee_schedules", force: :cascade do |t|
-    t.float    "base_amount",    limit: 24
-    t.float    "amount_per_day", limit: 24
-    t.integer  "item_type_id",   limit: 4
->>>>>>> started work for deactivating incidentals. added incidental types for creating and editing incidentals
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
