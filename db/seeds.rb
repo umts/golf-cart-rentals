@@ -33,6 +33,12 @@ if Rails.env.development?
     FeeSchedule.where(base_amount: fee_schedule['base_amount'], amount_per_day: fee_schedule['amount_per_day'], item_type: item_type).first_or_create
   end
 
+  puts "Creating list of incidentals"
+  incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
+  incidentals.each do |i|
+    IncidentalType.where(name: i["name"]).first_or_create
+  end
+  
   puts " "
 end
 

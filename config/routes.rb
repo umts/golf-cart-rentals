@@ -14,9 +14,14 @@ Rails.application.routes.draw do
     post :remove_permission, on: :member
     post :remove_user, on: :member
   end
+
   resources :users
   resources :fee_schedules
   resources :item_types
+
+  resources :rentals do
+    resources :incurred_incidentals
+  end
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'

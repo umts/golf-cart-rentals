@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226153041) do
+ActiveRecord::Schema.define(version: 20160404192447) do
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -67,10 +67,12 @@ ActiveRecord::Schema.define(version: 20160226153041) do
     t.text     "document",           limit: 65535
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.integer  "rental_id",          limit: 4
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  
+  add_index "incurred_incidentals", ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
+
   create_table "item_types", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "fee_schedule_id", limit: 4
@@ -131,4 +133,5 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals", "rentals"
 end

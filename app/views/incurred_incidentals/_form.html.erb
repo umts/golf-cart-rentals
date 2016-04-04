@@ -1,0 +1,12 @@
+<%= form_for(@incidental) do |i| %>
+  <%= i.label :times_modified %>
+  <%= i.text_field :times_modified %>
+
+  <%= i.label :notes %>
+  <%= i.text_field :notes %>
+
+  <%= i.label :document %>
+  <%= i.text_field :document %>
+
+  <%= i.submit %>
+<% end %>
