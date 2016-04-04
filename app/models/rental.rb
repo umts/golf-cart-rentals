@@ -1,5 +1,6 @@
 class Rental < ActiveRecord::Base
   include AASM
+  has_many :incurred_incidentals
 
   belongs_to :user
   belongs_to :department

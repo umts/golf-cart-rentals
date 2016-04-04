@@ -25,7 +25,13 @@ if Rails.env.development?
     ItemType.where(base_fee: item_type['base_fee'], fee_per_day: item_type['fee_per_day'], name: item_type['name'], disclaimer: item_type['disclaimer']).first_or_create
   end
 
-  puts ' '
+  puts "Creating list of incidentals"
+  incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
+  incidentals.each do |i|
+    IncidentalType.where(name: i["name"]).first_or_create
+  end
+
+  puts " "
 end
 
 puts '*****************************'
