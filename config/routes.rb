@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     post :remove_permission, on: :member
     post :remove_user, on: :member
   end
+
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
@@ -37,6 +38,10 @@ Rails.application.routes.draw do
   resources :incidental_types
   resources :incurred_incidentals
   resources :reservations
+
+  resources :rentals do
+    resources :incurred_incidentals
+  end
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'

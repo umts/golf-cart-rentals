@@ -75,6 +75,7 @@ if Rails.env.development?
     IncidentalType.where(name: incidental['name']).first_or_create incidental
   end
 
+  puts " "
 end
 
 puts '*****************************'

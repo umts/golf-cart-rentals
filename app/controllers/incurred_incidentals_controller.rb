@@ -47,20 +47,19 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
+    def set_incurred_incidental
+      @incurred_incidental = IncurredIncidental.find(params[:id])
+    end
 
-  def set_incurred_incidental
-    @incurred_incidental = IncurredIncidental.find(params[:id])
-  end
+    def set_incidental_types
+      @incidental_types = IncidentalType.all
+    end
 
-  def set_incidental_types
-    @incidental_types = IncidentalType.all
-  end
+    def set_rentals
+      @rentals = Rental.all
+    end
 
-  def set_rentals
-    @rentals = Rental.all
-  end
-
-  def incurred_incidental_params
-    params.require(:incurred_incidental).permit(:incidental_type_id, :rental_id, :times_modified)
-  end
+    def incurred_incidental_params
+      params.require(:incurred_incidental).permit(:incidental_type_id, :rental_id, :times_modified)
+    end
 end

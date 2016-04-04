@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160801150013) do
-
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.boolean  "active",     default: true, null: false
@@ -201,4 +200,6 @@ ActiveRecord::Schema.define(version: 20160801150013) do
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
+  add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals", "rentals"
 end
