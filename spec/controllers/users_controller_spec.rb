@@ -51,7 +51,7 @@ describe UsersController do
     end
 
     context 'with invalid attributes' do
-      it 'does not save the new contact in the database' do
+      it 'does not save the new user in the database' do
         expect do
           post :create, user: attributes_for(:invalid_user)
         end.to_not change(User, :count)
@@ -90,7 +90,7 @@ describe UsersController do
     end
 
     context 'with invalid attributes' do
-      it 'does not save the contact in the database' do
+      it 'does not save the user in the database' do
         old_name = user.first_name
         post :update, id: user, user: attributes_for(:invalid_user)
         user.reload
