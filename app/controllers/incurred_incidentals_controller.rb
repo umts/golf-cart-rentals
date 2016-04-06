@@ -1,12 +1,13 @@
 class IncurredIncidentalsController < ApplicationController
   before_action :get_rental
+  before_action :get_incidental, only: [:show, :edit, :update, :destroy]
 
   def index
     @incidentals = @rental.incurred_incidentals
   end
 
   def show
-    @incidental = IncurredIncidental.find(params[:id])
+
   end
 
   def new
@@ -25,12 +26,9 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def edit
-    @incidental = IncurredIncidental.find(params[:id])
   end
 
   def update
-    @incidental = IncurredIncidental.find(params[:id])
-
     respond_to do |format|
       if @incidental.update(incidental_params)
         format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental), notice: 'Incidental successfully updated.' }
@@ -42,12 +40,19 @@ class IncurredIncidentalsController < ApplicationController
 
   def destroy
     @incidental.destroy
+    respond_to do |format|
+      format.html { redirect_to rental_incurred_incidentals_path, notice: 'Incidental successfully destroyed.' }
+    end
   end
 
   private
 
     def get_rental
       @rental = Rental.find(params[:rental_id])
+    end
+
+    def get_incidental
+      @incidental = IncurredIncidental.find(params[:id])
     end
 
     def incidental_params
