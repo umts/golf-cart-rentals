@@ -28,7 +28,11 @@ if Rails.env.development?
   puts "Creating list of incidentals"
   incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
   incidentals.each do |i|
-    IncidentalType.where(name: i["name"]).first_or_create
+    IncidentalType.where(name: i['name'],
+                         description: i['description'],
+                         base: i['base'],
+                         modifier_amount: i['modifier_amount'],
+                         modifier_description: i['modifier_description']).first_or_create
   end
 
   puts " "
