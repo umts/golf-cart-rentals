@@ -1,23 +1,23 @@
-- name: "Minor Damage"
-  description: "Minor damage to cart. Includes scratches, small dents, etc."
+- name: 'Minor Damage'
+  description: 'Minor damage to cart. Includes scratches, small dents, etc.'
   base: 25
   modifier_amount: 15
-  modifier_description: "Multiple minor infractions"
+  modifier_description: 'Multiple minor infractions'
 
-- name: "Severe Damage"
-  description: "Severe damage to cart that warrants repairs or replacement.  Includes large dents, broken parts, etc."
+- name: 'Severe Damage'
+  description: 'Severe damage to cart that warrants repairs or replacement.  Includes large dents, broken parts, etc.'
   base: 100
   modifier_amount: 100
-  modifier_description: "Multiple major infractions"
+  modifier_description: 'Multiple major infractions'
 
-- name: "Lost/Stolen"
-  description: "Cart was lost or stolen"
+- name: 'Lost/Stolen'
+  description: 'Cart was lost or stolen'
   base: 1000000
   modifier_amount: 500
-  modifier_description: "Cart was lost/stolen...repeatedly"
+  modifier_description: 'Cart was lost/stolen...repeatedly'
 
-- name: "Late Return"
-  description: "Cart was returned late"
+- name: 'Late Return'
+  description: 'Cart was returned late'
   base: 10
   modifier_amount: 15
-  modifier_description: "Repeated late return"
+  modifier_description: 'Repeated late return'
