@@ -1,8 +1,30 @@
-<h1>Report of Incurred Incidentals for Rental: @rental.id</h1>
-<ul>
-  <% @incidentals.each do |i| %>
-    <li>
-      <%= i %>
-    </li>
-  <% end %>
-</ul>
+<h1>Report of Incurred Incidentals for Rental: <%= @rental.id %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incidental Type</th>
+      <th>Times Modified</th>
+      <th>Notes</th>
+      <th>Document</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @incidentals.each do |i| %>
+      <tr>
+        <td><%= i.incidental_type.name %></td>
+        <td><%= i.times_modified %></td>
+        <td><%= i.notes %></td>
+        <td><%= i.document %></td>
+        <td><%= link_to 'Show', rental_incurred_incidental_path(@rental, i) %></td>
+        <td><%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, i) %></td>
+        <td><%= link_to 'Destroy', rental_incurred_incidental_path(@rental, i), method: :delete, data: { confirm: 'Confirm Delete' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Incurred Incidental', new_rental_incurred_incidental_path %>

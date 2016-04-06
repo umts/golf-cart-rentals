@@ -1,1 +1,22 @@
-<%= @incidental %>
+<p>
+  <strong>Incidental Type:</strong>
+  <%= @incidental.incidental_type.name %>
+</p>
+
+<p>
+  <strong>Number of times modified:</strong>
+  <%= @incidental.times_modified %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @incidental.notes %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @incidental.document %>
+</p>
+
+<%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, @incidental) %> |
+<%= link_to 'Back', rental_incurred_incidentals_path %>

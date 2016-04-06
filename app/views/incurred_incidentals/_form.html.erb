@@ -1,4 +1,4 @@
-<%= form_for(@incidental) do |i| %>
+<%= form_for([@rental, @incidental]) do |i| %>
   <%= i.label :times_modified %>
   <%= i.text_field :times_modified %>
 
