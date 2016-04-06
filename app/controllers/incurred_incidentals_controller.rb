@@ -29,6 +29,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def edit
+    @incidental = IncurredIncidental.find(params[:id])
   end
 
   def update
@@ -49,6 +50,7 @@ class IncurredIncidentalsController < ApplicationController
   #                  notice: 'Incidental successfully destroyed.' }
   #  end
   #end
+
   def change_active
     respond_to do |format|
       if @incidental.update(is_active: @incidental.re_de_activate)
