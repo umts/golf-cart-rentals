@@ -12,31 +12,34 @@ class IncurredIncidentalsController < ApplicationController
     @incurred_incidental = IncurredIncidental.new
   end
 
-  def edit
-  end
-
   def show
+    @incidental = IncurredIncidental.find(params[:id])
   end
 
   def create
-    @incurred_incidental = IncurredIncidental.new(incurred_incidental_params)
-
-    if @incurred_incidental.save
-      flash[:success] = 'New Incurred Incidental Was Successfully Created'
-      redirect_to @incurred_incidental
-    else
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
+    @incidental = @rental.incurred_incidentals.new(incidental_params)
+    respond_to do |format|
+      if @incidental.save
+        format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental), notice: 'Incidental successfully created.' }
+      else
+        format.html { render :new }
+      end
     end
   end
 
+  def edit
+    @incidental = IncurredIncidental.find(params[:id])
+  end
+
   def update
-    if @incurred_incidental.update(incurred_incidental_params)
-      flash[:success] = 'Incurred Incidental Was Successfully Updated'
-      redirect_to @incurred_incidental
-    else
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
+    @incidental = IncurredIncidental.find(params[:id])
+
+    respond_to do |format|
+      if @incidental.update(incidental_params)
+        format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental), notice: 'Incidental successfully updated.' }
+      else
+        format.html { render :edit }
+      end
     end
   end
 
