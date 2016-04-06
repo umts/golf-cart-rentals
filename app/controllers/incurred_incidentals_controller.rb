@@ -29,7 +29,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def edit
-    @incidental = IncurredIncidental.find(params[:id])
   end
 
   def update
