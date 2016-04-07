@@ -1,6 +1,7 @@
 class IncurredIncidental < ActiveRecord::Base
   belongs_to :rental
   belongs_to :incidental_type
+  has_many :documents
   validates :times_modified, :notes, presence: true
   validates_associated :incidental_type
 
