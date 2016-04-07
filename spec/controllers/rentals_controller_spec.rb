@@ -3,11 +3,8 @@ require 'rails_helper'
 describe RentalsController do
   let!(:rental) { create(:rental) }
   let!(:rental2) { create(:rental) }
-
-  before(:each) do
-    @current_user = create(:user)
-    controller.instance_variable_set('@current_user', @current_user)
-  end
+  
+  before(:each) { set_current_user }
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
