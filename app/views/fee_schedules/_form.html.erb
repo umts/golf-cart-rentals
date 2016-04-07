@@ -1,25 +1,29 @@
 <%= form_for(@fee_schedule) do |f| %>
-  <% if @fee_schedule.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@fee_schedule.errors.count, "error") %> prohibited this fee_schedule from being saved:</h2>
-
-      <ul>
-      <% @fee_schedule.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="form-group col-xs-12">
+    <%= f.label :type, 'Item Type', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", required: true %>
     </div>
-  <% end %>
+  </div>
 
-  <div class="field">
-    <%= f.label :base_amount %><br>
-    <%= f.text_field :base_amount %>
+  <div class="form-group col-xs-12">
+    <%= f.label :base_amount, 'Base Fee', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.number_field :base_amount, class: 'form-control', min: 0, step: 0.01, required: true %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :amount_per_day %><br>
-    <%= f.text_field :amount_per_day %>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :amount_per_day, 'Fee Per Day', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.number_field :amount_per_day, class: 'form-control', min: 0, step: 0.01, required: true %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit class: "btn btn-primary" %>
+      <%= link_to 'Back', fee_schedules_path, class: "btn btn-default" %>
+    </div>
   </div>
 <% end %>
