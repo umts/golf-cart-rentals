@@ -31,9 +31,9 @@ class ItemTypesController < ApplicationController
 
     if @item_type.update(item_type_params)
       flash[:success] = 'Item Type Was Successfully Updated'
-      redirect_to @item_type_params
+      redirect_to @item_type
     else
-      @item_type_params.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
   end
@@ -53,6 +53,6 @@ class ItemTypesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def item_type_params
-    params.require(:item_type).permit(:name, :string, :fee_schedule, :references)
+    params.require(:item_type).permit(:name, :string, :base_fee, :fee_per_day, :disclaimer)
   end
 end
