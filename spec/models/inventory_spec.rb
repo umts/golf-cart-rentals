@@ -14,7 +14,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     #create
     expect { response = Inventory.create_item_type(name, ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
     expect(response).to be_a(Hash)
-    expect(uuid = response.try(:[],'id')).not_to be_nil
+    expect(uuid = response.try(:[],'uuid')).not_to be_nil
     
     # get all
     expect { response = Inventory.item_types }.not_to raise_error
@@ -24,15 +24,16 @@ RSpec.describe Inventory, order: :defined, type: :model do
     # get one
     expect { response = Inventory.item_type(uuid) }.not_to raise_error
     expect(response).to be_a(Hash)
-    expect(response.try(:[],'id')).to eq(uuid)
+    expect(response.try(:[],'uuid')).to eq(uuid)
     expect(response.try(:[],'name')).to eq(name)
 
     # update it
-    expect { response = Inventory.update_item_type(uuid, params = nil) }.not_to raise_error
+    expect { response = Inventory.update_item_type(uuid, params = {allowed_keys: ['color']}) }.not_to raise_error
     expect(response).to be_a(Hash)
+    expect(response.try(:[],'allowed_keys')).to eq(['color'])
 
     # delete it
-    expect { response = Inventory.delete_item_type(uuid) } .not_to raise_error
+    expect { response = Inventory.delete_item_type(uuid) }.not_to raise_error
     expect(response).to be_nil
   end
 

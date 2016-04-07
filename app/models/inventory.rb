@@ -1,6 +1,6 @@
 require 'json'
 class Inventory
-  @base_uri = Rails.application.config.inventory_api_uri
+  @base_uri = 'http://localhost:3000/v1/' #Rails.application.config.inventory_api_uri
   @api_key = INVENTORY_API_KEY
   @post_headers = { 'Authorization' => "Token #{@api_key}", 'Content-Type' => 'application/json' }
   @get_headers = { 'Authorization' => "Token #{@api_key}" }
@@ -33,10 +33,12 @@ class Inventory
 
   def self.update_item_type(uuid, params = {})
     fail ArgumentError if params.empty?
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
-                \"allowed_keys\": [\"flavor\"],
-                \"items\": [{\"name\": \"Macintosh\"},
-                            {\"name\": \"Granny Smith\"}]}")
+    response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
+    fail AuthError if response.code == 401
+    fail ItemTypeError if response.code == 422
+    fail ItemTypeNotFound if response.code == 404
+    fail InventoryError if response.code != 200
+    JSON.parse(response.body)
   end
 
   def self.delete_item_type(_uuid)
