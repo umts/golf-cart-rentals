@@ -1,13 +1,13 @@
 class RentalsController < ApplicationController
-  @@per_page = 10
+  @per_page = 10
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
-  before_action :get_item_types, only: [:index, :new, :create, :edit, :update]
+  before_action :set_item_types, only: [:index, :new, :create, :edit, :update]
 
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
-    @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @@per_page)
+    @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
   end
 
@@ -43,11 +43,10 @@ class RentalsController < ApplicationController
     if @rental.delete_reservation
       @rental.destroy
       flash[:success] = 'Rental Was Successfully Deleted'
-      redirect_to :back
     else
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      redirect_to :back
     end
+    redirect_to :back
   end
 
   private
@@ -57,7 +56,7 @@ class RentalsController < ApplicationController
     @rental = Rental.find(params[:id])
   end
 
-  def get_item_types
+  def set_item_types
     @item_types = ItemType.all
   end
 

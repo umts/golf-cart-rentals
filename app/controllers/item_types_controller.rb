@@ -28,7 +28,6 @@ class ItemTypesController < ApplicationController
   end
 
   def update
-
     if @item_type.update(item_type_params)
       flash[:success] = 'Item Type Was Successfully Updated'
       redirect_to @item_type
