@@ -20,3 +20,14 @@ RSpec.configure do |config|
     Permission.update_permissions_table
   end
 end
+
+
+# Helper method
+def set_current_user(user=nil)
+  if user
+    @current_user = user
+  else
+    @current_user = create(:user)
+  end
+  controller.instance_variable_set('@current_user', @current_user)
+end
