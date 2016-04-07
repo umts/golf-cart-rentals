@@ -2,21 +2,21 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Base Fee</label>
-  <span class="form-control-static"><%= number_to_currency @item_type.base_fee %></span>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @item_type.base_fee %></div>
 </div>
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Fee Per Day</label>
-  <span class="form-control-static"><%= number_to_currency @item_type.fee_per_day %></span>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @item_type.fee_per_day %></div>
 </div>
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Dislcaimer</label>
-  <span class="form-control-static"><%= simple_format @item_type.disclaimer %></span>
+  <div class="form-control-information col-xs-10"><%= simple_format @item_type.disclaimer %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <div class="col-xs-offset-2">
+  <div class="col-xs-offset-2 col-xs-10">
     <%= link_to 'Edit Item Type', edit_item_type_path(@item_type), class: "btn btn-primary" %>
     <%= link_to 'Back', item_types_path, class: "btn btn-default" %>
   </div>
