@@ -23,14 +23,6 @@ ActiveRecord::Schema.define(version: 20160222142237) do
 
   add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
 
-  create_table "fee_schedules", force: :cascade do |t|
-    t.float    "base_amount",    limit: 24
-    t.float    "amount_per_day", limit: 24
-    t.integer  "item_type_id",   limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
     t.string   "description", limit: 255, null: false
@@ -82,14 +74,13 @@ ActiveRecord::Schema.define(version: 20160222142237) do
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
-    t.string   "name",            limit: 255,   null: false
-    t.text     "disclaimer",      limit: 65535
-    t.integer  "fee_schedule_id", limit: 4
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.string   "name",        limit: 255,   null: false
+    t.text     "disclaimer",  limit: 65535
+    t.float    "base_fee",    limit: 24
+    t.float    "fee_per_day", limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
-
-  add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false

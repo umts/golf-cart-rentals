@@ -61,12 +61,10 @@ class Rental < ActiveRecord::Base
 
   def delete_reservation
     reservation = Inventory.delete_reservation(reservation_id)
-    if reservation
-      errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
-      return false
-    else
-      return true
-    end
+    return true unless reservation
+
+    errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
+    false
   end
 
   def mostly_valid?
@@ -77,8 +75,8 @@ class Rental < ActiveRecord::Base
   end
 
   def dates
-    date_string = start_date.strftime("%a %m/%d/%Y")
-    date_string += " - #{end_date.strftime("%a %m/%d/%Y")}" if start_date != end_date
+    date_string = start_date.strftime('%a %m/%d/%Y')
+    date_string += " - #{end_date.strftime('%a %m/%d/%Y')}" if start_date != end_date
     date_string
   end
 

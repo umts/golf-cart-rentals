@@ -1,9 +1,23 @@
-<p id="notice"><%= notice %></p>
+<% provide( :page_header, @item_type.name ) %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @item_type.name %>
-</p>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Base Fee</label>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @item_type.base_fee %></div>
+</div>
 
-<%= link_to 'Edit', edit_item_type_path(@item_type) %> |
-<%= link_to 'Back', item_types_path %>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Fee Per Day</label>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @item_type.fee_per_day %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Dislcaimer</label>
+  <div class="form-control-information col-xs-10"><%= simple_format @item_type.disclaimer %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-10">
+    <%= link_to 'Edit Item Type', edit_item_type_path(@item_type), class: "btn btn-primary" %>
+    <%= link_to 'Back', item_types_path, class: "btn btn-default" %>
+  </div>
+</div>
