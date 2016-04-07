@@ -8,9 +8,9 @@ class ItemTypesController < ApplicationController
   def show
   end
 
-  def new
-    @item_type = ItemType.new
-  end
+  # def new
+  #   @item_type = ItemType.new
+  # end
 
   def edit
   end

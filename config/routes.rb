@@ -16,8 +16,7 @@ Rails.application.routes.draw do
     post :remove_user, on: :member
   end
   resources :users
-  resources :fee_schedules
-  resources :item_types
+  resources :item_types, except: :new
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
