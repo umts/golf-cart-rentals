@@ -24,13 +24,10 @@ ActiveRecord::Schema.define(version: 20160407191602) do
   add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
-    t.string   "filename",               limit: 255, null: false
-    t.integer  "incurred_incidental_id", limit: 4
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.string   "filename",   limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
-
-  add_index "documents", ["incurred_incidental_id"], name: "index_documents_on_incurred_incidental_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -80,6 +77,17 @@ ActiveRecord::Schema.define(version: 20160407191602) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
+
+  create_table "incurred_incidentals_documents", force: :cascade do |t|
+    t.integer  "incurred_incidental_id", limit: 4, null: false
+    t.integer  "document_id",            limit: 4, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id", "document_id"], name: "incidentals_documents_id", unique: true, using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
     t.string   "name",        limit: 255,   null: false
@@ -145,4 +153,6 @@ ActiveRecord::Schema.define(version: 20160407191602) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
+  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end
