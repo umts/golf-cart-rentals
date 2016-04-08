@@ -31,7 +31,7 @@ class Inventory
     JSON.parse(response.body)
   end
 
-  def self.update_item_type(uuid, params = {})
+  def self.update_item_type(uuid, params)
     fail ArgumentError if params.empty?
     response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
     fail AuthError if response.code == 401
@@ -50,21 +50,37 @@ class Inventory
     # returns nothing on success
   end
 
-  def self.create_item(name, item_type_uuid, metadata = {})
-    JSON.parse("{\"id\": 300, \"name\": \"#{name}\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": #{metadata}}")
-  end
-
-  def self.items_by_type(item_type_uuid)
-    JSON.parse("[{\"id\": 300, \"name\": \"Awesome new couch\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {}},
-                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]")
+  def self.create_item(item_type_uuid, name, reservable, metadata = {})
+    response = HTTParty.post(@base_uri + 'items/',
+                             body: { 'name' => name, 'item_type_uuid' => item_type_uuid, 'reservable' => reservable, 'data' => metadata }.to_json,
+                             headers: @post_headers)
+    fail AuthError if response.code == 401
+    fail InvalidItemCreation if response.code == 422
+    fail InventoryError if response.code != 200 # handles stuff like a 500
+    JSON.parse(response.body)
   end
 
   def self.item(uuid)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Awesome new couch\", \"item_type_id\": 101, \"data\": {}}")
+    response = HTTParty.get(@base_uri + "items/#{uuid}", headers: @get_headers)
+    fail AuthError if response.code == 401
+    fail ItemTypeError if response.code == 422
+    fail ItemTypeNotFound if response.code == 404
+    fail InventoryError if response.code != 200
+    JSON.parse(response.body)
   end
 
-  def self.update_item(uuid, _key, _value)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Awesome new couch\", \"item_type_id\": 101, \"data\": {}}")
+  def self.items_by_type(item_type_uuid)
+    item_type(item_type_uuid)['items']
+  end
+
+  def self.update_item(uuid, params = {})
+    fail ArgumentError if params.empty?
+    response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
+    fail AuthError if response.code == 401
+    fail ItemTypeError if response.code == 422
+    fail ItemTypeNotFound if response.code == 404
+    fail InventoryError if response.code != 200
+    JSON.parse(response.body)
   end
 
   def self.delete_item(_uuid)
