@@ -52,8 +52,12 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response).to include({'name' => name, 'uuid' => item_uuid})
 
     # updates item
-    expect { response = Inventory.update_item(item_type_uuid, {}) }.not_to raise_error
+    expect { response = Inventory.update_item(item_uuid, {name: name+'a', data: {color: "red (becuase it's faster)"}}) }.not_to raise_error
     expect(response).to be_a(Hash)
+    expect(response.try(:[],'name')).not_to be_nil
+    expect(response.try(:[],'name')).not_to eq(name)
+    expect(response.try(:[],'data')).not_to be_nil 
+    expect(response.try(:[],'data')).to eq({"color" => "red (becuase it's faster)"})
     
     # creates reservation
     expect { response = Inventory.create_reservation(item_type_uuid, Time.now, 6.days.from_now) }.not_to raise_error

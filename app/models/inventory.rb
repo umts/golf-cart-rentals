@@ -63,8 +63,8 @@ class Inventory
   def self.item(uuid)
     response = HTTParty.get(@base_uri + "items/#{uuid}", headers: @get_headers)
     fail AuthError if response.code == 401
-    fail ItemTypeError if response.code == 422
-    fail ItemTypeNotFound if response.code == 404
+    fail ItemError if response.code == 422
+    fail ItemNotFound if response.code == 404
     fail InventoryError if response.code != 200
     JSON.parse(response.body)
   end
@@ -75,10 +75,10 @@ class Inventory
 
   def self.update_item(uuid, params = {})
     fail ArgumentError if params.empty?
-    response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
+    response = HTTParty.put(@base_uri + "items/#{uuid}", body: params.to_json, headers: @post_headers)
     fail AuthError if response.code == 401
-    fail ItemTypeError if response.code == 422
-    fail ItemTypeNotFound if response.code == 404
+    fail ItemError if response.code == 422
+    fail ItemNotFound if response.code == 404
     fail InventoryError if response.code != 200
     JSON.parse(response.body)
   end
