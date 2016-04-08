@@ -41,7 +41,12 @@ class Inventory
     JSON.parse(response.body)
   end
 
-  def self.delete_item_type(_uuid)
+  def self.delete_item_type(uuid)
+    response = HTTParty.delete(@base_uri + "item_types/#{uuid}", headers: @get_headers)
+    fail AuthError if response.code == 401
+    fail ItemTypeError if response.code == 422
+    fail ItemTypeNotFound if response.code == 404
+    fail InventoryError if response.code != 200
     # returns nothing on success
   end
 

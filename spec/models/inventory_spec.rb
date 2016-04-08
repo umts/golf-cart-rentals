@@ -35,72 +35,71 @@ RSpec.describe Inventory, order: :defined, type: :model do
     # delete it
     expect { response = Inventory.delete_item_type(uuid) }.not_to raise_error
     expect(response).to be_nil
+    expect { Inventory.item_type(uuid) }.to raise_error ItemTypeNotFound
+
+    @instance_var = 'some value that definatly is not nil'
   end
 
-  context 'items' do
-    it 'creates item' do
-      response = nil
-      expect { response = Inventory.create_item('billy', @uuid, {}) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'gets items by type' do
-      response = nil
-      expect { response = Inventory.items_by_type(@uuid) }.not_to raise_error
-      expect(response).to be_a(Array)
-    end
-    it 'get item by uuid' do
-      response = nil
-      expect { response = Inventory.item(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'updates item' do
-      response = nil
-      expect { response = Inventory.update_item(@uuid, 'fur_color', 'brown') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
+  it 'items' do
+    # creates item
+    response = nil
+    expect { response = Inventory.create_item('billy', @uuid, {}) }.not_to raise_error
+    expect(response).to be_a(Hash)
 
-    it 'deletes item' do
-      response = nil
-      expect { response = Inventory.delete_item(@uuid) }.not_to raise_error
-      expect(response).to be_nil
-    end
+    # gets items by type
+    response = nil
+    expect { response = Inventory.items_by_type(@uuid) }.not_to raise_error
+    expect(response).to be_a(Array)
+
+    # get item by uuid
+    response = nil
+    expect { response = Inventory.item(@uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+
+    # updates item
+    response = nil
+    expect { response = Inventory.update_item(@uuid, 'fur_color', 'brown') }.not_to raise_error
+    expect(response).to be_a(Hash)
+
+    # deletes item
+    response = nil
+    expect { response = Inventory.delete_item(@uuid) }.not_to raise_error
+    expect(response).to be_nil
   end
 
-  context 'reservations' do
-    it 'creates reservation' do
-      response = nil
-      expect { response = Inventory.create_reservation(@uuid, Time.now, 6.days.from_now) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'update reservation' do
-      response = nil
-      expect { response = Inventory.update_reservation(@uuid, 'key', 'value') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'get reservation' do
-      response = nil
-      expect { response = Inventory.reservation(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'delete reservation' do
-      response = nil
-      expect { response = Inventory.delete_reservation(@uuid) }.not_to raise_error
-      expect(response).to be_nil
-    end
-    it 'updates reservation\'s metadata' do
-      response = nil
-      expect { response = Inventory.update_reservation_data('key', 'value') }.not_to raise_error
-      expect(response).to be_nil
-    end
-    it 'searches by time period' do
-      response = nil
-      expect { response = Inventory.reservations(Time.now, 6.days.from_now) }.not_to raise_error
-      expect(response).to be_a(Array)
-    end
+  it 'reservations' do
+    # creates reservation
+    response = nil
+    expect { response = Inventory.create_reservation(@uuid, Time.now, 6.days.from_now) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    
+    # get reservation
+    response = nil
+    expect { response = Inventory.reservation(@uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+
+    # searches by time period
+    response = nil
+    expect { response = Inventory.reservations(Time.now, 6.days.from_now) }.not_to raise_error
+    expect(response).to be_a(Array)
+
+    #update reservation
+    response = nil
+    expect { response = Inventory.update_reservation(@uuid, 'key', 'value') }.not_to raise_error
+    expect(response).to be_a(Hash)
+
+    # updates reservation's metadata
+    response = nil
+    expect { response = Inventory.update_reservation_data('key', 'value') }.not_to raise_error
+    expect(response).to be_nil
+
+    # delete reservation
+    response = nil
+    expect { response = Inventory.delete_reservation(@uuid) }.not_to raise_error
+    expect(response).to be_nil
+  end
+
+  it 'cleans up' do
+    expect(@instance_var).not_to be_nill
   end
 end
-
-RSpec.describe Inventory, order: :defined, type: :model do
-  @value = 'kowla'
-end
-  
