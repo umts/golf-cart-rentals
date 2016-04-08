@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404192447) do
+ActiveRecord::Schema.define(version: 20160408192747) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -72,20 +72,22 @@ ActiveRecord::Schema.define(version: 20160404192447) do
     t.integer  "incidental_type_id", limit: 4
     t.decimal  "times_modified",                   precision: 10
     t.text     "notes",              limit: 65535
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.text     "document",           limit: 65535
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.integer  "rental_id",          limit: 4
+    t.boolean  "is_active",                                       default: true
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-<<<<<<< 01720d3ff60a25b78013412c203b86608e7d9e73
 
   create_table "incurred_incidentals_documents", force: :cascade do |t|
     t.integer  "incurred_incidental_id", limit: 4, null: false
     t.integer  "document_id",            limit: 4, null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
-=======
+  end
+
   add_index "incurred_incidentals", ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
@@ -93,7 +95,6 @@ ActiveRecord::Schema.define(version: 20160404192447) do
     t.integer  "fee_schedule_id", limit: 4
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
->>>>>>> started work on incurred incidentals. created controller with basic actions, views, and routes. added seeds for incidentals. added relation between rentals and incidentals
   end
 
   add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
@@ -164,10 +165,7 @@ ActiveRecord::Schema.define(version: 20160404192447) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
-<<<<<<< 01720d3ff60a25b78013412c203b86608e7d9e73
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
-=======
   add_foreign_key "incurred_incidentals", "rentals"
->>>>>>> started work on incurred incidentals. created controller with basic actions, views, and routes. added seeds for incidentals. added relation between rentals and incidentals
 end
