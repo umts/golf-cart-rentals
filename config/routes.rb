@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   resources :reservations
 
   resources :rentals do
-    resources :incurred_incidentals
+    resources :incurred_incidentals, except: [:destroy] do
+      patch :active, on: :member
+    end
   end
 
   #Errors --------------------------------------------------------------

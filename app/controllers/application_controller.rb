@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def has_permission?
     # allow anyone in test
-    return true if Rails.env.test?
+    return true if Rails.env.test? || Rails.env.development? #temp while testing incurred_incidentals
 
     # allow anyone to view the root and 404 pages
     return true if has_global_permission?

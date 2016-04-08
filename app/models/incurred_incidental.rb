@@ -14,8 +14,12 @@ class IncurredIncidental < ActiveRecord::Base
   validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' }
   validates_associated :incidental_type
 
+  def re_de_activate
+    is_active? ? is_active = false : is_active = true
+  end
+
   def fee
-    incidental_type.base + (times_modified * incidental_type.modifier_amount)
+    is_active? ? incidental_type.base + (times_modified * incidental_type.modifier_amount) : 0
   end
 
   # private

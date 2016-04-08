@@ -42,11 +42,21 @@ class IncurredIncidentalsController < ApplicationController
     end
   end
 
-  def destroy
-    @incidental.destroy
+  #def destroy
+  #  @incidental.destroy
+  #  respond_to do |format|
+  #    format.html { redirect_to rental_incurred_incidentals_path,
+  #                  notice: 'Incidental successfully destroyed.' }
+  #  end
+  #end
+  def change_active
     respond_to do |format|
-      format.html { redirect_to rental_incurred_incidentals_path,
-                    notice: 'Incidental successfully destroyed.' }
+      if @incidental.update(is_active: @incidental.re_de_activate)
+        format.html { redirect_to rental_incurred_incidentals_path,
+                      notice: 'Incidental successfully updated.' }
+      else
+        format.html { render :index, notice: 'Failed to update incidental' }
+      end
     end
   end
 
