@@ -15,6 +15,6 @@ class CreateDocuments < ActiveRecord::Migration
 
     add_foreign_key :incurred_incidentals_documents, :incurred_incidentals, name: 'fk_incurred_incidentals_documents_incurred_incidentals'
     add_foreign_key :incurred_incidentals_documents, :documents, name: 'fk_incurred_incidentals_documents_documents'
-    add_index(:incurred_incidentals_documents, [:incurred_incidental_id, :document_id], unique: true, name: "incidentals_documents_id")
+    add_index :incurred_incidentals_documents, [:incurred_incidental_id, :document_id], unique: true, name: "index_on_incidentals_documents_id"
   end
 end
