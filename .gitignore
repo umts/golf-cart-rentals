@@ -18,3 +18,10 @@
 
 # Ignore sensitive config files
 /config/database.yml
+
+# Ignore storage files
+storage/development/*
+storage/production/*
+
+#Keep these empty folders
+!.keep

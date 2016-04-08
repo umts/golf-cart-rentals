@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222142237) do
+ActiveRecord::Schema.define(version: 20160407191602) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -22,6 +22,12 @@ ActiveRecord::Schema.define(version: 20160222142237) do
   end
 
   add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "filename",   limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -66,12 +72,22 @@ ActiveRecord::Schema.define(version: 20160222142237) do
     t.integer  "incidental_type_id", limit: 4
     t.decimal  "times_modified",                   precision: 10
     t.text     "notes",              limit: 65535
-    t.text     "document",           limit: 65535
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
+
+  create_table "incurred_incidentals_documents", force: :cascade do |t|
+    t.integer  "incurred_incidental_id", limit: 4, null: false
+    t.integer  "document_id",            limit: 4, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
     t.string   "name",        limit: 255,   null: false
@@ -137,4 +153,6 @@ ActiveRecord::Schema.define(version: 20160222142237) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
+  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end
