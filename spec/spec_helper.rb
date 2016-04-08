@@ -22,7 +22,7 @@ RSpec.configure do |config|
 end
 
 # Helper method
-def set_current_user(user = nil)
+def current_user(user = nil)
   @current_user = if user
                     user
                   else
