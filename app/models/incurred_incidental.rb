@@ -26,4 +26,5 @@ class IncurredIncidental < ActiveRecord::Base
   def create_financial_transaction
     FinancialTransaction.create rental: rental, amount: fee, transactable_type: self.class, transactable_id: id
   end
+
 end
