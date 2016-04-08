@@ -6,7 +6,6 @@ class ItemTypesController < ApplicationController
   end
 
   def show
-    send_file IncurredIncidental.first.documents.first.file
   end
 
   # def new
