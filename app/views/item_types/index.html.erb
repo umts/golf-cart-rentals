@@ -17,6 +17,7 @@
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), item_type, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_item_type_path(item_type), class: "btn btn-xs btn-primary" %>
+        <%= link_to "DL", item_type %>
       </td>
     </tr>
   <% end %>
