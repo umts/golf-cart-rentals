@@ -1,6 +1,9 @@
 class IncurredIncidentalsController < ApplicationController
+  # Set auto papertrail
+  before_action :set_paper_trail_whodunnit
+
   before_action :get_rental
-  before_action :get_incidental, only: [:show, :edit, :update, :destroy]
+  before_action :get_incidental, only: [:show, :edit, :update, :deactivate]
 
   def index
     @incidentals = @rental.incurred_incidentals
@@ -39,11 +42,21 @@ class IncurredIncidentalsController < ApplicationController
     end
   end
 
-  def destroy
-    @incidental.destroy
+  #def destroy
+  #  @incidental.destroy
+  #  respond_to do |format|
+  #    format.html { redirect_to rental_incurred_incidentals_path,
+  #                  notice: 'Incidental successfully destroyed.' }
+  #  end
+  #end
+  def change_active
     respond_to do |format|
-      format.html { redirect_to rental_incurred_incidentals_path,
-                    notice: 'Incidental successfully destroyed.' }
+      if @incidental.update(is_active: @incidental.re_de_activate)
+        format.html { redirect_to rental_incurred_incidentals_path,
+                      notice: 'Incidental successfully updated.' }
+      else
+        format.html { render :index, notice: 'Failed to update incidental' }
+      end
     end
   end
 
@@ -58,7 +71,7 @@ class IncurredIncidentalsController < ApplicationController
     end
 
     def incidental_params
-      params.require(:incurred_incidental).permit(:times_modified, :notes, :document)
+      params.require(:incurred_incidental).permit(:incidental_type_id, :times_modified, :notes, :document, :is_active)
     end
 
 end

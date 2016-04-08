@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404192447) do
+ActiveRecord::Schema.define(version: 20160408192747) do
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -65,9 +65,10 @@ ActiveRecord::Schema.define(version: 20160404192447) do
     t.decimal  "times_modified",                   precision: 10
     t.text     "notes",              limit: 65535
     t.text     "document",           limit: 65535
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.integer  "rental_id",          limit: 4
+    t.boolean  "is_active",                                       default: true
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
