@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def button_to(*_args)
-    fail 'Button to is not protected by permissions'
+    raise 'Button to is not protected by permissions'
   end
 
   # Helper to handle and render multiple flash messages
