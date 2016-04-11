@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe IncurredIncidental, type: :model do
-  context 'will properly do validations' do
+  context 'properly does validations' do
     it 'builds a IncurredIncidental given proper parameters' do
       expect(build(:incurred_incidental)).to be_valid
     end
