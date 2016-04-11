@@ -1,7 +1,7 @@
 class CreateRentals < ActiveRecord::Migration
   def change
     create_table :rentals do |t|
-      t.string :rental_status
+      t.string :rental_status, null: false
       t.integer :user_id, null: false
       t.integer :department_id
       t.integer :reservation_id, null: false

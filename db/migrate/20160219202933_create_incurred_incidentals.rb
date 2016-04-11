@@ -4,7 +4,6 @@ class CreateIncurredIncidentals < ActiveRecord::Migration
       t.references :incidental_type, index: true, foreign_key: true
       t.decimal :times_modified
       t.text :notes
-      t.text :document
 
       t.timestamps null: false
     end

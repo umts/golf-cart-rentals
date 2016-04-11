@@ -22,3 +22,10 @@
 # Ignore development files
 /.idea/*
 *.swp
+
+# Ignore storage files
+storage/development/*
+storage/production/*
+
+#Keep these empty folders
+!.keep

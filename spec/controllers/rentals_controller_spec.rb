@@ -143,10 +143,7 @@ describe RentalsController do
   let!(:rental) { create(:rental) }
   let!(:rental2) { create(:rental) }
 
-  before(:each) do
-    @current_user = create(:user)
-    controller.instance_variable_set('@current_user', @current_user)
-  end
+  before(:each) { current_user }
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
@@ -241,7 +238,7 @@ describe RentalsController do
 =======
   describe 'POST #destroy' do
     before :each do
-      request.env["HTTP_REFERER"] = "back_page"
+      request.env['HTTP_REFERER'] = 'back_page'
     end
     it 'deletes the rental from the database' do
       expect do
@@ -250,7 +247,7 @@ describe RentalsController do
     end
     it 'redirects back a page' do
       delete :destroy, id: rental
-      expect(response).to redirect_to "back_page"
+      expect(response).to redirect_to 'back_page'
     end
   end
 >>>>>>> bffca3d21e8ccb401896c14ad4e397b152895acb

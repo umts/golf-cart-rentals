@@ -16,21 +16,21 @@
     <%= f.submit %>
 =======
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="item_type_id">Type</label>
+    <%= f.label :type, 'Item Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.select :item_type_id, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="start_date">Start Date</label>
+    <%= f.label :start_date, 'Start Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.date_field :start_date, value: @start_date || Time.zone.today, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="end_date">End Date</label>
+    <%= f.label :end_date, 'End Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.date_field :end_date, value: @end_date || Time.zone.today, required: true, class: "form-control" %>
     </div>

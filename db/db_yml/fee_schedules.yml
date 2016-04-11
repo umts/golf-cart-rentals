@@ -1,7 +1,0 @@
-- base_amount: 75
-  amount_per_day: 35
-  type_name: '4 Seat'
-
-- base_amount: 100
-  amount_per_day: 40
-  type_name: '6 Seat'
