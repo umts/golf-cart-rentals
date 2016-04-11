@@ -44,4 +44,5 @@ class User < ActiveRecord::Base
   def has_group?(group)
     groups.include? group
   end
+
 end
