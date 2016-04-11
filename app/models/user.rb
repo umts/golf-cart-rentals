@@ -5,7 +5,9 @@ class User < ActiveRecord::Base
   has_many   :groups, through: :groups_users
   has_many   :permissions, -> { uniq }, through: :groups
   has_many   :rentals
-  belongs_to :department
+  has_one    :departments_user, dependent: :destroy
+
+  delegate   :department, to: :departments_user
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
   validates :spire_id, uniqueness: true

@@ -9,6 +9,12 @@ if Rails.env.development?
     Group.where(name: group['name'], description: group['description']).first_or_create
   end
 
+  puts 'Creating departments'
+  departments = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'departments.yml'))
+  departments.each do |department|
+    Department.where(name: department['name'], active: true).first_or_create
+  end
+
   puts 'Creating users'
   users = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'users.yml'))
   users.each do |user|
@@ -18,6 +24,10 @@ if Rails.env.development?
   puts 'Putting users in admin group'
   admin = Group.find_by name: 'admin'
   GroupsUser.where(group: admin, user: User.first).first_or_create
+
+  puts 'Putting users in Parking department'
+  parking = Department.find_by name: 'Parking'
+  DepartmentsUser.where(department: parking, user: User.first).first_or_create
 
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
