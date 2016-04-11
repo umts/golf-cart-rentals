@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160301211032) do
+=======
+ActiveRecord::Schema.define(version: 20160222142237) do
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "name",       limit: 255,                null: false
+    t.integer  "user_id",    limit: 4,                  null: false
+    t.boolean  "active",                 default: true, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "departments", ["user_id"], name: "index_departments_on_user_id", using: :btree
+>>>>>>> bffca3d21e8ccb401896c14ad4e397b152895acb
 
   create_table "fee_schedules", force: :cascade do |t|
     t.float    "base_amount",    limit: 24
@@ -86,10 +100,11 @@ ActiveRecord::Schema.define(version: 20160301211032) do
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
 
   create_table "item_types", force: :cascade do |t|
-    t.string   "name",            limit: 255
+    t.string   "name",            limit: 255,   null: false
+    t.text     "disclaimer",      limit: 65535
     t.integer  "fee_schedule_id", limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
@@ -103,28 +118,32 @@ ActiveRecord::Schema.define(version: 20160301211032) do
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.string   "rental_status",   limit: 255
-    t.integer  "user_id",         limit: 4,   null: false
-    t.integer  "department_id",   limit: 4,   null: false
-    t.integer  "reservation_id",  limit: 4,   null: false
-    t.integer  "fee_schedule_id", limit: 4,   null: false
-    t.datetime "checked_out_at"
+    t.string   "rental_status",  limit: 255
+    t.integer  "user_id",        limit: 4,   null: false
+    t.integer  "department_id",  limit: 4
+    t.integer  "reservation_id", limit: 4,   null: false
+    t.integer  "item_type_id",   limit: 4,   null: false
+    t.datetime "start_date",                 null: false
+    t.datetime "end_date",                   null: false
     t.datetime "checked_in_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "checked_out_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
+  add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 30,                 null: false
-    t.string   "last_name",  limit: 30,                 null: false
-    t.string   "email",      limit: 255,                null: false
-    t.integer  "phone",      limit: 8,                  null: false
-    t.integer  "spire_id",   limit: 4,                  null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "first_name",    limit: 30,                 null: false
+    t.string   "last_name",     limit: 30,                 null: false
+    t.string   "email",         limit: 255,                null: false
+    t.integer  "phone",         limit: 8,                  null: false
+    t.integer  "spire_id",      limit: 4,                  null: false
+    t.integer  "department_id", limit: 4
+    t.boolean  "active",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree

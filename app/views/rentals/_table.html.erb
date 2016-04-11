@@ -1,0 +1,20 @@
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th class='col-xs-1'>Status</th>
+    <th class='col-xs-1'>Start Date</th>
+    <th class='col-xs-1'>End Date</th>
+    <th class='col-xs-1'>Item</th>
+    <th class='col-xs-1'>Amount Charged</th>
+    <th class='col-xs-1'>Amount Due</th>
+  </tr>
+  <% rentals.sort_by { |r| r.start_date }.each do |rental| %>
+    <tr>
+      <td>TBD</td>
+      <td><%= rental.start_date.strftime("%a %m/%d/%Y") %></td>
+      <td><%= rental.end_date.strftime("%a %m/%d/%Y") %></td>
+      <td><%= rental.item_type.name %></td>
+      <td>$</td>
+      <td>$</td>
+    </tr>
+  <% end %>
+</table>
