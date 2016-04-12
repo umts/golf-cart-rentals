@@ -83,14 +83,17 @@ RSpec.describe Inventory, order: :defined, type: :model do
     # searches by time period
     expect { response = Inventory.reservations(Time.now, 7.days.from_now, name) }.not_to raise_error
     expect(response).to be_a(Array)
-    expect(response).to include('start_time' => Time.now.iso8601, 'end_time' => (6.days.from_now).iso8601)
+    expect(response).to include('start_time' => Time.now.iso8601, 'end_time' => 6.days.from_now.to_time.iso8601)
 
     # update reservation
-    expect { response = Inventory.update_reservation(reservation_uuid, 'key', 'value') }.not_to raise_error
+    expect { response = Inventory.update_reservation(reservation_uuid, reservation: { start_time: (Time.now + 1.day) }) }.not_to raise_error
     expect(response).to be_a(Hash)
+    time = nil
+    expect(time = response.try(:[], 'start_time')).not_to be_nil
+    expect(Time.parse(time)).to be_within(1.day).of(Time.now + 1.day)
 
     # updates reservation's metadata
-    expect { response = Inventory.update_reservation_data('key', 'value') }.not_to raise_error
+    expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: 'orange' }) }.not_to raise_error
     expect(response).to be_nil
 
     # deletes item
