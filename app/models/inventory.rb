@@ -91,6 +91,7 @@ class Inventory
   end
 
   # this sort of request only updates the reservations start and end time
+  # (this is a constraint by the api)
   def self.update_reservation(uuid, params = {})
     raise ArgumentError if params.empty?
     params = params.with_indifferent_access
@@ -116,7 +117,9 @@ class Inventory
     # returns nothing on success
   end
 
-  def self.delete_reservation(_uuid)
+  def self.delete_reservation(uuid)
+    response = HTTParty.delete(@base_uri + "reservations/#{uuid}", headers: @get_headers)
+    handle_reservation_errors(response)
     # returns nothing on success
   end
 
@@ -138,8 +141,8 @@ class Inventory
 
   def self.handle_reservation_errors(response)
     raise AuthError if response.code == 401
-    raise ItemError, response.body if response.code == 422
-    raise ItemNotFound if response.code == 404
+    raise ReservationError, response.body if response.code == 422
+    raise ReservationNotFound if response.code == 404
     raise InventoryError if response.code != 200
   end
 end

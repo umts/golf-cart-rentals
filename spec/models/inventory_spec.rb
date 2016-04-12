@@ -64,7 +64,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response.try(:[], 'name')).not_to be_nil
     expect(response.try(:[], 'name')).not_to eq(name)
     expect(response.try(:[], 'data')).not_to be_nil
-    expect(response.try(:[], 'data')).to eq('color' => "red (becuase it's faster)")
+    expect(response.try(:[], 'data')).to include('color' => "red (becuase it's faster)")
     expect(response.try(:[], 'uuid')).to eq(item_uuid)
 
     reservation_uuid = nil
@@ -95,6 +95,15 @@ RSpec.describe Inventory, order: :defined, type: :model do
     # updates reservation's metadata
     expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: 'orange' }) }.not_to raise_error
     expect(response).to be_nil
+    expect { response = Inventory.item(item_uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'uuid')).to eq(item_uuid)
+    expect(response.try(:[], 'data')).to include('color' => 'orange')
+    
+    # delete reservation
+    expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error
+    expect(response).to be_nil
+    expect { Inventory.reservation(reservation_uuid) }.to raise_error ReservationNotFound
 
     # deletes item
     expect { response = Inventory.delete_item(item_uuid) }.not_to raise_error
@@ -105,9 +114,5 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect { response = Inventory.delete_item_type(item_type_uuid) }.not_to raise_error
     expect(response).to be_nil
     expect { Inventory.item_type(item_type_uuid) }.to raise_error ItemTypeNotFound
-
-    # delete reservation
-    expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error
-    expect(response).to be_nil
   end
 end
