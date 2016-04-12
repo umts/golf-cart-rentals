@@ -1,24 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe FinancialTransaction, type: :model do
-  describe 'creates a financial transaction per transactable model' do
-    after :each do
-      @financial_transaction
+    it 'creates a valid financial transcation after creating a rental' do
+      rental = create(:rental)
+      f1 = build(:financial_transaction, rental_id: rental.id)
+      expect(f1.rental).to eq(rental)
+      #expect(rental.financial_transactions.include? f1.rental).to eq(true)
+      #expect(f1).to belong_to(:rental)
     end
 
-    it 'builds an IncidentalType' do
-      expect(build(:incidental_type)).to be_valid
+    it 'creates a valid financial transcation after creating an incurred incidental' do
+      binding.pry
+      rental = create(:rental)
+      incidental = create(:incidental_type)
+      financial_transaction = build(:financial_transaction,
+                                    rental_id: rental.id,
+                                    transactable_type: 'IncidentalType',
+                                    transactable_id: incidental.id
+                                   )
+      expect(financial_transaction.transactable).to eq(incidental)
     end
-    it 'fails to build when it is missing data' do
-      expect(build(:incidental_type, name: nil)).not_to be_valid
-      expect(build(:incidental_type, description: nil)).not_to be_valid
-      expect(build(:incidental_type, base: nil)).not_to be_valid
-      expect(build(:incidental_type, modifier_amount: nil)).not_to be_valid
-      expect(build(:incidental_type, modifier_description: nil)).not_to be_valid
+
+    it 'creates a valid financial transcation after creating an fee schedule' do
+      binding.pry
+      rental = create(:rental)
+      fee_schedule = create(:fee_schedule)
+      financial_transaction = build(:financial_transaction,
+                                    rental_id: rental.id,
+                                    transactable_type: 'FeeSchedule',
+                                    transactable_id: fee_schedule.id
+                                   )
+      expect(financial_transaction.transactable).to eq(fee_schedule)
     end
-    it 'wont create two types with the same name' do
-      same = create(:incidental_type)
-      expect(build(:incidental_type, name: same.name)).not_to be_valid
-    end
-  end
 end
