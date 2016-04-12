@@ -12,12 +12,12 @@ FactoryGirl.define do
     created_at DateTime.now
 
     factory :incidental_type_transaction do
-      #transactable_type 'IncidentalType'
+      transactable_type 'IncidentalType'
       #transactable_id 1
     end
 
     factory :fee_schedule_transaction do
-      #transactable_type 'FeeSchedule'
+      transactable_type 'FeeSchedule'
       #transactable_id 1
     end
   end

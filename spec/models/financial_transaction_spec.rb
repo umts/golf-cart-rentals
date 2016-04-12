@@ -13,9 +13,8 @@ RSpec.describe FinancialTransaction, type: :model do
       binding.pry
       rental = create(:rental)
       incidental = create(:incidental_type)
-      financial_transaction = build(:financial_transaction,
+      financial_transaction = build(:incidental_type_transaction,
                                     rental_id: rental.id,
-                                    transactable_type: 'IncidentalType',
                                     transactable_id: incidental.id
                                    )
       expect(financial_transaction.transactable).to eq(incidental)
@@ -25,9 +24,8 @@ RSpec.describe FinancialTransaction, type: :model do
       binding.pry
       rental = create(:rental)
       fee_schedule = create(:fee_schedule)
-      financial_transaction = build(:financial_transaction,
+      financial_transaction = build(:fee_schedule_transaction,
                                     rental_id: rental.id,
-                                    transactable_type: 'FeeSchedule',
                                     transactable_id: fee_schedule.id
                                    )
       expect(financial_transaction.transactable).to eq(fee_schedule)
