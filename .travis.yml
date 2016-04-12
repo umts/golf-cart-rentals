@@ -8,5 +8,6 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:create
   - bundle exec rake db:migrate
+  - rm spec/models/inventory.rb
 addons:
   mariadb: '10.0'
