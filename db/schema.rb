@@ -11,14 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226153041) do
+ActiveRecord::Schema.define(version: 20160407191602) do
 
-  create_table "fee_schedules", force: :cascade do |t|
-    t.float    "base_amount",    limit: 24
-    t.float    "amount_per_day", limit: 24
-    t.integer  "item_type_id",   limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+  create_table "documents", force: :cascade do |t|
+    t.string   "filename",   limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "groups", force: :cascade do |t|
@@ -50,15 +48,6 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id", using: :btree
   add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id", using: :btree
 
-  create_table "item_types", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.integer  "fee_schedule_id", limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-  end
-
-  add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
-  
   create_table "incidental_types", force: :cascade do |t|
     t.string   "name",                 limit: 255
     t.string   "description",          limit: 255
@@ -79,15 +68,26 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  
-  create_table "item_types", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.integer  "fee_schedule_id", limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+
+  create_table "incurred_incidentals_documents", force: :cascade do |t|
+    t.integer  "incurred_incidental_id", limit: 4, null: false
+    t.integer  "document_id",            limit: 4, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
-  add_index "item_types", ["fee_schedule_id"], name: "index_item_types_on_fee_schedule_id", using: :btree
+  add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
+
+  create_table "item_types", force: :cascade do |t|
+    t.string   "name",        limit: 255,   null: false
+    t.text     "disclaimer",  limit: 65535
+    t.float    "base_fee",    limit: 24
+    t.float    "fee_per_day", limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false
@@ -98,17 +98,20 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.string   "rental_status",   limit: 255
-    t.integer  "user_id",         limit: 4,   null: false
-    t.integer  "department_id",   limit: 4,   null: false
-    t.integer  "reservation_id",  limit: 4,   null: false
-    t.integer  "fee_schedule_id", limit: 4,   null: false
-    t.datetime "checked_out_at"
+    t.string   "rental_status",  limit: 255, null: false
+    t.integer  "user_id",        limit: 4,   null: false
+    t.integer  "department_id",  limit: 4
+    t.integer  "reservation_id", limit: 4,   null: false
+    t.integer  "item_type_id",   limit: 4,   null: false
+    t.datetime "start_date",                 null: false
+    t.datetime "end_date",                   null: false
     t.datetime "checked_in_at"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "checked_out_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
+  add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -140,4 +143,6 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
+  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

@@ -1,27 +1,24 @@
-<p id="notice"><%= notice %></p>
+<% provide( :page_header, 'Item Types' ) %>
 
-<h1>Listing Item Types</h1>
-
-<table>
-  <thead>
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Base Fee</th>
+    <th>Fee Per Day</th>
+    <th>Disclaimer</th>
+    <th class="min-width">Actions</th>
+  </tr>
+  <% @item_types.each do |item_type| %>
     <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
+      <td><%= item_type.name %></td>
+      <td><%= number_to_currency item_type.base_fee %></td>
+      <td><%= number_to_currency item_type.fee_per_day %></td>
+      <td><%= simple_format item_type.disclaimer %></td>
+      <td class="min-width">
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), item_type, class: "btn btn-xs btn-success" %>
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_item_type_path(item_type), class: "btn btn-xs btn-primary" %>
+        <%= link_to "DL", item_type %>
+      </td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @item_types.each do |item_type| %>
-      <tr>
-        <td><%= item_type.name %></td>
-        <td><%= link_to 'Show', item_type %></td>
-        <td><%= link_to 'Edit', edit_item_type_path(item_type) %></td>
-        <td><%= link_to 'Destroy', item_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
-
-<br>
-
-<%= link_to 'New Item type', new_item_type_path %>

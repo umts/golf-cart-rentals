@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :rentals
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -15,8 +16,7 @@ Rails.application.routes.draw do
     post :remove_user, on: :member
   end
   resources :users
-  resources :fee_schedules
-  resources :item_types
+  resources :item_types, except: :new
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
