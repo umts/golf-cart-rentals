@@ -1,0 +1,6 @@
+development:
+  inventory_api_key: censored
+test:
+  inventory_api_key: censored
+production:
+  inventory_api_key: censored

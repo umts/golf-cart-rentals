@@ -1,6 +1,6 @@
 require 'json'
 class Inventory
-  @base_uri = 'http://localhost:3000/v1/' # Rails.application.config.inventory_api_uri
+  @base_uri = Rails.application.config.inventory_api_uri
   @api_key = INVENTORY_API_KEY
   @post_headers = { 'Authorization' => "Token #{@api_key}", 'Content-Type' => 'application/json' }
   @get_headers = { 'Authorization' => "Token #{@api_key}" }
