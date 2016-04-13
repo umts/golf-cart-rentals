@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407191602) do
+ActiveRecord::Schema.define(version: 20160411151739) do
 
   create_table "documents", force: :cascade do |t|
     t.string   "filename",   limit: 255, null: false
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 20160407191602) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "notes", force: :cascade do |t|
+    t.string   "note",          limit: 255
+    t.integer  "noteable_id",   limit: 4
+    t.string   "noteable_type", limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "notes", ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false

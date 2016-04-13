@@ -1,5 +1,5 @@
 class ItemTypesController < ApplicationController
-  before_action :set_item_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_item_type, only: [:show, :edit, :update]
 
   def index
     @item_types = ItemType.all
@@ -8,23 +8,7 @@ class ItemTypesController < ApplicationController
   def show
   end
 
-  # def new
-  #   @item_type = ItemType.new
-  # end
-
   def edit
-  end
-
-  def create
-    @item_type = ItemType.new(item_type_params)
-
-    if @item_type.save
-      flash[:success] = 'Item Type Was Successfully Created'
-      redirect_to @item_type
-    else
-      @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
-    end
   end
 
   def update
@@ -35,12 +19,6 @@ class ItemTypesController < ApplicationController
       @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
-  end
-
-  def destroy
-    @item_type.destroy
-    flash[:success] = 'Item Type Was Successfully Deleted'
-    redirect_to item_types_url
   end
 
   private
