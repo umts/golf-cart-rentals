@@ -14,7 +14,19 @@ class DepartmentsController < ApplicationController
   end
 
   def edit
+    @users = User.all
+  end
 
+  def update
+    begin
+      @department.update(department_params)
+      flash[:success] = 'Department was successfully updated.'
+      redirect_to @department
+    rescue => e
+      flash[:warning] = e
+      @users = User.all
+      render :edit
+    end
   end
 
   def create
@@ -28,6 +40,11 @@ class DepartmentsController < ApplicationController
       @users = User.all
       render :new
     end
+  end
+
+  def remove_user
+    @department.users.delete(params[:user_id])
+    redirect_to edit_department_path(@department)
   end
 
   private
