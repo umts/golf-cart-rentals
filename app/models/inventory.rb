@@ -94,9 +94,9 @@ class Inventory
   def self.update_reservation(uuid, params = {})
     raise ArgumentError if params.empty?
     params = params.with_indifferent_access
-    params[:reservation][:start_time] = params[:reservation][:start_time].iso8601 if params[:reservation][:start_time]
-    params[:reservation][:end_time] = params[:reservation][:end_time].iso8601 if params[:reservation][:end_time]
-    response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: params.to_json, headers: @post_headers)
+    params[:start_time] = params[:start_time].iso8601 if params[:start_time]
+    params[:end_time] = params[:end_time].iso8601 if params[:end_time]
+    response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: {reservation: params}.to_json, headers: @post_headers)
     handle_reservation_errors(response)
     JSON.parse(response.body)
   end

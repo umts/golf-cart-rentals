@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-04-13T16:07:45-04:00">2016-04-13T16:07:45-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-04-13T16:20:07-04:00">2016-04-13T16:20:07-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -5003,19 +5003,19 @@
         <li class="covered" data-hits="1" data-linenumber="97">
           <span class="hits">1</span>
           
-          <code class="ruby">    params[:reservation][:start_time] = params[:reservation][:start_time].iso8601 if params[:reservation][:start_time]</code>
+          <code class="ruby">    params[:start_time] = params[:start_time].iso8601 if params[:start_time]</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="98">
           <span class="hits">1</span>
           
-          <code class="ruby">    params[:reservation][:end_time] = params[:reservation][:end_time].iso8601 if params[:reservation][:end_time]</code>
+          <code class="ruby">    params[:end_time] = params[:end_time].iso8601 if params[:end_time]</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="99">
           <span class="hits">1</span>
           
-          <code class="ruby">    response = HTTParty.put(@base_uri + &quot;reservations/#{uuid}&quot;, body: params.to_json, headers: @post_headers)</code>
+          <code class="ruby">    response = HTTParty.put(@base_uri + &quot;reservations/#{uuid}&quot;, body: {reservation: params}.to_json, headers: @post_headers)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="100">
@@ -14297,7 +14297,7 @@
         <li class="covered" data-hits="2" data-linenumber="89">
           <span class="hits">2</span>
           
-          <code class="ruby">    expect { response = Inventory.update_reservation(reservation_uuid, reservation: { start_time: (Time.now + 1.day) }) }.not_to raise_error</code>
+          <code class="ruby">    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day) ) }.not_to raise_error</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="90">
