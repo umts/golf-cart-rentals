@@ -123,8 +123,6 @@ class Inventory
     # returns nothing on success
   end
 
-  private
-
   def self.handle_item_type_errors(response)
     raise AuthError, response.body if response.code == 401
     raise ItemTypeError, response.body if response.code == 422

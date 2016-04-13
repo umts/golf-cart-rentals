@@ -44,6 +44,7 @@ ratings:
   - "**.php"
   - "**.py"
 exclude_paths:
+- lib/templates
 - config/
 - db/
 - spec/

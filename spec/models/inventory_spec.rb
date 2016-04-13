@@ -99,7 +99,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response).to be_a(Hash)
     expect(response.try(:[], 'uuid')).to eq(item_uuid)
     expect(response.try(:[], 'data')).to include('color' => 'orange')
-    
+
     # delete reservation
     expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error
     expect(response).to be_nil

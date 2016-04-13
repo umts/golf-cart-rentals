@@ -14,7 +14,7 @@ describe HomeController do
       get :index
       expect(assigns[:rentals]).to eq([rental, rental2])
     end
-    
+
     it 'populates an array of upcoming rentals'
     it 'populates an array of past rentals'
 
@@ -27,5 +27,4 @@ describe HomeController do
       expect(response).to render_template :index
     end
   end
-
 end
