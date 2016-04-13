@@ -86,7 +86,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response).to include('start_time' => Time.now.to_time.iso8601, 'end_time' => 6.days.from_now.to_time.iso8601)
 
     # update reservation
-    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day) ) }.not_to raise_error
+    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day)) }.not_to raise_error
     expect(response).to be_a(Hash)
     expect(time = response.try(:[], 'start_time')).not_to be_nil
     expect(Time.parse(time)).to be_within(1.day).of(Time.now + 1.day)

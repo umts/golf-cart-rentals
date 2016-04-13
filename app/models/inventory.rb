@@ -96,7 +96,7 @@ class Inventory
     params = params.with_indifferent_access
     params[:start_time] = params[:start_time].iso8601 if params[:start_time]
     params[:end_time] = params[:end_time].iso8601 if params[:end_time]
-    response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: {reservation: params}.to_json, headers: @post_headers)
+    response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: { reservation: params }.to_json, headers: @post_headers)
     handle_reservation_errors(response)
     JSON.parse(response.body)
   end
