@@ -75,7 +75,7 @@ RSpec.describe InventoryMock, type: :model do
   context 'reservations' do
     it 'creates reservation' do
       response = nil
-      expect { response = InventoryMock.create_reservation(@uuid, Time.now, 6.days.from_now) }.not_to raise_error
+      expect { response = InventoryMock.create_reservation(@uuid, Time.now.iso8601, 6.days.from_now) }.not_to raise_error
       expect(response).to be_a(Hash)
     end
     it 'update reservation' do
@@ -100,7 +100,7 @@ RSpec.describe InventoryMock, type: :model do
     end
     it 'searches by time period' do
       response = nil
-      expect { response = InventoryMock.reservations(Time.now, 6.days.from_now) }.not_to raise_error
+      expect { response = InventoryMock.reservations(Time.now.iso8601, 6.days.from_now) }.not_to raise_error
       expect(response).to be_a(Array)
     end
   end

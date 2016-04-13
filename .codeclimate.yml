@@ -27,6 +27,9 @@ engines:
   rubocop:
     enabled: true
     exclude_fingerprints:
+    - 1064d189916e56f6eaabf8de6bfd429a
+    - 726e7aff89c9b155c325034be34ab400
+    - 5e9336c0023986d1b0b384e898ea3f24
     - ea40ffc72bdccb98765f1305d56e3395
     - 0d49a804b4b9d31e260b923d2bc114b0
 ratings:
