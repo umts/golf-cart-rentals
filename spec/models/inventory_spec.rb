@@ -61,8 +61,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     # updates item
     expect { response = Inventory.update_item(item_uuid, name: item_name, data: { color: "red (becuase it's faster)" }) }.not_to raise_error
     expect(response).to be_a(Hash)
-    expect(response.try(:[], 'name')).not_to be_nil
-    expect(response.try(:[], 'name')).not_to eq(name)
+    expect(response.try(:[], 'name')).to eq(item_name)
     expect(response.try(:[], 'data')).not_to be_nil
     expect(response.try(:[], 'data')).to include('color' => "red (becuase it's faster)")
     expect(response.try(:[], 'uuid')).to eq(item_uuid)
