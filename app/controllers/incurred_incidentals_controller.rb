@@ -49,7 +49,7 @@ class IncurredIncidentalsController < ApplicationController
   #                  notice: 'Incidental successfully destroyed.' }
   #  end
   #end
-  def change_active
+  def active
     respond_to do |format|
       if @incidental.update(is_active: @incidental.re_de_activate)
         format.html { redirect_to rental_incurred_incidentals_path,
@@ -71,7 +71,8 @@ class IncurredIncidentalsController < ApplicationController
     end
 
     def incidental_params
-      params.require(:incurred_incidental).permit(:incidental_type_id, :times_modified, :notes, :document, :is_active)
+      # :notes, :document
+      params.require(:incurred_incidental).permit(:incidental_type_id, :times_modified, :is_active)
     end
 
 end

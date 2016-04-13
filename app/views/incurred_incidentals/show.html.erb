@@ -20,7 +20,12 @@
 
 <p>
   <strong>Document:</strong>
-  <%= @incidental.document %>
+  <%= @incidental.documents %>
+</p>
+
+<p>
+  <strong>Active?:</strong>
+  <%= @incidental.is_active? %>
 </p>
 
 <%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, @incidental) %> |

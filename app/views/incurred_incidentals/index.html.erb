@@ -8,6 +8,7 @@
       <th>Times Modified</th>
       <th>Notes</th>
       <th>Document</th>
+      <th>Active?</th>
     </tr>
   </thead>
 
@@ -18,10 +19,11 @@
         <td><%= i.fee %></td>
         <td><%= i.times_modified %></td>
         <td><%= i.notes %></td>
-        <td><%= i.document %></td>
+        <td><%= i.documents %></td>
+        <td><%= i.is_active? %></td>
         <td><%= link_to 'Show', rental_incurred_incidental_path(@rental, i) %></td>
         <td><%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, i) %></td>
-        <td><%= link_to 'De-activate', active_rental_incurred_incidental_path(@rental, i) %></td>
+        <td><%= link_to 'De-activate', active_rental_incurred_incidental_path(@rental, i), method: :patch %></td>
       </tr>
     <% end %>
   </tbody>

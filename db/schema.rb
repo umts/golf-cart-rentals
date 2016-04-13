@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408192747) do
+ActiveRecord::Schema.define(version: 20160411151739) do
 
   create_table "documents", force: :cascade do |t|
     t.string   "filename",   limit: 255, null: false
@@ -61,10 +61,10 @@ ActiveRecord::Schema.define(version: 20160408192747) do
   create_table "incurred_incidentals", force: :cascade do |t|
     t.integer  "incidental_type_id", limit: 4
     t.decimal  "times_modified",               precision: 10
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
     t.integer  "rental_id",          limit: 4
-    t.boolean  "is_active",                                       default: true
+    t.boolean  "is_active",                                   default: true
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 20160408192747) do
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
   add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals", "rentals"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
-  add_foreign_key "incurred_incidentals", "rentals"
 end
