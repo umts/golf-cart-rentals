@@ -140,9 +140,9 @@ class Inventory
   end
 
   def self.handle_reservation_errors(response)
-    raise AuthError if response.code == 401
+    raise AuthError, response.body if response.code == 401
     raise ReservationError, response.body if response.code == 422
-    raise ReservationNotFound if response.code == 404
-    raise InventoryError if response.code != 200
+    raise ReservationNotFound, response.body if response.code == 404
+    raise InventoryError, response.body if response.code != 200
   end
 end
