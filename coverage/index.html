@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-04-12T13:04:39-04:00">2016-04-12T13:04:39-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-04-19T13:40:02-04:00">2016-04-19T13:40:02-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">92.22%</span></span>
+    (<span class="covered_percent"><span class="green">94.39%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.53
+         3.63
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>58</b> files in total.
-    <b>1234</b> relevant lines. 
-    <span class="green"><b>1138</b> lines covered</span> and
-    <span class="red"><b>96</b> lines missed </span>
+    <b>1265</b> relevant lines. 
+    <span class="green"><b>1194</b> lines covered</span> and
+    <span class="red"><b>71</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -52,12 +52,12 @@
       
       <tr>
         <td class="strong"><a href="#eb7d1577171281c82e7b0816f2c9c837e06eca5f" class="src_link" title="app/controllers/application_controller.rb">app/controllers/application_controller.rb</a></td>
-        <td class="red strong">40.35 %</td>
-        <td>116</td>
+        <td class="yellow strong">82.46 %</td>
+        <td>117</td>
         <td>57</td>
-        <td>23</td>
-        <td>34</td>
-        <td>10.1</td>
+        <td>47</td>
+        <td>10</td>
+        <td>13.1</td>
       </tr>
       
       <tr>
@@ -247,7 +247,7 @@
         <td>23</td>
         <td>23</td>
         <td>0</td>
-        <td>1.7</td>
+        <td>2.0</td>
       </tr>
       
       <tr>
@@ -392,12 +392,12 @@
       
       <tr>
         <td class="strong"><a href="#451ea4dff3c09d85400c538ee6a61adce9d9cfc7" class="src_link" title="spec/controllers/application_controller_spec.rb">spec/controllers/application_controller_spec.rb</a></td>
-        <td class="green strong">97.37 %</td>
-        <td>75</td>
-        <td>38</td>
-        <td>37</td>
-        <td>1</td>
-        <td>1.0</td>
+        <td class="green strong">100.0 %</td>
+        <td>130</td>
+        <td>69</td>
+        <td>69</td>
+        <td>0</td>
+        <td>1.4</td>
       </tr>
       
       <tr>
@@ -649,11 +649,11 @@
         <div class="source_table" id="eb7d1577171281c82e7b0816f2c9c837e06eca5f">
   <div class="header">
     <h3>app/controllers/application_controller.rb</h3>
-    <h4><span class="red">40.35 %</span> covered</h4>
+    <h4><span class="yellow">82.46 %</span> covered</h4>
     <div>
       <b>57</b> relevant lines. 
-      <span class="green"><b>23</b> lines covered</span> and
-      <span class="red"><b>34</b> lines missed.</span>
+      <span class="green"><b>47</b> lines covered</span> and
+      <span class="red"><b>10</b> lines missed.</span>
     </div>
   </div>
   
@@ -663,355 +663,355 @@
         <li class="covered" data-hits="1" data-linenumber="1">
           <span class="hits">1</span>
           
-          <code class="ruby">class ApplicationController &lt; ActionController::Base</code>
+          <code class="ruby">class MissingUserError &lt; StandardError; end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="2">
+        <li class="covered" data-hits="1" data-linenumber="2">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  # Prevent CSRF attacks by raising an exception.</code>
+          <code class="ruby">class ApplicationController &lt; ActionController::Base</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="3">
           
           
+          <code class="ruby">  # Prevent CSRF attacks by raising an exception.</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="4">
+          
+          
           <code class="ruby">  # For APIs, you may want to use :null_session instead.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="4">
+        <li class="covered" data-hits="1" data-linenumber="5">
           <span class="hits">1</span>
           
           <code class="ruby">  protect_from_forgery with: :exception</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="5">
+        <li class="never" data-hits="" data-linenumber="6">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="6">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  include ApplicationHelper</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="7">
           <span class="hits">1</span>
           
+          <code class="ruby">  include ApplicationHelper</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="8">
+          <span class="hits">1</span>
+          
           <code class="ruby">  include SessionsHelper</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="8">
+        <li class="never" data-hits="" data-linenumber="9">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="9">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  before_action :current_user</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="10">
           <span class="hits">1</span>
           
-          <code class="ruby">  before_action :has_permission?</code>
+          <code class="ruby">  before_action :current_user</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="11">
+        <li class="covered" data-hits="1" data-linenumber="11">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">  before_action :check_permission</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="12">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="13">
+          
+          
           <code class="ruby">  # Set auto papertrail</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="13">
+        <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
           <code class="ruby">  before_action :set_paper_trail_whodunnit</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="14">
+        <li class="never" data-hits="" data-linenumber="15">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="15">
+        <li class="covered" data-hits="1" data-linenumber="16">
           <span class="hits">1</span>
           
-          <code class="ruby">  def root</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="16">
-          
-          
-          <code class="ruby">    redirect_to home_index_path</code>
+          <code class="ruby">  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development? #unless Rails.application.config.consider_all_requests_local</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="17">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="18">
+        <li class="covered" data-hits="1" data-linenumber="18">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">  def root</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="19">
           <span class="hits">1</span>
           
-          <code class="ruby">  unless Rails.application.config.consider_all_requests_local</code>
+          <code class="ruby">    redirect_to home_index_path</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="20">
+        <li class="never" data-hits="" data-linenumber="20">
           
           
-          <code class="ruby">    rescue_from RuntimeError, Exception, with: :render_500</code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="21">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="22">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="23">
+        <li class="covered" data-hits="1" data-linenumber="22">
           <span class="hits">1</span>
           
           <code class="ruby">  def render_404</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="24">
+        <li class="missed" data-hits="0" data-linenumber="23">
           
           
           <code class="ruby">    respond_to do |format|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="25">
+        <li class="missed" data-hits="0" data-linenumber="24">
           
           
           <code class="ruby">      format.html { render template: &#39;errors/404.html.erb&#39;, status: 404 }</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="26">
+        <li class="missed" data-hits="0" data-linenumber="25">
           
           
           <code class="ruby">      format.all { render nothing: true, status: 404 }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="27">
+        <li class="never" data-hits="" data-linenumber="26">
           
           
           <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="27">
+          
+          
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="28">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="29">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
+        <li class="covered" data-hits="1" data-linenumber="29">
           <span class="hits">1</span>
           
           <code class="ruby">  def render_500(error)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="31">
+        <li class="never" data-hits="" data-linenumber="30">
           
           
           <code class="ruby">    # make sure to log the error</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="32">
-          
+        <li class="covered" data-hits="1" data-linenumber="31">
+          <span class="hits">1</span>
           
           <code class="ruby">    logger.error error.message</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="33">
-          
+        <li class="covered" data-hits="1" data-linenumber="32">
+          <span class="hits">1</span>
           
           <code class="ruby">    logger.error error.backtrace.join(&quot;\n&quot;)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="33">
+          
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="34">
           
           
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="35">
-          
-          
           <code class="ruby">    # send email to IT</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="36">
-          
+        <li class="covered" data-hits="1" data-linenumber="35">
+          <span class="hits">1</span>
           
           <code class="ruby">    user = begin</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="37">
-          
+        <li class="covered" data-hits="1" data-linenumber="36">
+          <span class="hits">1</span>
           
           <code class="ruby">             @current_user.username</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="38">
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">           rescue</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="39">
-          
+        <li class="covered" data-hits="1" data-linenumber="38">
+          <span class="hits">1</span>
           
           <code class="ruby">             &#39;unknown&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="40">
+        <li class="never" data-hits="" data-linenumber="39">
           
           
           <code class="ruby">           end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="41">
+        <li class="never" data-hits="" data-linenumber="40">
           
           
-          <code class="ruby">    ErrorMailer.send_mail(&#39;parking-it@admin.umass.edu&#39;, request.fullpath, user, error).deliver_now</code>
+          <code class="ruby">    # ErrorMailer.send_mail(&#39;parking-it@admin.umass.edu&#39;, request.fullpath, user, error).deliver_now</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="42">
+        <li class="never" data-hits="" data-linenumber="41">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="43">
-          
+        <li class="covered" data-hits="1" data-linenumber="42">
+          <span class="hits">1</span>
           
           <code class="ruby">    respond_to do |format|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="44">
-          
+        <li class="covered" data-hits="2" data-linenumber="43">
+          <span class="hits">2</span>
           
           <code class="ruby">      format.html { render template: &#39;errors/500.html.erb&#39;, status: 500 }</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="45">
-          
+        <li class="covered" data-hits="1" data-linenumber="44">
+          <span class="hits">1</span>
           
           <code class="ruby">      format.all { render nothing: true, status: 500 }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="46">
+        <li class="never" data-hits="" data-linenumber="45">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="47">
+        <li class="never" data-hits="" data-linenumber="46">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="48">
+        <li class="never" data-hits="" data-linenumber="47">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="49">
+        <li class="covered" data-hits="1" data-linenumber="48">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.get_actions(controller)</code>
         </li>
       
-        <li class="covered" data-hits="198" data-linenumber="50">
-          <span class="hits">198</span>
+        <li class="covered" data-hits="199" data-linenumber="49">
+          <span class="hits">199</span>
           
           <code class="ruby">    controller.instance_methods(false).map(&amp;:to_s) &amp; controller.action_methods.to_a</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="51">
+        <li class="never" data-hits="" data-linenumber="50">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="52">
+        <li class="never" data-hits="" data-linenumber="51">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="53">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  private</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="54">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="55">
+        <li class="covered" data-hits="1" data-linenumber="52">
           <span class="hits">1</span>
           
           <code class="ruby">  def current_user</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="56">
+        <li class="never" data-hits="" data-linenumber="53">
           
           
           <code class="ruby">    # handle users approprately in production</code>
         </li>
       
-        <li class="covered" data-hits="144" data-linenumber="57">
-          <span class="hits">144</span>
+        <li class="covered" data-hits="153" data-linenumber="54">
+          <span class="hits">153</span>
           
           <code class="ruby">    if Rails.env.production? || Rails.env.staging?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="58">
+        <li class="never" data-hits="" data-linenumber="55">
           
           
           <code class="ruby">      # try logging in user with shibboleth info</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="59">
-          
+        <li class="covered" data-hits="6" data-linenumber="56">
+          <span class="hits">6</span>
           
           <code class="ruby">      user_from_shibboleth</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="57">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="58">
+          
+          
+          <code class="ruby">      # try to retrieve user from session if didn&#39;t log in</code>
+        </li>
+      
+        <li class="covered" data-hits="6" data-linenumber="59">
+          <span class="hits">6</span>
+          
+          <code class="ruby">      user_from_session if @current_user.nil?</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="60">
@@ -1023,13 +1023,13 @@
         <li class="never" data-hits="" data-linenumber="61">
           
           
-          <code class="ruby">      # try to retrieve user from session if didn&#39;t log in</code>
+          <code class="ruby">      # raise error if user failed to log in</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="62">
+        <li class="covered" data-hits="6" data-linenumber="62">
+          <span class="hits">6</span>
           
-          
-          <code class="ruby">      user_from_session if @current_user.nil?</code>
+          <code class="ruby">      raise MissingUserError unless @current_user</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="63">
@@ -1041,103 +1041,103 @@
         <li class="never" data-hits="" data-linenumber="64">
           
           
-          <code class="ruby">      # raise error if user failed to log in</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="65">
-          
-          
-          <code class="ruby">      raise &#39;Error occured logging user in&#39; unless @current_user</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="66">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="67">
-          
-          
           <code class="ruby">    # assign the first user when in development</code>
         </li>
       
-        <li class="covered" data-hits="144" data-linenumber="68">
-          <span class="hits">144</span>
+        <li class="covered" data-hits="147" data-linenumber="65">
+          <span class="hits">147</span>
           
           <code class="ruby">    elsif Rails.env.development?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="69">
+        <li class="missed" data-hits="0" data-linenumber="66">
           
           
           <code class="ruby">      @current_user = User.first</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="70">
+        <li class="missed" data-hits="0" data-linenumber="67">
           
           
           <code class="ruby">      session[:user_id] = @current_user.id</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="71">
+        <li class="never" data-hits="" data-linenumber="68">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="72">
+        <li class="never" data-hits="" data-linenumber="69">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="73">
+        <li class="never" data-hits="" data-linenumber="70">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="74">
+        <li class="covered" data-hits="1" data-linenumber="71">
           <span class="hits">1</span>
           
-          <code class="ruby">  def user_from_shibboleth</code>
+          <code class="ruby">  def has_permission?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="75">
+        <li class="never" data-hits="" data-linenumber="72">
           
           
-          <code class="ruby">    if request.env[&#39;fcIdNumber&#39;]</code>
+          <code class="ruby">    # allow anyone in test</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="76">
+        <li class="covered" data-hits="80" data-linenumber="73">
+          <span class="hits">80</span>
           
-          
-          <code class="ruby">      spire_id = request.env[&#39;fcIdNumber&#39;].split(&#39;@&#39;).first</code>
+          <code class="ruby">    return true if Rails.env.test?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="77">
+        <li class="never" data-hits="" data-linenumber="74">
           
           
-          <code class="ruby">      @current_user = User.find_by(spire_id: spire_id)</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="78">
+        <li class="never" data-hits="" data-linenumber="75">
           
           
-          <code class="ruby">      session[:user_id] = @current_user.id if @current_user</code>
+          <code class="ruby">    # allow anyone to view the root and 404 pages</code>
+        </li>
+      
+        <li class="covered" data-hits="6" data-linenumber="76">
+          <span class="hits">6</span>
+          
+          <code class="ruby">    return true if has_global_permission?</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="77">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="78">
+          
+          
+          <code class="ruby">    # allow logged in users to view pages they have access to</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="79">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">    return true if @current_user &amp;&amp;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="80">
+        <li class="covered" data-hits="2" data-linenumber="80">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">                   @current_user.has_permission?(params[:controller], params[:action], params[:id])</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="81">
@@ -1146,16 +1146,16 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="82">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="82">
           
-          <code class="ruby">  def user_from_session</code>
+          
+          <code class="ruby">    # prevent users without permission</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="83">
+        <li class="covered" data-hits="1" data-linenumber="83">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">    @current_user = User.find(session[:user_id]) if session[:user_id]</code>
+          <code class="ruby">    false</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="84">
@@ -1173,184 +1173,190 @@
         <li class="covered" data-hits="1" data-linenumber="86">
           <span class="hits">1</span>
           
-          <code class="ruby">  def has_permission?</code>
+          <code class="ruby">  private</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="87">
           
           
-          <code class="ruby">    # allow anyone in test</code>
-        </li>
-      
-        <li class="covered" data-hits="72" data-linenumber="88">
-          <span class="hits">72</span>
-          
-          <code class="ruby">    return true if Rails.env.test?</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="89">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="90">
+        <li class="covered" data-hits="1" data-linenumber="88">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def check_permission</code>
+        </li>
+      
+        <li class="covered" data-hits="74" data-linenumber="89">
+          <span class="hits">74</span>
+          
+          <code class="ruby">    unless has_permission?</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="90">
           
           
-          <code class="ruby">    # allow anyone to view the root and 404 pages</code>
+          <code class="ruby">      flash[:warning] = &#39;Your account does not have access to this page.&#39;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="91">
           
           
-          <code class="ruby">    return true if has_global_permission?</code>
+          <code class="ruby">      begin</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="92">
+        <li class="missed" data-hits="0" data-linenumber="92">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">        redirect_to :back</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="93">
+        <li class="missed" data-hits="0" data-linenumber="93">
           
           
-          <code class="ruby">    # allow logged in users to view pages they have access to</code>
+          <code class="ruby">      rescue ActionController::RedirectBackError, Module::DelegationError</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="94">
+        <li class="missed" data-hits="0" data-linenumber="94">
           
           
-          <code class="ruby">    return true if @current_user &amp;&amp;</code>
+          <code class="ruby">        redirect_to home_index_path</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="95">
+        <li class="never" data-hits="" data-linenumber="95">
           
           
-          <code class="ruby">                   @current_user.has_permission?(params[:controller], params[:action], params[:id])</code>
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="96">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="97">
           
           
-          <code class="ruby">    # prevent users without permission</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="98">
-          
-          
-          <code class="ruby">    handle_no_permission if @current_user</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
-          
-          
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="100">
+        <li class="never" data-hits="" data-linenumber="98">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="101">
+        <li class="covered" data-hits="1" data-linenumber="99">
           <span class="hits">1</span>
           
-          <code class="ruby">  def has_global_permission?</code>
+          <code class="ruby">  def user_from_shibboleth</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="102">
+        <li class="covered" data-hits="6" data-linenumber="100">
+          <span class="hits">6</span>
           
-          
-          <code class="ruby">    # allow anyone to access root and 404 page</code>
+          <code class="ruby">    if request.env[&#39;fcIdNumber&#39;]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="103">
+        <li class="covered" data-hits="4" data-linenumber="101">
+          <span class="hits">4</span>
           
-          
-          <code class="ruby">    (params[:controller] == &#39;application&#39; &amp;&amp; params[:action] == &#39;root&#39;) ||</code>
+          <code class="ruby">      spire_id = request.env[&#39;fcIdNumber&#39;].split(&#39;@&#39;).first</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="104">
+        <li class="covered" data-hits="4" data-linenumber="102">
+          <span class="hits">4</span>
           
-          
-          <code class="ruby">      (params[:controller] == &#39;home&#39; &amp;&amp; params[:action] == &#39;index&#39;) ||</code>
+          <code class="ruby">      @current_user = User.find_by(spire_id: spire_id)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="105">
+        <li class="covered" data-hits="4" data-linenumber="103">
+          <span class="hits">4</span>
           
-          
-          <code class="ruby">      params[:action] == &#39;render_404&#39;</code>
+          <code class="ruby">      session[:user_id] = @current_user.id if @current_user</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="106">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="107">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="108">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def handle_no_permission</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="109">
-          
-          
-          <code class="ruby">    flash[:warning] = &#39;Your account does not have access to this page.&#39;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="110">
-          
-          
-          <code class="ruby">    begin</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="111">
-          
-          
-          <code class="ruby">      redirect_to :back</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="112">
-          
-          
-          <code class="ruby">    rescue ActionController::RedirectBackError</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="113">
-          
-          
-          <code class="ruby">      redirect_to root_path</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="114">
+        <li class="never" data-hits="" data-linenumber="104">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="115">
+        <li class="never" data-hits="" data-linenumber="105">
           
           
           <code class="ruby">  end</code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="106">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="107">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def user_from_session</code>
+        </li>
+      
+        <li class="covered" data-hits="3" data-linenumber="108">
+          <span class="hits">3</span>
+          
+          <code class="ruby">    @current_user = User.find_by_id(session[:user_id]) if session[:user_id]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="109">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="110">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="111">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def has_global_permission?</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="112">
+          
+          
+          <code class="ruby">    # allow anyone to access root and 404 page</code>
+        </li>
+      
+        <li class="covered" data-hits="6" data-linenumber="113">
+          <span class="hits">6</span>
+          
+          <code class="ruby">    (params[:controller] == &#39;application&#39; &amp;&amp; params[:action] == &#39;root&#39;) ||</code>
+        </li>
+      
+        <li class="covered" data-hits="10" data-linenumber="114">
+          <span class="hits">10</span>
+          
+          <code class="ruby">      (params[:controller] == &#39;home&#39; &amp;&amp; params[:action] == &#39;index&#39;) ||</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="115">
+          
+          
+          <code class="ruby">      params[:action] == &#39;render_404&#39;</code>
+        </li>
+      
         <li class="never" data-hits="" data-linenumber="116">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="117">
           
           
           <code class="ruby">end</code>
@@ -5928,8 +5934,8 @@
           <code class="ruby">  has_many   :groups, through: :groups_users</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="6">
-          <span class="hits">5</span>
+        <li class="covered" data-hits="7" data-linenumber="6">
+          <span class="hits">7</span>
           
           <code class="ruby">  has_many   :permissions, -&gt; { uniq }, through: :groups</code>
         </li>
@@ -6018,8 +6024,8 @@
           <code class="ruby">    # Get a list of permissions associated with this controller and action</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="21">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="6" data-linenumber="21">
+          <span class="hits">6</span>
           
           <code class="ruby">    relevant_permissions = permissions.where(controller: controller, action: action)</code>
         </li>
@@ -6036,8 +6042,8 @@
           <code class="ruby">    # Deny if the list is empty</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="24">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="6" data-linenumber="24">
+          <span class="hits">6</span>
           
           <code class="ruby">    return false if relevant_permissions.empty?</code>
         </li>
@@ -6054,8 +6060,8 @@
           <code class="ruby">    # Permit if list has a permission with no id_field</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="27">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="4" data-linenumber="27">
+          <span class="hits">4</span>
           
           <code class="ruby">    return true if relevant_permissions.where(id_field: nil).present?</code>
         </li>
@@ -7555,11 +7561,11 @@
         <div class="source_table" id="451ea4dff3c09d85400c538ee6a61adce9d9cfc7">
   <div class="header">
     <h3>spec/controllers/application_controller_spec.rb</h3>
-    <h4><span class="green">97.37 %</span> covered</h4>
+    <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>38</b> relevant lines. 
-      <span class="green"><b>37</b> lines covered</span> and
-      <span class="red"><b>1</b> lines missed.</span>
+      <b>69</b> relevant lines. 
+      <span class="green"><b>69</b> lines covered</span> and
+      <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
   
@@ -7584,8 +7590,8 @@
           <code class="ruby">describe ApplicationController do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="4">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="15" data-linenumber="4">
+          <span class="hits">15</span>
           
           <code class="ruby">  before(:each) { current_user }</code>
         </li>
@@ -7605,91 +7611,91 @@
         <li class="covered" data-hits="1" data-linenumber="7">
           <span class="hits">1</span>
           
-          <code class="ruby">    before do</code>
+          <code class="ruby">    before :each do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="8">
+        <li class="covered" data-hits="10" data-linenumber="8">
+          <span class="hits">10</span>
           
-          
-          <code class="ruby">      allow(Rails.env).to receive(:production?).and_return(true)</code>
+          <code class="ruby">      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new(&quot;production&quot;))</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="9">
           
           
-          <code class="ruby">      # consider_all_requests_local = false</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="10">
           
           
-          <code class="ruby">      # config.action_dispatch.show_exceptions = true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="11">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="12">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="13">
+        <li class="covered" data-hits="1" data-linenumber="11">
           <span class="hits">1</span>
           
           <code class="ruby">    describe &#39;when an error occurs&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="14">
+        <li class="covered" data-hits="1" data-linenumber="12">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;renders the 500 page&#39;</code>
+          <code class="ruby">      before do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="15">
+        <li class="covered" data-hits="1" data-linenumber="13">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;sends an error email&#39;</code>
+          <code class="ruby">        allow_any_instance_of(ApplicationController).to receive(:root).and_raise(&quot;test root error&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="16">
+        <li class="never" data-hits="" data-linenumber="14">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="17">
+        <li class="never" data-hits="" data-linenumber="15">
           
           
           <code class="ruby"></code>
         </li>
       
+        <li class="covered" data-hits="1" data-linenumber="16">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &#39;renders the 500 page&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="17">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        get :root</code>
+        </li>
+      
         <li class="covered" data-hits="1" data-linenumber="18">
           <span class="hits">1</span>
           
-          <code class="ruby">    describe &#39;#has_permission?&#39; do</code>
+          <code class="ruby">        expect(response).to render_template(&#39;errors/500.html.erb&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="19">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="19">
           
-          <code class="ruby">      it &#39;returns true when accessing the home page&#39;</code>
+          
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="20">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="20">
           
-          <code class="ruby">      it &#39;returns true when accessing the 404 page&#39;</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="21">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;returns true if the current user has access to the page&#39;</code>
+          <code class="ruby">      it &#39;sends an error email&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="22">
@@ -7707,187 +7713,187 @@
         <li class="covered" data-hits="1" data-linenumber="24">
           <span class="hits">1</span>
           
-          <code class="ruby">    describe &#39;#current_user&#39; do</code>
+          <code class="ruby">    describe &#39;#has_permission?&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="25">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;gets the current user from shibboleth or from the session&#39;</code>
+          <code class="ruby">      it &#39;returns true when accessing the home page&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="26">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;raises an error if the user does not exist&#39;</code>
+          <code class="ruby">        subject.params = {</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="27">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">          controller: &#39;home&#39;,</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="28">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">          action: &#39;index&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="29">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">        }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="30">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="31">
+        <li class="covered" data-hits="1" data-linenumber="30">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;#root&#39; do</code>
+          <code class="ruby">        expect(subject.has_permission?).to be true</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="32">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="31">
           
-          <code class="ruby">    it &#39;redirects to the home index action&#39;</code>
+          
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="34">
+        <li class="never" data-hits="" data-linenumber="32">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="35">
+        <li class="covered" data-hits="1" data-linenumber="33">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;#render_404&#39; do</code>
+          <code class="ruby">      it &#39;returns true when accessing the root page&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="36">
+        <li class="covered" data-hits="1" data-linenumber="34">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;renders the 404 page&#39;</code>
+          <code class="ruby">        subject.params = {</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="35">
+          
+          
+          <code class="ruby">          controller: &#39;application&#39;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="36">
+          
+          
+          <code class="ruby">          action: &#39;root&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="37">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">        }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="38">
+        <li class="covered" data-hits="1" data-linenumber="38">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">        expect(subject.has_permission?).to be true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="39">
           
           
-          <code class="ruby">  # describe &#39;#render_500&#39; do</code>
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="40">
           
           
-          <code class="ruby">  #   it &#39;renders the 500 page&#39;</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="41">
+        <li class="covered" data-hits="1" data-linenumber="41">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  #   it &#39;sends an error email&#39;</code>
+          <code class="ruby">      it &#39;returns true when accessing the 404 page&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="42">
+        <li class="covered" data-hits="1" data-linenumber="42">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  # end</code>
+          <code class="ruby">        subject.params = {</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="43">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">          controller: &#39;application&#39;,</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="44">
+        <li class="never" data-hits="" data-linenumber="44">
+          
+          
+          <code class="ruby">          action: &#39;render_404&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="45">
+          
+          
+          <code class="ruby">        }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="46">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;.get_actions&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="45">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;returns the actions available to a controller&#39;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="46">
-          
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">        expect(subject.has_permission?).to be true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="47">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="48">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="48">
           
-          <code class="ruby">  describe &#39;#current_user&#39; do</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="49">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;returns the first user in test&#39;</code>
+          <code class="ruby">      it &#39;returns true if the current user has access to the page&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="50">
+        <li class="covered" data-hits="1" data-linenumber="50">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">        group = create(:group, name: &#39;test&#39;, description: &#39;testing&#39;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="51">
+        <li class="covered" data-hits="1" data-linenumber="51">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        permission = create(:permission, controller: &#39;user&#39;, action: &#39;index&#39;)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="52">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="52">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  describe &#39;#user_from_shibboleth&#39; do</code>
-        </li>
-      
         <li class="covered" data-hits="1" data-linenumber="53">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;gets a user from their shibboleth login id&#39;</code>
+          <code class="ruby">        group.permissions &lt;&lt; permission</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="covered" data-hits="1" data-linenumber="54">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">        current_user.groups &lt;&lt; group</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="55">
@@ -7899,118 +7905,448 @@
         <li class="covered" data-hits="1" data-linenumber="56">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;#user_from_session&#39; do</code>
+          <code class="ruby">        subject.params = {</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="57">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="57">
           
-          <code class="ruby">    it &#39;gets a user from their stored session&#39;</code>
+          
+          <code class="ruby">          controller: &#39;user&#39;,</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="58">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">          action: &#39;index&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="59">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">        }</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="60">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;#has_permission?&#39; do</code>
+          <code class="ruby">        expect(subject.has_permission?).to be true</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="61">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="61">
           
-          <code class="ruby">    it &#39;returns true in test&#39;</code>
+          
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="62">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="63">
+        <li class="covered" data-hits="1" data-linenumber="63">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">      it &#39;returns false if the current user doesnt have access to the page&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="64">
           <span class="hits">1</span>
           
-          <code class="ruby">  describe &#39;#has_global_permission?&#39; do</code>
+          <code class="ruby">        subject.params = {</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="65">
+        <li class="never" data-hits="" data-linenumber="65">
+          
+          
+          <code class="ruby">          controller: &#39;user&#39;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="66">
+          
+          
+          <code class="ruby">          action: &#39;index&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="67">
+          
+          
+          <code class="ruby">        }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="68">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;returns true when accessing the home page&#39;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="66">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;returns true when accessing the root page&#39;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="67">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;returns true when accessing the 404 page&#39;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="68">
-          
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">        expect(subject.has_permission?).to be false</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="69">
           
           
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="70">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="71">
+          
+          
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="70">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  describe &#39;#handle_no_permission&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="71">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;shows a warning&#39;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="72">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;redirects back if it can&#39;</code>
+          <code class="ruby">    describe &#39;#current_user&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="73">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &#39;redirects to root if it cannot&#39;</code>
+          <code class="ruby">      context &#39;when the user exists&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="74">
+        <li class="covered" data-hits="1" data-linenumber="74">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        it &#39;gets a user from their shibboleth login id&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="75">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          user = create(:user)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="76">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          request.env[&#39;fcIdNumber&#39;] = user.spire_id.to_s</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="77">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          subject.current_user</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="78">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          expect(assigns[:current_user]).to eq(user)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="79">
+          
+          
+          <code class="ruby">        end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="80">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="81">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        it &#39;gets a user from their stored session&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="82">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          user = create(:user)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="83">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          request.env[&#39;fcIdNumber&#39;] = &quot;&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="84">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          session[:user_id] = user.id.to_s</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="85">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          subject.current_user</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="86">
+          <span class="hits">1</span>
+          
+          <code class="ruby">          expect(assigns[:current_user]).to eq(user)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="87">
+          
+          
+          <code class="ruby">        end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="88">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="89">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="90">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &#39;raises an error if no user with shibboleth id exists&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="91">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        user = create(:user)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="92">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        request.env[&#39;fcIdNumber&#39;] = (user.spire_id + 1).to_s</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="93">
+          <span class="hits">2</span>
+          
+          <code class="ruby">        expect{subject.current_user}.to raise_error MissingUserError</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="94">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="95">
+          
+          
+          <code class="ruby">      </code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="96">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &#39;raises an error if no user with user id exists&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="97">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        user = create(:user)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="98">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        request.env[&#39;fcIdNumber&#39;] = &quot;&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="99">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        session[:user_id] = (user.id + 1).to_s</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="100">
+          <span class="hits">2</span>
+          
+          <code class="ruby">        expect{subject.current_user}.to raise_error MissingUserError</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="101">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="102">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="103">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="75">
+        <li class="never" data-hits="" data-linenumber="104">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="105">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  describe &#39;#root&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="106">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;redirects to the home index action&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="107">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      get :root</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="108">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(response).to redirect_to home_index_path</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="109">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="110">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="111">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="112">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  describe &#39;.get_actions&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="113">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;returns the actions available to a controller&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="114">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(ApplicationController.get_actions(HomeController)).to eq [&#39;index&#39;]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="115">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="116">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="117">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="118">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  describe &#39;#current_user&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="119">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;assigns the first user in test to @current_user&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="120">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      subject.current_user</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="121">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(assigns[:current_user]).to eq(User.first)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="122">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="123">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="124">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="125">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  describe &#39;#has_permission?&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="126">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;returns true in test&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="127">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(subject.has_permission?).to be true</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="128">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="129">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="130">
           
           
           <code class="ruby">end</code>
