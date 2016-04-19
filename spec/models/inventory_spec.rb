@@ -1,107 +1,116 @@
 require 'rails_helper'
 include InventoryExceptions
-
-RSpec.describe Inventory, type: :model do
-  before :all do # this is only for the mocks!
-    @uuid = 'not real uuid'
+# these tests must be run in order and all at once
+RSpec.describe Inventory, order: :defined, type: :model do
+  let(:name) do
+    name = ''
+    name += (rand(26) + 65).chr until name.length > 120
+    name
   end
 
-  it 'can raise an exception' do
-    expect { Inventory.mock_exception }.to raise_error(InventoryError)
+  before :each do
+    Timecop.freeze
   end
 
-  context 'item types' do
-    it 'returns an array of types' do
-      response = nil
-      expect { response = Inventory.item_types }.not_to raise_error
-      expect(response).to be_a(Array)
-    end
-
-    it 'returns the one item given a uuid' do
-      response = nil
-      expect { response = Inventory.item_type(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-      expect(response[:id]).to eq(@uuid)
-    end
-
-    it 'updates item type' do
-      response = nil
-      expect { response = Inventory.update_item_type(@uuid, 'some key', 'some value') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-
-    it 'deletes item type' do
-      response = nil
-      expect { response = Inventory.delete_item_type(@uuid) } .not_to raise_error
-      expect(response).to be_nil
-    end
-
-    it 'creates item type' do
-      response = nil
-      expect { response = Inventory.create_item_type('Alpaca', ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
+  after :each do
+    Timecop.return
   end
 
-  context 'items' do
-    it 'creates item' do
-      response = nil
-      expect { response = Inventory.create_item('billy', @uuid, {}) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'gets items by type' do
-      response = nil
-      expect { response = Inventory.items_by_type(@uuid) }.not_to raise_error
-      expect(response).to be_a(Array)
-    end
-    it 'get item by uuid' do
-      response = nil
-      expect { response = Inventory.item(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'updates item' do
-      response = nil
-      expect { response = Inventory.update_item(@uuid, 'fur_color', 'brown') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
+  it 'tests the remote app' do
+    response = nil
 
-    it 'deletes item' do
-      response = nil
-      expect { response = Inventory.delete_item(@uuid) }.not_to raise_error
-      expect(response).to be_nil
-    end
-  end
+    item_type_uuid = nil
+    # create item type
+    expect { response = Inventory.create_item_type(name, ['fur type', 'height', 'cuddlyness']) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(item_type_uuid = response.try(:[], 'uuid')).not_to be_nil
 
-  context 'reservations' do
-    it 'creates reservation' do
-      response = nil
-      expect { response = Inventory.create_reservation(@uuid, Time.zone.now, 6.days.from_now) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'update reservation' do
-      response = nil
-      expect { response = Inventory.update_reservation(@uuid, 'key', 'value') }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'get reservation' do
-      response = nil
-      expect { response = Inventory.reservation(@uuid) }.not_to raise_error
-      expect(response).to be_a(Hash)
-    end
-    it 'delete reservation' do
-      response = nil
-      expect { response = Inventory.delete_reservation(@uuid) }.not_to raise_error
-      expect(response).to be_nil
-    end
-    it 'updates reservation\'s metadata' do
-      response = nil
-      expect { response = Inventory.update_reservation_data('key', 'value') }.not_to raise_error
-      expect(response).to be_nil
-    end
-    it 'searches by time period' do
-      response = nil
-      expect { response = Inventory.reservations(Time.zone.now, 6.days.from_now) }.not_to raise_error
-      expect(response).to be_a(Array)
-    end
+    # get all item type
+    expect { response = Inventory.item_types }.not_to raise_error
+    expect(response).to be_a(Array)
+    expect(response.count).not_to eq 0
+
+    # get one item type
+    expect { response = Inventory.item_type(item_type_uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'uuid')).to eq(item_type_uuid)
+    expect(response.try(:[], 'name')).to eq(name)
+
+    # update item type
+    expect { response = Inventory.update_item_type(item_type_uuid, allowed_keys: ['color']) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'allowed_keys')).to eq(['color'])
+
+    item_uuid = nil
+    # creates item
+    expect { response = Inventory.create_item(item_type_uuid, name, true, {}) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(item_uuid = response.try(:[], 'uuid')).not_to be_nil
+
+    # get item by uuid
+    expect { response = Inventory.item(item_uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'uuid')).to eq(item_uuid)
+
+    # gets items by type
+    expect { response = Inventory.items_by_type(item_type_uuid) }.not_to raise_error
+    expect(response).to be_a(Array)
+    expect(response).to include('name' => name, 'uuid' => item_uuid)
+
+    item_name = name + 'a'
+    # updates item
+    expect { response = Inventory.update_item(item_uuid, name: item_name, data: { color: "red (becuase it's faster)" }) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'name')).to eq(item_name)
+    expect(response.try(:[], 'data')).not_to be_nil
+    expect(response.try(:[], 'data')).to include('color' => "red (becuase it's faster)")
+    expect(response.try(:[], 'uuid')).to eq(item_uuid)
+
+    reservation_uuid = nil
+    # creates reservation
+    expect { response = Inventory.create_reservation(name, Time.now.in_time_zone, 6.days.from_now) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(reservation_uuid = response.try(:[], 'uuid')).not_to be_nil
+    expect(response.try(:[], 'item_type')).to eq(name)
+    expect(response.try(:[], 'item')).to eq(item_name)
+
+    # get reservation
+    expect { response = Inventory.reservation(reservation_uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'uuid')).to eq(reservation_uuid)
+
+    # searches by time period
+    expect { response = Inventory.reservations(Time.now.in_time_zone, 7.days.from_now, name) }.not_to raise_error
+    expect(response).to be_a(Array)
+    expect(response).to include('start_time' => Time.now.to_time.iso8601, 'end_time' => 6.days.from_now.to_time.iso8601)
+
+    # update reservation
+    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day)) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(time = response.try(:[], 'start_time')).not_to be_nil
+    expect(Time.parse(time)).to be_within(1.day).of(Time.now + 1.day)
+
+    # updates reservation's metadata
+    expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: 'orange' }) }.not_to raise_error
+    expect(response).to be_nil
+    expect { response = Inventory.item(item_uuid) }.not_to raise_error
+    expect(response).to be_a(Hash)
+    expect(response.try(:[], 'uuid')).to eq(item_uuid)
+    expect(response.try(:[], 'data')).to include('color' => 'orange')
+
+    # delete reservation
+    expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error
+    expect(response).to be_nil
+    expect { Inventory.reservation(reservation_uuid) }.to raise_error ReservationNotFound
+
+    # deletes item
+    expect { response = Inventory.delete_item(item_uuid) }.not_to raise_error
+    expect(response).to be_nil
+    expect { Inventory.item(item_uuid) }.to raise_error ItemNotFound
+
+    # delete item_type
+    expect { response = Inventory.delete_item_type(item_type_uuid) }.not_to raise_error
+    expect(response).to be_nil
+    expect { Inventory.item_type(item_type_uuid) }.to raise_error ItemTypeNotFound
   end
 end

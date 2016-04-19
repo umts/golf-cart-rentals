@@ -3,6 +3,7 @@ Rails:
 
 AllCops:
   Exclude:
+    - 'lib/templates/**/*'
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
