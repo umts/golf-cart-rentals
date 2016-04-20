@@ -8,14 +8,6 @@ RSpec.describe Inventory, order: :defined, type: :model do
     name
   end
 
-  before :each do
-    Timecop.freeze
-  end
-
-  after :each do
-    Timecop.return
-  end
-
   it 'tests the remote app' do
     response = nil
 
