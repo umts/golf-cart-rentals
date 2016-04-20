@@ -1,38 +1,40 @@
-<p>
-  <strong>Incidental Type:</strong>
-  <%= @incidental.incidental_type.name %>
-</p>
+<% provide( :page_header, "Incidental" ) %>
 
-<p>
-  <strong>Fee:</strong>
-  <%= @incidental.fee %>
-</p>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Incidental Type</label>
+  <div class="form-control-information col-xs-10"><%= @incidental.incidental_type.name %></div>
+</div>
 
-<p>
-  <strong>Number of times modified:</strong>
-  <%= @incidental.times_modified %>
-</p>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Fee</label>
+  <div class="form-control-information col-xs-10"><%= @incidental.fee %></div>
+</div>
 
-<p>
-  <strong>Notes:</strong>
-  <ul>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Times Modified</label>
+  <div class="form-control-information col-xs-10"><%= @incidental.times_modified %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Notes</label>
     <% @incidental.notes.reverse_each do |n| %>
-      <li>
-        <%= n.updated_at.strftime("%T - %e %b, %Y") %>: <%= n.note %>
-      </li>
+      <div class="form-control-information col-xs-10"><%= n.updated_at.strftime("%T - %e %b, %Y") %>: <%= n.note %></div>
     <% end %>
-  </ul>
-</p>
+</div>
 
-<p>
-  <strong>Document:</strong>
-  <%= @incidental.documents %>
-</p>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Documents</label>
+  <div class="form-control-information col-xs-10"><%= @incidental.documents %></div>
+</div>
 
-<p>
-  <strong>Active?:</strong>
-  <%= @incidental.is_active? %>
-</p>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Active?</label>
+  <div class="form-control-information col-xs-10"><%= @incidental.is_active? %></div>
+</div>
 
-<%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, @incidental) %> |
-<%= link_to 'Back', rental_incurred_incidentals_path %>
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-10">
+    <%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, @incidental), class: "btn btn-primary" %>
+    <%= link_to 'Back', rental_incurred_incidentals_path, class: "btn btn-default" %>
+  </div>
+</div>

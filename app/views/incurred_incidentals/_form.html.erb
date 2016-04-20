@@ -1,19 +1,40 @@
 <%= form_for([@rental, @incidental]) do |f| %>
-  <%= f.label :incidental_type_id, "Incident type" %>
-  <%= f.select :incidental_type_id,
-      options_for_select(IncidentalType.all.collect {|t| [t.name, t.id]}, @incidental.incidental_type_id),
-      required: true, prompt: true %>
+  <div class="form-group col-xs-12">
+    <%= f.label :incidental_type_id, "Incident type", class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.select :incidental_type_id,
+          options_for_select(IncidentalType.all.collect {|t| [t.name, t.id]}, @incidental.incidental_type_id),
+          prompt: true, required: true, class: "selectpicker form-control" %>
+    </div>
+  </div>
 
-  <%= f.label :times_modified %>
-  <%= f.text_field :times_modified, required: true %>
+  <div class="form-group col-xs-12">
+    <%= f.label :times_modified, class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.text_field :times_modified, required: true, class: "form-control" %>
+    </div>
+  </div>
 
-  <%= f.fields_for :note do |n| %>
-    <%= n.label :note %>
-    <%= n.text_field :note %>
-  <% end %>
+  <div class="form-group col-xs-12">
+    <%= f.fields_for :note do |n| %>
+      <%= n.label :note, class: 'control-label col-xs-2' %>
+      <div class="col-xs-6">
+        <%= n.text_field :note, required: true, class: "form-control" %>
+      </div>
+    <% end %>
+  </div>
 
-  <%= f.label :documents %>
-  <%= f.text_field :documents %>
+  <div class="form-group col-xs-12">
+    <%= f.label :document, class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.text_field :documents, class: "form-control" %>
+    </div>
+  </div>
 
-  <%= f.submit %>
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit class: "btn btn-primary" %>
+      <%= link_to 'Back', rental_incurred_incidentals_path, class: "btn btn-default" %>
+    </div>
+  </div>
 <% end %>

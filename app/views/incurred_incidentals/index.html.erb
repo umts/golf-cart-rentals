@@ -1,6 +1,9 @@
-<h1>Report of Incurred Incidentals for Rental: <%= @rental.id %></h1>
+<% provide( :page_header, 'Incurred Incidentals' ) %>
 
-<table>
+<%= link_to 'New Incurred Incidental', new_rental_incurred_incidental_path, class: "btn btn-primary" %>
+<br><br>
+
+<table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
       <th>Incidental Type</th>
@@ -9,6 +12,7 @@
       <th>Notes</th>
       <th>Document</th>
       <th>Active?</th>
+      <th class="min-width">Actions</th>
     </tr>
   </thead>
 
@@ -21,14 +25,12 @@
         <td><%= i.notes.last.note %></td>
         <td><%= i.documents %></td>
         <td><%= i.is_active? %></td>
-        <td><%= link_to 'Show', rental_incurred_incidental_path(@rental, i) %></td>
-        <td><%= link_to 'Edit', edit_rental_incurred_incidental_path(@rental, i) %></td>
-        <td><%= link_to 'De-activate', active_rental_incurred_incidental_path(@rental, i), method: :patch %></td>
+        <td class="min-width">
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-success" %>
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-primary" %>
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Active"), active_rental_incurred_incidental_path(@rental, i), method: :patch, class: "btn btn-xs btn-danger" %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Incurred Incidental', new_rental_incurred_incidental_path %>
