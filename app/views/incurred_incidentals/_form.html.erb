@@ -1,17 +1,19 @@
-<%= form_for([@rental, @incidental]) do |i| %>
-  <%= i.label :incidental_type_id, "Incident type" %>
-  <%= i.select :incidental_type_id,
+<%= form_for([@rental, @incidental]) do |f| %>
+  <%= f.label :incidental_type_id, "Incident type" %>
+  <%= f.select :incidental_type_id,
       options_for_select(IncidentalType.all.collect {|t| [t.name, t.id]}, @incidental.incidental_type_id),
       required: true, prompt: true %>
 
-  <%= i.label :times_modified %>
-  <%= i.text_field :times_modified, required: true %>
+  <%= f.label :times_modified %>
+  <%= f.text_field :times_modified, required: true %>
 
-  <%= i.label :notes %>
-  <%= i.text_field :notes %>
+  <%= f.fields_for :note do |n| %>
+    <%= n.label :note %>
+    <%= n.text_field :note %>
+  <% end %>
 
-  <%= i.label :documents %>
-  <%= i.text_field :documents %>
+  <%= f.label :documents %>
+  <%= f.text_field :documents %>
 
-  <%= i.submit %>
+  <%= f.submit %>
 <% end %>

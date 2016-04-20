@@ -15,7 +15,13 @@
 
 <p>
   <strong>Notes:</strong>
-  <%= @incidental.notes %>
+  <ul>
+    <% @incidental.notes.reverse_each do |n| %>
+      <li>
+        <%= n.updated_at.strftime("%T - %e %b, %Y") %>: <%= n.note %>
+      </li>
+    <% end %>
+  </ul>
 </p>
 
 <p>

@@ -18,6 +18,7 @@ class IncurredIncidentalsController < ApplicationController
 
   def create
     @incidental = @rental.incurred_incidentals.new(incidental_params)
+    @incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
     respond_to do |format|
       if @incidental.save
         format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental),
@@ -33,6 +34,7 @@ class IncurredIncidentalsController < ApplicationController
 
   def update
     respond_to do |format|
+      @incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
       if @incidental.update(incidental_params)
         format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental),
                       notice: 'Incidental successfully updated.' }
@@ -42,13 +44,6 @@ class IncurredIncidentalsController < ApplicationController
     end
   end
 
-  #def destroy
-  #  @incidental.destroy
-  #  respond_to do |format|
-  #    format.html { redirect_to rental_incurred_incidentals_path,
-  #                  notice: 'Incidental successfully destroyed.' }
-  #  end
-  #end
   def active
     respond_to do |format|
       if @incidental.update(is_active: @incidental.re_de_activate)

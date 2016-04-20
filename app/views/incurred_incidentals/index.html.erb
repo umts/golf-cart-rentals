@@ -18,7 +18,7 @@
         <td><%= i.incidental_type.name %></td>
         <td><%= i.fee %></td>
         <td><%= i.times_modified %></td>
-        <td><%= i.notes %></td>
+        <td><%= i.notes.last.note %></td>
         <td><%= i.documents %></td>
         <td><%= i.is_active? %></td>
         <td><%= link_to 'Show', rental_incurred_incidental_path(@rental, i) %></td>
