@@ -6,8 +6,9 @@ script:
 before_script:
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
   - cp config/database.travis.yml config/database.yml
+  - cp config/enviroments/development.travis.yml config/enviroments/development.yml
+  - cp config/enviroments/test.travis.yml config/enviroments/test.yml
   - bundle exec rake db:create
   - bundle exec rake db:migrate
-  - rm spec/models/inventory_spec.rb
 addons:
   mariadb: '10.0'
