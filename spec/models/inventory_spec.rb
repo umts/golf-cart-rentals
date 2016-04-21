@@ -74,7 +74,7 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response.try(:[], 'uuid')).to eq(reservation_uuid)
 
     # searches by time period
-    expect { response = Inventory.reservations(Time.now.in_time_zone, 7.days.from_now, name) }.not_to raise_error
+    expect { response = Inventory.reservations(Time.current, 7.days.from_now, name) }.not_to raise_error
     expect(response).to be_a(Array)
     expect(response).to include('start_time' => reservation_start.iso8601, 'end_time' => reservation_end.iso8601)
 
