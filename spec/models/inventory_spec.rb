@@ -8,14 +8,6 @@ RSpec.describe Inventory, order: :defined, type: :model do
     name
   end
 
-  before :each do
-    Timecop.freeze
-  end
-
-  after :each do
-    Timecop.return
-  end
-
   it 'tests the remote app' do
     response = nil
 
@@ -68,7 +60,9 @@ RSpec.describe Inventory, order: :defined, type: :model do
 
     reservation_uuid = nil
     # creates reservation
-    expect { response = Inventory.create_reservation(name, Time.now.in_time_zone, 6.days.from_now) }.not_to raise_error
+    reservation_start = Time.current
+    reservation_end = 6.days.from_now.in_time_zone
+    expect { response = Inventory.create_reservation(name, reservation_start, reservation_end) }.not_to raise_error
     expect(response).to be_a(Hash)
     expect(reservation_uuid = response.try(:[], 'uuid')).not_to be_nil
     expect(response.try(:[], 'item_type')).to eq(name)
@@ -80,15 +74,15 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response.try(:[], 'uuid')).to eq(reservation_uuid)
 
     # searches by time period
-    expect { response = Inventory.reservations(Time.now.in_time_zone, 7.days.from_now, name) }.not_to raise_error
+    expect { response = Inventory.reservations(Time.current, 7.days.from_now.in_time_zone, name) }.not_to raise_error
     expect(response).to be_a(Array)
-    expect(response).to include('start_time' => Time.now.to_time.iso8601, 'end_time' => 6.days.from_now.to_time.iso8601)
+    expect(response).to include('start_time' => reservation_start.iso8601, 'end_time' => reservation_end.iso8601)
 
     # update reservation
-    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day)) }.not_to raise_error
+    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.current + 1.day)) }.not_to raise_error
     expect(response).to be_a(Hash)
     expect(time = response.try(:[], 'start_time')).not_to be_nil
-    expect(Time.parse(time)).to be_within(1.day).of(Time.now + 1.day)
+    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 1.day)
 
     # updates reservation's metadata
     expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: 'orange' }) }.not_to raise_error

@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 20160411151739) do
   create_table "incurred_incidentals", force: :cascade do |t|
     t.integer  "incidental_type_id", limit: 4
     t.decimal  "times_modified",                   precision: 10
-    t.text     "notes",              limit: 65535
     t.text     "document",           limit: 65535
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
