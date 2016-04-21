@@ -21,20 +21,20 @@
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">91.55%</span></span>
+    (<span class="covered_percent"><span class="green">92.18%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.24
+         3.29
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>63</b> files in total.
-    <b>1397</b> relevant lines. 
-    <span class="green"><b>1279</b> lines covered</span> and
-    <span class="red"><b>118</b> lines missed </span>
+    <b>1394</b> relevant lines. 
+    <span class="green"><b>1285</b> lines covered</span> and
+    <span class="red"><b>109</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -92,12 +92,12 @@
       
       <tr>
         <td class="strong"><a href="#6f6aa5bbd477c4afe49acf74eccb132a1a08832b" class="src_link" title="app/controllers/rentals_controller.rb">app/controllers/rentals_controller.rb</a></td>
-        <td class="red strong">67.57 %</td>
+        <td class="yellow strong">83.78 %</td>
         <td>70</td>
         <td>37</td>
-        <td>25</td>
-        <td>12</td>
-        <td>1.4</td>
+        <td>31</td>
+        <td>6</td>
+        <td>2.0</td>
       </tr>
       
       <tr>
@@ -117,7 +117,7 @@
         <td>38</td>
         <td>10</td>
         <td>28</td>
-        <td>1.1</td>
+        <td>1.6</td>
       </tr>
       
       <tr>
@@ -207,7 +207,7 @@
         <td>90</td>
         <td>88</td>
         <td>2</td>
-        <td>1.9</td>
+        <td>2.0</td>
       </tr>
       
       <tr>
@@ -252,12 +252,12 @@
       
       <tr>
         <td class="strong"><a href="#37c6aece92aedd71981619a53b6eae0f9b281eb4" class="src_link" title="app/models/rental.rb">app/models/rental.rb</a></td>
-        <td class="yellow strong">83.02 %</td>
+        <td class="yellow strong">86.79 %</td>
         <td>85</td>
         <td>53</td>
-        <td>44</td>
-        <td>9</td>
-        <td>1.0</td>
+        <td>46</td>
+        <td>7</td>
+        <td>1.3</td>
       </tr>
       
       <tr>
@@ -273,9 +273,9 @@
       <tr>
         <td class="strong"><a href="#8159e7ce713f4f8685f69e3cf2f1094b45d473e6" class="src_link" title="config/application.rb">config/application.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>37</td>
-        <td>11</td>
-        <td>11</td>
+        <td>38</td>
+        <td>12</td>
+        <td>12</td>
         <td>0</td>
         <td>1.0</td>
       </tr>
@@ -452,11 +452,11 @@
       
       <tr>
         <td class="strong"><a href="#5814d00fefe352ccc6ae1cb03a30ab4d61088b69" class="src_link" title="spec/controllers/rentals_controller_spec.rb">spec/controllers/rentals_controller_spec.rb</a></td>
-        <td class="green strong">93.75 %</td>
-        <td>103</td>
-        <td>64</td>
-        <td>60</td>
-        <td>4</td>
+        <td class="green strong">95.16 %</td>
+        <td>101</td>
+        <td>62</td>
+        <td>59</td>
+        <td>3</td>
         <td>1.6</td>
       </tr>
       
@@ -613,9 +613,9 @@
       <tr>
         <td class="strong"><a href="#47245dc3df738f5077fa3babfdb6889f755bfa8b" class="src_link" title="spec/models/inventory_spec.rb">spec/models/inventory_spec.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>116</td>
-        <td>75</td>
-        <td>75</td>
+        <td>110</td>
+        <td>73</td>
+        <td>73</td>
         <td>0</td>
         <td>1.3</td>
       </tr>
@@ -2307,11 +2307,11 @@
         <div class="source_table" id="6f6aa5bbd477c4afe49acf74eccb132a1a08832b">
   <div class="header">
     <h3>app/controllers/rentals_controller.rb</h3>
-    <h4><span class="red">67.57 %</span> covered</h4>
+    <h4><span class="yellow">83.78 %</span> covered</h4>
     <div>
       <b>37</b> relevant lines. 
-      <span class="green"><b>25</b> lines covered</span> and
-      <span class="red"><b>12</b> lines missed.</span>
+      <span class="green"><b>31</b> lines covered</span> and
+      <span class="red"><b>6</b> lines missed.</span>
     </div>
   </div>
   
@@ -2504,8 +2504,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="32">
-          
+        <li class="covered" data-hits="3" data-linenumber="32">
+          <span class="hits">3</span>
           
           <code class="ruby">    if @rental.create_reservation</code>
         </li>
@@ -2528,14 +2528,14 @@
           <code class="ruby">    else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="36">
-          
+        <li class="covered" data-hits="8" data-linenumber="36">
+          <span class="hits">8</span>
           
           <code class="ruby">      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="37">
-          
+        <li class="covered" data-hits="2" data-linenumber="37">
+          <span class="hits">2</span>
           
           <code class="ruby">      render :new</code>
         </li>
@@ -2705,23 +2705,23 @@
         <li class="covered" data-hits="3" data-linenumber="65">
           <span class="hits">3</span>
           
-          <code class="ruby">    p = params.require(:rental).permit(:start_date, :end_date, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)</code>
+          <code class="ruby">    p = params.require(:rental).permit(:start_date, :end_date, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="66">
-          
+        <li class="covered" data-hits="3" data-linenumber="66">
+          <span class="hits">3</span>
           
           <code class="ruby">    p[:start_date] = p[:start_date].to_datetime if p[:start_date]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="67">
-          
+        <li class="covered" data-hits="3" data-linenumber="67">
+          <span class="hits">3</span>
           
           <code class="ruby">    p[:end_date] = p[:end_date].to_datetime if p[:end_date]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="68">
-          
+        <li class="covered" data-hits="3" data-linenumber="68">
+          <span class="hits">3</span>
           
           <code class="ruby">    p</code>
         </li>
@@ -3554,20 +3554,20 @@
           <code class="ruby">  def flash_message(type, text, now = nil)</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="74">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="18" data-linenumber="74">
+          <span class="hits">18</span>
           
           <code class="ruby">    if now</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="75">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="18" data-linenumber="75">
+          <span class="hits">18</span>
           
           <code class="ruby">      flash.now[type] ||= []</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="76">
-          <span class="hits">12</span>
+        <li class="covered" data-hits="18" data-linenumber="76">
+          <span class="hits">18</span>
           
           <code class="ruby">      flash.now[type] &lt;&lt; text</code>
         </li>
@@ -4850,8 +4850,8 @@
           <code class="ruby">  def self.create_reservation(item_type, start_time, end_time)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="72">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="72">
+          <span class="hits">2</span>
           
           <code class="ruby">    response = HTTParty.post(@base_uri + &#39;reservations/&#39;,</code>
         </li>
@@ -4868,8 +4868,8 @@
           <code class="ruby">                             headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="75">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="75">
+          <span class="hits">2</span>
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
@@ -5258,26 +5258,26 @@
           <code class="ruby">  def self.handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="140">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="10" data-linenumber="140">
+          <span class="hits">10</span>
           
           <code class="ruby">    raise AuthError, response.body if response.code == 401</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="141">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="10" data-linenumber="141">
+          <span class="hits">10</span>
           
           <code class="ruby">    raise ReservationError, response.body if response.code == 422</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="142">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="10" data-linenumber="142">
+          <span class="hits">10</span>
           
           <code class="ruby">    raise ReservationNotFound, response.body if response.code == 404</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="143">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="7" data-linenumber="143">
+          <span class="hits">7</span>
           
           <code class="ruby">    raise InventoryError, response.body if response.code != 200</code>
         </li>
@@ -6339,11 +6339,11 @@
         <div class="source_table" id="37c6aece92aedd71981619a53b6eae0f9b281eb4">
   <div class="header">
     <h3>app/models/rental.rb</h3>
-    <h4><span class="yellow">83.02 %</span> covered</h4>
+    <h4><span class="yellow">86.79 %</span> covered</h4>
     <div>
       <b>53</b> relevant lines. 
-      <span class="green"><b>44</b> lines covered</span> and
-      <span class="red"><b>9</b> lines missed.</span>
+      <span class="green"><b>46</b> lines covered</span> and
+      <span class="red"><b>7</b> lines missed.</span>
     </div>
   </div>
   
@@ -6644,8 +6644,8 @@
           <code class="ruby">  def create_reservation</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="50">
-          
+        <li class="covered" data-hits="3" data-linenumber="50">
+          <span class="hits">3</span>
           
           <code class="ruby">    return false unless mostly_valid?</code>
         </li>
@@ -6656,8 +6656,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="52">
-          
+        <li class="covered" data-hits="1" data-linenumber="52">
+          <span class="hits">1</span>
           
           <code class="ruby">    reservation = Inventory.create_reservation(item_type.name, start_date, start_date)</code>
         </li>
@@ -6770,26 +6770,26 @@
           <code class="ruby">  def mostly_valid?</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="71">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="71">
+          <span class="hits">5</span>
           
           <code class="ruby">    self.skip_reservation_validation = true</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="72">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="72">
+          <span class="hits">5</span>
           
           <code class="ruby">    is_valid = valid?</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="73">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="73">
+          <span class="hits">5</span>
           
           <code class="ruby">    self.skip_reservation_validation = false</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="74">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="5" data-linenumber="74">
+          <span class="hits">5</span>
           
           <code class="ruby">    is_valid</code>
         </li>
@@ -7157,8 +7157,8 @@
     <h3>config/application.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>11</b> relevant lines. 
-      <span class="green"><b>11</b> lines covered</span> and
+      <b>12</b> relevant lines. 
+      <span class="green"><b>12</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -7376,13 +7376,19 @@
           <code class="ruby">    config.autoload_paths += Dir[&quot;#{config.root}/lib/**/&quot;]</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="36">
+        <li class="covered" data-hits="1" data-linenumber="36">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    config.time_zone = &#39;Eastern Time (US &amp; Canada)&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="37">
+        <li class="never" data-hits="" data-linenumber="38">
           
           
           <code class="ruby">end</code>
@@ -7751,7 +7757,7 @@
         <li class="covered" data-hits="1" data-linenumber="44">
           <span class="hits">1</span>
           
-          <code class="ruby">  config.inventory_api_uri = &#39;http://aggressive-epsilon.herokuapp.com/v1/&#39;</code>
+          <code class="ruby">  config.inventory_api_uri = &#39;http://localhost:4000/v1/&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="45">
@@ -10425,11 +10431,11 @@
         <div class="source_table" id="5814d00fefe352ccc6ae1cb03a30ab4d61088b69">
   <div class="header">
     <h3>spec/controllers/rentals_controller_spec.rb</h3>
-    <h4><span class="green">93.75 %</span> covered</h4>
+    <h4><span class="green">95.16 %</span> covered</h4>
     <div>
-      <b>64</b> relevant lines. 
-      <span class="green"><b>60</b> lines covered</span> and
-      <span class="red"><b>4</b> lines missed.</span>
+      <b>62</b> relevant lines. 
+      <span class="green"><b>59</b> lines covered</span> and
+      <span class="red"><b>3</b> lines missed.</span>
     </div>
   </div>
   
@@ -10877,178 +10883,166 @@
         <li class="covered" data-hits="1" data-linenumber="74">
           <span class="hits">1</span>
           
-          <code class="ruby">        pending(&#39;rework this for the api&#39;)</code>
+          <code class="ruby">        expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="75">
           <span class="hits">1</span>
           
-          <code class="ruby">        expect do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="76">
-          <span class="hits">1</span>
-          
           <code class="ruby">          post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="77">
+        <li class="never" data-hits="" data-linenumber="76">
           
           
           <code class="ruby">        end.to_not change(Rental, :count)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="78">
+        <li class="never" data-hits="" data-linenumber="77">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="79">
+        <li class="covered" data-hits="1" data-linenumber="78">
           <span class="hits">1</span>
           
           <code class="ruby">      it &#39;re-renders the :new template&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="80">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        pending(&#39;rework this for the api&#39;)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="81">
+        <li class="covered" data-hits="1" data-linenumber="79">
           <span class="hits">1</span>
           
           <code class="ruby">        post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="82">
-          
+        <li class="covered" data-hits="1" data-linenumber="80">
+          <span class="hits">1</span>
           
           <code class="ruby">        expect(response).to render_template :new</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="83">
+        <li class="never" data-hits="" data-linenumber="81">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="84">
+        <li class="never" data-hits="" data-linenumber="82">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="85">
+        <li class="never" data-hits="" data-linenumber="83">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="86">
+        <li class="never" data-hits="" data-linenumber="84">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="87">
+        <li class="covered" data-hits="1" data-linenumber="85">
           <span class="hits">1</span>
           
           <code class="ruby">  describe &#39;POST #destroy&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="88">
+        <li class="covered" data-hits="1" data-linenumber="86">
           <span class="hits">1</span>
           
           <code class="ruby">    before :each do</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="89">
+        <li class="covered" data-hits="2" data-linenumber="87">
           <span class="hits">2</span>
           
           <code class="ruby">      request.env[&#39;HTTP_REFERER&#39;] = &#39;back_page&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="90">
+        <li class="never" data-hits="" data-linenumber="88">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="91">
+        <li class="covered" data-hits="1" data-linenumber="89">
           <span class="hits">1</span>
           
           <code class="ruby">    it &#39;deletes the rental from the database&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="92">
+        <li class="covered" data-hits="1" data-linenumber="90">
           <span class="hits">1</span>
           
           <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="93">
+        <li class="covered" data-hits="1" data-linenumber="91">
           <span class="hits">1</span>
           
           <code class="ruby">      expect do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="94">
+        <li class="covered" data-hits="1" data-linenumber="92">
           <span class="hits">1</span>
           
           <code class="ruby">        delete :destroy, id: rental</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="95">
+        <li class="never" data-hits="" data-linenumber="93">
           
           
           <code class="ruby">      end.to change(Rental, :count).by(-1)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="96">
+        <li class="never" data-hits="" data-linenumber="94">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="97">
+        <li class="covered" data-hits="1" data-linenumber="95">
           <span class="hits">1</span>
           
           <code class="ruby">    it &#39;redirects back a page&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="98">
+        <li class="covered" data-hits="1" data-linenumber="96">
           <span class="hits">1</span>
           
           <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="99">
+        <li class="covered" data-hits="1" data-linenumber="97">
           <span class="hits">1</span>
           
           <code class="ruby">      delete :destroy, id: rental</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="100">
+        <li class="missed" data-hits="0" data-linenumber="98">
           
           
           <code class="ruby">      expect(response).to redirect_to &#39;back_page&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="101">
+        <li class="never" data-hits="" data-linenumber="99">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="102">
+        <li class="never" data-hits="" data-linenumber="100">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="103">
+        <li class="never" data-hits="" data-linenumber="101">
           
           
           <code class="ruby">end</code>
@@ -13757,8 +13751,8 @@
     <h3>spec/models/inventory_spec.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>75</b> relevant lines. 
-      <span class="green"><b>75</b> lines covered</span> and
+      <b>73</b> relevant lines. 
+      <span class="green"><b>73</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -13829,451 +13823,451 @@
         <li class="covered" data-hits="1" data-linenumber="11">
           <span class="hits">1</span>
           
-          <code class="ruby">  before :each do</code>
+          <code class="ruby">  it &#39;tests the remote app&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="12">
           <span class="hits">1</span>
           
-          <code class="ruby">    Timecop.freeze</code>
+          <code class="ruby">    response = nil</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="13">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="14">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="15">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  after :each do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="16">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    Timecop.return</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="17">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="18">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="19">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  it &#39;tests the remote app&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="20">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    response = nil</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="21">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="22">
+        <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
           <code class="ruby">    item_type_uuid = nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="23">
+        <li class="never" data-hits="" data-linenumber="15">
           
           
           <code class="ruby">    # create item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="24">
+        <li class="covered" data-hits="2" data-linenumber="16">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.create_item_type(name, [&#39;fur type&#39;, &#39;height&#39;, &#39;cuddlyness&#39;]) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="25">
+        <li class="covered" data-hits="1" data-linenumber="17">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="26">
+        <li class="covered" data-hits="1" data-linenumber="18">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(item_type_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="27">
+        <li class="never" data-hits="" data-linenumber="19">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="28">
+        <li class="never" data-hits="" data-linenumber="20">
           
           
           <code class="ruby">    # get all item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="29">
+        <li class="covered" data-hits="2" data-linenumber="21">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.item_types }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
+        <li class="covered" data-hits="1" data-linenumber="22">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="31">
+        <li class="covered" data-hits="1" data-linenumber="23">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.count).not_to eq 0</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="32">
+        <li class="never" data-hits="" data-linenumber="24">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
+        <li class="never" data-hits="" data-linenumber="25">
           
           
           <code class="ruby">    # get one item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="34">
+        <li class="covered" data-hits="2" data-linenumber="26">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.item_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="35">
+        <li class="covered" data-hits="1" data-linenumber="27">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="36">
+        <li class="covered" data-hits="1" data-linenumber="28">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_type_uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="37">
+        <li class="covered" data-hits="1" data-linenumber="29">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;name&#39;)).to eq(name)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="38">
+        <li class="never" data-hits="" data-linenumber="30">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="39">
+        <li class="never" data-hits="" data-linenumber="31">
           
           
           <code class="ruby">    # update item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="40">
+        <li class="covered" data-hits="2" data-linenumber="32">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.update_item_type(item_type_uuid, allowed_keys: [&#39;color&#39;]) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="41">
+        <li class="covered" data-hits="1" data-linenumber="33">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="42">
+        <li class="covered" data-hits="1" data-linenumber="34">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;allowed_keys&#39;)).to eq([&#39;color&#39;])</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="43">
+        <li class="never" data-hits="" data-linenumber="35">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="44">
+        <li class="covered" data-hits="1" data-linenumber="36">
           <span class="hits">1</span>
           
           <code class="ruby">    item_uuid = nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="45">
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">    # creates item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="46">
+        <li class="covered" data-hits="2" data-linenumber="38">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.create_item(item_type_uuid, name, true, {}) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="47">
+        <li class="covered" data-hits="1" data-linenumber="39">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="48">
+        <li class="covered" data-hits="1" data-linenumber="40">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(item_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="49">
+        <li class="never" data-hits="" data-linenumber="41">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="50">
+        <li class="never" data-hits="" data-linenumber="42">
           
           
           <code class="ruby">    # get item by uuid</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="51">
+        <li class="covered" data-hits="2" data-linenumber="43">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="52">
+        <li class="covered" data-hits="1" data-linenumber="44">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="53">
+        <li class="covered" data-hits="1" data-linenumber="45">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="never" data-hits="" data-linenumber="46">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="55">
+        <li class="never" data-hits="" data-linenumber="47">
           
           
           <code class="ruby">    # gets items by type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="56">
+        <li class="covered" data-hits="2" data-linenumber="48">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.items_by_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="57">
+        <li class="covered" data-hits="1" data-linenumber="49">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="58">
+        <li class="covered" data-hits="1" data-linenumber="50">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to include(&#39;name&#39; =&gt; name, &#39;uuid&#39; =&gt; item_uuid)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="59">
+        <li class="never" data-hits="" data-linenumber="51">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="60">
+        <li class="covered" data-hits="1" data-linenumber="52">
           <span class="hits">1</span>
           
           <code class="ruby">    item_name = name + &#39;a&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="never" data-hits="" data-linenumber="53">
           
           
           <code class="ruby">    # updates item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="62">
+        <li class="covered" data-hits="2" data-linenumber="54">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.update_item(item_uuid, name: item_name, data: { color: &quot;red (becuase it&#39;s faster)&quot; }) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="63">
+        <li class="covered" data-hits="1" data-linenumber="55">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="64">
+        <li class="covered" data-hits="1" data-linenumber="56">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;name&#39;)).to eq(item_name)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="65">
+        <li class="covered" data-hits="1" data-linenumber="57">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="66">
+        <li class="covered" data-hits="1" data-linenumber="58">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).to include(&#39;color&#39; =&gt; &quot;red (becuase it&#39;s faster)&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="67">
+        <li class="covered" data-hits="1" data-linenumber="59">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="68">
+        <li class="never" data-hits="" data-linenumber="60">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="69">
+        <li class="covered" data-hits="1" data-linenumber="61">
           <span class="hits">1</span>
           
           <code class="ruby">    reservation_uuid = nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="70">
+        <li class="never" data-hits="" data-linenumber="62">
           
           
           <code class="ruby">    # creates reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="71">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="1" data-linenumber="63">
+          <span class="hits">1</span>
           
-          <code class="ruby">    expect { response = Inventory.create_reservation(name, Time.now.in_time_zone, 6.days.from_now) }.not_to raise_error</code>
+          <code class="ruby">    reservation_start = Time.current</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="72">
+        <li class="covered" data-hits="1" data-linenumber="64">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    reservation_end = 6.days.from_now.in_time_zone</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="65">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    expect { response = Inventory.create_reservation(name, reservation_start, reservation_end) }.not_to raise_error</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="66">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="73">
+        <li class="covered" data-hits="1" data-linenumber="67">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(reservation_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="74">
+        <li class="covered" data-hits="1" data-linenumber="68">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;item_type&#39;)).to eq(name)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="75">
+        <li class="covered" data-hits="1" data-linenumber="69">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;item&#39;)).to eq(item_name)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="76">
+        <li class="never" data-hits="" data-linenumber="70">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="77">
+        <li class="never" data-hits="" data-linenumber="71">
           
           
           <code class="ruby">    # get reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="78">
+        <li class="covered" data-hits="2" data-linenumber="72">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.reservation(reservation_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="79">
+        <li class="covered" data-hits="1" data-linenumber="73">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="80">
+        <li class="covered" data-hits="1" data-linenumber="74">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(reservation_uuid)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="81">
+        <li class="never" data-hits="" data-linenumber="75">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="82">
+        <li class="never" data-hits="" data-linenumber="76">
           
           
           <code class="ruby">    # searches by time period</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="83">
+        <li class="covered" data-hits="2" data-linenumber="77">
           <span class="hits">2</span>
           
-          <code class="ruby">    expect { response = Inventory.reservations(Time.now.in_time_zone, 7.days.from_now, name) }.not_to raise_error</code>
+          <code class="ruby">    expect { response = Inventory.reservations(Time.current, 7.days.from_now.in_time_zone, name) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="84">
+        <li class="covered" data-hits="1" data-linenumber="78">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
+        <li class="covered" data-hits="1" data-linenumber="79">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    expect(response).to include(&#39;start_time&#39; =&gt; reservation_start.iso8601, &#39;end_time&#39; =&gt; reservation_end.iso8601)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="80">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="81">
+          
+          
+          <code class="ruby">    # update reservation</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="82">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.current + 1.day)) }.not_to raise_error</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="83">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    expect(response).to be_a(Hash)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="84">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    expect(time = response.try(:[], &#39;start_time&#39;)).not_to be_nil</code>
+        </li>
+      
         <li class="covered" data-hits="1" data-linenumber="85">
           <span class="hits">1</span>
           
-          <code class="ruby">    expect(response).to include(&#39;start_time&#39; =&gt; Time.now.to_time.iso8601, &#39;end_time&#39; =&gt; 6.days.from_now.to_time.iso8601)</code>
+          <code class="ruby">    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 1.day)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="86">
@@ -14285,178 +14279,142 @@
         <li class="never" data-hits="" data-linenumber="87">
           
           
-          <code class="ruby">    # update reservation</code>
+          <code class="ruby">    # updates reservation&#39;s metadata</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="88">
           <span class="hits">2</span>
           
-          <code class="ruby">    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.now + 1.day)) }.not_to raise_error</code>
+          <code class="ruby">    expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: &#39;orange&#39; }) }.not_to raise_error</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="89">
           <span class="hits">1</span>
           
-          <code class="ruby">    expect(response).to be_a(Hash)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    expect(time = response.try(:[], &#39;start_time&#39;)).not_to be_nil</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    expect(Time.parse(time)).to be_within(1.day).of(Time.now + 1.day)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="92">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="93">
-          
-          
-          <code class="ruby">    # updates reservation&#39;s metadata</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="94">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: &#39;orange&#39; }) }.not_to raise_error</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="95">
-          <span class="hits">1</span>
-          
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="96">
+        <li class="covered" data-hits="2" data-linenumber="90">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="97">
+        <li class="covered" data-hits="1" data-linenumber="91">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="98">
+        <li class="covered" data-hits="1" data-linenumber="92">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="99">
+        <li class="covered" data-hits="1" data-linenumber="93">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).to include(&#39;color&#39; =&gt; &#39;orange&#39;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="100">
+        <li class="never" data-hits="" data-linenumber="94">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="101">
+        <li class="never" data-hits="" data-linenumber="95">
           
           
           <code class="ruby">    # delete reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="102">
+        <li class="covered" data-hits="2" data-linenumber="96">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="103">
+        <li class="covered" data-hits="1" data-linenumber="97">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="104">
+        <li class="covered" data-hits="2" data-linenumber="98">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { Inventory.reservation(reservation_uuid) }.to raise_error ReservationNotFound</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="105">
+        <li class="never" data-hits="" data-linenumber="99">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="106">
+        <li class="never" data-hits="" data-linenumber="100">
           
           
           <code class="ruby">    # deletes item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="107">
+        <li class="covered" data-hits="2" data-linenumber="101">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.delete_item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="108">
+        <li class="covered" data-hits="1" data-linenumber="102">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="109">
+        <li class="covered" data-hits="2" data-linenumber="103">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { Inventory.item(item_uuid) }.to raise_error ItemNotFound</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="110">
+        <li class="never" data-hits="" data-linenumber="104">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="111">
+        <li class="never" data-hits="" data-linenumber="105">
           
           
           <code class="ruby">    # delete item_type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="112">
+        <li class="covered" data-hits="2" data-linenumber="106">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { response = Inventory.delete_item_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="113">
+        <li class="covered" data-hits="1" data-linenumber="107">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="114">
+        <li class="covered" data-hits="2" data-linenumber="108">
           <span class="hits">2</span>
           
           <code class="ruby">    expect { Inventory.item_type(item_type_uuid) }.to raise_error ItemTypeNotFound</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="115">
+        <li class="never" data-hits="" data-linenumber="109">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="116">
+        <li class="never" data-hits="" data-linenumber="110">
           
           
           <code class="ruby">end</code>

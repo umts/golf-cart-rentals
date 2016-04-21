@@ -71,13 +71,11 @@ describe RentalsController do
 
     context 'with invalid attributes' do
       it 'does not save the new Rental in the database' do
-        pending('rework this for the api')
         expect do
           post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
         end.to_not change(Rental, :count)
       end
       it 're-renders the :new template' do
-        pending('rework this for the api')
         post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
         expect(response).to render_template :new
       end
