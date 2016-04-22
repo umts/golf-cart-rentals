@@ -1,0 +1,29 @@
+<%= form_for %>
+  <h1>Check Out Form</h1>
+
+  <h3>Car 2</h3>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Rental Information</h3>
+    </div>
+
+    <div class="panel-body">
+      <li>Amount: $22</li>
+      <li>Responsible Person: AA</li>
+      <li>Car Description: 2222</li>
+      <li>Check In Time: XX/XX/XXXX</li>
+    </div>
+  </div>
+
+  <form>
+    <fieldset>
+      <legend>Check out Agreement</legend>
+      <textarea rows="10">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      </textarea>
+    </fieldset>
+  </form>
+
+  <%= button_tag 'Submit', class:"btn btn-primary"%>
+<% end %>

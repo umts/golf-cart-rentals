@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  
+
   create_table "item_types", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "fee_schedule_id", limit: 4
