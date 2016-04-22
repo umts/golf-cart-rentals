@@ -1,5 +1,8 @@
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
+require 'simplecov'
+
+SimpleCov.start
 
 CodeClimate::TestReporter.start
 
@@ -19,4 +22,14 @@ RSpec.configure do |config|
   config.before :suite do
     Permission.update_permissions_table
   end
+end
+
+# Helper method
+def current_user(user = nil)
+  @current_user = if user
+                    user
+                  else
+                    create(:user)
+                  end
+  controller.instance_variable_set('@current_user', @current_user)
 end

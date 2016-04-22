@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many :groups_users, dependent: :destroy
-  has_many :groups, through: :groups_users
-  has_many :permissions, -> { uniq }, through: :groups
+  has_many   :groups_users, dependent: :destroy
+  has_many   :groups, through: :groups_users
+  has_many   :permissions, -> { uniq }, through: :groups
+  has_many   :rentals
+  belongs_to :department
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
   validates :spire_id, uniqueness: true
@@ -14,7 +16,7 @@ class User < ActiveRecord::Base
     [first_name, last_name].join ' '
   end
 
-  def has_permission?(controller, action, id)
+  def has_permission?(controller, action, id = nil)
     # Get a list of permissions associated with this controller and action
     relevant_permissions = permissions.where(controller: controller, action: action)
 

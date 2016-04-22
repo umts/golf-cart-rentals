@@ -13,9 +13,12 @@ engines:
       - python
       - php
     exclude_fingerprints:
-    - 3ea75d20bf2a7ff7c1981cb051620e8e
     - 1b4c600e85265b79c1f7ee140ff5c800
     - c5f08d507e17e0aed6c7c2e902f0a3e6
+    - 901e29b7344cf9a1e550d2c27ce15ba3
+    - 3ea75d20bf2a7ff7c1981cb051620e8e
+    - 726e7aff89c9b155c325034be34ab400
+    - 591358bcf34d89005d2adb0f73e395c3
     - 0a1abbc6557d2ad3a4848cf0e4e7ac02
     - f1259ddb555cc7f9253bd0dba0e4e076
   eslint:
@@ -25,8 +28,7 @@ engines:
   rubocop:
     enabled: true
     exclude_fingerprints:
-    - ea40ffc72bdccb98765f1305d56e3395
-    - 0d49a804b4b9d31e260b923d2bc114b0
+    - 1064d189916e56f6eaabf8de6bfd429a
 ratings:
   paths:
   - Gemfile.lock
@@ -42,6 +44,8 @@ ratings:
   - "**.php"
   - "**.py"
 exclude_paths:
+- coverage/
+- lib/templates
 - config/
 - db/
 - spec/

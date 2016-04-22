@@ -1,3 +1,4 @@
 class ItemType < ActiveRecord::Base
-  has_one :fee_schedule, dependent: :destroy
+  validates :name, :disclaimer, :base_fee, :fee_per_day, presence: true
+  validates :base_fee, :fee_per_day, numericality: { greater_than_or_equal_to: 0 }
 end

@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
       user_from_session if @current_user.nil?
 
       # raise error if user failed to log in
-      fail 'Error occured logging user in' unless @current_user
+      raise 'Error occured logging user in' unless @current_user
 
     # assign the first user when in development
     elsif Rails.env.development?
@@ -87,10 +87,10 @@ class ApplicationController < ActionController::Base
     # allow anyone in test
     return true if Rails.env.test?
 
-    # allow anyone to view the root page
+    # allow anyone to view the root and 404 pages
     return true if has_global_permission?
 
-    # allow logged in users to view 404 and pages they have access to
+    # allow logged in users to view pages they have access to
     return true if @current_user &&
                    @current_user.has_permission?(params[:controller], params[:action], params[:id])
 

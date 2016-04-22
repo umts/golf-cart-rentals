@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Inventory api url
+  config.inventory_api_uri = 'http://pvta.com/apis/aggressive/v1/' # not sure what this is yet
 end

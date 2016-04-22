@@ -9,6 +9,7 @@
 <body>
   <%= render partial: 'layouts/shared/header' %>
   <!-- <%= render partial: 'layouts/shared/loading' %> -->
+
   <%= render partial: 'layouts/shared/navbar' %>
 
   <div class="container main-content">
@@ -38,9 +39,11 @@
       <% end %>
     <% end %>
 
-    <h1>
+    <h2 class='page-title'>
       <%= yield :page_header %>
-    </h1>
+    </h2>
+
+    <hr>
 
     <%= yield %>
 

@@ -18,3 +18,12 @@
 
 # Ignore sensitive config files
 /config/database.yml
+/config/secrets.yml
+/config/inventory_api_keys.yml
+
+# Ignore storage files
+storage/development/*
+storage/production/*
+
+#Keep these empty folders
+!.keep
