@@ -19,10 +19,10 @@ Rails.application.routes.draw do
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
 
+  # Standard routes for :rentals
   resources :rentals do
-    resources :incurred_incidentals, except: [:destroy] do
-      patch :active, on: :member
-    end
+    # Standard routes for :incurred_incidentals, excluding destroy
+    resources :incurred_incidentals, except: [:destroy]
   end
 
   #Errors --------------------------------------------------------------

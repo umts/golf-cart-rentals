@@ -26,9 +26,8 @@
         <td><%= i.documents %></td>
         <td><%= i.is_active? %></td>
         <td class="min-width">
-          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-success" %>
-          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-primary" %>
-          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Active"), active_rental_incurred_incidental_path(@rental, i), method: :patch, class: "btn btn-xs btn-danger" %>
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open") + " View"), rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-success" %>
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit") + " Edit"), edit_rental_incurred_incidental_path(@rental, i), class: "btn btn-xs btn-primary" %>
         </td>
       </tr>
     <% end %>

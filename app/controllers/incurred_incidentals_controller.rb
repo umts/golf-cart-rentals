@@ -44,17 +44,6 @@ class IncurredIncidentalsController < ApplicationController
     end
   end
 
-  def active
-    respond_to do |format|
-      if @incidental.update(is_active: @incidental.re_de_activate)
-        format.html { redirect_to rental_incurred_incidentals_path,
-                      notice: 'Incidental successfully updated.' }
-      else
-        format.html { render :index, notice: 'Failed to update incidental' }
-      end
-    end
-  end
-
   private
 
     def get_rental
