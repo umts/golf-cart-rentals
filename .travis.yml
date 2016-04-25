@@ -4,8 +4,13 @@ rvm: 2.2.3
 script:
   - bundle exec rspec spec/
 before_script:
+  - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
   - cp config/database.travis.yml config/database.yml
+  - cp -f config/environments/development.travis.rb config/environments/development.rb
+  - cp -f config/environments/test.travis.rb config/environments/test.rb
   - bundle exec rake db:create
   - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+  - export TZ="America/New_York"
 addons:
   mariadb: '10.0'
