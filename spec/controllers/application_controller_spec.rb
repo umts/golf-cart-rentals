@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe ApplicationController do
+  let!(:user) { create(:user) }
+  let!(:rentaluser2) { create(:user) }
+
   before(:each) { current_user }
 
   describe "in production" do
@@ -19,6 +22,16 @@ describe ApplicationController do
       end
 
       it 'sends an error email'
+    end
+
+    describe 'when accessing a nonexistant page' do
+      it "renders the 404 page" do
+        binding.pry
+        # get("/articles").should route_to("articles#index")
+      end
+    end
+
+    describe 'when accessing a nonexistant object' do
     end
 
     describe '#has_permission?' do
@@ -72,6 +85,8 @@ describe ApplicationController do
     describe '#current_user' do
       context 'when the user exists' do
         it 'gets a user from their shibboleth login id' do
+          create(:user)
+          create(:user)
           user = create(:user)
           request.env['fcIdNumber'] = user.spire_id.to_s
           subject.current_user
@@ -79,6 +94,8 @@ describe ApplicationController do
         end
 
         it 'gets a user from their stored session' do
+          create(:user)
+          create(:user)
           user = create(:user)
           request.env['fcIdNumber'] = ""
           session[:user_id] = user.id.to_s
@@ -116,7 +133,12 @@ describe ApplicationController do
   end
 
   describe '#current_user' do
-    it 'assigns the first user in test to @current_user' do
+    it 'assigns the first user to @current_user in test' do
+      subject.current_user
+      expect(assigns[:current_user]).to eq(User.first)
+    end
+    it 'assigns the first user to @current_user in development' do
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development"))
       subject.current_user
       expect(assigns[:current_user]).to eq(User.first)
     end
