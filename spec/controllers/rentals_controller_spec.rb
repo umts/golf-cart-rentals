@@ -42,17 +42,14 @@ describe RentalsController do
   describe 'POST #create' do
     context 'with valid attributes' do
       context 'with accepting the disclaimer' do
-        it 'saves the new rental in the database' do
-          pending('rework this for the api')
+        pending 'saves the new rental in the database' do
           expect do
             post :create, rental: attributes_for(:new_rental), disclaimer: '1'
           end.to change(Rental, :count).by(1)
         end
-        it 'redirects to the rental page' do
-          expect do
-            post :create, rental: attributes_for(:new_rental), disclaimer: '1'
-            expect(response).to redirect_to Rental.last
-          end
+        pending 'redirects to the rental page' do
+          post :create, rental: attributes_for(:new_rental), disclaimer: '1'
+          expect(response).to redirect_to Rental.last
         end
       end
 
