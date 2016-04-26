@@ -6,11 +6,7 @@ class ErrorMailer < ActionMailer::Base
     @message = error.message
     @trace = error.backtrace
 
-    @host = if Rails.env.production?
-              'hub.parking.umass.edu'
-            else
-              'localhost:3000'
-            end
+    @host = Rails.env.production? ? 'hub.parking.umass.edu' : 'localhost:3000'
 
     subject = "Probable-Engine Error Occured #{Time.zone.now}"
     mail(to: email, subject: subject)
