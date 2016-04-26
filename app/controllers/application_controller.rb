@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   # Set auto papertrail
   before_action :set_paper_trail_whodunnit
 
-  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development? #unless Rails.application.config.consider_all_requests_local
+  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development? # unless Rails.application.config.consider_all_requests_local
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development? # unless Rails.application.config.consider_all_requests_local
 
   def root
     redirect_to home_index_path
@@ -32,12 +33,7 @@ class ApplicationController < ActionController::Base
     logger.error error.backtrace.join("\n")
 
     # send email to IT
-    user = begin
-             @current_user.username
-           rescue
-             'unknown'
-           end
-    # ErrorMailer.send_mail('parking-it@admin.umass.edu', request.fullpath, user, error).deliver_now
+    send_error_email(error)
 
     respond_to do |format|
       format.html { render template: 'errors/500.html.erb', status: 500 }
@@ -84,6 +80,13 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def send_error_email(error)
+    user = @current_user
+    # if Rails.env.production? || Rails.env.staging?
+    ErrorMailer.error_email('parking-it@admin.umass.edu', request.fullpath, user, error).deliver_now
+    # end
+  end
 
   def check_permission
     unless has_permission?

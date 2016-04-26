@@ -1,37 +1,99 @@
 require 'rails_helper'
 
+# describe ApplicationController do
+#   let!(:user) { create(:user) }
+
+#   controller do
+#     def test_404
+#       raise ActiveRecord::RecordNotFound
+#     end
+
+#     def test_no_permission
+#     end
+#   end
+
+#   before do
+#     @routes.draw do
+#       get '/anonymous/test_404'
+#       get '/anonymous/test_no_permission'
+#     end
+#   end
+
+#   describe 'when accessing a nonexistant record' do
+#     it 'shows the 404 page' do
+#       get :test_404
+#       expect(response).to render_template('errors/404.html.erb')
+#     end
+#   end
+
+#   describe 'when the user does not have permission' do
+#     it 'flashes a warning' do
+#       get :test_no_permission
+#       expect(flash[:warning]).to be_present
+#     end
+#     it 'redirects to back if it can'
+#     it 'redirects to home if it cannot'
+#   end
+# end
+
 describe ApplicationController do
   let!(:user) { create(:user) }
   let!(:rentaluser2) { create(:user) }
 
   before(:each) { current_user }
 
-  describe "in production" do
+  context 'in production' do
     before :each do
-      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
     end
 
-    describe 'when an error occurs' do
+    context 'checking permissions & 404 behavior' do
+      controller do
+        def test_404
+          raise ActiveRecord::RecordNotFound
+        end
+
+        def test_no_permission
+        end
+      end
+
       before do
-        allow_any_instance_of(ApplicationController).to receive(:root).and_raise("test root error")
+        @routes.draw do
+          get '/anonymous/test_404'
+          get '/anonymous/test_no_permission'
+        end
       end
 
-      it 'renders the 500 page' do
-        get :root
-        expect(response).to render_template('errors/500.html.erb')
+      describe 'when accessing a nonexistant record' do
+        it 'shows the 404 page' do
+          group = create(:group)
+          permission = create(:permission, controller: 'anonymous', action: 'test_404')
+
+          group.permissions << permission
+          current_user.groups << group
+
+          get :test_404
+          expect(response).to render_template('errors/404.html.erb')
+        end
       end
 
-      it 'sends an error email'
-    end
+      describe 'when the user does not have permission' do
+        it 'flashes a warning' do
+          get :test_no_permission
+          expect(flash[:warning]).to be_present
+        end
 
-    describe 'when accessing a nonexistant page' do
-      it "renders the 404 page" do
-        binding.pry
-        # get("/articles").should route_to("articles#index")
+        it 'redirects to back if it can' do
+          request.env['HTTP_REFERER'] = 'old_page'
+          get :test_no_permission
+          expect(response).to redirect_to('old_page')
+        end
+
+        it 'redirects to home if it cannot' do
+          get :test_no_permission
+          expect(response).to redirect_to(home_index_path)
+        end
       end
-    end
-
-    describe 'when accessing a nonexistant object' do
     end
 
     describe '#has_permission?' do
@@ -97,7 +159,7 @@ describe ApplicationController do
           create(:user)
           create(:user)
           user = create(:user)
-          request.env['fcIdNumber'] = ""
+          request.env['fcIdNumber'] = ''
           session[:user_id] = user.id.to_s
           subject.current_user
           expect(assigns[:current_user]).to eq(user)
@@ -107,15 +169,33 @@ describe ApplicationController do
       it 'raises an error if no user with shibboleth id exists' do
         user = create(:user)
         request.env['fcIdNumber'] = (user.spire_id + 1).to_s
-        expect{subject.current_user}.to raise_error MissingUserError
+        expect { subject.current_user }.to raise_error MissingUserError
       end
-      
+
       it 'raises an error if no user with user id exists' do
         user = create(:user)
-        request.env['fcIdNumber'] = ""
+        request.env['fcIdNumber'] = ''
         session[:user_id] = (user.id + 1).to_s
-        expect{subject.current_user}.to raise_error MissingUserError
+        expect { subject.current_user }.to raise_error MissingUserError
       end
+    end
+  end
+
+  describe 'when an error occurs' do
+    before :each do
+      allow_any_instance_of(ApplicationController).to receive(:root).and_raise('test root error')
+      # allow_any_instance_of(ApplicationController).to receive(:send_error_email).and_return('send_error_email called')
+      # allow_any_instance_of(ActionMailer).to receive(:build_email).and_return(true)
+    end
+
+    it 'calls the render_500 method' do
+      get :root
+      expect(response).to render_template('errors/500.html.erb')
+    end
+
+    it 'sends an error email' do
+      expect(subject).to receive(:send_error_email)
+      get :root
     end
   end
 
@@ -134,7 +214,7 @@ describe ApplicationController do
 
   describe '#current_user' do
     it 'assigns the first user to @current_user in development' do
-      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development"))
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
       subject.current_user
       expect(assigns[:current_user]).to eq(User.first)
     end
@@ -143,6 +223,13 @@ describe ApplicationController do
   describe '#has_permission?' do
     it 'returns true in test' do
       expect(subject.has_permission?).to be true
+    end
+  end
+
+  describe '#render_404' do
+    it 'renders the 404 page' do
+      get(:render_404)
+      expect(response).to render_template('errors/404.html.erb')
     end
   end
 end
