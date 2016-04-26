@@ -1,41 +1,5 @@
 require 'rails_helper'
 
-# describe ApplicationController do
-#   let!(:user) { create(:user) }
-
-#   controller do
-#     def test_404
-#       raise ActiveRecord::RecordNotFound
-#     end
-
-#     def test_no_permission
-#     end
-#   end
-
-#   before do
-#     @routes.draw do
-#       get '/anonymous/test_404'
-#       get '/anonymous/test_no_permission'
-#     end
-#   end
-
-#   describe 'when accessing a nonexistant record' do
-#     it 'shows the 404 page' do
-#       get :test_404
-#       expect(response).to render_template('errors/404.html.erb')
-#     end
-#   end
-
-#   describe 'when the user does not have permission' do
-#     it 'flashes a warning' do
-#       get :test_no_permission
-#       expect(flash[:warning]).to be_present
-#     end
-#     it 'redirects to back if it can'
-#     it 'redirects to home if it cannot'
-#   end
-# end
-
 describe ApplicationController do
   let!(:user) { create(:user) }
   let!(:rentaluser2) { create(:user) }
@@ -184,8 +148,6 @@ describe ApplicationController do
   describe 'when an error occurs' do
     before :each do
       allow_any_instance_of(ApplicationController).to receive(:root).and_raise('test root error')
-      # allow_any_instance_of(ApplicationController).to receive(:send_error_email).and_return('send_error_email called')
-      # allow_any_instance_of(ActionMailer).to receive(:build_email).and_return(true)
     end
 
     it 'calls the render_500 method' do

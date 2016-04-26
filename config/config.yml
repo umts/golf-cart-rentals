@@ -1,0 +1,17 @@
+development:
+  mailing_list: 'parking-it@admin.umass.edu'
+  mail_from: 'Parking Services Test <parkservtest@umass.edu>'
+  domain: 'localhost:3000/'
+  parking_host: 'https://localhost'
+
+test:
+  mailing_list: 'parking-it@admin.umass.edu'
+  mail_from: 'Parking Services Test <parkservtest@umass.edu>'
+  domain: 'localhost:3000/'
+  parking_host: 'https://localhost'
+
+production:
+  mailing_list: 'parking-it@admin.umass.edu'
+  mail_from: 'Parking Services <parkserv@umass.edu>'
+  domain: 'umaps-web1.admin.umass.edu/'
+  parking_host: 'https://parking.umass.edu'
