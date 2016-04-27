@@ -10,7 +10,7 @@ class DepartmentsController < ApplicationController
 
   def new
     @department = Department.new
-    @users = User.all
+    @users = User.with_no_department
   end
 
   def create
@@ -21,13 +21,13 @@ class DepartmentsController < ApplicationController
       redirect_to @department
     else
       @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      @users = User.all
+      @users = User.with_no_department
       render :new
     end
   end
 
   def edit
-    @users = User.all
+    @users = User.with_no_department
   end
 
   def update
@@ -37,13 +37,13 @@ class DepartmentsController < ApplicationController
         redirect_to @department
       else
         flash[:warning] = 'Invalid update parameters'
-        @users = User.all
+        @users = User.with_no_department
         render :edit
       end
     rescue => e
       # in the case that users are assigned to second department
       flash[:warning] = e
-      @users = User.all
+      @users = User.with_no_department
       render :edit
     end
   end

@@ -7,6 +7,7 @@ class CreateUsersAndDepartments < ActiveRecord::Migration
       t.string :email, limit: 255, null: false
       t.integer :phone, limit: 8, null: false
       t.integer :spire_id, null: false
+      t.references :department
       t.boolean :active, default: true, null: false
 
       # standard audit data

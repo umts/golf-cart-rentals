@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408162536) do
+ActiveRecord::Schema.define(version: 20160222142237) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -19,17 +19,6 @@ ActiveRecord::Schema.define(version: 20160408162536) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
   end
-
-  create_table "departments_users", force: :cascade do |t|
-    t.integer  "department_id", limit: 4, null: false
-    t.integer  "user_id",       limit: 4, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "departments_users", ["department_id", "user_id"], name: "index_departments_users_on_department_id_and_user_id", unique: true, using: :btree
-  add_index "departments_users", ["department_id"], name: "index_departments_users_on_department_id", using: :btree
-  add_index "departments_users", ["user_id"], name: "index_departments_users_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -116,14 +105,15 @@ ActiveRecord::Schema.define(version: 20160408162536) do
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 30,                 null: false
-    t.string   "last_name",  limit: 30,                 null: false
-    t.string   "email",      limit: 255,                null: false
-    t.integer  "phone",      limit: 8,                  null: false
-    t.integer  "spire_id",   limit: 4,                  null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "first_name",    limit: 30,                 null: false
+    t.string   "last_name",     limit: 30,                 null: false
+    t.string   "email",         limit: 255,                null: false
+    t.integer  "phone",         limit: 8,                  null: false
+    t.integer  "spire_id",      limit: 4,                  null: false
+    t.integer  "department_id", limit: 4
+    t.boolean  "active",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
@@ -139,8 +129,6 @@ ActiveRecord::Schema.define(version: 20160408162536) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  add_foreign_key "departments_users", "departments", name: "fk_departments_users_groups"
-  add_foreign_key "departments_users", "users", name: "fk_departments_users"
   add_foreign_key "groups_permissions", "groups", name: "fk_groups_permissions_groups"
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"

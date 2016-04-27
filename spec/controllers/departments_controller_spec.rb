@@ -32,10 +32,6 @@ describe DepartmentsController do
       expect(assigns[:department]).to be_a_new(Department)
     end
 
-    it 'assigns department-less users to @users' do
-      pending "this needs to be implemented"
-    end
-
     it 'renders the :new template' do
       get :new
       expect(response).to render_template :new
@@ -49,9 +45,7 @@ describe DepartmentsController do
           post :create, department: attributes_for(:department)
         end.to change(Department, :count).by(1)
       end
-      it 'attaches the department to users' do
-        pending "this needs to be implemented"
-      end
+
       it 'redirects to the department page' do
         post :create, department: attributes_for(:department)
         expect(response).to redirect_to Department.last
@@ -75,9 +69,6 @@ describe DepartmentsController do
     it 'assigns the requested department to @department' do
       get :edit, id: department
       expect(assigns[:department]).to eq(department)
-    end
-    it 'assigns department-less users to @users' do
-      pending "this needs to be implemented"
     end
     it 'renders the :edit template' do
       get :edit, id: department
