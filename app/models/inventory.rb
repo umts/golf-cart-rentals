@@ -1,100 +1,145 @@
 require 'json'
 class Inventory
-  # this class is all mocked for now
-  # in the future it should raise an exception if the api doesnt return a sucess status
-
-  def self.mock_exception
-    raise InventoryError, 'test'
-  end
+  @base_uri = Rails.application.config.inventory_api_uri
+  @get_headers = { 'Authorization' => "Token #{INVENTORY_API_KEY}" }
+  @post_headers = @get_headers.merge('Content-Type' => 'application/json')
 
   def self.item_types
-    JSON.parse('[{"id": 100, "name": "Apples",
-                "allowed_keys": ["flavor"],
-                "items": [{"name": "Macintosh"},
-                          {"name": "Granny Smith"}]}]', symbolize_names: true)
-  end
-
-  def self.item_type(uuid)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
-                \"allowed_keys\": [\"flavor\"],
-                \"items\": [{\"id\": 400, \"name\": \"Macintosh\"},
-                {\"id\": 401, \"name\": \"Granny Smith\"}]}", symbolize_names: true)
-  end
-
-  def self.update_item_type(uuid, _key, _value)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Apples\",
-                \"allowed_keys\": [\"flavor\"],
-                \"items\": [{\"name\": \"Macintosh\"},
-                            {\"name\": \"Granny Smith\"}]}", symbolize_names: true)
-  end
-
-  def self.delete_item_type(_uuid)
-    # returns nothing on success
+    response = HTTParty.get(@base_uri + 'item_types/', headers: @get_headers)
+    handle_item_type_errors(response)
+    JSON.parse(response.body)
   end
 
   def self.create_item_type(name, allowed_keys = [])
-    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\", \"name\": \"#{name}\", \"allowed_keys\": #{allowed_keys},
-                \"items\": []}", symbolize_names: true)
+    response = HTTParty.post(@base_uri + 'item_types/',
+                             body: { 'name' => name, 'allowed_keys' => allowed_keys }.to_json,
+                             headers: @post_headers)
+    handle_item_type_errors(response)
+    JSON.parse(response.body)
   end
 
-  def self.create_item(name, item_type_uuid, metadata = {})
-    JSON.parse("{\"id\": 300, \"name\": \"#{name}\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": #{metadata}}", symbolize_names: true)
+  def self.item_type(uuid)
+    response = HTTParty.get(@base_uri + "item_types/#{uuid}", headers: @get_headers)
+    handle_item_type_errors(response)
+    JSON.parse(response.body)
   end
 
-  def self.items_by_type(item_type_uuid)
-    JSON.parse("[{\"id\": 300, \"name\": \"Awesome new couch\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {}},
-                {\"id\": 301, \"name\": \"Cool leather futon\", \"item_type_id\": \"#{item_type_uuid}\", \"data\": {\"texture\": \"leather\"}}]",
-               symbolize_names: true)
+  def self.update_item_type(uuid, params)
+    raise ArgumentError if params.empty?
+    response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
+    handle_item_type_errors(response)
+    JSON.parse(response.body)
+  end
+
+  def self.delete_item_type(uuid)
+    response = HTTParty.delete(@base_uri + "item_types/#{uuid}", headers: @get_headers)
+    handle_item_type_errors(response)
+    # returns nothing on success
+  end
+
+  def self.create_item(item_type_uuid, name, reservable, metadata = {})
+    response = HTTParty.post(@base_uri + 'items/',
+                             body: { 'name' => name, 'item_type_uuid' => item_type_uuid, 'reservable' => reservable, 'data' => metadata }.to_json,
+                             headers: @post_headers)
+    handle_item_errors(response)
+    JSON.parse(response.body)
   end
 
   def self.item(uuid)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Awesome new couch\", \"item_type_id\": 101, \"data\": {}}", symbolize_names: true)
+    response = HTTParty.get(@base_uri + "items/#{uuid}", headers: @get_headers)
+    handle_item_errors(response)
+    JSON.parse(response.body)
   end
 
-  def self.update_item(uuid, _key, _value)
-    JSON.parse("{\"id\": \"#{uuid}\", \"name\": \"Awesome new couch\", \"item_type_id\": 101, \"data\": {}}", symbolize_names: true)
+  def self.items_by_type(item_type_uuid)
+    item_type(item_type_uuid)['items']
   end
 
-  def self.delete_item(_uuid)
+  def self.update_item(uuid, params = {})
+    raise ArgumentError if params.empty?
+    response = HTTParty.put(@base_uri + "items/#{uuid}", body: params.to_json, headers: @post_headers)
+    handle_item_errors(response)
+    JSON.parse(response.body)
+  end
+
+  def self.delete_item(uuid)
+    response = HTTParty.delete(@base_uri + "items/#{uuid}", headers: @get_headers)
+    handle_item_errors(response)
     # returns nothing on success
   end
 
   def self.create_reservation(item_type, start_time, end_time)
-    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\",
-    \"start_time\": \"#{start_time}\",
-    \"end_time\": \"#{end_time}\",
-    \"item_type\": \"#{item_type}\",
-    \"item\": \"Dummy Data\"}", symbolize_names: true)
-  end
-
-  # maybe in the future add a few helper methods like update_start_time(uuid,start_time)
-  def self.update_reservation(uuid, _key, _value)
-    JSON.parse("{\"id\": \"#{uuid}\",
-    \"start_time\": \"2016-02-16T15:30:00-05:00\",
-    \"end_time\": \"2016-02-16T18:00:00-05:00\",
-    \"item_type\": \"Apple\",
-    \"item\": \"Dummy Data\"}", symbolize_names: true)
+    response = HTTParty.post(@base_uri + 'reservations/',
+                             body: { 'item_type' => item_type, 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601 }.to_json,
+                             headers: @post_headers)
+    handle_reservation_errors(response)
+    JSON.parse(response.body)
   end
 
   def self.reservation(uuid)
-    JSON.parse("{\"id\": \"#{uuid}\",
-    \"start_time\": \"2016-02-16T15:30:00-05:00\",
-    \"end_time\": \"2016-02-17T09:45:00-05:00\",
-    \"item_type\": \"Apples\",
-    \"item\": \"Granny Smith\"}", symbolize_names: true)
+    response = HTTParty.get(@base_uri + "reservations/#{uuid}", headers: @get_headers)
+    handle_reservation_errors(response)
+    JSON.parse(response.body)
   end
 
-  def self.delete_reservation(_uuid)
+  def self.reservations(start_time, end_time, item_type)
+    body = { 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601, 'item_type' => item_type }
+    response = HTTParty.get(@base_uri + 'reservations/', body: body.to_json, headers: @post_headers)
+    handle_reservation_errors(response)
+    JSON.parse(response.body)
+  end
+
+  # this sort of request only updates the reservations start and end time
+  # (this is a constraint by the api)
+  def self.update_reservation(uuid, params = {})
+    raise ArgumentError if params.empty?
+    params = params.with_indifferent_access
+    params[:start_time] = params[:start_time].iso8601 if params[:start_time]
+    params[:end_time] = params[:end_time].iso8601 if params[:end_time]
+    response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: { reservation: params }.to_json, headers: @post_headers)
+    handle_reservation_errors(response)
+    JSON.parse(response.body)
+  end
+
+  def self.update_reservation_start_time(uuid, start_time)
+    update_reservation(uuid, reservation: { start_time: start_time })
+  end
+
+  def self.update_reservation_end_time(uuid, end_time)
+    update_reservation(uuid, reservation: { end_time: end_time })
+  end
+
+  def self.update_reservation_data(uuid, params = {})
+    raise ArgumentError if params.empty?
+    response = HTTParty.post(@base_uri + "reservations/#{uuid}/update_item", body: params.to_json, headers: @post_headers)
+    handle_reservation_errors(response)
     # returns nothing on success
   end
 
-  def self.update_reservation_data(_key, _value)
+  def self.delete_reservation(uuid)
+    response = HTTParty.delete(@base_uri + "reservations/#{uuid}", headers: @get_headers)
+    handle_reservation_errors(response)
     # returns nothing on success
   end
 
-  # is this distinct enough from the singular method?
-  def self.reservations(_start_time = 100.years.ago, _end_time = 100.years.from_now, _item_type)
-    JSON.parse('[{"start_time": "2016-02-11T15:45:00-05:00", "end_time": "2016-02-11T21:00:00-05:00"},
-                {"start_time": "2016-02-17T10:30:00-05:00", "end_time": "2016-02-19T21:00:00-05:00"}]', symbolize_names: true)
+  def self.handle_item_type_errors(response)
+    raise AuthError, response.body if response.code == 401
+    raise ItemTypeError, response.body if response.code == 422
+    raise ItemTypeNotFound, response.body if response.code == 404
+    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500
+  end
+
+  def self.handle_item_errors(response)
+    raise AuthError, response.body if response.code == 401
+    raise ItemError, response.body if response.code == 422
+    raise ItemNotFound, response.body if response.code == 404
+    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500
+  end
+
+  def self.handle_reservation_errors(response)
+    raise AuthError, response.body if response.code == 401
+    raise ReservationError, response.body if response.code == 422
+    raise ReservationNotFound, response.body if response.code == 404
+    raise InventoryError, response.body if response.code != 200
   end
 end

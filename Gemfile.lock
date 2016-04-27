@@ -90,6 +90,9 @@ GEM
       railties (>= 3.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jquery-rails (4.1.0)
       rails-dom-testing (~> 1.0)
@@ -114,6 +117,7 @@ GEM
     minitest (5.8.4)
     momentjs-rails (2.11.0)
       railties (>= 3.1)
+    multi_xml (0.5.5)
     mysql2 (0.4.3)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -266,6 +270,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   date_validator
   factory_girl_rails
+  httparty (~> 0.13.7)
   jquery-rails
   momentjs-rails (>= 2.8.1)
   mysql2
@@ -278,6 +283,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  simplecov
   spring
   therubyracer
   timecop
