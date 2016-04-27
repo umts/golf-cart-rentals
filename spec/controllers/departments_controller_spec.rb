@@ -99,5 +99,31 @@ describe DepartmentsController do
         expect(response).to redirect_to department
       end
     end
+
+    context 'with invalid attributes' do
+      it 'does not save the department in the database' do
+        old_name = department.name
+        post :update, id: department, department: attributes_for(:invalid_department)
+        department.reload
+        expect(department.name).to eq(old_name)
+      end
+      it 're-renders the :edit template' do
+        post :update, id: department, department: attributes_for(:invalid_department)
+        expect(response).to render_template :edit
+      end
+    end
+  end
+
+  describe 'POST #remove_user' do
+    it 'removes the user from the department' do
+      old_user = create(:user)
+      department.users << old_user
+
+      post :remove_user, id: department, user_id: old_user
+
+      department.reload
+      expect(department.users).not_to include(old_user)
+      expect(response).to redirect_to edit_department_url(department)
+    end
   end
 end
