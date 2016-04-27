@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411151739) do
+ActiveRecord::Schema.define(version: 20160427193210) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -67,10 +67,9 @@ ActiveRecord::Schema.define(version: 20160411151739) do
 
   create_table "incurred_incidentals", force: :cascade do |t|
     t.integer  "incidental_type_id", limit: 4
-    t.decimal  "times_modified",                   precision: 10
-    t.text     "document",           limit: 65535
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.decimal  "times_modified",               precision: 10
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
@@ -131,14 +130,15 @@ ActiveRecord::Schema.define(version: 20160411151739) do
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 30,                 null: false
-    t.string   "last_name",  limit: 30,                 null: false
-    t.string   "email",      limit: 255,                null: false
-    t.integer  "phone",      limit: 8,                  null: false
-    t.integer  "spire_id",   limit: 4,                  null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "first_name",    limit: 30,                 null: false
+    t.string   "last_name",     limit: 30,                 null: false
+    t.string   "email",         limit: 255,                null: false
+    t.integer  "phone",         limit: 8,                  null: false
+    t.integer  "spire_id",      limit: 4,                  null: false
+    t.integer  "department_id", limit: 4
+    t.boolean  "active",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
