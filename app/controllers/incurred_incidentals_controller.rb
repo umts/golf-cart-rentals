@@ -55,7 +55,6 @@ class IncurredIncidentalsController < ApplicationController
     end
 
     def incidental_params
-      # :notes, :document
       params.require(:incurred_incidental).permit(:incidental_type_id, :times_modified, :is_active)
     end
 

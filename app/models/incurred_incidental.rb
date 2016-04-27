@@ -12,6 +12,10 @@ class IncurredIncidental < ActiveRecord::Base
   validates :times_modified, numericality: true
   validates_associated :incidental_type, :notes
 
+  def re_de_activate
+    is_active? ? is_active = false : is_active = true
+  end
+
   def fee
     is_active? ? incidental_type.base + (times_modified * incidental_type.modifier_amount) : 0
   end
