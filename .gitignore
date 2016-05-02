@@ -18,6 +18,8 @@
 
 # Ignore sensitive config files
 /config/database.yml
+/config/secrets.yml
+/config/inventory_api_keys.yml
 
 # Ignore development files
 /.idea/*
@@ -26,6 +28,9 @@
 # Ignore storage files
 storage/development/*
 storage/production/*
+
+# Ignore coverage files
+coverage/*
 
 #Keep these empty folders
 !.keep

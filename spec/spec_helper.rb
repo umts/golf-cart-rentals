@@ -1,5 +1,8 @@
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
+require 'simplecov'
+
+SimpleCov.start
 
 CodeClimate::TestReporter.start
 

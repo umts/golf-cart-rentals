@@ -26,6 +26,9 @@ gem 'paper_trail', '~> 4.0.0.rc'
 # for handling the state machine behind rental statuses
 gem 'aasm'
 
+# for simplified api calls
+gem 'httparty', '~> 0.13.7'
+
 # bootstrap!
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
@@ -72,4 +75,5 @@ group :test do
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'simplecov'
 end
