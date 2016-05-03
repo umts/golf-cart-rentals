@@ -1,4 +1,6 @@
 require 'json'
+include InventoryExceptions
+
 class Inventory
   @base_uri = Rails.application.config.inventory_api_uri
   @get_headers = { 'Authorization' => "Token #{INVENTORY_API_KEY}" }
