@@ -9,7 +9,7 @@ class Inventory
   def self.item_types
     response = HTTParty.get(@base_uri + 'item_types/', headers: @get_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body).with_indifferent_access
+    JSON.parse(response.body)
   end
 
   def self.create_item_type(name, allowed_keys = [])
@@ -88,7 +88,7 @@ class Inventory
     body = { 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601, 'item_type' => item_type }
     response = HTTParty.get(@base_uri + 'reservations/', body: body.to_json, headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body).with_indifferent_access
+    JSON.parse(response.body)
   end
 
   # this sort of request only updates the reservations start and end time

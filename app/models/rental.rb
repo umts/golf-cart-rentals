@@ -8,8 +8,8 @@ class Rental < ActiveRecord::Base
   validates :reservation_id, presence: true, unless: :skip_reservation_validation
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_date, :end_date, :item_type_id, presence: true
-  validates :start_date, date: { after_or_equal_to: Time.zone.today, message: 'must be no earlier than today' }
-  validates :end_date, date: { after_or_equal_to: :start_date, message: 'must be no earlier than today' }
+  validates :start_date, date: { after: Date.today, message: 'must be no earlier than today' }
+  validates :end_date, date: { after: :start_date, message: 'must be after start' }
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -48,8 +48,7 @@ class Rental < ActiveRecord::Base
 
   def create_reservation
     return false unless mostly_valid?
-
-    reservation = Inventory.create_reservation(item_type.name, start_date, start_date)
+    reservation = Inventory.create_reservation(item_type.name, start_date, end_date)
     if reservation
       self.reservation_id = reservation[:uuid]
     else
