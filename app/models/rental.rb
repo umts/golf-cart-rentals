@@ -51,7 +51,7 @@ class Rental < ActiveRecord::Base
 
     reservation = Inventory.create_reservation(item_type.name, start_date, start_date)
     if reservation
-      self.reservation_id = reservation[:id]
+      self.reservation_id = reservation[:uuid]
     else
       errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
     end

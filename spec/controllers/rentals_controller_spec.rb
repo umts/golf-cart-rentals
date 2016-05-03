@@ -3,6 +3,11 @@ require 'rails_helper'
 describe RentalsController do
   let!(:rental) { create(:rental) }
   let!(:rental2) { create(:rental) }
+  let!(:rental_create) {
+    rental = attributes_for(:new_rental)
+    rental[:item_type_id] = create(:item_type, name: "TEST_CREATE_RENTAL_TYPE")
+    rental
+  }
 
   before(:each) { current_user }
 
@@ -43,14 +48,13 @@ describe RentalsController do
     context 'with valid attributes' do
       context 'with accepting the disclaimer' do
         it 'saves the new rental in the database' do
-          pending('rework this for the api')
           expect do
-            post :create, rental: attributes_for(:new_rental), disclaimer: '1'
+            post :create, rental: rental_create, disclaimer: '1'
           end.to change(Rental, :count).by(1)
         end
         it 'redirects to the rental page' do
           expect do
-            post :create, rental: attributes_for(:new_rental), disclaimer: '1'
+            post :create, rental: rental_create, disclaimer: '1'
             expect(response).to redirect_to Rental.last
           end
         end

@@ -9,7 +9,7 @@ class Inventory
   def self.item_types
     response = HTTParty.get(@base_uri + 'item_types/', headers: @get_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.create_item_type(name, allowed_keys = [])
@@ -17,20 +17,20 @@ class Inventory
                              body: { 'name' => name, 'allowed_keys' => allowed_keys }.to_json,
                              headers: @post_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.item_type(uuid)
     response = HTTParty.get(@base_uri + "item_types/#{uuid}", headers: @get_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.update_item_type(uuid, params)
     raise ArgumentError if params.empty?
     response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.delete_item_type(uuid)
@@ -44,13 +44,13 @@ class Inventory
                              body: { 'name' => name, 'item_type_uuid' => item_type_uuid, 'reservable' => reservable, 'data' => metadata }.to_json,
                              headers: @post_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.item(uuid)
     response = HTTParty.get(@base_uri + "items/#{uuid}", headers: @get_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.items_by_type(item_type_uuid)
@@ -61,7 +61,7 @@ class Inventory
     raise ArgumentError if params.empty?
     response = HTTParty.put(@base_uri + "items/#{uuid}", body: params.to_json, headers: @post_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.delete_item(uuid)
@@ -75,20 +75,20 @@ class Inventory
                              body: { 'item_type' => item_type, 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601 }.to_json,
                              headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.reservation(uuid)
     response = HTTParty.get(@base_uri + "reservations/#{uuid}", headers: @get_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.reservations(start_time, end_time, item_type)
     body = { 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601, 'item_type' => item_type }
     response = HTTParty.get(@base_uri + 'reservations/', body: body.to_json, headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   # this sort of request only updates the reservations start and end time
@@ -100,7 +100,7 @@ class Inventory
     params[:end_time] = params[:end_time].iso8601 if params[:end_time]
     response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: { reservation: params }.to_json, headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.update_reservation_start_time(uuid, start_time)
