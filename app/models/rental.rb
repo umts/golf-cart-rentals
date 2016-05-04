@@ -65,7 +65,7 @@ class Rental < ActiveRecord::Base
   end
 
   def delete_reservation
-    return true if end_date > Time.current # deleting it is pointless
+    return true if end_date < Time.current # deleting it is pointless
     begin
       Inventory.delete_reservation(reservation_id)
     rescue => error
