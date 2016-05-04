@@ -3,11 +3,11 @@ require 'rails_helper'
 describe RentalsController do
   let!(:rental) { create(:rental) }
   let!(:rental2) { create(:rental) }
-  let!(:rental_create) {
+  let!(:rental_create) do
     rental = attributes_for(:new_rental)
-    rental[:item_type_id] = create(:item_type, name: "TEST_CREATE_RENTAL_TYPE")
+    rental[:item_type_id] = create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE')
     rental
-  }
+  end
 
   before(:each) { current_user }
 
@@ -45,6 +45,9 @@ describe RentalsController do
   end
 
   describe 'POST #create' do
+    after :each do
+      # delete the created rental
+    end
     context 'with valid attributes' do
       context 'with accepting the disclaimer' do
         it 'saves the new rental in the database' do

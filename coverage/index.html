@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <script src='./assets/0.10.0/application.js' type='text/javascript'></script>    
     <link href='./assets/0.10.0/application.css' media='screen, projection, print' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" type="image/png" href="./assets/0.10.0/favicon_green.png" />
+    <link rel="shortcut icon" type="image/png" href="./assets/0.10.0/favicon_yellow.png" />
     <link rel="icon" type="image/png" href="./assets/0.10.0/favicon.png" />
   </head>
   
@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-03T16:58:01-04:00">2016-05-03T16:58:01-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-04T13:30:28-04:00">2016-05-04T13:30:28-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">92.13%</span></span>
+    (<span class="covered_percent"><span class="yellow">83.42%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.33
+         3.17
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>63</b> files in total.
-    <b>1398</b> relevant lines. 
-    <span class="green"><b>1288</b> lines covered</span> and
-    <span class="red"><b>110</b> lines missed </span>
+    <b>1399</b> relevant lines. 
+    <span class="green"><b>1167</b> lines covered</span> and
+    <span class="red"><b>232</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -202,12 +202,12 @@
       
       <tr>
         <td class="strong"><a href="#d39904da025d06b2412ef48c588765580a3bfdcf" class="src_link" title="app/models/inventory.rb">app/models/inventory.rb</a></td>
-        <td class="green strong">97.8 %</td>
+        <td class="red strong">31.87 %</td>
         <td>147</td>
         <td>91</td>
-        <td>89</td>
-        <td>2</td>
-        <td>1.9</td>
+        <td>29</td>
+        <td>62</td>
+        <td>0.3</td>
       </tr>
       
       <tr>
@@ -452,10 +452,10 @@
       
       <tr>
         <td class="strong"><a href="#5814d00fefe352ccc6ae1cb03a30ab4d61088b69" class="src_link" title="spec/controllers/rentals_controller_spec.rb">spec/controllers/rentals_controller_spec.rb</a></td>
-        <td class="green strong">95.38 %</td>
-        <td>105</td>
-        <td>65</td>
-        <td>62</td>
+        <td class="green strong">95.45 %</td>
+        <td>108</td>
+        <td>66</td>
+        <td>63</td>
         <td>3</td>
         <td>2.2</td>
       </tr>
@@ -612,12 +612,12 @@
       
       <tr>
         <td class="strong"><a href="#47245dc3df738f5077fa3babfdb6889f755bfa8b" class="src_link" title="spec/models/inventory_spec.rb">spec/models/inventory_spec.rb</a></td>
-        <td class="green strong">100.0 %</td>
+        <td class="red strong">15.07 %</td>
         <td>110</td>
         <td>73</td>
-        <td>73</td>
-        <td>0</td>
-        <td>1.3</td>
+        <td>11</td>
+        <td>62</td>
+        <td>0.2</td>
       </tr>
       
       <tr>
@@ -4413,11 +4413,11 @@
         <div class="source_table" id="d39904da025d06b2412ef48c588765580a3bfdcf">
   <div class="header">
     <h3>app/models/inventory.rb</h3>
-    <h4><span class="green">97.8 %</span> covered</h4>
+    <h4><span class="red">31.87 %</span> covered</h4>
     <div>
       <b>91</b> relevant lines. 
-      <span class="green"><b>89</b> lines covered</span> and
-      <span class="red"><b>2</b> lines missed.</span>
+      <span class="green"><b>29</b> lines covered</span> and
+      <span class="red"><b>62</b> lines missed.</span>
     </div>
   </div>
   
@@ -4478,20 +4478,20 @@
           <code class="ruby">  def self.item_types</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="10">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="10">
+          
           
           <code class="ruby">    response = HTTParty.get(@base_uri + &#39;item_types/&#39;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="11">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="11">
+          
           
           <code class="ruby">    handle_item_type_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="12">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="12">
+          
           
           <code class="ruby">    JSON.parse(response.body)</code>
         </li>
@@ -4532,14 +4532,14 @@
           <code class="ruby">                             headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="19">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="19">
+          
           
           <code class="ruby">    handle_item_type_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="20">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="20">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4562,20 +4562,20 @@
           <code class="ruby">  def self.item_type(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="24">
-          <span class="hits">3</span>
+        <li class="missed" data-hits="0" data-linenumber="24">
+          
           
           <code class="ruby">    response = HTTParty.get(@base_uri + &quot;item_types/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="25">
-          <span class="hits">3</span>
+        <li class="missed" data-hits="0" data-linenumber="25">
+          
           
           <code class="ruby">    handle_item_type_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="26">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="26">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4598,26 +4598,26 @@
           <code class="ruby">  def self.update_item_type(uuid, params)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="30">
+          
           
           <code class="ruby">    raise ArgumentError if params.empty?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="31">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="31">
+          
           
           <code class="ruby">    response = HTTParty.put(@base_uri + &quot;item_types/#{uuid}&quot;, body: params.to_json, headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="32">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="32">
+          
           
           <code class="ruby">    handle_item_type_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="33">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="33">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4640,14 +4640,14 @@
           <code class="ruby">  def self.delete_item_type(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="37">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="37">
+          
           
           <code class="ruby">    response = HTTParty.delete(@base_uri + &quot;item_types/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="38">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="38">
+          
           
           <code class="ruby">    handle_item_type_errors(response)</code>
         </li>
@@ -4676,8 +4676,8 @@
           <code class="ruby">  def self.create_item(item_type_uuid, name, reservable, metadata = {})</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="43">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="43">
+          
           
           <code class="ruby">    response = HTTParty.post(@base_uri + &#39;items/&#39;,</code>
         </li>
@@ -4694,14 +4694,14 @@
           <code class="ruby">                             headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="46">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="46">
+          
           
           <code class="ruby">    handle_item_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="47">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="47">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4724,20 +4724,20 @@
           <code class="ruby">  def self.item(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="51">
-          <span class="hits">3</span>
+        <li class="missed" data-hits="0" data-linenumber="51">
+          
           
           <code class="ruby">    response = HTTParty.get(@base_uri + &quot;items/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="52">
-          <span class="hits">3</span>
+        <li class="missed" data-hits="0" data-linenumber="52">
+          
           
           <code class="ruby">    handle_item_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="53">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="53">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4760,8 +4760,8 @@
           <code class="ruby">  def self.items_by_type(item_type_uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="57">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="57">
+          
           
           <code class="ruby">    item_type(item_type_uuid)[&#39;items&#39;]</code>
         </li>
@@ -4784,26 +4784,26 @@
           <code class="ruby">  def self.update_item(uuid, params = {})</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="61">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="61">
+          
           
           <code class="ruby">    raise ArgumentError if params.empty?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="62">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="62">
+          
           
           <code class="ruby">    response = HTTParty.put(@base_uri + &quot;items/#{uuid}&quot;, body: params.to_json, headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="63">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="63">
+          
           
           <code class="ruby">    handle_item_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="64">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="64">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4826,14 +4826,14 @@
           <code class="ruby">  def self.delete_item(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="68">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="68">
+          
           
           <code class="ruby">    response = HTTParty.delete(@base_uri + &quot;items/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="69">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="69">
+          
           
           <code class="ruby">    handle_item_errors(response)</code>
         </li>
@@ -4862,8 +4862,8 @@
           <code class="ruby">  def self.create_reservation(item_type, start_time, end_time)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="74">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="74">
+          
           
           <code class="ruby">    response = HTTParty.post(@base_uri + &#39;reservations/&#39;,</code>
         </li>
@@ -4880,14 +4880,14 @@
           <code class="ruby">                             headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="77">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="77">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="78">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="78">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4910,20 +4910,20 @@
           <code class="ruby">  def self.reservation(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="82">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="82">
+          
           
           <code class="ruby">    response = HTTParty.get(@base_uri + &quot;reservations/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="83">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="83">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="84">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="84">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -4946,26 +4946,26 @@
           <code class="ruby">  def self.reservations(start_time, end_time, item_type)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="88">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="88">
+          
           
           <code class="ruby">    body = { &#39;start_time&#39; =&gt; start_time.iso8601, &#39;end_time&#39; =&gt; end_time.iso8601, &#39;item_type&#39; =&gt; item_type }</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="89">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="89">
+          
           
           <code class="ruby">    response = HTTParty.get(@base_uri + &#39;reservations/&#39;, body: body.to_json, headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="90">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="91">
+          
           
           <code class="ruby">    JSON.parse(response.body)</code>
         </li>
@@ -5000,44 +5000,44 @@
           <code class="ruby">  def self.update_reservation(uuid, params = {})</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="97">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="97">
+          
           
           <code class="ruby">    raise ArgumentError if params.empty?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="98">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="98">
+          
           
           <code class="ruby">    params = params.with_indifferent_access</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="99">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="99">
+          
           
           <code class="ruby">    params[:start_time] = params[:start_time].iso8601 if params[:start_time]</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="100">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="100">
+          
           
           <code class="ruby">    params[:end_time] = params[:end_time].iso8601 if params[:end_time]</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="101">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="101">
+          
           
           <code class="ruby">    response = HTTParty.put(@base_uri + &quot;reservations/#{uuid}&quot;, body: { reservation: params }.to_json, headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="102">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="102">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="103">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="103">
+          
           
           <code class="ruby">    JSON.parse(response.body).with_indifferent_access</code>
         </li>
@@ -5108,20 +5108,20 @@
           <code class="ruby">  def self.update_reservation_data(uuid, params = {})</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="115">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="115">
+          
           
           <code class="ruby">    raise ArgumentError if params.empty?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="116">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="116">
+          
           
           <code class="ruby">    response = HTTParty.post(@base_uri + &quot;reservations/#{uuid}/update_item&quot;, body: params.to_json, headers: @post_headers)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="117">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="117">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
@@ -5150,14 +5150,14 @@
           <code class="ruby">  def self.delete_reservation(uuid)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="122">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="2" data-linenumber="122">
+          <span class="hits">2</span>
           
           <code class="ruby">    response = HTTParty.delete(@base_uri + &quot;reservations/#{uuid}&quot;, headers: @get_headers)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="123">
-          <span class="hits">3</span>
+        <li class="missed" data-hits="0" data-linenumber="123">
+          
           
           <code class="ruby">    handle_reservation_errors(response)</code>
         </li>
@@ -5186,26 +5186,26 @@
           <code class="ruby">  def self.handle_item_type_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="7" data-linenumber="128">
-          <span class="hits">7</span>
+        <li class="missed" data-hits="0" data-linenumber="128">
+          
           
           <code class="ruby">    raise AuthError, response.body if response.code == 401</code>
         </li>
       
-        <li class="covered" data-hits="7" data-linenumber="129">
-          <span class="hits">7</span>
+        <li class="missed" data-hits="0" data-linenumber="129">
+          
           
           <code class="ruby">    raise ItemTypeError, response.body if response.code == 422</code>
         </li>
       
-        <li class="covered" data-hits="7" data-linenumber="130">
-          <span class="hits">7</span>
+        <li class="missed" data-hits="0" data-linenumber="130">
+          
           
           <code class="ruby">    raise ItemTypeNotFound, response.body if response.code == 404</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="131">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="131">
+          
           
           <code class="ruby">    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500</code>
         </li>
@@ -5228,26 +5228,26 @@
           <code class="ruby">  def self.handle_item_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="135">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="135">
+          
           
           <code class="ruby">    raise AuthError, response.body if response.code == 401</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="136">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="136">
+          
           
           <code class="ruby">    raise ItemError, response.body if response.code == 422</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="137">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="137">
+          
           
           <code class="ruby">    raise ItemNotFound, response.body if response.code == 404</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="138">
-          <span class="hits">5</span>
+        <li class="missed" data-hits="0" data-linenumber="138">
+          
           
           <code class="ruby">    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500</code>
         </li>
@@ -5270,26 +5270,26 @@
           <code class="ruby">  def self.handle_reservation_errors(response)</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="142">
-          <span class="hits">9</span>
+        <li class="missed" data-hits="0" data-linenumber="142">
+          
           
           <code class="ruby">    raise AuthError, response.body if response.code == 401</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="143">
-          <span class="hits">9</span>
+        <li class="missed" data-hits="0" data-linenumber="143">
+          
           
           <code class="ruby">    raise ReservationError, response.body if response.code == 422</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="144">
-          <span class="hits">9</span>
+        <li class="missed" data-hits="0" data-linenumber="144">
+          
           
           <code class="ruby">    raise ReservationNotFound, response.body if response.code == 404</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="145">
-          <span class="hits">6</span>
+        <li class="missed" data-hits="0" data-linenumber="145">
+          
           
           <code class="ruby">    raise InventoryError, response.body if response.code != 200</code>
         </li>
@@ -10437,10 +10437,10 @@
         <div class="source_table" id="5814d00fefe352ccc6ae1cb03a30ab4d61088b69">
   <div class="header">
     <h3>spec/controllers/rentals_controller_spec.rb</h3>
-    <h4><span class="green">95.38 %</span> covered</h4>
+    <h4><span class="green">95.45 %</span> covered</h4>
     <div>
-      <b>65</b> relevant lines. 
-      <span class="green"><b>62</b> lines covered</span> and
+      <b>66</b> relevant lines. 
+      <span class="green"><b>63</b> lines covered</span> and
       <span class="red"><b>3</b> lines missed.</span>
     </div>
   </div>
@@ -10733,346 +10733,364 @@
         <li class="covered" data-hits="1" data-linenumber="48">
           <span class="hits">1</span>
           
-          <code class="ruby">    context &#39;with valid attributes&#39; do</code>
+          <code class="ruby">    after :each do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="49">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="49">
           
-          <code class="ruby">      context &#39;with accepting the disclaimer&#39; do</code>
+          
+          <code class="ruby">      # delete the created rental</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="50">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="50">
           
-          <code class="ruby">        it &#39;saves the new rental in the database&#39; do</code>
+          
+          <code class="ruby">    end</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="51">
           <span class="hits">1</span>
           
-          <code class="ruby">          expect do</code>
+          <code class="ruby">    context &#39;with valid attributes&#39; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="52">
           <span class="hits">1</span>
           
-          <code class="ruby">            post :create, rental: rental_create, disclaimer: &#39;1&#39;</code>
+          <code class="ruby">      context &#39;with accepting the disclaimer&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="53">
+        <li class="covered" data-hits="1" data-linenumber="53">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">          end.to change(Rental, :count).by(1)</code>
+          <code class="ruby">        it &#39;saves the new rental in the database&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="covered" data-hits="1" data-linenumber="54">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">        end</code>
+          <code class="ruby">          expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="55">
           <span class="hits">1</span>
           
+          <code class="ruby">            post :create, rental: rental_create, disclaimer: &#39;1&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="56">
+          
+          
+          <code class="ruby">          end.to change(Rental, :count).by(1)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="57">
+          
+          
+          <code class="ruby">        end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="58">
+          <span class="hits">1</span>
+          
           <code class="ruby">        it &#39;redirects to the rental page&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="56">
+        <li class="covered" data-hits="1" data-linenumber="59">
           <span class="hits">1</span>
           
           <code class="ruby">          expect do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="57">
+        <li class="missed" data-hits="0" data-linenumber="60">
           
           
           <code class="ruby">            post :create, rental: rental_create, disclaimer: &#39;1&#39;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="58">
+        <li class="missed" data-hits="0" data-linenumber="61">
           
           
           <code class="ruby">            expect(response).to redirect_to Rental.last</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="59">
+        <li class="never" data-hits="" data-linenumber="62">
           
           
           <code class="ruby">          end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="60">
+        <li class="never" data-hits="" data-linenumber="63">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="never" data-hits="" data-linenumber="64">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="62">
+        <li class="never" data-hits="" data-linenumber="65">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="63">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      context &#39;without accepting the disclaimer&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="64">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        it &#39;does not save the new Rental in the database&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="65">
-          <span class="hits">1</span>
-          
-          <code class="ruby">          expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="66">
           <span class="hits">1</span>
           
-          <code class="ruby">            post :create, rental: attributes_for(:new_rental)</code>
+          <code class="ruby">      context &#39;without accepting the disclaimer&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="67">
+        <li class="covered" data-hits="1" data-linenumber="67">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">          end.to_not change(Rental, :count)</code>
+          <code class="ruby">        it &#39;does not save the new Rental in the database&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="68">
+        <li class="covered" data-hits="1" data-linenumber="68">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">        end</code>
+          <code class="ruby">          expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="69">
           <span class="hits">1</span>
           
-          <code class="ruby">        it &#39;re-renders the :new template&#39; do</code>
+          <code class="ruby">            post :create, rental: attributes_for(:new_rental)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="70">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="70">
           
-          <code class="ruby">          post :create, rental: attributes_for(:new_rental)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="71">
-          <span class="hits">1</span>
           
-          <code class="ruby">          expect(response).to render_template :new</code>
+          <code class="ruby">          end.to_not change(Rental, :count)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="72">
+        <li class="never" data-hits="" data-linenumber="71">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="73">
+        <li class="covered" data-hits="1" data-linenumber="72">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">      end</code>
+          <code class="ruby">        it &#39;re-renders the :new template&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="74">
+        <li class="covered" data-hits="1" data-linenumber="73">
+          <span class="hits">1</span>
           
+          <code class="ruby">          post :create, rental: attributes_for(:new_rental)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="74">
+          <span class="hits">1</span>
           
-          <code class="ruby">    end</code>
+          <code class="ruby">          expect(response).to render_template :new</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="75">
           
           
+          <code class="ruby">        end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="76">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="77">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="78">
+          
+          
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="76">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    context &#39;with invalid attributes&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="77">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      it &#39;does not save the new Rental in the database&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="78">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="79">
           <span class="hits">1</span>
           
-          <code class="ruby">          post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
+          <code class="ruby">    context &#39;with invalid attributes&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="80">
+        <li class="covered" data-hits="1" data-linenumber="80">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">        end.to_not change(Rental, :count)</code>
+          <code class="ruby">      it &#39;does not save the new Rental in the database&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="81">
+        <li class="covered" data-hits="1" data-linenumber="81">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">      end</code>
+          <code class="ruby">        expect do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="82">
           <span class="hits">1</span>
           
-          <code class="ruby">      it &#39;re-renders the :new template&#39; do</code>
+          <code class="ruby">          post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="83">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="83">
           
-          <code class="ruby">        post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="84">
-          <span class="hits">1</span>
           
-          <code class="ruby">        expect(response).to render_template :new</code>
+          <code class="ruby">        end.to_not change(Rental, :count)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="85">
+        <li class="never" data-hits="" data-linenumber="84">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="86">
+        <li class="covered" data-hits="1" data-linenumber="85">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">    end</code>
+          <code class="ruby">      it &#39;re-renders the :new template&#39; do</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="87">
+        <li class="covered" data-hits="1" data-linenumber="86">
+          <span class="hits">1</span>
           
+          <code class="ruby">        post :create, rental: attributes_for(:invalid_rental), disclaimer: &#39;1&#39;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="87">
+          <span class="hits">1</span>
           
-          <code class="ruby">  end</code>
+          <code class="ruby">        expect(response).to render_template :new</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="88">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="89">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  describe &#39;POST #destroy&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    before :each do</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="91">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      request.env[&#39;HTTP_REFERER&#39;] = &#39;back_page&#39;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="92">
+        <li class="never" data-hits="" data-linenumber="89">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;deletes the rental from the database&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="94">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="95">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      expect do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="96">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        delete :destroy, id: rental</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="97">
-          
-          
-          <code class="ruby">      end.to change(Rental, :count).by(-1)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="98">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="99">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &#39;redirects back a page&#39; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="100">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="101">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      delete :destroy, id: rental</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="102">
-          
-          
-          <code class="ruby">      expect(response).to redirect_to &#39;back_page&#39;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="103">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="104">
+        <li class="never" data-hits="" data-linenumber="90">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="105">
+        <li class="never" data-hits="" data-linenumber="91">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="92">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  describe &#39;POST #destroy&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="93">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    before :each do</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="94">
+          <span class="hits">2</span>
+          
+          <code class="ruby">      request.env[&#39;HTTP_REFERER&#39;] = &#39;back_page&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="95">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="96">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;deletes the rental from the database&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="97">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="98">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="99">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        delete :destroy, id: rental</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="100">
+          
+          
+          <code class="ruby">      end.to change(Rental, :count).by(-1)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="101">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="102">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &#39;redirects back a page&#39; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="103">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      pending(&#39;rework this for the api&#39;)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="104">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      delete :destroy, id: rental</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="105">
+          
+          
+          <code class="ruby">      expect(response).to redirect_to &#39;back_page&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="106">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="107">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="108">
           
           
           <code class="ruby">end</code>
@@ -13779,11 +13797,11 @@
         <div class="source_table" id="47245dc3df738f5077fa3babfdb6889f755bfa8b">
   <div class="header">
     <h3>spec/models/inventory_spec.rb</h3>
-    <h4><span class="green">100.0 %</span> covered</h4>
+    <h4><span class="red">15.07 %</span> covered</h4>
     <div>
       <b>73</b> relevant lines. 
-      <span class="green"><b>73</b> lines covered</span> and
-      <span class="red"><b>0</b> lines missed.</span>
+      <span class="green"><b>11</b> lines covered</span> and
+      <span class="red"><b>62</b> lines missed.</span>
     </div>
   </div>
   
@@ -13886,14 +13904,14 @@
           <code class="ruby">    expect { response = Inventory.create_item_type(name, [&#39;fur type&#39;, &#39;height&#39;, &#39;cuddlyness&#39;]) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="17">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="17">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="18">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="18">
+          
           
           <code class="ruby">    expect(item_type_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
@@ -13910,20 +13928,20 @@
           <code class="ruby">    # get all item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="21">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="21">
+          
           
           <code class="ruby">    expect { response = Inventory.item_types }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="22">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="22">
+          
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="23">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="23">
+          
           
           <code class="ruby">    expect(response.count).not_to eq 0</code>
         </li>
@@ -13940,26 +13958,26 @@
           <code class="ruby">    # get one item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="26">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="26">
+          
           
           <code class="ruby">    expect { response = Inventory.item_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="27">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="27">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="28">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="28">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_type_uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="29">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="29">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;name&#39;)).to eq(name)</code>
         </li>
@@ -13976,20 +13994,20 @@
           <code class="ruby">    # update item type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="32">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="32">
+          
           
           <code class="ruby">    expect { response = Inventory.update_item_type(item_type_uuid, allowed_keys: [&#39;color&#39;]) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="33">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="33">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="34">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="34">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;allowed_keys&#39;)).to eq([&#39;color&#39;])</code>
         </li>
@@ -14000,8 +14018,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="36">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="36">
+          
           
           <code class="ruby">    item_uuid = nil</code>
         </li>
@@ -14012,20 +14030,20 @@
           <code class="ruby">    # creates item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="38">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="38">
+          
           
           <code class="ruby">    expect { response = Inventory.create_item(item_type_uuid, name, true, {}) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="39">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="39">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="40">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="40">
+          
           
           <code class="ruby">    expect(item_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
@@ -14042,20 +14060,20 @@
           <code class="ruby">    # get item by uuid</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="43">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="43">
+          
           
           <code class="ruby">    expect { response = Inventory.item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="44">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="44">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="45">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="45">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
@@ -14072,20 +14090,20 @@
           <code class="ruby">    # gets items by type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="48">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="48">
+          
           
           <code class="ruby">    expect { response = Inventory.items_by_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="49">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="49">
+          
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="50">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="50">
+          
           
           <code class="ruby">    expect(response).to include(&#39;name&#39; =&gt; name, &#39;uuid&#39; =&gt; item_uuid)</code>
         </li>
@@ -14096,8 +14114,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="52">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="52">
+          
           
           <code class="ruby">    item_name = name + &#39;a&#39;</code>
         </li>
@@ -14108,38 +14126,38 @@
           <code class="ruby">    # updates item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="54">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="54">
+          
           
           <code class="ruby">    expect { response = Inventory.update_item(item_uuid, name: item_name, data: { color: &quot;red (becuase it&#39;s faster)&quot; }) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="55">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="55">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="56">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="56">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;name&#39;)).to eq(item_name)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="57">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="57">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="58">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="58">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).to include(&#39;color&#39; =&gt; &quot;red (becuase it&#39;s faster)&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="59">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="59">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
@@ -14150,8 +14168,8 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="61">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="61">
+          
           
           <code class="ruby">    reservation_uuid = nil</code>
         </li>
@@ -14162,44 +14180,44 @@
           <code class="ruby">    # creates reservation</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="63">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="63">
+          
           
           <code class="ruby">    reservation_start = Time.current</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="64">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="64">
+          
           
           <code class="ruby">    reservation_end = 6.days.from_now.in_time_zone</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="65">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="65">
+          
           
           <code class="ruby">    expect { response = Inventory.create_reservation(name, reservation_start, reservation_end) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="66">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="66">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="67">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="67">
+          
           
           <code class="ruby">    expect(reservation_uuid = response.try(:[], &#39;uuid&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="68">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="68">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;item_type&#39;)).to eq(name)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="69">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="69">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;item&#39;)).to eq(item_name)</code>
         </li>
@@ -14216,20 +14234,20 @@
           <code class="ruby">    # get reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="72">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="72">
+          
           
           <code class="ruby">    expect { response = Inventory.reservation(reservation_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="73">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="73">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="74">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="74">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(reservation_uuid)</code>
         </li>
@@ -14246,20 +14264,20 @@
           <code class="ruby">    # searches by time period</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="77">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="77">
+          
           
           <code class="ruby">    expect { response = Inventory.reservations(Time.current, 7.days.from_now.in_time_zone, name) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="78">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="78">
+          
           
           <code class="ruby">    expect(response).to be_a(Array)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="79">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="79">
+          
           
           <code class="ruby">    expect(response).to include(&#39;start_time&#39; =&gt; reservation_start.iso8601, &#39;end_time&#39; =&gt; reservation_end.iso8601)</code>
         </li>
@@ -14276,26 +14294,26 @@
           <code class="ruby">    # update reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="82">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="82">
+          
           
           <code class="ruby">    expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.current + 1.day)) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="83">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="83">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="84">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="84">
+          
           
           <code class="ruby">    expect(time = response.try(:[], &#39;start_time&#39;)).not_to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="85">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="85">
+          
           
           <code class="ruby">    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 1.day)</code>
         </li>
@@ -14312,38 +14330,38 @@
           <code class="ruby">    # updates reservation&#39;s metadata</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="88">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="88">
+          
           
           <code class="ruby">    expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: &#39;orange&#39; }) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="89">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="89">
+          
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="90">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="90">
+          
           
           <code class="ruby">    expect { response = Inventory.item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="91">
+          
           
           <code class="ruby">    expect(response).to be_a(Hash)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="92">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="92">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;uuid&#39;)).to eq(item_uuid)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="93">
+          
           
           <code class="ruby">    expect(response.try(:[], &#39;data&#39;)).to include(&#39;color&#39; =&gt; &#39;orange&#39;)</code>
         </li>
@@ -14360,20 +14378,20 @@
           <code class="ruby">    # delete reservation</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="96">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="96">
+          
           
           <code class="ruby">    expect { response = Inventory.delete_reservation(reservation_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="97">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="97">
+          
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="98">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="98">
+          
           
           <code class="ruby">    expect { Inventory.reservation(reservation_uuid) }.to raise_error ReservationNotFound</code>
         </li>
@@ -14390,20 +14408,20 @@
           <code class="ruby">    # deletes item</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="101">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="101">
+          
           
           <code class="ruby">    expect { response = Inventory.delete_item(item_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="102">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="102">
+          
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="103">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="103">
+          
           
           <code class="ruby">    expect { Inventory.item(item_uuid) }.to raise_error ItemNotFound</code>
         </li>
@@ -14420,20 +14438,20 @@
           <code class="ruby">    # delete item_type</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="106">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="106">
+          
           
           <code class="ruby">    expect { response = Inventory.delete_item_type(item_type_uuid) }.not_to raise_error</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="107">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="107">
+          
           
           <code class="ruby">    expect(response).to be_nil</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="108">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="108">
+          
           
           <code class="ruby">    expect { Inventory.item_type(item_type_uuid) }.to raise_error ItemTypeNotFound</code>
         </li>

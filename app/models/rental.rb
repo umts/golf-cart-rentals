@@ -8,7 +8,7 @@ class Rental < ActiveRecord::Base
   validates :reservation_id, presence: true, unless: :skip_reservation_validation
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_date, :end_date, :item_type_id, presence: true
-  validates :start_date, date: { after: Date.today, message: 'must be no earlier than today' }
+  validates :start_date, date: { after: Date.current, message: 'must be no earlier than today' }
   validates :end_date, date: { after: :start_date, message: 'must be after start' }
 
   aasm column: :rental_status do
