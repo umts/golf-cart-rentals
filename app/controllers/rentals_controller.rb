@@ -39,12 +39,8 @@ class RentalsController < ApplicationController
 
   # DELETE /rentals/1
   def destroy
-    if @rental.delete_reservation
-      @rental.destroy
-      flash[:success] = 'Rental Was Successfully Deleted'
-    else
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-    end
+    @rental.destroy
+    flash[:success] = 'Rental Was Successfully Deleted'
     redirect_to :back
   end
 

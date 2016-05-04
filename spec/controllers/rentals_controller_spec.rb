@@ -94,14 +94,16 @@ describe RentalsController do
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
+      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
+      expect(@rental_to_destroy.create_reservation).to eq(true)
     end
     it 'deletes the rental from the database' do # todo: rework this
       expect do
-        delete :destroy, id: rental
+        delete :destroy, id: @rental_to_destroy
       end.to change(Rental, :count).by(-1)
     end
     it 'redirects back a page' do # todo: rework this
-      delete :destroy, id: rental
+      delete :destroy, id: @rental_to_destroy
       expect(response).to redirect_to 'back_page'
     end
   end

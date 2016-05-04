@@ -57,17 +57,21 @@ class Rental < ActiveRecord::Base
         self.reservation_id = reservation[:uuid]
       else
         errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
+        return false
       end
     rescue => error
       errors.add :base, error.inspect
+      return false
     end
     save
   end
 
   def delete_reservation
-    return true if end_date < Time.current # deleting it is pointless
+    return true if reservation_id == nil # nothing to delete here
+    return true if end_date < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
     begin
       Inventory.delete_reservation(reservation_id)
+      self.reservation_id = nil
     rescue => error
       errors.add(:base, error.inspect) and return false
     end
