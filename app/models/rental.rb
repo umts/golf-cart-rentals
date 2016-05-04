@@ -1,5 +1,8 @@
 class Rental < ActiveRecord::Base
   include AASM
+  include InventoryExceptions
+  
+  before_destroy :delete_reservation
 
   belongs_to :user
   belongs_to :department
@@ -48,22 +51,27 @@ class Rental < ActiveRecord::Base
 
   def create_reservation
     return false unless mostly_valid?
-    reservation = Inventory.create_reservation(item_type.name, start_date, end_date)
-    if reservation
-      self.reservation_id = reservation[:uuid]
-    else
-      errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
+    begin
+      reservation = Inventory.create_reservation(item_type.name, start_date, end_date)
+      if reservation
+        self.reservation_id = reservation[:uuid]
+      else
+        errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
+      end
+    rescue => error
+      errors.add :base, error.inspect
     end
-
     save
   end
 
   def delete_reservation
-    reservation = Inventory.delete_reservation(reservation_id)
-    return true unless reservation
-
-    errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
-    false
+    return true if end_date > Time.current # deleting it is pointless
+    begin
+      Inventory.delete_reservation(reservation_id)
+    rescue => error
+      errors.add(:base, error.inspect) and return false
+    end
+    true 
   end
 
   def mostly_valid?

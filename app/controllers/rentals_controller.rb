@@ -28,7 +28,6 @@ class RentalsController < ApplicationController
     end
 
     @rental = Rental.new(rental_params)
-
     if @rental.create_reservation
       flash[:success] = 'Rental Was Successfully Created'
       redirect_to(@rental)

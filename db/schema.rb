@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411151739) do
+ActiveRecord::Schema.define(version: 20160504183330) do
 
   create_table "documents", force: :cascade do |t|
     t.string   "filename",   limit: 255, null: false
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20160411151739) do
     t.string   "rental_status",  limit: 255, null: false
     t.integer  "user_id",        limit: 4,   null: false
     t.integer  "department_id",  limit: 4
-    t.integer  "reservation_id", limit: 4,   null: false
+    t.string   "reservation_id", limit: 255, null: false
     t.integer  "item_type_id",   limit: 4,   null: false
     t.datetime "start_date",                 null: false
     t.datetime "end_date",                   null: false
