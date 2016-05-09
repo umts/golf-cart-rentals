@@ -30,8 +30,38 @@ RSpec.describe Rental do
     expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
   end
 
-  pending '#create_reservation'
-  pending '#delete_reservation'
+  describe '#create_rental' do
+    before do
+      @rent = create :valid_rental
+      @rent.create_reservation
+    end
+
+    it 'creates a rental with valid parameters' do
+      expect(@rent).to be_valid
+      expect(Rental.find(@rent.id)).not_to be(@rent)
+    end
+
+    it 'creates a reservation with the external api' do
+      expect(Inventory.reservation(@rent.reservation_id)).not_to raise_error
+    end
+  end
+  
+  describe '#delete_rental' do
+    let(:rental) do
+      rent = create :valid_rental
+      rent.create_reservation
+      rent
+    end
+
+    it 'deletes a rental properly' do
+      expect(rental.destroy).to eq(true)
+    end
+
+    it 'deletes associated reservation on the external api' do
+      expect(rental.destroy).to eq(true)
+      expect(Inventory.reservation(rental[:uuid])).to raise ReservationNotFound
+    end
+  end
 
   describe '#mostly_valid?' do
     it 'returns true if the item is valid except for a missing reservation_id' do

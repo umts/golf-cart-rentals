@@ -27,12 +27,12 @@ class RentalsController < ApplicationController
       render(:new) && return
     end
 
-    @rental = Rental.new(rental_params)
-    if @rental.create_reservation
+    rental = Rental.create(rental_params)
+    if rental
       flash[:success] = 'Rental Was Successfully Created'
-      redirect_to(@rental)
+      redirect_to(rental)
     else
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end

@@ -1,20 +1,28 @@
 require 'rails_helper'
 
 describe RentalsController do
-  let!(:rental) { create(:rental) }
-  let!(:rental2) { create(:rental) }
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE')
     rental
   end
 
+  before(:each) {
+    @rental = create(:rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
+    @rental2 = create(:rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
+  }
+
+  after(:each){
+    @rental.destroy
+    @rental2.destroy
+  }
+
   before(:each) { current_user }
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
       get :index
-      expect(assigns[:rentals]).to eq([rental, rental2])
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
     it 'renders the :index view' do
       get :index
@@ -89,20 +97,18 @@ describe RentalsController do
     end
   end
 
-  # right now this method is just simulated, it doesnt actually reach out to 
-  # aggessive epsilon, is this the desired action?
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
       @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
       expect(@rental_to_destroy.create_reservation).to eq(true)
     end
-    it 'deletes the rental from the database' do # todo: rework this
+    it 'deletes the rental from the database' do 
       expect do
         delete :destroy, id: @rental_to_destroy
       end.to change(Rental, :count).by(-1)
     end
-    it 'redirects back a page' do # todo: rework this
+    it 'redirects back a page' do 
       delete :destroy, id: @rental_to_destroy
       expect(response).to redirect_to 'back_page'
     end

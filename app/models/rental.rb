@@ -1,7 +1,8 @@
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
-  
+
+  before_create :create_reservation
   before_destroy :delete_reservation
 
   belongs_to :user
@@ -63,19 +64,18 @@ class Rental < ActiveRecord::Base
       errors.add :base, error.inspect
       return false
     end
-    save
   end
 
   def delete_reservation
-    return true if reservation_id == nil # nothing to delete here
+    return true if reservation_id.nil? # nothing to delete here
     return true if end_date < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
     begin
       Inventory.delete_reservation(reservation_id)
       self.reservation_id = nil
     rescue => error
-      errors.add(:base, error.inspect) and return false
+      errors.add(:base, error.inspect) && (return false)
     end
-    true 
+    true
   end
 
   def mostly_valid?
