@@ -10,8 +10,9 @@ describe RentalsController do
   before(:each) { current_user }
   
   before(:each) {
-    @rental = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
-    @rental2 = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
+    item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
+    @rental = create(:rental, item_type: item_type)
+    @rental2 = create(:rental, item_type: item_type)
   }
 
   after(:each){
