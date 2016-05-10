@@ -21,6 +21,7 @@ class Inventory
   end
 
   def self.item_type(uuid)
+    raise ArgumentError if !uuid.present?
     response = HTTParty.get(@base_uri + "item_types/#{uuid}", headers: @get_headers)
     handle_item_type_errors(response)
     JSON.parse(response.body).with_indifferent_access
@@ -79,6 +80,7 @@ class Inventory
   end
 
   def self.reservation(uuid)
+    raise ArgumentError if !uuid.present?
     response = HTTParty.get(@base_uri + "reservations/#{uuid}", headers: @get_headers)
     handle_reservation_errors(response)
     JSON.parse(response.body).with_indifferent_access
@@ -135,7 +137,7 @@ class Inventory
     raise AuthError, response.body if response.code == 401
     raise ItemError, response.body if response.code == 422
     raise ItemNotFound, response.body if response.code == 404
-    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500
+    raise InventoryError, response.body if response.code != 200 
   end
 
   def self.handle_reservation_errors(response)

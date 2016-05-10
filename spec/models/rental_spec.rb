@@ -73,10 +73,11 @@ RSpec.describe Rental do
     end
 
     it 'deletes associated reservation on the external api' do
+      uuid = @rent.reservation_id
       expect do 
         @rent.destroy 
       end.to change{Rental.count}.by(-1)
-      expect(Inventory.reservation(@rent[:uuid])).to raise ReservationNotFound
+      expect { Inventory.reservation(uuid)}.to raise_error ReservationNotFound
     end
   end
 
