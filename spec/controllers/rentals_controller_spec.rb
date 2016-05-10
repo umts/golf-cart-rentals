@@ -7,6 +7,8 @@ describe RentalsController do
     rental
   end
 
+  before(:each) { current_user }
+  
   before(:each) {
     @rental = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
     @rental2 = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
@@ -16,8 +18,6 @@ describe RentalsController do
     @rental.destroy
     @rental2.destroy
   }
-
-  before(:each) { current_user }
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
@@ -32,11 +32,11 @@ describe RentalsController do
 
   describe 'GET #show' do
     it 'assigns the requested rental to @rental' do
-      get :show, id: rental
-      expect(assigns[:rental]).to eq(rental)
+      get :show, id: @rental
+      expect(assigns[:rental]).to eq(@rental)
     end
     it 'renders the :show template' do
-      get :show, id: rental
+      get :show, id: @rental
       expect(response).to render_template :show
     end
   end
@@ -56,7 +56,7 @@ describe RentalsController do
     context 'with valid attributes' do
       context 'with accepting the disclaimer' do
         after :each do
-          Rental.last.destroy # this has a before hook that will tell api to destroy as well
+          Rental.last.destroy
         end
         it 'saves the new rental in the database' do
           expect do

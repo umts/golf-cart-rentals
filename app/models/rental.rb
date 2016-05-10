@@ -9,7 +9,7 @@ class Rental < ActiveRecord::Base
   belongs_to :department
   belongs_to :item_type
 
-  validates :reservation_id, presence: true, unless: :skip_reservation_validation
+  # validate :reservation_id, presence: true, unless: :skip_reservation_validation
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_date, :end_date, :item_type_id, presence: true
   validates :start_date, date: { after: Date.current, message: 'must be no earlier than today' }

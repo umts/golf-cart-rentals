@@ -8,9 +8,6 @@ RSpec.describe Rental do
     it 'has a valid factory' do
       expect(build(:rental)).to be_valid
     end
-    it 'is invalid without a reservation_id' do
-      expect(build(:rental, reservation_id: nil)).not_to be_valid
-    end
     it 'is invalid without a user_id' do
       expect(build(:rental, user_id: nil)).not_to be_valid
     end

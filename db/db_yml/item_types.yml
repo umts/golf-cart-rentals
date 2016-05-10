@@ -8,7 +8,7 @@
   base_fee: "200"
   fee_per_day: "20"
 
-- name: "TEST_CREATE_RENTAL_TYPE"
+- name: "TEST_ITEM_TYPE"
   disclaimer: "This is for testing only."
   base_fee: "200"
   fee_per_day: "199"
