@@ -91,50 +91,63 @@ RSpec.describe Rental do
   end
 
   describe '#dates' do
+    before :each do
+      @rental = create(:valid_rental, item_type: @item_type)
+    end
+
+    after :each do
+      @rental.destroy
+    end
+
     it 'returns a string with dates' do
-      rental = create(:rental)
-      expect(rental.dates).to be_a(String)
+      expect(@rental.dates).to be_a(String)
     end
   end
 
   describe 'rental_status' do
-    let(:rental) { create :rental }
+    before :each do 
+      @rental = create :rental, item_type: @item_type
+    end
+
+    after :each do
+      @rental.destroy
+    end
 
     it 'is reserved upon creation' do
-      expect(rental).to be_reserved
+      expect(@rental).to be_reserved
     end
 
     it 'is canceled after cancel' do
-      rental.cancel!
-      expect(rental).to be_canceled
+      @rental.cancel!
+      expect(@rental).to be_canceled
     end
 
     it 'is checked_out after pickup' do
-      rental.pickup!
-      expect(rental.checked_out_at).not_to be_nil
-      expect(rental).to be_checked_out
+      @rental.pickup!
+      expect(@rental.checked_out_at).not_to be_nil
+      expect(@rental).to be_checked_out
     end
 
     it 'is checked_in after return' do
-      rental.pickup
-      rental.return!
-      expect(rental.checked_in_at).not_to be_nil
-      expect(rental).to be_checked_in
+      @rental.pickup
+      @rental.return!
+      expect(@rental.checked_in_at).not_to be_nil
+      expect(@rental).to be_checked_in
     end
 
     it 'is inspected after approve' do
-      rental.pickup
-      rental.return
-      rental.approve!
-      expect(rental).to be_inspected
+      @rental.pickup
+      @rental.return
+      @rental.approve!
+      expect(@rental).to be_inspected
     end
 
     it 'is available after process' do
-      rental.pickup
-      rental.return
-      rental.approve
-      rental.process!
-      expect(rental).to be_available
+      @rental.pickup
+      @rental.return
+      @rental.approve
+      @rental.process!
+      expect(@rental).to be_available
     end
   end
 end
