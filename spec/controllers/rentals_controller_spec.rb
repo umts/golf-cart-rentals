@@ -101,7 +101,6 @@ describe RentalsController do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
       @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
-      expect(@rental_to_destroy.create_reservation).to eq(true)
     end
     it 'deletes the rental from the database' do 
       expect do
