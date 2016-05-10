@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Rental do
+  before do
+    @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
+  end
+
   it 'has a valid factory' do
     expect(build(:rental)).to be_valid
   end
@@ -25,9 +29,14 @@ RSpec.describe Rental do
   it 'is invalid with an end_date before the start_date' do
     expect(build(:rental, start_date: Time.zone.tomorrow, end_date: Time.zone.today)).not_to be_valid
   end
-  it 'does not allow duplicate reservation_id' do
-    rental = create(:rental)
-    expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
+  context 'creating two rentals' do
+    it 'does not allow duplicate reservation_id' do
+      rental = create(:valid_rental, item_type: @item_type)
+      expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
+    end
+    after :each do # cleanup 
+      Rental.last.destroy
+    end
   end
 
   describe '#create_rental' do

@@ -3,13 +3,13 @@ require 'rails_helper'
 describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
-    rental[:item_type_id] = create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE')
+    rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
     rental
   end
 
   before(:each) {
-    @rental = create(:rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
-    @rental2 = create(:rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
+    @rental = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
+    @rental2 = create(:rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
   }
 
   after(:each){
@@ -100,7 +100,7 @@ describe RentalsController do
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
-      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_CREATE_RENTAL_TYPE'))
+      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
       expect(@rental_to_destroy.create_reservation).to eq(true)
     end
     it 'deletes the rental from the database' do 

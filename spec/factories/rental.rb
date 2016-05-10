@@ -24,7 +24,6 @@ FactoryGirl.define do
   factory :valid_rental, parent: :rental do
     association :user
     department_id 0
-    reservation_id 0
     association :item_type
     start_date Time.current.to_s
     end_date (Time.current + 1.day).to_s
