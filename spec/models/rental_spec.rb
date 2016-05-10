@@ -4,71 +4,79 @@ RSpec.describe Rental do
   before do
     @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
   end
-
-  it 'has a valid factory' do
-    expect(build(:rental)).to be_valid
-  end
-  it 'is invalid without a reservation_id' do
-    expect(build(:rental, reservation_id: nil)).not_to be_valid
-  end
-  it 'is invalid without a user_id' do
-    expect(build(:rental, user_id: nil)).not_to be_valid
-  end
-  it 'is invalid without an item_type_id' do
-    expect(build(:rental, item_type_id: nil)).not_to be_valid
-  end
-  it 'is invalid without a start_date' do
-    expect(build(:rental, start_date: nil)).not_to be_valid
-  end
-  it 'is invalid without a end_date' do
-    expect(build(:rental, end_date: nil)).not_to be_valid
-  end
-  it 'is invalid with a start_date before today' do
-    expect(build(:rental, start_date: Time.zone.yesterday)).not_to be_valid
-  end
-  it 'is invalid with an end_date before the start_date' do
-    expect(build(:rental, start_date: Time.zone.tomorrow, end_date: Time.zone.today)).not_to be_valid
-  end
-  context 'creating two rentals' do
-    it 'does not allow duplicate reservation_id' do
-      rental = create(:valid_rental, item_type: @item_type)
-      expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
+  describe '#validations' do
+    it 'has a valid factory' do
+      expect(build(:rental)).to be_valid
     end
-    after :each do # cleanup 
-      Rental.last.destroy
+    it 'is invalid without a reservation_id' do
+      expect(build(:rental, reservation_id: nil)).not_to be_valid
+    end
+    it 'is invalid without a user_id' do
+      expect(build(:rental, user_id: nil)).not_to be_valid
+    end
+    it 'is invalid without an item_type_id' do
+      expect(build(:rental, item_type_id: nil)).not_to be_valid
+    end
+    it 'is invalid without a start_date' do
+      expect(build(:rental, start_date: nil)).not_to be_valid
+    end
+    it 'is invalid without a end_date' do
+      expect(build(:rental, end_date: nil)).not_to be_valid
+    end
+    it 'is invalid with a start_date before today' do
+      expect(build(:rental, start_date: Time.zone.yesterday)).not_to be_valid
+    end
+    it 'is invalid with an end_date before the start_date' do
+      expect(build(:rental, start_date: Time.zone.tomorrow, end_date: Time.zone.today)).not_to be_valid
+    end
+    context 'creating two rentals' do
+      it 'does not allow duplicate reservation_id' do
+        rental = create(:valid_rental, item_type: @item_type)
+        expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
+      end
+      after :each do # cleanup 
+        Rental.last.destroy
+      end
     end
   end
 
   describe '#create_rental' do
     before do
-      @rent = create :valid_rental
-      @rent.create_reservation
+      @rent = create :valid_rental, item_type: @item_type
     end
 
     it 'creates a rental with valid parameters' do
       expect(@rent).to be_valid
-      expect(Rental.find(@rent.id)).not_to be(@rent)
+      expect(Rental.find(@rent.id)).to eq(@rent)
     end
 
     it 'creates a reservation with the external api' do
-      expect(Inventory.reservation(@rent.reservation_id)).not_to raise_error
+      response = nil
+      expect { response = Inventory.reservation(@rent.reservation_id) }.not_to raise_error
+      expect(response[:uuid]).to eq(@rent.reservation_id)
+    end
+
+    after do
+      @rent.destroy
     end
   end
   
   describe '#delete_rental' do
-    let(:rental) do
-      rent = create :valid_rental
-      rent.create_reservation
-      rent
+    before :each do
+      @rent = create :valid_rental, item_type: @item_type
     end
 
     it 'deletes a rental properly' do
-      expect(rental.destroy).to eq(true)
+      expect do 
+        @rent.destroy 
+      end.to change{Rental.count}.by(-1)
     end
 
     it 'deletes associated reservation on the external api' do
-      expect(rental.destroy).to eq(true)
-      expect(Inventory.reservation(rental[:uuid])).to raise ReservationNotFound
+      expect do 
+        @rent.destroy 
+      end.to change{Rental.count}.by(-1)
+      expect(Inventory.reservation(@rent[:uuid])).to raise ReservationNotFound
     end
   end
 
