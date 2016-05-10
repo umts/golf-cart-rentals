@@ -73,7 +73,7 @@ class Rental < ActiveRecord::Base
       Inventory.delete_reservation(reservation_id)
       self.reservation_id = nil
     rescue => error
-      errors.add(:base, error.inspect) && (return false)
+      errors.add(:base, error.inspect) and return false
     end
     true
   end
