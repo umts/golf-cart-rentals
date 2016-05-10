@@ -4,16 +4,16 @@ describe HomeController do
   before do
     @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
   end
-  
-  before(:each) {
+
+  before(:each) do
     @rental = create :rental, item_type: @item_type
     @rental2 = create :rental, item_type: @item_type
-  }
+  end
 
-  after(:each){
+  after(:each) do
     @rental.destroy
     @rental2.destroy
-  }
+  end
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }

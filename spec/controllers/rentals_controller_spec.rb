@@ -8,17 +8,17 @@ describe RentalsController do
   end
 
   before(:each) { current_user }
-  
-  before(:each) {
+
+  before(:each) do
     item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
     @rental = create(:rental, item_type: item_type)
     @rental2 = create(:rental, item_type: item_type)
-  }
+  end
 
-  after(:each){
+  after(:each) do
     @rental.destroy
     @rental2.destroy
-  }
+  end
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
@@ -103,12 +103,12 @@ describe RentalsController do
       request.env['HTTP_REFERER'] = 'back_page'
       @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
     end
-    it 'deletes the rental from the database' do 
+    it 'deletes the rental from the database' do
       expect do
         delete :destroy, id: @rental_to_destroy
       end.to change(Rental, :count).by(-1)
     end
-    it 'redirects back a page' do 
+    it 'redirects back a page' do
       delete :destroy, id: @rental_to_destroy
       expect(response).to redirect_to 'back_page'
     end

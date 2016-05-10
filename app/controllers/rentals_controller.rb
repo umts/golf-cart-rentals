@@ -33,7 +33,7 @@ class RentalsController < ApplicationController
       redirect_to(rental)
     else
       rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new 
+      render :new
     end
   end
 

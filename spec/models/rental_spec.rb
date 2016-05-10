@@ -31,7 +31,7 @@ RSpec.describe Rental do
         rental = create(:valid_rental, item_type: @item_type)
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
-      after :each do # cleanup 
+      after :each do # cleanup
         Rental.last.destroy
       end
     end
@@ -57,24 +57,24 @@ RSpec.describe Rental do
       @rent.destroy
     end
   end
-  
+
   describe '#delete_rental' do
     before :each do
       @rent = create :valid_rental, item_type: @item_type
     end
 
     it 'deletes a rental properly' do
-      expect do 
-        @rent.destroy 
-      end.to change{Rental.count}.by(-1)
+      expect do
+        @rent.destroy
+      end.to change { Rental.count }.by(-1)
     end
 
     it 'deletes associated reservation on the external api' do
       uuid = @rent.reservation_id
-      expect do 
-        @rent.destroy 
-      end.to change{Rental.count}.by(-1)
-      expect { Inventory.reservation(uuid)}.to raise_error ReservationNotFound
+      expect do
+        @rent.destroy
+      end.to change { Rental.count }.by(-1)
+      expect { Inventory.reservation(uuid) }.to raise_error ReservationNotFound
     end
   end
 
@@ -102,7 +102,7 @@ RSpec.describe Rental do
   end
 
   describe 'rental_status' do
-    before :each do 
+    before :each do
       @rental = create :rental, item_type: @item_type
     end
 
