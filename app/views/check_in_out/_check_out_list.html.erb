@@ -1,0 +1,27 @@
+<h1>Check Out</h1>
+<table  class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Car #</th>
+      <th>Description</th>
+      <th>Department ID</th>
+      <th>Reservation ID</th>
+      <th>Rental Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Goft 2</td>
+      <td>Goft 2 Description</td>
+      <td>2222</td>
+      <td>22</td>
+      <td class="min-width">
+        <span class="label label-info">Open</span>
+      </td>
+      <td class="min-width">
+        <%= link_to 'Check Out', check_out_form_check_in_out_index_path, class: "btn btn-primary"%>
+      </td>
+    </tr>
+  </tbody>
+</table>

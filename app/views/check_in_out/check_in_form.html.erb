@@ -1,0 +1,36 @@
+<!--%= form_for %-->
+  <div class="form-group col-xs-12">
+    <h1>Check In Form</h1>
+
+    <h3>Car 1</h3>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Rental Information</h3>
+      </div>
+
+      <div class="panel-body">
+        <li>Amount: $33</li>
+        <li>Responsible Person: BB</li>
+        <li>Car Description: 1111</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <fieldset>
+      <legend>Check in Agreement</legend>
+      <textarea cols="100%" rows= "4" readonly="true">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+      </textarea>
+    </fieldset>
+
+    <%= check_box_tag 'accept' %> Accept
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= button_tag 'Submit', class:"btn btn-primary"%>
+  </div>
+<!--% end %-->

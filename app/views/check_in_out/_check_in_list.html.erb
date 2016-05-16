@@ -1,0 +1,27 @@
+<h1>Check In</h1>
+<table  class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Car #</th>
+      <th>Description</th>
+      <th>Department ID</th>
+      <th>Reservation ID</th>
+      <th>Rental Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Goft 1</td>
+      <td>Goft 1 Description</td>
+      <td>1111</td>
+      <td>11</td>
+      <td class="min-width">
+        <span class="label label-success">Open</span>
+      </td>
+      <td class="min-width">
+        <%= link_to 'Check In', check_in_form_check_in_out_index_path, class: "btn btn-primary"%>
+      </td>
+    </tr>
+  </tbody>
+</table>
