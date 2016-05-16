@@ -58,6 +58,13 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#reservation_creation_errors' do
+    it 'fails to create an item for an item_type that does not exist' do
+      item_type = create :item_type, name: 'i do not exist'
+      expect { create :valid_rental, item_type: item_type }.to raise_error ActiveRecord::RecordNotSaved
+    end
+  end
+
   describe '#delete_rental' do
     before :each do
       @rent = create :valid_rental, item_type: @item_type

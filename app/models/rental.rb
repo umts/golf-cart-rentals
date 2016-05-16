@@ -54,12 +54,7 @@ class Rental < ActiveRecord::Base
     return false unless mostly_valid?
     begin
       reservation = Inventory.create_reservation(item_type.name, start_date, end_date)
-      if reservation
-        self.reservation_id = reservation[:uuid]
-      else
-        errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
-        return false
-      end
+      self.reservation_id = reservation[:uuid]
     rescue => error
       errors.add :base, error.inspect
       return false
