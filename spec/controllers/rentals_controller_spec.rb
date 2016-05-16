@@ -1,15 +1,29 @@
 require 'rails_helper'
 
 describe RentalsController do
-  let!(:rental) { create(:rental) }
-  let!(:rental2) { create(:rental) }
+  let(:rental_create) do
+    rental = attributes_for(:new_rental)
+    rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental
+  end
 
   before(:each) { current_user }
+
+  before(:each) do
+    item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
+    @rental = create(:rental, item_type: item_type)
+    @rental2 = create(:rental, item_type: item_type)
+  end
+
+  after(:each) do
+    @rental.destroy
+    @rental2.destroy
+  end
 
   describe 'GET #index' do
     it 'populates an array of rentals' do
       get :index
-      expect(assigns[:rentals]).to eq([rental, rental2])
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
     it 'renders the :index view' do
       get :index
@@ -19,11 +33,11 @@ describe RentalsController do
 
   describe 'GET #show' do
     it 'assigns the requested rental to @rental' do
-      get :show, id: rental
-      expect(assigns[:rental]).to eq(rental)
+      get :show, id: @rental
+      expect(assigns[:rental]).to eq(@rental)
     end
     it 'renders the :show template' do
-      get :show, id: rental
+      get :show, id: @rental
       expect(response).to render_template :show
     end
   end
@@ -42,15 +56,17 @@ describe RentalsController do
   describe 'POST #create' do
     context 'with valid attributes' do
       context 'with accepting the disclaimer' do
+        after :each do
+          Rental.last.destroy
+        end
         it 'saves the new rental in the database' do
-          pending('rework this for the api')
           expect do
-            post :create, rental: attributes_for(:new_rental), disclaimer: '1'
+            post :create, rental: rental_create, disclaimer: '1'
           end.to change(Rental, :count).by(1)
         end
         it 'redirects to the rental page' do
           expect do
-            post :create, rental: attributes_for(:new_rental), disclaimer: '1'
+            post :create, rental: rental_create, disclaimer: '1'
             expect(response).to redirect_to Rental.last
           end
         end
@@ -85,16 +101,15 @@ describe RentalsController do
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
+      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
     end
     it 'deletes the rental from the database' do
-      pending('rework this for the api')
       expect do
-        delete :destroy, id: rental
+        delete :destroy, id: @rental_to_destroy
       end.to change(Rental, :count).by(-1)
     end
     it 'redirects back a page' do
-      pending('rework this for the api')
-      delete :destroy, id: rental
+      delete :destroy, id: @rental_to_destroy
       expect(response).to redirect_to 'back_page'
     end
   end

@@ -23,6 +23,11 @@ RSpec.describe Permission, type: :model do
       p = create(:permission, controller: 'users')
       expect(p.model).to eq(User)
     end
+
+    it 'returns the nil if the permission does not link to a model' do
+      p = create(:permission)
+      expect(p.model).to be_nil
+    end
   end
 
   describe '.update_permissions_table' do

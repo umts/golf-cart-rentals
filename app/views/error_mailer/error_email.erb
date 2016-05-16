@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+    <b>The following error occured within the hub:</b><br>
+    <table style="margin-left:10px" border="1">
+      <tr>
+        <td><b>User:</b></td>
+        <td><%= "#{@user.id} #{@user.full_name} #{@user.email}" %></td>
+      </tr>
+      <tr>
+        <td><b>Time:</b></td>
+        <td><%= Time.now %></td>
+      </tr>
+      <tr>
+        <td><b>Path:</b></td>
+        <td><%= @path %></td>
+      </tr>
+      <tr>
+        <td><b>Error Type:</b></td>
+        <td><%= @type %></td>
+      </tr>
+      <tr>
+        <td><b>Error Message:</b></td>
+        <td><%= @message %></td>
+      </tr>
+      <tr>
+        <td><b>Stack Trace:</b></td>
+        <td>
+          <table>
+            <% @trace.each do |line| %>
+              <tr><td>
+                <%= line %>
+              </td></tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <hr>
+      Automated Message from Parking Services
+    </p>
+  </body>
+</html>

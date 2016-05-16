@@ -25,5 +25,8 @@
 storage/development/*
 storage/production/*
 
+# Ignore coverage files
+coverage/*
+
 #Keep these empty folders
 !.keep
