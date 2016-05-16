@@ -31,8 +31,8 @@ engines:
     checks:
       Rubocop/Style/AndOr:
         enabled: false
-      exclude_fingerprints:
-      - 1064d189916e56f6eaabf8de6bfd429a
+    exclude_fingerprints:
+    - 1064d189916e56f6eaabf8de6bfd429a
 ratings:
   paths:
   - Gemfile.lock
