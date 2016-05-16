@@ -106,11 +106,11 @@ class Inventory
   end
 
   def self.update_reservation_start_time(uuid, start_time)
-    update_reservation(uuid, reservation: { start_time: start_time })
+    update_reservation(uuid, start_time: start_time)
   end
 
   def self.update_reservation_end_time(uuid, end_time)
-    update_reservation(uuid, reservation: { end_time: end_time })
+    update_reservation(uuid, end_time: end_time)
   end
 
   def self.update_reservation_data(uuid, params = {})
