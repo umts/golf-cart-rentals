@@ -1,0 +1,8 @@
+<% provide( :page_header, "Editing #{@department.name}" ) %>
+
+<%= render 'form' %>
+
+<hr/>
+
+<h3>Users</h3>
+<%= render partial: 'users/tabs', locals: { users: @department.users.all } %>
