@@ -51,6 +51,3 @@ Permission.all.each do |p|
 end
 
 puts "\nDone :D\n\n"
-
-
-puts "\nDone :D\n\n"

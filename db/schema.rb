@@ -14,7 +14,6 @@
 ActiveRecord::Schema.define(version: 20160504183330) do
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
-    t.integer  "user_id",    limit: 4,                  null: false
     t.boolean  "active",                 default: true, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
