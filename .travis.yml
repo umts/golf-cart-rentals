@@ -5,6 +5,7 @@ script:
   - bundle exec rspec spec/
 before_script:
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
+  - cp config/database.travis.yml config/database.yml
   - rm config/environments/development.rb
   - rm config/environments/test.rb
   - cp -f config/environments/development.travis.rb config/environments/development.rb
