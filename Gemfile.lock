@@ -42,6 +42,8 @@ GEM
     ast (2.2.0)
     autoprefixer-rails (6.3.3.1)
       execjs
+    backstretch-rails (2.0.4)
+      railties (> 3.1)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -261,6 +263,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  backstretch-rails
   better_errors
   bootstrap-sass (~> 3.3.5)
   bootstrap-switch-rails

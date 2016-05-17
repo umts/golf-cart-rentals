@@ -1,43 +1,113 @@
-<!--%= form_for %-->
-  <div class="form-group col-xs-12">
-    <h1>Check Out Form</h1>
-
-    <h3>Car 2</h3>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Rental Information</h3>
+<!-- Top content -->
+<div class="top-content">
+  <div class="inner-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text">
+            <h1><strong>Bootstrap</strong> Multi Step Registration Form</h1>
+            <div class="description">
+              <p>
+                This is a free responsive multi-step registration form made with Bootstrap. 
+                Download it on <a href="http://azmind.com"><strong>AZMIND</strong></a>, customize and use it as you like!
+              </p>
+            </div>
+        </div>
       </div>
-
-      <div class="panel-body">
-        <li>Amount: $22</li>
-        <li>Responsible Person: AA</li>
-        <li>Car Description: 2222</li>
-        <li>Check In Time: XX/XX/XXXX</li>
+      <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 form-box">
+            
+            <form role="form" action="" method="post" class="registration-form">
+              
+              <fieldset>
+                <div class="form-top">
+                  <div class="form-top-left">
+                    <h3>Step 1 / 3</h3>
+                      <p>Tell us who you are:</p>
+                  </div>
+                  <div class="form-top-right">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  </div>
+                  <div class="form-bottom">
+                <div class="form-group">
+                  <label class="sr-only" for="form-first-name">First name</label>
+                    <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="form-last-name">Last name</label>
+                    <input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="form-about-yourself">About yourself</label>
+                    <textarea name="form-about-yourself" placeholder="About yourself..." 
+                          class="form-about-yourself form-control" id="form-about-yourself"></textarea>
+                  </div>
+                  <button type="button" class="btn btn-next">Next</button>
+              </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-top">
+                  <div class="form-top-left">
+                    <h3>Step 2 / 3</h3>
+                      <p>Set up your account:</p>
+                  </div>
+                  <div class="form-top-right">
+                    <i class="fa fa-key"></i>
+                  </div>
+                  </div>
+                  <div class="form-bottom">
+                  <div class="form-group">
+                    <label class="sr-only" for="form-email">Email</label>
+                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+                  </div>
+                  <div class="form-group">
+                  <label class="sr-only" for="form-password">Password</label>
+                    <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="form-repeat-password">Repeat password</label>
+                    <input type="password" name="form-repeat-password" placeholder="Repeat password..." 
+                          class="form-repeat-password form-control" id="form-repeat-password">
+                  </div>
+                  <button type="button" class="btn btn-previous">Previous</button>
+                  <button type="button" class="btn btn-next">Next</button>
+              </div>
+            </fieldset>
+            
+            <fieldset>
+                <div class="form-top">
+                  <div class="form-top-left">
+                    <h3>Step 3 / 3</h3>
+                      <p>Social media profiles:</p>
+                  </div>
+                  <div class="form-top-right">
+                    <i class="fa fa-twitter"></i>
+                  </div>
+                  </div>
+                  <div class="form-bottom">
+                <div class="form-group">
+                  <label class="sr-only" for="form-facebook">Facebook</label>
+                    <input type="text" name="form-facebook" placeholder="Facebook..." class="form-facebook form-control" id="form-facebook">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="form-twitter">Twitter</label>
+                    <input type="text" name="form-twitter" placeholder="Twitter..." class="form-twitter form-control" id="form-twitter">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="form-google-plus">Google plus</label>
+                    <input type="text" name="form-google-plus" placeholder="Google plus..." class="form-google-plus form-control" id="form-google-plus">
+                  </div>
+                  <button type="button" class="btn btn-previous">Previous</button>
+                  <button type="submit" class="btn">Sign me up!</button>
+              </div>
+            </fieldset>
+          
+          </form>
+          
+          </div>
       </div>
     </div>
   </div>
-
-  <div class="form-group col-xs-12">
-    <%= form_tag( { :action => 'upload' }, :multipart => true ) %>
-      Upload file: <%= file_field( "form", "file" ) %>
-
-      <%= submit_tag( "Upload file" ) %>
-    <%= end_form_tag %>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <fieldset>
-      <legend>Check out Agreement</legend>
-      <textarea rows="10" cols="100">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      </textarea>
-    </fieldset>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= button_tag 'Submit', class:"btn btn-primary"%>
-  </div>
-<!--% end %-->
+    
+</div>
