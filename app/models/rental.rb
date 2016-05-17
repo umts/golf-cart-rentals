@@ -9,7 +9,6 @@ class Rental < ActiveRecord::Base
   belongs_to :department
   belongs_to :item_type
 
-  # validate :reservation_id, presence: true, unless: :skip_reservation_validation
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_time, :end_time, :item_type_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
@@ -85,7 +84,7 @@ class Rental < ActiveRecord::Base
 
   def times
     time_string = start_time.strftime('%a %m/%d/%Y')
-    time_string += " - #{end_time.strftime('%a %m/%d/%Y')}" if start_time != end_time
+    time_string += " - #{end_time.strftime('%a %m/%d/%Y')}" 
     time_string
   end 
   alias_method :dates, :times

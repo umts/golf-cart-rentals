@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :rentals
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -9,7 +8,10 @@ Rails.application.routes.draw do
 
   # Home Pages -------------------------------------------------------
   resources :home, only: [:index]
-
+  
+  get "rentals/processing", to: "rentals#processing", as: "rentals_processing"
+  resources :rentals
+  
   resources :departments do
     post :remove_user, on: :member
   end

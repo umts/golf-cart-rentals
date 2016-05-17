@@ -10,17 +10,17 @@
   <%= f.label :user_id_eq, 'Customer' %>
   <%= f.select :user_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :user_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
 
-  <%= f.label :start_date_gteq, 'Between' %>
-  <%= f.date_field :start_date_gteq, class: "form-control" %>
+  <%= f.label :start_time_gteq, 'Between' %>
+  <%= f.date_field :start_time_gteq, class: "form-control" %>
 
-  <%= f.label :end_date_lteq, 'And' %>
-  <%= f.date_field :end_date_lteq, class: "form-control" %>
+  <%= f.label :end_time_lteq, 'And' %>
+  <%= f.date_field :end_time_lteq, class: "form-control" %>
 
   <%= f.submit class: "btn btn-default" %>
 <% end %>
 <br>
 
-<table class="table table-striped table-bordered table-hover">
+<table class="table table-bordered table-hover">
   <tr>
     <th>Status</th>
     <th>Customer</th>
@@ -31,12 +31,12 @@
     <th>Amount Due</th>
     <th class="min-width">Actions</th>
   </tr>
-  <% @rentals.sort_by { |r| r.start_date }.each do |rental| %>
-    <tr>
-      <td>TBD</td>
+  <% @rentals.sort_by { |r| r.start_time }.each do |rental| %>
+    <tr data-toggle='tooltip' title="<%= rental_status_english(rental_status_css_class(rental)) %>" class=<%= rental_status_css_class(rental) %>>
+      <td><%= rental.rental_status %></td>
       <td><%= rental.user.full_name %></td>
-      <td><%= rental.start_date.strftime("%a %m/%d/%Y") %></td>
-      <td><%= rental.end_date.strftime("%a %m/%d/%Y") %></td>
+      <td><%= rental.start_time.strftime("%a %m/%d/%Y") %></td>
+      <td><%= rental.end_time.strftime("%a %m/%d/%Y") %></td>
       <td><%= rental.item_type.name %></td>
       <td>$</td>
       <td>$</td>

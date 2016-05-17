@@ -16,3 +16,6 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require_tree .
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});

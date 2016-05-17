@@ -2,13 +2,25 @@ class RentalsController < ApplicationController
   @per_page = 10
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy]
-  before_action :set_item_types, only: [:index, :new, :create, :edit, :update]
+  before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
 
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
+  end
+  
+  # GET /rentals/processing
+  def processing
+    @q = Rental.all.search(params[:q])
+    @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day, Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
+    @users = User.all
+  end
+
+  # PUT /rentals/1/
+  def update
+    @rental.update rental_params
   end
 
   # GET /rentals/1

@@ -79,4 +79,35 @@ module ApplicationHelper
       flash[type] << text
     end
   end
+
+  def rental_status_css_class(rental)
+    if rental.rental_status == 'checked_out' && rental.end_time < Time.current
+      return 'danger'
+    elsif rental.rental_status == 'checked_out'
+      return 'info'
+    elsif rental.rental_status != 'checked_out' && rental.start_time < Time.current
+      return 'warning'
+    elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Date.today
+      return 'success'
+    elsif rental.rental_status == 'reserved' && rental.start_time > Time.current
+      return 'active'
+    end
+  end
+
+  def rental_status_english(status)
+    case status
+    when 'active'
+      return 'Reserved future'
+    when 'success'
+      return 'Reserved pickup imminent'
+    when 'warning'
+      return 'Overdue for pickup'
+    when 'danger'
+      return 'Overdue return'
+    when 'info'
+      return 'Ongoing rental'
+    else
+      return nil
+    end
+  end
 end
