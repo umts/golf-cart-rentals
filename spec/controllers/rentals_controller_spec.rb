@@ -7,10 +7,11 @@ describe RentalsController do
     rental
   end
 
+  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') } 
+
   before(:each) { current_user }
 
   before(:each) do
-    item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
     @rental = create(:rental, item_type: item_type)
     @rental2 = create(:rental, item_type: item_type)
   end
@@ -101,7 +102,7 @@ describe RentalsController do
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
-      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
+      @rental_to_destroy = create(:valid_rental, item_type: item_type)
     end
     it 'deletes the rental from the database' do
       expect do
@@ -111,6 +112,23 @@ describe RentalsController do
     it 'redirects back a page' do
       delete :destroy, id: @rental_to_destroy
       expect(response).to redirect_to 'back_page'
+    end
+  end
+
+  describe 'GET #transform' do
+    it 'redirects to check in page if it was checked out' do
+      rental = create(:valid_rental, item_type: item_type, start_time: Time.current, end_time: Time.current + 1.day)
+      rental.pickup
+      get :transform, id: rental.id
+      expect(response).to render_template :check_in
+      rental.destroy
+    end
+    
+    it 'redirects to check out page if it was reserved' do
+      rental = create(:valid_rental, item_type: item_type, start_time: Time.current, end_time: Time.current + 1.day)
+      get :transform, id: rental.id
+      expect(response).to render_template :check_out
+      rental.destroy
     end
   end
 end

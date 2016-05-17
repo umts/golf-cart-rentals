@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   # Home Pages -------------------------------------------------------
   resources :home, only: [:index]
   
-  get "rentals/processing", to: "rentals#processing", as: "rentals_processing"
+  get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
+  get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
   resources :rentals
   
   resources :departments do
@@ -24,12 +25,7 @@ Rails.application.routes.draw do
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
 
-  resources :check_in_out do
-    get 'check_in_form', on: :collection
-    get 'check_out_form', on: :collection
-  end
-
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
-  match '/:anything', to: "application#render_404", constraints: { anything: /.*/ }, via: [:get, :post]
+  match '/:anything', to: 'application#render_404', constraints: { anything: /.*/ }, via: [:get, :post]
 end

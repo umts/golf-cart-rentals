@@ -1,7 +1,7 @@
 class RentalsController < ApplicationController
   @per_page = 10
 
-  before_action :set_rental, only: [:show, :edit, :update, :destroy]
+  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
 
   # GET /rentals
@@ -16,6 +16,18 @@ class RentalsController < ApplicationController
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day, Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
+  end
+  
+  # GET /rentals/1/process
+  def transform
+    if @rental.rental_status == 'reserved'
+      render :check_out
+    elsif @rental.rental_status == 'checked_out'
+      render :check_in
+    else
+      flash[:failure] = 'Error redirecting to processing form'
+      render :rentals and return
+    end
   end
 
   # PUT /rentals/1/

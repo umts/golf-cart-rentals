@@ -11,8 +11,8 @@ describe ApplicationHelper do
     end
 
     after :each do
-      Rental.last.destroy 
       Timecop.return
+      Rental.last.destroy 
     end
     
     it 'returns #danger if it is overdue' do
