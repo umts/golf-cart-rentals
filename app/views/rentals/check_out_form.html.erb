@@ -1,0 +1,43 @@
+<!--%= form_for %-->
+  <div class="form-group col-xs-12">
+    <h1>Check Out Form</h1>
+
+    <h3>Car 2</h3>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Rental Information</h3>
+      </div>
+
+      <div class="panel-body">
+        <li>Amount: $22</li>
+        <li>Responsible Person: AA</li>
+        <li>Car Description: 2222</li>
+        <li>Check In Time: XX/XX/XXXX</li>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= form_tag( { :action => 'upload' }, :multipart => true ) %>
+      Upload file: <%= file_field( "form", "file" ) %>
+
+      <%= submit_tag( "Upload file" ) %>
+    <%= end_form_tag %>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <fieldset>
+      <legend>Check out Agreement</legend>
+      <textarea rows="10" cols="100">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      </textarea>
+    </fieldset>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= button_tag 'Submit', class:"btn btn-primary"%>
+  </div>
+<!--% end %-->
