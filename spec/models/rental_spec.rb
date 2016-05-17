@@ -8,23 +8,26 @@ RSpec.describe Rental do
     it 'has a valid factory' do
       expect(build(:rental)).to be_valid
     end
+    it 'has a can build with alias date designations' do
+      expect(build(:rental, start_date: Time.current, end_date: (Time.current + 1.day))).to be_valid
+    end
     it 'is invalid without a user_id' do
       expect(build(:rental, user_id: nil)).not_to be_valid
     end
     it 'is invalid without an item_type_id' do
       expect(build(:rental, item_type_id: nil)).not_to be_valid
     end
-    it 'is invalid without a start_date' do
-      expect(build(:rental, start_date: nil)).not_to be_valid
+    it 'is invalid without a start_time' do
+      expect(build(:rental, start_time: nil)).not_to be_valid
     end
-    it 'is invalid without a end_date' do
-      expect(build(:rental, end_date: nil)).not_to be_valid
+    it 'is invalid without a end_time' do
+      expect(build(:rental, end_time: nil)).not_to be_valid
     end
-    it 'is invalid with a start_date before today' do
-      expect(build(:rental, start_date: Time.zone.yesterday)).not_to be_valid
+    it 'is invalid with a start_time before today' do
+      expect(build(:rental, start_time: Time.zone.yesterday)).not_to be_valid
     end
-    it 'is invalid with an end_date before the start_date' do
-      expect(build(:rental, start_date: Time.zone.tomorrow, end_date: Time.zone.today)).not_to be_valid
+    it 'is invalid with an end_time before the start_time' do
+      expect(build(:rental, start_time: Time.zone.tomorrow, end_time: Time.zone.today)).not_to be_valid
     end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
@@ -94,7 +97,7 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#dates' do
+  describe '#times' do
     before :each do
       @rental = create(:valid_rental, item_type: @item_type)
     end
@@ -103,7 +106,8 @@ RSpec.describe Rental do
       @rental.destroy
     end
 
-    it 'returns a string with dates' do
+    it 'returns a string with times' do
+      expect(@rental.times).to be_a(String)
       expect(@rental.dates).to be_a(String)
     end
   end

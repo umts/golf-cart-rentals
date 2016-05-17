@@ -57,9 +57,9 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    p = params.require(:rental).permit(:start_date, :end_date, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)
-    p[:start_date] = p[:start_date].to_datetime if p[:start_date]
-    p[:end_date] = p[:end_date].to_datetime if p[:end_date]
+    p = params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)
+    p[:start_time] = p[:start_time].to_datetime if p[:start_time]
+    p[:end_time] = p[:end_time].to_datetime if p[:end_time]
     p
   end
 end
