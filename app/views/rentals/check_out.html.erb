@@ -1,44 +1,60 @@
 <% provide( :page_header, 'Process Rental' ) %>
-<%= form_for rental %>
+<%= form_for rental, html: { id: 'signature_image' } do |f| %>
+
+  <p> Be advised, <%= rental.item_type.disclaimer %> </p>
+  <p> Lorum is plat er sum other legalese or latinese stuff</p>
+  <a href='#link_to_rules_pdf'>Rules and Regulations</a> <br><br>
+  
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="first_name">First Name</label>
+    <label class="col-xs-2 control-label" for="charged">Fully Charged?</label>
     <div class="col-xs-6">
-      <%= text_field :user, :first_name, size: 20, placeholder: "Jane", class:"form-control" %>
+      <input type="checkbox" required>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="last_name">Last Name</label>
+    <label class="col-xs-2 control-label" for="time_confirmed">Confirmed Return Time?</label>
     <div class="col-xs-6">
-      <%= text_field :user, :last_name, size: 20, placeholder: "Doe", class:"form-control" %>
+      <input type="checkbox" required>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="spire_id">Spire ID</label>
-    <div class="col-xs-6">
-      <%= text_field :user, :spire_id, size: 20, placeholder: "1234567", class:"form-control" %>
+    <div class="col-xs-2 control-label">
+      <%= f.label :signature_image, 'Customer Signature' %>
     </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="phone">Phone Number</label>
-    <div class="col-xs-6">
-      <%= text_field :user, :phone, size: 20, placeholder: "111-222-3333", class:"form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="email">Email Address</label>
-    <div class="col-xs-6">
-      <%= text_field :user, :email, size: 20, placeholder: "user@example.com", class:"form-control" %>
+    <div class="sigPad col-xs-6">
+      <%= f.hidden_field :signature_image, required: false, class: "form-control output", value: '' %>
+      <input type="hidden", id="output", class="form-control output" required>
+      <ul class="sigNav">
+        <li class="clearButton"><a href="#clear">Clear</a></li>
+      </ul>
+      <div class="sig sigWrapper">
+        <canvas class="pad" width="598" height="55"></canvas>
+      </div>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary" %>
-      <%= link_to 'Back', users_path, class: "btn btn-default" %>
+      <%= f.submit 'Agree.', class: "btn btn-primary" %>
+      <%= link_to 'Back', rentals_processing_path, class: "btn btn-default" %>
     </div>
   </div>
 <% end %>
+
+<script>
+  var options = {
+    drawOnly : true
+    , defaultAction : "drawIt"
+    , onFormError : "context"
+    , lineTop : 55
+  }
+  var sig;
+  $(document).ready(function() {
+    sig = $('.sigPad').signaturePad(options);
+  });
+  $("#signature_image").submit(function() {
+    document.getElementById('rental_signature_image').value = sig.getSignatureImage();
+  });
+</script>

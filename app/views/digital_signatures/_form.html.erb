@@ -1,0 +1,25 @@
+<%= form_for(@digital_signature) do |f| %>
+  <% if @digital_signature.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@digital_signature.errors.count, "error") %> prohibited this digital_signature from being saved:</h2>
+
+      <ul>
+      <% @digital_signature.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :image %><br>
+    <%= f.text_field :image %>
+  </div>
+  <div class="field">
+    <%= f.label :intent %><br>
+    <%= f.text_field :intent %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

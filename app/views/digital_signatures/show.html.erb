@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @digital_signature.image %>
+</p>
+
+<p>
+  <strong>Intent:</strong>
+  <%= @digital_signature.intent %>
+</p>
+
+<%= link_to 'Edit', edit_digital_signature_path(@digital_signature) %> |
+<%= link_to 'Back', digital_signatures_path %>
