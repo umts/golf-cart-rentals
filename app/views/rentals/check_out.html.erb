@@ -1,30 +1,72 @@
+<% provide( :page_header, 'Process Rental' ) %>
 <div class="inner-bg">
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3 form-box">
-        <form role="form" action="/rentals/" method="put" class="step-form">
+        <%= form_tag "/rentals/#{rental.id}", method: :put, class: 'step-form', role: 'form' do %>
+        <!--%= form_for rental, html: { class: "step-form", role: "form" } do |f| %-->
           <fieldset>
             <div class="form-top">
               <div class="form-top-left">
                 <h3>Step 1 / 3</h3>
-                  <p>Tell us who you are:</p>
+                <p> Confirm Full Charge </p>
               </div>
               <div class="form-top-right">
                 <i class="fa fa-user"></i>
               </div>
+            </div>
+            <div class="form-bottom">
+              <div class="form-group">
+                <label class="" for="form-first-name">First name</label>
+                <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+                alpacas
+              </div>
+              <button type="button" class="btn btn-next btn-secondary">Next</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-top">
+              <div class="form-top-left">
+                <h3>Step 3 / 3</h3>
+                  <p>Social media profiles:</p>
+              </div>
+              <div class="form-top-right">
+                <i class="fa fa-twitter"></i>
+              </div>
               </div>
               <div class="form-bottom">
             <div class="form-group">
-              <label class="sr-only" for="form-first-name">First name</label>
+              <label class="sr-only" for="form-facebook">Facebook</label>
+                <input type="text" name="form-facebook" placeholder="Facebook..." class="form-facebook form-control" id="form-facebook">
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="form-twitter">Twitter</label>
+                <input type="text" name="form-twitter" placeholder="Twitter..." class="form-twitter form-control" id="form-twitter">
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="form-google-plus">Google plus</label>
+                <input type="text" name="form-google-plus" placeholder="Google plus..." class="form-google-plus form-control" id="form-google-plus">
+              </div>
+              <button type="button" class="btn btn-previous">Previous</button>
+              <button type="submit" class="btn btn-default">Sign me up!</button>
+            </div>
+          </fieldset>
+        <%end%>
+
+        <form role="form" action="" method="post" class="step-form">
+          <fieldset>
+            <div class="form-top">
+              <div class="form-top-left">
+                <h3>Step 1 / 3</h3>
+                <p> Confirm Full Charge </p>
+              </div>
+              <div class="form-top-right">
+                <i class="fa fa-user"></i>
+              </div>
+            </div>
+            <div class="form-bottom">
+              <div class="form-group">
+                <label class="" for="form-first-name">First name</label>
                 <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="form-last-name">Last name</label>
-                <input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="form-about-yourself">About yourself</label>
-                <textarea name="form-about-yourself" placeholder="About yourself..." 
-                      class="form-about-yourself form-control" id="form-about-yourself"></textarea>
               </div>
               <button type="button" class="btn btn-next btn-secondary">Next</button>
             </div>
@@ -84,10 +126,8 @@
               </div>
               <button type="button" class="btn btn-previous">Previous</button>
               <button type="submit" class="btn btn-default">Sign me up!</button>
-          </div>
+            </div>
           </fieldset>
-      
-        </form>
       </div>
     </div>
   </div>

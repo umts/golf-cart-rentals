@@ -21,9 +21,9 @@ class RentalsController < ApplicationController
   # GET /rentals/1/process
   def transform
     if @rental.rental_status == 'reserved'
-      render :check_out
+      render :check_out, locals: { rental: @rental}
     elsif @rental.rental_status == 'checked_out'
-      render :check_in
+      render :check_in, locals: { rental: @rental}
     else
       flash[:failure] = 'Error redirecting to processing form'
       render :rentals and return
