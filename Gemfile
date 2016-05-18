@@ -30,6 +30,9 @@ gem 'aasm'
 # for simplified api calls
 gem 'httparty', '~> 0.13.7'
 
+# signature integration
+gem 'signature-pad-rails'
+
 # bootstrap!
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
