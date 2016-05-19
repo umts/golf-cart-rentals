@@ -1,7 +1,7 @@
 class CreateDigitalSignatures < ActiveRecord::Migration
   def change
     create_table :digital_signatures do |t|
-      t.string :image
+      t.text :image
       t.string :intent
       t.references :rental
 

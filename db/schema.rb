@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 20160518202636) do
   end
 
   create_table "digital_signatures", force: :cascade do |t|
-    t.string   "image",      limit: 255
+    t.text     "image",      limit: 65535
     t.string   "intent",     limit: 255
     t.integer  "rental_id",  limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "documents", force: :cascade do |t|

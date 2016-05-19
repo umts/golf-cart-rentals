@@ -136,7 +136,7 @@ describe RentalsController do
   describe 'PUT #update' do
     it 'properly checks out a rental' do
       expect do 
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check Out' }
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing'}, commit: 'Check Out'
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check Out')
       expect(@rental.reload.checked_out?).to be true
@@ -145,7 +145,7 @@ describe RentalsController do
     it 'properly checks in a rental' do
       @rental.pickup
       expect do 
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check In' }
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing'}, commit: 'Check In'
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check In')
       expect(@rental.reload.checked_in?).to be true
