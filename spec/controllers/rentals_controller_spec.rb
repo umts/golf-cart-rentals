@@ -131,4 +131,19 @@ describe RentalsController do
       rental.destroy
     end
   end
+
+  describe 'PUT #update' do
+    it 'properly checks out a rental' do
+      @rental.
+
+    end
+    
+    it 'properly checks in a rental' do
+
+    end
+
+    it 'change a rental' do
+
+    end
+  end
 end

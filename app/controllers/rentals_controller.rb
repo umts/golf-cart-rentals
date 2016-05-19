@@ -18,7 +18,7 @@ class RentalsController < ApplicationController
     @users = User.all
   end
   
-  # GET /rentals/1/process
+  # GET /rentals/1/transform
   def transform
     if @rental.rental_status == 'reserved'
       render :check_out, locals: { rental: @rental}
@@ -32,8 +32,16 @@ class RentalsController < ApplicationController
 
   # PUT /rentals/1/
   def update
-    binding.pry
-    @rental.update rental_params
+    commit = params[:rental][:commit]
+    if commit == 'Check Out' || commit == 'Check In'
+      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: commit, rental: @rental)
+      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: commit, rental: @rental)
+      @rental.pickup if commit == 'Check Out'
+      @rental.return if commit == 'Check In'
+    else
+      @rental.update rental_params
+    end
+    render @rental
   end
 
   # GET /rentals/1
