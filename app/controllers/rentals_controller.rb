@@ -32,6 +32,7 @@ class RentalsController < ApplicationController
 
   # PUT /rentals/1/
   def update
+    binding.pry
     @rental.update rental_params
   end
 

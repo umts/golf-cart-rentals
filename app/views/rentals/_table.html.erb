@@ -21,7 +21,7 @@
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Process"), rental_transform_path(rental), class: "btn btn-xs btn-primary" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
-        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Delete"), rental, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), rental, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
       </td>
     </tr>
   <% end %>
