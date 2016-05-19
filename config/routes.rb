@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
-  resources :rentals
+  resources :rentals, except: :destroy
   
   resources :departments do
     post :remove_user, on: :member
