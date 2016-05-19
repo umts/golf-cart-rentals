@@ -2,9 +2,9 @@
 <%= form_for rental, html: { id: 'signature_image' } do |f| %>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="time_confirmed">Confirmed Return Time?</label>
+    <label class="col-xs-2 control-label" for="plugged-in">Vehicle plugged in?</label>
     <div class="col-xs-6">
-      <input type="checkbox" required>
+      <input type="checkbox" name="plugged-in" data-on-text='Yes' data-off-text='No' required>
     </div>
   </div>
 
@@ -49,6 +49,8 @@
 <% end %>
 
 <script>
+  $("[name='plugged-in']").bootstrapSwitch();
+
   var options = {
     drawOnly : true
     , defaultAction : "drawIt"
