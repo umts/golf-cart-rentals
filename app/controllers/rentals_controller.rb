@@ -10,23 +10,24 @@ class RentalsController < ApplicationController
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
   end
-  
+
   # GET /rentals/processing
   def processing
     @q = Rental.all.search(params[:q])
-    @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day, Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
+    @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
+                                               Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
   end
-  
+
   # GET /rentals/1/transform
   def transform
     if @rental.rental_status == 'reserved'
-      render :check_out, locals: { rental: @rental}
+      render :check_out, locals: { rental: @rental }
     elsif @rental.rental_status == 'checked_out'
-      render :check_in, locals: { rental: @rental}
+      render :check_in, locals: { rental: @rental }
     else
       flash[:failure] = 'Error redirecting to processing form'
-      render :rentals and return
+      render(:rentals) && return
     end
   end
 

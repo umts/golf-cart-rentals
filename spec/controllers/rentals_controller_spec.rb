@@ -7,7 +7,7 @@ describe RentalsController do
     rental
   end
 
-  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') } 
+  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
   before(:each) { current_user }
 
@@ -103,12 +103,12 @@ describe RentalsController do
     before :each do
       request.env['http_referer'] = 'back_page'
     end
-    
+
     it 'cancels the rental' do
       delete :destroy, id: @rental.id
       expect(@rental.reload.canceled?).to be true
     end
-    
+
     it 'refuses to cancel a rental in progress' do
       @rental.pickup
       delete :destroy, id: @rental.id
@@ -124,7 +124,7 @@ describe RentalsController do
       expect(response).to render_template :check_in
       rental.destroy
     end
-    
+
     it 'redirects to check out page if it was reserved' do
       rental = create(:valid_rental, item_type: item_type, start_time: Time.current, end_time: Time.current + 1.day)
       get :transform, id: rental.id
@@ -135,24 +135,24 @@ describe RentalsController do
 
   describe 'PUT #update' do
     it 'properly checks out a rental' do
-      expect do 
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing'}, commit: 'Check Out'
+      expect do
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check Out'
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check Out')
       expect(@rental.reload.checked_out?).to be true
     end
-    
+
     it 'properly checks in a rental' do
       @rental.pickup
-      expect do 
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing'}, commit: 'Check In'
+      expect do
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check In'
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check In')
       expect(@rental.reload.checked_in?).to be true
     end
 
     it 'change a rental' do
-      put :update, id: @rental.id, rental: {start_time: @rental.start_time + 1.hour}
+      put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
     end
   end
 end

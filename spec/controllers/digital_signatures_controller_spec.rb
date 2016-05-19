@@ -19,141 +19,139 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe DigitalSignaturesController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # DigitalSignature. As you add validations to DigitalSignature, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # DigitalSignaturesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all digital_signatures as @digital_signatures" do
+  describe 'GET #index' do
+    it 'assigns all digital_signatures as @digital_signatures' do
       digital_signature = DigitalSignature.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:digital_signatures)).to eq([digital_signature])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested digital_signature as @digital_signature" do
+  describe 'GET #show' do
+    it 'assigns the requested digital_signature as @digital_signature' do
       digital_signature = DigitalSignature.create! valid_attributes
-      get :show, {:id => digital_signature.to_param}, valid_session
+      get :show, { id: digital_signature.to_param }, valid_session
       expect(assigns(:digital_signature)).to eq(digital_signature)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new digital_signature as @digital_signature" do
+  describe 'GET #new' do
+    it 'assigns a new digital_signature as @digital_signature' do
       get :new, {}, valid_session
       expect(assigns(:digital_signature)).to be_a_new(DigitalSignature)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested digital_signature as @digital_signature" do
+  describe 'GET #edit' do
+    it 'assigns the requested digital_signature as @digital_signature' do
       digital_signature = DigitalSignature.create! valid_attributes
-      get :edit, {:id => digital_signature.to_param}, valid_session
+      get :edit, { id: digital_signature.to_param }, valid_session
       expect(assigns(:digital_signature)).to eq(digital_signature)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new DigitalSignature" do
-        expect {
-          post :create, {:digital_signature => valid_attributes}, valid_session
-        }.to change(DigitalSignature, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new DigitalSignature' do
+        expect do
+          post :create, { digital_signature: valid_attributes }, valid_session
+        end.to change(DigitalSignature, :count).by(1)
       end
 
-      it "assigns a newly created digital_signature as @digital_signature" do
-        post :create, {:digital_signature => valid_attributes}, valid_session
+      it 'assigns a newly created digital_signature as @digital_signature' do
+        post :create, { digital_signature: valid_attributes }, valid_session
         expect(assigns(:digital_signature)).to be_a(DigitalSignature)
         expect(assigns(:digital_signature)).to be_persisted
       end
 
-      it "redirects to the created digital_signature" do
-        post :create, {:digital_signature => valid_attributes}, valid_session
+      it 'redirects to the created digital_signature' do
+        post :create, { digital_signature: valid_attributes }, valid_session
         expect(response).to redirect_to(DigitalSignature.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved digital_signature as @digital_signature" do
-        post :create, {:digital_signature => invalid_attributes}, valid_session
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved digital_signature as @digital_signature' do
+        post :create, { digital_signature: invalid_attributes }, valid_session
         expect(assigns(:digital_signature)).to be_a_new(DigitalSignature)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:digital_signature => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { digital_signature: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested digital_signature" do
-        digital_signature = DigitalSignature.create! valid_attributes
-        put :update, {:id => digital_signature.to_param, :digital_signature => new_attributes}, valid_session
-        digital_signature.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested digital_signature as @digital_signature" do
+      it 'updates the requested digital_signature' do
         digital_signature = DigitalSignature.create! valid_attributes
-        put :update, {:id => digital_signature.to_param, :digital_signature => valid_attributes}, valid_session
+        put :update, { id: digital_signature.to_param, digital_signature: new_attributes }, valid_session
+        digital_signature.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested digital_signature as @digital_signature' do
+        digital_signature = DigitalSignature.create! valid_attributes
+        put :update, { id: digital_signature.to_param, digital_signature: valid_attributes }, valid_session
         expect(assigns(:digital_signature)).to eq(digital_signature)
       end
 
-      it "redirects to the digital_signature" do
+      it 'redirects to the digital_signature' do
         digital_signature = DigitalSignature.create! valid_attributes
-        put :update, {:id => digital_signature.to_param, :digital_signature => valid_attributes}, valid_session
+        put :update, { id: digital_signature.to_param, digital_signature: valid_attributes }, valid_session
         expect(response).to redirect_to(digital_signature)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the digital_signature as @digital_signature" do
+    context 'with invalid params' do
+      it 'assigns the digital_signature as @digital_signature' do
         digital_signature = DigitalSignature.create! valid_attributes
-        put :update, {:id => digital_signature.to_param, :digital_signature => invalid_attributes}, valid_session
+        put :update, { id: digital_signature.to_param, digital_signature: invalid_attributes }, valid_session
         expect(assigns(:digital_signature)).to eq(digital_signature)
       end
 
       it "re-renders the 'edit' template" do
         digital_signature = DigitalSignature.create! valid_attributes
-        put :update, {:id => digital_signature.to_param, :digital_signature => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: digital_signature.to_param, digital_signature: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested digital_signature" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested digital_signature' do
       digital_signature = DigitalSignature.create! valid_attributes
-      expect {
-        delete :destroy, {:id => digital_signature.to_param}, valid_session
-      }.to change(DigitalSignature, :count).by(-1)
+      expect do
+        delete :destroy, { id: digital_signature.to_param }, valid_session
+      end.to change(DigitalSignature, :count).by(-1)
     end
 
-    it "redirects to the digital_signatures list" do
+    it 'redirects to the digital_signatures list' do
       digital_signature = DigitalSignature.create! valid_attributes
-      delete :destroy, {:id => digital_signature.to_param}, valid_session
+      delete :destroy, { id: digital_signature.to_param }, valid_session
       expect(response).to redirect_to(digital_signatures_url)
     end
   end
-
 end

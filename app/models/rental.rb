@@ -72,7 +72,7 @@ class Rental < ActiveRecord::Base
       Inventory.delete_reservation(reservation_id)
       self.reservation_id = nil
     rescue => error
-      errors.add(:base, error.inspect) and return false
+      errors.add(:base, error.inspect) && (return false)
     end
     true
   end
@@ -86,10 +86,10 @@ class Rental < ActiveRecord::Base
 
   def times
     time_string = start_time.strftime('%a %m/%d/%Y')
-    time_string += " - #{end_time.strftime('%a %m/%d/%Y')}" 
+    time_string += " - #{end_time.strftime('%a %m/%d/%Y')}"
     time_string
-  end 
-  alias_method :dates, :times
+  end
+  alias dates times
 
   # private
   attr_accessor :skip_reservation_validation

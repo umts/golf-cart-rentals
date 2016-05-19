@@ -89,7 +89,7 @@ module ApplicationHelper
       return ''
     elsif rental.rental_status != 'checked_out' && rental.start_time < Time.current
       return 'warning'
-    elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Date.today
+    elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Time.zone.today
       return 'success'
     elsif rental.rental_status == 'reserved' && rental.start_time > Time.current
       return 'active'
