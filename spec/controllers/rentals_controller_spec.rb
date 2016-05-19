@@ -131,20 +131,23 @@ describe RentalsController do
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check Out' }
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check Out')
-      expect(@rental.rental_status).to eq('checked_out')
+      binding.pry
+      expect(@rental.checked_out?).to be_true
     end
     
     it 'properly checks in a rental' do
       @rental.pickup
+      Timecop.travel(Time.current + 1.hour)
       expect do 
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check In' }
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check In')
-      expect(@rental.rental_status).to eq('checked_in')
+      expect(@rental.checked_in?).to be_true
+      Timecop.return
     end
 
     it 'change a rental' do
-
+      put :update, id: @rental.id, rental: {start_time: @rental.start_time + 1.hour}
     end
   end
 end
