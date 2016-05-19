@@ -38,7 +38,6 @@ class RentalsController < ApplicationController
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: commit, rental: @rental)
       @rental.pickup if commit == 'Check Out'
       @rental.return if commit == 'Check In'
-      binding.pry
     else
       @rental.update rental_params
     end
@@ -74,9 +73,12 @@ class RentalsController < ApplicationController
   # DELETE /rentals/1
   def destroy
     if @rental.may_cancel?
-      @rental.cancel
+      @rental.cancel!
+      flash[:success] = 'Rental canceled.'
+    elsif @rental.canceled?
+      flash[:warning] = 'This rental is already canceled'
     else
-      flash[:failure] = 'This rental may not be canceled'
+      flash[:warning] = 'This rental may not be canceled'
     end
     redirect_to :back
   end

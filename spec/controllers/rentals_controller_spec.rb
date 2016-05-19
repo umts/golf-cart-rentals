@@ -101,10 +101,18 @@ describe RentalsController do
 
   describe 'POST #destroy' do
     before :each do
-      request.env['HTTP_REFERER'] = 'back_page'
+      request.env['http_referer'] = 'back_page'
     end
-    it 'refuses to delete' do # there is no route
-      expect { delete :destroy, id: @rental }.to raise_error ActionController::UrlGenerationError
+    
+    it 'cancels the rental' do
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.canceled?).to be true
+    end
+    
+    it 'refuses to cancel a rental in progress' do
+      @rental.pickup
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.checked_out?).to be true
     end
   end
 
@@ -131,19 +139,16 @@ describe RentalsController do
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check Out' }
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check Out')
-      binding.pry
-      expect(@rental.checked_out?).to be_true
+      expect(@rental.reload.checked_out?).to be true
     end
     
     it 'properly checks in a rental' do
       @rental.pickup
-      Timecop.travel(Time.current + 1.hour)
       expect do 
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check In' }
       end.to change(DigitalSignature, :count).by(2)
       expect(DigitalSignature.last.intent).to eq('Check In')
-      expect(@rental.checked_in?).to be_true
-      Timecop.return
+      expect(@rental.reload.checked_in?).to be true
     end
 
     it 'change a rental' do

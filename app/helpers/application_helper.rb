@@ -85,12 +85,16 @@ module ApplicationHelper
       return 'danger'
     elsif rental.rental_status == 'checked_out'
       return 'info'
+    elsif rental.rental_status == 'canceled'
+      return ''
     elsif rental.rental_status != 'checked_out' && rental.start_time < Time.current
       return 'warning'
     elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Date.today
       return 'success'
     elsif rental.rental_status == 'reserved' && rental.start_time > Time.current
       return 'active'
+    else
+      return ''
     end
   end
 

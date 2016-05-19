@@ -1,17 +1,6 @@
 <% provide( :page_header, 'Process Rental' ) %>
 <%= form_for rental, html: { id: 'signature_image' } do |f| %>
 
-  <p> Be advised, <%= rental.item_type.disclaimer %> </p>
-  <p> Lorum is plat er sum other legalese or latinese stuff</p>
-  <a href='#link_to_rules_pdf'>Rules and Regulations</a> <br><br>
-  
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="charged">Fully Charged?</label>
-    <div class="col-xs-6">
-      <input type="checkbox" required>
-    </div>
-  </div>
-
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="time_confirmed">Confirmed Return Time?</label>
     <div class="col-xs-6">
@@ -53,7 +42,7 @@
 
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit 'Check Out', class: "btn btn-primary" %>
+      <%= f.submit 'Check In', class: "btn btn-primary" %>
       <%= link_to 'Back', rentals_processing_path, class: "btn btn-default" %>
     </div>
   </div>
