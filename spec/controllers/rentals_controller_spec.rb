@@ -102,16 +102,9 @@ describe RentalsController do
   describe 'POST #destroy' do
     before :each do
       request.env['HTTP_REFERER'] = 'back_page'
-      @rental_to_destroy = create(:valid_rental, item_type: item_type)
     end
-    it 'deletes the rental from the database' do
-      expect do
-        delete :destroy, id: @rental_to_destroy
-      end.to change(Rental, :count).by(-1)
-    end
-    it 'redirects back a page' do
-      delete :destroy, id: @rental_to_destroy
-      expect(response).to redirect_to 'back_page'
+    it 'refuses to delete' do # there is no route
+      expect { delete :destroy, id: @rental }.to raise_error ActionController::UrlGenerationError
     end
   end
 
@@ -134,12 +127,20 @@ describe RentalsController do
 
   describe 'PUT #update' do
     it 'properly checks out a rental' do
-      @rental.
-
+      expect do 
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check Out' }
+      end.to change(DigitalSignature, :count).by(2)
+      expect(DigitalSignature.last.intent).to eq('Check Out')
+      expect(@rental.rental_status).to eq('checked_out')
     end
     
     it 'properly checks in a rental' do
-
+      @rental.pickup
+      expect do 
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing', commit: 'Check In' }
+      end.to change(DigitalSignature, :count).by(2)
+      expect(DigitalSignature.last.intent).to eq('Check In')
+      expect(@rental.rental_status).to eq('checked_in')
     end
 
     it 'change a rental' do
