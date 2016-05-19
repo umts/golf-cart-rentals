@@ -34,8 +34,8 @@ class RentalsController < ApplicationController
   def update
     commit = params[:rental][:commit]
     if commit == 'Check Out' || commit == 'Check In'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: commit, rental: @rental)
       binding.pry
+      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: commit, rental: @rental)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: commit, rental: @rental)
       @rental.pickup if commit == 'Check Out'
       @rental.return if commit == 'Check In'

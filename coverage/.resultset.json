@@ -751,7 +751,7 @@
         1,
         1,
         1,
-        0,
+        1,
         0,
         0,
         0,
@@ -1349,6 +1349,7 @@
       "/Users/tapeck/Documents/work/probable-engine/app/models/digital_signature.rb": [
         1,
         1,
+        1,
         null
       ],
       "/Users/tapeck/Documents/work/probable-engine/app/models/document.rb": [
@@ -1715,6 +1716,8 @@
         1,
         null,
         1,
+        null,
+        1,
         1,
         1,
         1,
@@ -1848,6 +1851,6 @@
         null
       ]
     },
-    "timestamp": 1463674977
+    "timestamp": 1463676115
   }
 }

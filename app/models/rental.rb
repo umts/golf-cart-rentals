@@ -9,6 +9,8 @@ class Rental < ActiveRecord::Base
   belongs_to :department
   belongs_to :item_type
 
+  has_many :digital_signature
+
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_time, :end_time, :item_type_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
