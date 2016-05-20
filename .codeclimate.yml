@@ -23,9 +23,9 @@ engines:
     - f1259ddb555cc7f9253bd0dba0e4e076
   eslint:
     enabled: true
-    config:
-      languages:
-      - ruby
+    checks:
+      eqeqeq:
+        enabled: false
   fixme:
     enabled: true
   rubocop:
