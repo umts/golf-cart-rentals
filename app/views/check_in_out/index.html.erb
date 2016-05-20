@@ -1,0 +1,16 @@
+<h1>Rental Golfcar</h1>
+
+<ul class="nav nav-tabs">
+	<li class="active"><a data-toggle="tab" href="#tab-check-in" id="check-in-nav-tab">Renewal</a></li>
+	<li><a data-toggle="tab" href="#tab-check-out" id="check-out-nav-tab">Vehicles</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="tab-check-in" class="tab-pane fade in active">
+    <%= render 'check_in_list' %>
+  </div>
+
+  <div id="tab-check-out" class="tab-pane fade">
+    <%= render 'check_out_list' %>
+  </div>
+</div>
