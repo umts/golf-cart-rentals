@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :digital_signatures
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -25,6 +24,7 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
+  resources :digital_signatures, only: %i(show index)
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
