@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-20T16:05:55-04:00">2016-05-20T16:05:55-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-20T16:11:19-04:00">2016-05-20T16:11:19-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         4.91
+         4.92
        </span>
     </span> hits/line)
   </h2>
@@ -57,7 +57,7 @@
         <td>59</td>
         <td>59</td>
         <td>0</td>
-        <td>18.6</td>
+        <td>18.7</td>
       </tr>
       
       <tr>
@@ -297,7 +297,7 @@
         <td>30</td>
         <td>30</td>
         <td>0</td>
-        <td>118.9</td>
+        <td>119.4</td>
       </tr>
       
       <tr>
@@ -643,7 +643,7 @@
       <tr>
         <td class="strong"><a href="#066605b7ecd85858bfb78aa6848001e6b927ed10" class="src_link" title="spec/factories/rental.rb">spec/factories/rental.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>33</td>
+        <td>32</td>
         <td>24</td>
         <td>24</td>
         <td>0</td>
@@ -1104,8 +1104,8 @@
           <code class="ruby">  def self.get_actions(controller)</code>
         </li>
       
-        <li class="covered" data-hits="299" data-linenumber="45">
-          <span class="hits">299</span>
+        <li class="covered" data-hits="301" data-linenumber="45">
+          <span class="hits">301</span>
           
           <code class="ruby">    controller.instance_methods(false).map(&amp;:to_s) &amp; controller.action_methods.to_a</code>
         </li>
@@ -3261,7 +3261,7 @@
         <li class="covered" data-hits="1" data-linenumber="44">
           <span class="hits">1</span>
           
-          <code class="ruby">      @rental.return </code>
+          <code class="ruby">      @rental.return</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="45">
@@ -7500,8 +7500,8 @@
           <code class="ruby">    Permission.all.find_each do |permission|</code>
         </li>
       
-        <li class="covered" data-hits="1483" data-linenumber="30">
-          <span class="hits">1483</span>
+        <li class="covered" data-hits="1487" data-linenumber="30">
+          <span class="hits">1487</span>
           
           <code class="ruby">      controller = ApplicationController.descendants.find { |c| c.name == &quot;#{permission.controller}_controller&quot;.camelcase }</code>
         </li>
@@ -7512,8 +7512,8 @@
           <code class="ruby">      # Destroy the permission if the controller doesn&#39;t exist</code>
         </li>
       
-        <li class="covered" data-hits="247" data-linenumber="32">
-          <span class="hits">247</span>
+        <li class="covered" data-hits="249" data-linenumber="32">
+          <span class="hits">249</span>
           
           <code class="ruby">      if controller.nil?</code>
         </li>
@@ -7548,14 +7548,14 @@
           <code class="ruby">      # Destroy the permission if the action doesn&#39;t exist</code>
         </li>
       
-        <li class="covered" data-hits="1235" data-linenumber="38">
-          <span class="hits">1235</span>
+        <li class="covered" data-hits="1240" data-linenumber="38">
+          <span class="hits">1240</span>
           
           <code class="ruby">      action = ApplicationController.get_actions(controller).find { |a| a == permission.action.to_s }</code>
         </li>
       
-        <li class="covered" data-hits="246" data-linenumber="39">
-          <span class="hits">246</span>
+        <li class="covered" data-hits="248" data-linenumber="39">
+          <span class="hits">248</span>
           
           <code class="ruby">      if action.nil?</code>
         </li>
@@ -8013,7 +8013,7 @@
         <li class="covered" data-hits="80" data-linenumber="58">
           <span class="hits">80</span>
           
-          <code class="ruby">    return true if Rails.env.test? and self.reservation_id.present? </code>
+          <code class="ruby">    return true if Rails.env.test? &amp;&amp; reservation_id.present?</code>
         </li>
       
         <li class="covered" data-hits="54" data-linenumber="59">
@@ -12099,7 +12099,7 @@
         <li class="covered" data-hits="2" data-linenumber="3">
           <span class="hits">2</span>
           
-          <code class="ruby">  let(:ds) { create :digital_signature } </code>
+          <code class="ruby">  let(:ds) { create :digital_signature }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="4">
@@ -12171,7 +12171,7 @@
         <li class="covered" data-hits="1" data-linenumber="15">
           <span class="hits">1</span>
           
-          <code class="ruby">      get :show, { id: ds.to_param }</code>
+          <code class="ruby">      get :show, id: ds.to_param</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="16">
@@ -13497,7 +13497,7 @@
         <li class="never" data-hits="" data-linenumber="23">
           
           
-          <code class="ruby">      </code>
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="24">
@@ -14049,7 +14049,7 @@
         <li class="covered" data-hits="4" data-linenumber="10">
           <span class="hits">4</span>
           
-          <code class="ruby">  let(:mock_rental) { create :mock_rental } </code>
+          <code class="ruby">  let(:mock_rental) { create :mock_rental }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="11">
@@ -16506,61 +16506,55 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="24">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="25">
+        <li class="covered" data-hits="1" data-linenumber="24">
           <span class="hits">1</span>
           
           <code class="ruby">  factory :mock_rental, parent: :rental do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="26">
+        <li class="covered" data-hits="1" data-linenumber="25">
           <span class="hits">1</span>
           
           <code class="ruby">    association :user</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="27">
+        <li class="covered" data-hits="1" data-linenumber="26">
           <span class="hits">1</span>
           
           <code class="ruby">    department_id 0</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="28">
+        <li class="covered" data-hits="1" data-linenumber="27">
           <span class="hits">1</span>
           
           <code class="ruby">    association :item_type</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="29">
+        <li class="covered" data-hits="1" data-linenumber="28">
           <span class="hits">1</span>
           
           <code class="ruby">    sequence :reservation_id</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
+        <li class="covered" data-hits="1" data-linenumber="29">
           <span class="hits">1</span>
           
           <code class="ruby">    start_time Time.current.to_s</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="31">
+        <li class="covered" data-hits="1" data-linenumber="30">
           <span class="hits">1</span>
           
           <code class="ruby">    end_time (Time.current + 1.day).to_s</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="32">
+        <li class="never" data-hits="" data-linenumber="31">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
+        <li class="never" data-hits="" data-linenumber="32">
           
           
           <code class="ruby">end</code>
@@ -17307,7 +17301,7 @@
         <li class="covered" data-hits="1" data-linenumber="20">
           <span class="hits">1</span>
           
-          <code class="ruby">      expect(build :digital_signature, image: nil).not_to be_valid</code>
+          <code class="ruby">      expect(build(:digital_signature, image: nil)).not_to be_valid</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="21">

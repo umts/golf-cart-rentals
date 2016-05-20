@@ -17,7 +17,7 @@ RSpec.describe DigitalSignature, type: :model do
     end
 
     it 'is not valid without an image' do
-      expect(build :digital_signature, image: nil).not_to be_valid
+      expect(build(:digital_signature, image: nil)).not_to be_valid
     end
   end
 end
