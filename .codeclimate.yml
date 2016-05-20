@@ -28,12 +28,12 @@ engines:
     enabled: true
   rubocop:
     enabled: true
-    checks:
-      Rubocop/Metrics/AbcSize:
-        enabled: false
       Rubocop/Style/AndOr:
         enabled: false
     exclude_fingerprints:
+    - 67d765d44559fae66dcbfaf444e8929e
+    - 312994113044146162fe57121c45a99e
+    - 5fbe6043484b5fe2ff5491f75ff66581
     - 1064d189916e56f6eaabf8de6bfd429a
 ratings:
   paths:
