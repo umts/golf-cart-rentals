@@ -9,6 +9,7 @@ engines:
     config:
       languages:
       - ruby
+      - javascript
       - python
       - php
     exclude_fingerprints:
@@ -23,9 +24,6 @@ engines:
     - f1259ddb555cc7f9253bd0dba0e4e076
   eslint:
     enabled: true
-    checks:
-      eqeqeq:
-        enabled: false
   fixme:
     enabled: true
   rubocop:
@@ -44,6 +42,7 @@ ratings:
   - "**.rhtml"
   - "**.slim"
   - "**.inc"
+  - "**.js"
   - "**.jsx"
   - "**.module"
   - "**.php"
@@ -55,5 +54,5 @@ exclude_paths:
 - db/
 - spec/
 - vendor/
-- "app/assets/javascript/multi_step_form.js"
-- "app/assets/javascript/bootstrap-switch.js"
+- "app/assets/javascripts/multi_step_form.js"
+- "app/assets/javascripts/bootstrap-switch.js"
