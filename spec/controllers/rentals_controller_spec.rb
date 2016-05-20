@@ -138,7 +138,7 @@ describe RentalsController do
       expect do
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check Out'
       end.to change(DigitalSignature, :count).by(2)
-      expect(DigitalSignature.last.intent).to eq('Check Out')
+      expect(DigitalSignature.last.check_out?).to be true
       expect(@rental.reload.checked_out?).to be true
     end
 
@@ -147,7 +147,7 @@ describe RentalsController do
       expect do
         put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check In'
       end.to change(DigitalSignature, :count).by(2)
-      expect(DigitalSignature.last.intent).to eq('Check In')
+      expect(DigitalSignature.last.check_in?).to be true
       expect(@rental.reload.checked_in?).to be true
     end
 
