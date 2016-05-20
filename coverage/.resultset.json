@@ -1098,7 +1098,6 @@
         null,
         null,
         null,
-        null,
         1,
         13,
         null,
@@ -1231,7 +1230,6 @@
         0,
         null,
         null,
-        null,
         null
       ],
       "/Users/tapeck/Documents/work/probable-engine/app/controllers/digital_signatures_controller.rb": [
@@ -1283,6 +1281,7 @@
         null,
         null,
         1,
+        null,
         null,
         1,
         0,
@@ -1921,6 +1920,7 @@
         1,
         0,
         0,
+        null,
         0,
         null,
         null,
@@ -3555,6 +3555,6 @@
         null
       ]
     },
-    "timestamp": 1463690296
+    "timestamp": 1463750224
   }
 }
