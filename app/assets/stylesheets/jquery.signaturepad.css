@@ -9,6 +9,11 @@
   font-style: normal;
 }
 
+.renderedSigPad {
+  border: 1px solid #000;
+  border-style: solid;
+}
+
 .sigPad {
   margin: 0px;
   width: 630px;

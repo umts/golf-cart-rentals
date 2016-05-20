@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
-  resources :digital_signatures, only: %i(show index)
+  resources :digital_signatures, only: [:show, :index]
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
