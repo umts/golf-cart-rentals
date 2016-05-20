@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :rental do
-    user_id 0
-    department_id 0
-    sequence(:reservation_id)
-    item_type_id 0
-    start_time Time.current
-    end_time Time.current + 1.day
+    association :user
+    association :department
+    reservation_id nil
+    association :item_type, name: 'TEST_ITEM_TYPE'
+    start_time Time.current.to_s
+    end_time (Time.current + 1.day).to_s
   end
 
   factory :invalid_rental, parent: :rental do
@@ -24,7 +24,17 @@ FactoryGirl.define do
   factory :valid_rental, parent: :rental do
     association :user
     department_id 0
+    reservation_id nil
+    association :item_type, name: 'TEST_ITEM_TYPE'
+    start_time Time.current.to_s
+    end_time (Time.current + 1.day).to_s
+  end
+  
+  factory :mock_rental, parent: :rental do
+    association :user
+    department_id 0
     association :item_type
+    reservation_id 1
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
   end

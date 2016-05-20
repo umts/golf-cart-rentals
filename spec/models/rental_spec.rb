@@ -31,7 +31,7 @@ RSpec.describe Rental do
     end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
-        rental = create(:valid_rental, item_type: @item_type)
+        rental = create(:rental, item_type: @item_type)
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
       after :each do # cleanup
@@ -42,7 +42,7 @@ RSpec.describe Rental do
 
   describe '#create_rental' do
     before do
-      @rent = create :valid_rental, item_type: @item_type
+      @rent = create :rental, item_type: @item_type
     end
 
     it 'creates a rental with valid parameters' do
@@ -64,13 +64,13 @@ RSpec.describe Rental do
   describe '#reservation_creation_errors' do
     it 'fails to create an item for an item_type that does not exist' do
       item_type = create :item_type, name: 'i do not exist'
-      expect { create :valid_rental, item_type: item_type }.to raise_error ActiveRecord::RecordNotSaved
+      expect { create :rental, item_type: item_type }.to raise_error ActiveRecord::RecordNotSaved
     end
   end
 
   describe '#delete_rental' do
     before :each do
-      @rent = create :valid_rental, item_type: @item_type
+      @rent = create :rental, item_type: @item_type
     end
 
     it 'deletes a rental properly' do
@@ -99,7 +99,7 @@ RSpec.describe Rental do
 
   describe '#times' do
     before :each do
-      @rental = create(:valid_rental, item_type: @item_type)
+      @rental = create(:rental, item_type: @item_type)
     end
 
     after :each do
