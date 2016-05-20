@@ -56,3 +56,4 @@ exclude_paths:
 - vendor/
 - "app/assets/javascripts/multi_step_form.js"
 - "app/assets/javascripts/bootstrap-switch.js"
+- "app/assets/javascripts/bootstrap-select.js"
