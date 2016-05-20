@@ -21,7 +21,6 @@ FactoryGirl.define do
     end_time (Time.current + 1.day).to_s
   end
 
-  
   factory :mock_rental, parent: :rental do
     association :user
     department_id 0

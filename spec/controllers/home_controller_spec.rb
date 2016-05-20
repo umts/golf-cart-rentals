@@ -20,7 +20,7 @@ describe HomeController do
 
     it 'populates an array of item_types' do
       get :index
-      
+
       expect(assigns[:item_types]).to eq([item_type, item_type2])
     end
     it 'renders the :index view' do

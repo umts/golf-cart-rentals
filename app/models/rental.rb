@@ -55,7 +55,7 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    return true if Rails.env.test? and self.reservation_id.present? 
+    return true if Rails.env.test? && reservation_id.present?
     return false unless mostly_valid?
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)

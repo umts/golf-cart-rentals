@@ -7,7 +7,7 @@ describe RentalsController do
     rental
   end
 
-  let(:mock_rental) { create :mock_rental } 
+  let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
