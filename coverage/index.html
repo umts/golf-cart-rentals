@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-20T14:40:39-04:00">2016-05-20T14:40:39-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-05-20T14:45:22-04:00">2016-05-20T14:45:22-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         4.79
+         4.8
        </span>
     </span> hits/line)
   </h2>
@@ -57,7 +57,7 @@
         <td>59</td>
         <td>59</td>
         <td>0</td>
-        <td>18.3</td>
+        <td>18.4</td>
       </tr>
       
       <tr>
@@ -297,7 +297,7 @@
         <td>30</td>
         <td>30</td>
         <td>0</td>
-        <td>118.9</td>
+        <td>119.4</td>
       </tr>
       
       <tr>
@@ -1104,8 +1104,8 @@
           <code class="ruby">  def self.get_actions(controller)</code>
         </li>
       
-        <li class="covered" data-hits="299" data-linenumber="45">
-          <span class="hits">299</span>
+        <li class="covered" data-hits="301" data-linenumber="45">
+          <span class="hits">301</span>
           
           <code class="ruby">    controller.instance_methods(false).map(&amp;:to_s) &amp; controller.action_methods.to_a</code>
         </li>
@@ -7536,8 +7536,8 @@
           <code class="ruby">    Permission.all.find_each do |permission|</code>
         </li>
       
-        <li class="covered" data-hits="1483" data-linenumber="30">
-          <span class="hits">1483</span>
+        <li class="covered" data-hits="1487" data-linenumber="30">
+          <span class="hits">1487</span>
           
           <code class="ruby">      controller = ApplicationController.descendants.find { |c| c.name == &quot;#{permission.controller}_controller&quot;.camelcase }</code>
         </li>
@@ -7548,8 +7548,8 @@
           <code class="ruby">      # Destroy the permission if the controller doesn&#39;t exist</code>
         </li>
       
-        <li class="covered" data-hits="247" data-linenumber="32">
-          <span class="hits">247</span>
+        <li class="covered" data-hits="249" data-linenumber="32">
+          <span class="hits">249</span>
           
           <code class="ruby">      if controller.nil?</code>
         </li>
@@ -7584,14 +7584,14 @@
           <code class="ruby">      # Destroy the permission if the action doesn&#39;t exist</code>
         </li>
       
-        <li class="covered" data-hits="1235" data-linenumber="38">
-          <span class="hits">1235</span>
+        <li class="covered" data-hits="1240" data-linenumber="38">
+          <span class="hits">1240</span>
           
           <code class="ruby">      action = ApplicationController.get_actions(controller).find { |a| a == permission.action.to_s }</code>
         </li>
       
-        <li class="covered" data-hits="246" data-linenumber="39">
-          <span class="hits">246</span>
+        <li class="covered" data-hits="248" data-linenumber="39">
+          <span class="hits">248</span>
           
           <code class="ruby">      if action.nil?</code>
         </li>
