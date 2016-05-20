@@ -28,6 +28,7 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+    checks:
       Rubocop/Style/AndOr:
         enabled: false
     exclude_fingerprints:
