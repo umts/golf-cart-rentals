@@ -20,6 +20,15 @@ describe ApplicationHelper do
       expect(rental_status_english('danger')).to eq('Overdue return')
     end
 
+    it 'returns nil if it is canceled' do
+      rental = nil
+      expect { rental = create :mock_rental, start_time: Time.current, end_time: Time.current + 1.day }.not_to raise_error
+      rental.cancel
+      Timecop.travel(Time.current + 1.day)
+      expect(rental_status_css_class(rental)).to be_nil
+      expect(rental_status_english('')).to be_nil
+    end
+
     it 'returns #info if checked out and on schedule' do
       rental = nil
       expect { rental = create :mock_rental, end_time: Time.current + 1.day }.not_to raise_error

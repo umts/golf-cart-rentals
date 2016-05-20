@@ -26,8 +26,8 @@ class RentalsController < ApplicationController
     elsif @rental.rental_status == 'checked_out'
       render :check_in, locals: { rental: @rental }
     else
-      flash[:failure] = 'Error redirecting to processing form'
-      render(:rentals) && return
+      flash[:danger] = 'Error redirecting to processing form'
+      render :show, id: @rental.id
     end
   end
 

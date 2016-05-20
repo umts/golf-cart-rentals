@@ -130,6 +130,13 @@ describe RentalsController do
       get :transform, id: mock_rental.id
       expect(response).to render_template :check_out
     end
+
+    it 'redirects to rentals if passed a rental that is not reserved or checked out' do
+      rental = mock_rental
+      rental.cancel!
+      get :transform, id: rental.id
+      expect(response).to render_template :show
+    end
   end
 
   describe 'PUT #update' do
