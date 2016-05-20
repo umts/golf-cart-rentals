@@ -26,7 +26,7 @@ FactoryGirl.define do
     association :user
     department_id 0
     association :item_type
-    reservation_id 1
+    sequence :reservation_id
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
   end
