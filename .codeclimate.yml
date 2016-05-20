@@ -42,7 +42,6 @@ ratings:
   - "**.rhtml"
   - "**.slim"
   - "**.inc"
-  - "**.js"
   - "**.jsx"
   - "**.module"
   - "**.php"
