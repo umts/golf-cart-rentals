@@ -7,13 +7,15 @@ describe RentalsController do
     rental
   end
 
+  let(:mock_rental) { create :mock_rental } 
+
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
   before(:each) { current_user }
 
   before(:each) do
-    @rental = create(:rental, item_type: item_type)
-    @rental2 = create(:rental, item_type: item_type)
+    @rental = create(:rental)
+    @rental2 = create(:rental)
   end
 
   after(:each) do
@@ -76,11 +78,11 @@ describe RentalsController do
       context 'without accepting the disclaimer' do
         it 'does not save the new Rental in the database' do
           expect do
-            post :create, rental: attributes_for(:new_rental)
+            post :create, rental: attributes_for(:rental)
           end.to_not change(Rental, :count)
         end
         it 're-renders the :new template' do
-          post :create, rental: attributes_for(:new_rental)
+          post :create, rental: attributes_for(:rental)
           expect(response).to render_template :new
         end
       end
@@ -118,18 +120,15 @@ describe RentalsController do
 
   describe 'GET #transform' do
     it 'redirects to check in page if it was checked out' do
-      rental = create(:valid_rental, item_type: item_type, start_time: Time.current, end_time: Time.current + 1.day)
+      rental = mock_rental
       rental.pickup
       get :transform, id: rental.id
       expect(response).to render_template :check_in
-      rental.destroy
     end
 
     it 'redirects to check out page if it was reserved' do
-      rental = create(:valid_rental, item_type: item_type, start_time: Time.current, end_time: Time.current + 1.day)
-      get :transform, id: rental.id
+      get :transform, id: mock_rental.id
       expect(response).to render_template :check_out
-      rental.destroy
     end
   end
 

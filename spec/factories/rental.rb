@@ -21,14 +21,6 @@ FactoryGirl.define do
     end_time (Time.current + 1.day).to_s
   end
 
-  factory :valid_rental, parent: :rental do
-    association :user
-    department_id 0
-    reservation_id nil
-    association :item_type, name: 'TEST_ITEM_TYPE'
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
-  end
   
   factory :mock_rental, parent: :rental do
     association :user

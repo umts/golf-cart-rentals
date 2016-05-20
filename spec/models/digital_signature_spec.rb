@@ -8,7 +8,7 @@ RSpec.describe DigitalSignature, type: :model do
       expect(ds).to be_valid
     end
     it 'is not valid with an intent outside of the enum' do
-      expect(build :digital_signature, intent: 'not valid')
+      expect { build :digital_signature, intent: 'not valid' }.to raise_error ArgumentError
     end
   end
 end
