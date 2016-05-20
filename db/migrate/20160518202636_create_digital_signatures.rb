@@ -4,6 +4,7 @@ class CreateDigitalSignatures < ActiveRecord::Migration
       t.text :image
       t.string :intent
       t.references :rental
+      t.integer :author
 
       t.timestamps null: false
     end

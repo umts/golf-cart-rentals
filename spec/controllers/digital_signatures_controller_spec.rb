@@ -53,8 +53,7 @@ RSpec.describe DigitalSignaturesController, type: :controller do
 
   describe 'GET #new' do
     it 'assigns a new digital_signature as @digital_signature' do
-      get :new, {}, valid_session
-      expect(assigns(:digital_signature)).to be_a_new(DigitalSignature)
+      expect { get :new, {}, valid_session }.to raise_error ActionController::UrlGenerationError
     end
   end
 

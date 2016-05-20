@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160518202636) do
     t.text     "image",      limit: 65535
     t.string   "intent",     limit: 255
     t.integer  "rental_id",  limit: 4
+    t.integer  "author",     limit: 4
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end

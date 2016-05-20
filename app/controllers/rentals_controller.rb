@@ -34,8 +34,8 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out' || params[:commit] == 'Check In'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: params[:commit], rental: @rental)
-      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: params[:commit], rental: @rental)
+      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: params[:commit], rental: @rental, author: :csr)
+      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: params[:commit], rental: @rental, author: :customer)
       @rental.pickup if params[:commit] == 'Check Out'
       @rental.return if params[:commit] == 'Check In'
     else
