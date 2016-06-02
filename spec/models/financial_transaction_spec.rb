@@ -4,6 +4,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
+      binding.pry
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
       valid_rental = create :valid_rental, item_type: @item_type
 

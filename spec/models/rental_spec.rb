@@ -39,6 +39,7 @@ RSpec.describe Rental do
 
   describe '#create_rental' do
     before do
+      binding.pry
       @rent = create :valid_rental, item_type: @item_type
     end
 
