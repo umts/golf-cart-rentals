@@ -2,37 +2,48 @@ require 'rails_helper'
 
 RSpec.describe FinancialTransaction, type: :model do
 
-  describe 'creating the initial financial transaction' do
-    it 'creates a financial transaction from a rental' do
-      rental = create(:rental)
-      transaction =
-          #transaction = build(:financial_transaction, rental_id: rental.id)
-          #transaction = build(:financial_transaction)
+  describe 'testing initial financial transaction params' do
+    it 'creates a valid financial transaction from a rental' do
+      @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
+      valid_rental = create :valid_rental, item_type: @item_type
 
-          expect(modified_transaction).to be_valid
-      expect(unmodified_transaction).to be_valid
+      valid_transaction = build :financial_transaction, rental_id: valid_rental.id
 
-      expect(modified_transaction.rental).to eq(rental)
-      expect(unmodified_transaction.rental).to be_valid
+      expect(valid_transaction).to be_valid
+      expect(valid_transaction.rental).to eq(valid_rental)
 
       #expect(rental.financial_transactions.include? f1.rental).to eq(true)
       #expect(f1).to belong_to(:rental)
     end
 
+    it 'does not create a financial transaction from an invalid rental' do
+      invalid_rental = create :invalid_rental
+      invalid_transaction = build :financial_transaction, rental_id: invalid_rental.id
+
+      # expect invalid_transaction to raise and error
+      expect(invalid_transaction).to_not be_valid
+    end
+
     it 'does not create a financial transaction without first creating a rental' do
       transaction = create :financial_transaction
+
+      # expext some error to be thrown
       expect(transaction.rental).to be_nil?
     end
 
-    it 'creates a financial transaction via creating a rental' do
-      transaction = create(:rental).financial_transaction
+    it 'creates a financial transaction via post hook from creating a Rental' do
+      transaction = create(:valid_rental).financial_transaction
+
       expect(transaction).to be_valid?
     end
   end
 
   describe "creating successive financial transactions" do
     before(:each) do
-      rental = create(:rental)
+      @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
+      valid_rental = create :valid_rental, item_type: @item_type
+
+      valid_transaction = build :financial_transaction, rental_id: valid_rental.id
       rental_trans = rental.transaction
       expect(rental_trans).to be_valid?
     end
