@@ -1,19 +1,8 @@
 require 'rails_helper'
 
 describe HomeController do
-  before do
-    @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
-  end
-
-  before(:each) do
-    @rental = create :rental, item_type: @item_type
-    @rental2 = create :rental, item_type: @item_type
-  end
-
-  after(:each) do
-    @rental.destroy
-    @rental2.destroy
-  end
+  let(:rental) { create :mock_rental }
+  let(:rental2) { create :mock_rental }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -23,7 +12,7 @@ describe HomeController do
   describe 'GET #index' do
     it 'populates an array of rentals' do
       get :index
-      expect(assigns[:rentals]).to eq([@rental, @rental2])
+      expect(assigns[:rentals]).to eq([rental, rental2])
     end
 
     it 'populates an array of upcoming rentals'
@@ -31,7 +20,8 @@ describe HomeController do
 
     it 'populates an array of item_types' do
       get :index
-      expect(assigns[:item_types]).to eq([@item_type, item_type, item_type2])
+
+      expect(assigns[:item_types]).to eq([item_type, item_type2])
     end
     it 'renders the :index view' do
       get :index

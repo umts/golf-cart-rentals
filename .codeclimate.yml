@@ -32,6 +32,11 @@ engines:
       Rubocop/Style/AndOr:
         enabled: false
     exclude_fingerprints:
+    - a3e1dbf8cb97a435038c8390306d8fdc
+    - 5a391b75904ac294252a75cae95e977c
+    - 67d765d44559fae66dcbfaf444e8929e
+    - 312994113044146162fe57121c45a99e
+    - 5fbe6043484b5fe2ff5491f75ff66581
     - 1064d189916e56f6eaabf8de6bfd429a
 ratings:
   paths:
@@ -54,3 +59,6 @@ exclude_paths:
 - db/
 - spec/
 - vendor/
+- "app/assets/javascripts/multi_step_form.js"
+- "app/assets/javascripts/bootstrap-switch.js"
+- "app/assets/javascripts/bootstrap-select.min.js"
