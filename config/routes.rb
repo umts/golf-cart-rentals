@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :check_in_out do
     get 'check_in_form', on: :collection
     get 'check_out_form', on: :collection
+    get 'upload', on: :collection
   end
 
   #Errors --------------------------------------------------------------

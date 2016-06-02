@@ -25,7 +25,8 @@ if Rails.env.development?
     ItemType.where(base_fee: item_type['base_fee'], fee_per_day: item_type['fee_per_day'], name: item_type['name'], disclaimer: item_type['disclaimer']).first_or_create
   end
 
-  puts ' '
+  puts 'Create Model Rental'
+  
 end
 
 puts '*****************************'
@@ -39,8 +40,5 @@ puts 'Giving all permissions to admin'
 Permission.all.each do |p|
   GroupsPermission.where(group: admin, permission: p).first_or_create
 end
-
-puts "\nDone :D\n\n"
-
 
 puts "\nDone :D\n\n"
