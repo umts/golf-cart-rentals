@@ -42,12 +42,7 @@ RSpec.describe Rental do
 
   describe '#create_rental' do
     before do
-<<<<<<< HEAD
-      binding.pry
-      @rent = create :valid_rental, item_type: @item_type
-=======
       @rent = create :rental, item_type: @item_type
->>>>>>> 15dc0649fcc724bdbe286ffbccbda412294e4f74
     end
 
     it 'creates a rental with valid parameters' do

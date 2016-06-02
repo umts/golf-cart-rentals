@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20160520164244) do
   add_index "groups_permissions", ["group_id", "permission_id"], name: "index_groups_permissions_on_group_id_and_permission_id", unique: true, using: :btree
   add_index "groups_permissions", ["group_id"], name: "index_groups_permissions_on_group_id", using: :btree
   add_index "groups_permissions", ["permission_id"], name: "index_groups_permissions_on_permission_id", using: :btree
+
   create_table "groups_users", force: :cascade do |t|
     t.integer  "group_id",   limit: 4, null: false
     t.integer  "user_id",    limit: 4, null: false
