@@ -1,34 +1,4 @@
-<<<<<<< HEAD
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Rentals</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @rentals.each do |rental| %>
-      <tr>
-        <td><%= link_to 'Show', rental %></td>
-        <td><%= link_to 'Edit', edit_rental_path(rental) %></td>
-        <td><%= link_to 'Destroy', rental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Rental', new_rental_path %>
-=======
 <% provide( :page_header, 'Rentals' ) %>
-
-<%= link_to 'New Rental', new_rental_path, class: "btn btn-primary" %>
-<br><br>
 
 <%= search_form_for @q, class: 'form-inline' do |f| %>
   <%= f.label :item_type_id_eq, 'Item Type' %>
@@ -50,4 +20,3 @@
 <%= render partial: 'table' %>
 
 <%= will_paginate @past_rentals, renderer: BootstrapPagination::Rails %>
->>>>>>> bffca3d21e8ccb401896c14ad4e397b152895acb

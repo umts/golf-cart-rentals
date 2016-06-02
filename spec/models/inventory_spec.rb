@@ -78,22 +78,22 @@ RSpec.describe Inventory, order: :defined, type: :model do
     expect(response).to include('start_time' => reservation_start.iso8601, 'end_time' => reservation_end.iso8601)
 
     # update reservation
-    #expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.current + 1.day)) }.not_to raise_error
-    #expect(response).to be_a(Hash)
-    #expect(time = response.try(:[], 'start_time')).not_to be_nil
-    #expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 1.day)
-    
+    # expect { response = Inventory.update_reservation(reservation_uuid, start_time: (Time.current + 1.day)) }.not_to raise_error
+    # expect(response).to be_a(Hash)
+    # expect(time = response.try(:[], 'start_time')).not_to be_nil
+    # expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 1.day)
+
     # update reservation start_date
-    expect { response = Inventory.update_reservation_start_time(reservation_uuid, (Time.current + 2.day)) }.not_to raise_error
+    expect { response = Inventory.update_reservation_start_time(reservation_uuid, (Time.current + 2.days)) }.not_to raise_error
     expect(response).to be_a(Hash)
     expect(time = response.try(:[], 'start_time')).not_to be_nil
-    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 2.day)
-    
+    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 2.days)
+
     # update reservation end_date
-    expect { response = Inventory.update_reservation_end_time(reservation_uuid, Time.current + 4.day) }.not_to raise_error
+    expect { response = Inventory.update_reservation_end_time(reservation_uuid, Time.current + 4.days) }.not_to raise_error
     expect(response).to be_a(Hash)
     expect(time = response.try(:[], 'end_time')).not_to be_nil
-    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 4.day)
+    expect(Time.zone.parse(time)).to be_within(1.day).of(Time.current + 4.days)
 
     # updates reservation's metadata
     expect { response = Inventory.update_reservation_data(reservation_uuid, data: { color: 'orange' }) }.not_to raise_error

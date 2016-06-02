@@ -15,6 +15,11 @@ gem 'therubyracer', platform: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'backstretch-rails'
+
+# Use signature pad
+gem 'signature-pad-rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # bundle exec rake doc:rails generates the API under doc/api.

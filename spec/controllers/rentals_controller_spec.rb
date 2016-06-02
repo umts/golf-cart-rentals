@@ -7,12 +7,15 @@ describe RentalsController do
     rental
   end
 
+  let(:mock_rental) { create :mock_rental }
+
+  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+
   before(:each) { current_user }
 
   before(:each) do
-    item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
-    @rental = create(:rental, item_type: item_type)
-    @rental2 = create(:rental, item_type: item_type)
+    @rental = create(:rental)
+    @rental2 = create(:rental)
   end
 
   after(:each) do
@@ -75,11 +78,11 @@ describe RentalsController do
       context 'without accepting the disclaimer' do
         it 'does not save the new Rental in the database' do
           expect do
-            post :create, rental: attributes_for(:new_rental)
+            post :create, rental: attributes_for(:rental)
           end.to_not change(Rental, :count)
         end
         it 're-renders the :new template' do
-          post :create, rental: attributes_for(:new_rental)
+          post :create, rental: attributes_for(:rental)
           expect(response).to render_template :new
         end
       end
@@ -100,17 +103,62 @@ describe RentalsController do
 
   describe 'POST #destroy' do
     before :each do
-      request.env['HTTP_REFERER'] = 'back_page'
-      @rental_to_destroy = create(:valid_rental, item_type: create(:item_type, name: 'TEST_ITEM_TYPE'))
+      request.env['http_referer'] = 'back_page'
     end
-    it 'deletes the rental from the database' do
+
+    it 'cancels the rental' do
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.canceled?).to be true
+    end
+
+    it 'refuses to cancel a rental in progress' do
+      @rental.pickup
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.checked_out?).to be true
+    end
+  end
+
+  describe 'GET #transform' do
+    it 'redirects to check in page if it was checked out' do
+      rental = mock_rental
+      rental.pickup
+      get :transform, id: rental.id
+      expect(response).to render_template :check_in
+    end
+
+    it 'redirects to check out page if it was reserved' do
+      get :transform, id: mock_rental.id
+      expect(response).to render_template :check_out
+    end
+
+    it 'redirects to rentals if passed a rental that is not reserved or checked out' do
+      rental = mock_rental
+      rental.cancel!
+      get :transform, id: rental.id
+      expect(response).to render_template :show
+    end
+  end
+
+  describe 'PUT #update' do
+    it 'properly checks out a rental' do
       expect do
-        delete :destroy, id: @rental_to_destroy
-      end.to change(Rental, :count).by(-1)
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check Out'
+      end.to change(DigitalSignature, :count).by(2)
+      expect(DigitalSignature.last.check_out?).to be true
+      expect(@rental.reload.checked_out?).to be true
     end
-    it 'redirects back a page' do
-      delete :destroy, id: @rental_to_destroy
-      expect(response).to redirect_to 'back_page'
+
+    it 'properly checks in a rental' do
+      @rental.pickup
+      expect do
+        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check In'
+      end.to change(DigitalSignature, :count).by(2)
+      expect(DigitalSignature.last.check_in?).to be true
+      expect(@rental.reload.checked_in?).to be true
+    end
+
+    it 'change a rental' do
+      put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
     end
   end
 end

@@ -11,13 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504183330) do
+ActiveRecord::Schema.define(version: 20160520164244) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
     t.boolean  "active",                 default: true, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+  end
+
+  create_table "digital_signatures", force: :cascade do |t|
+    t.text     "image",      limit: 65535
+    t.integer  "rental_id",  limit: 4
+    t.integer  "author",     limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "intent",     limit: 4
   end
 
   create_table "documents", force: :cascade do |t|
@@ -131,12 +140,12 @@ ActiveRecord::Schema.define(version: 20160504183330) do
     t.integer  "department_id",  limit: 4
     t.string   "reservation_id", limit: 255, null: false
     t.integer  "item_type_id",   limit: 4,   null: false
-    t.datetime "start_date",                 null: false
-    t.datetime "end_date",                   null: false
     t.datetime "checked_in_at"
     t.datetime "checked_out_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
   end
 
   add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
