@@ -1,16 +1,21 @@
 class Rental < ActiveRecord::Base
   include AASM
+  include InventoryExceptions
+
   has_many :financial_transactions
+
+  before_create :create_reservation
+  before_destroy :delete_reservation
 
   belongs_to :user
   belongs_to :department
   belongs_to :item_type
 
-  validates :reservation_id, presence: true, unless: :skip_reservation_validation
+  # validate :reservation_id, presence: true, unless: :skip_reservation_validation
   validates :reservation_id, uniqueness: true
   validates :user_id, :start_date, :end_date, :item_type_id, presence: true
-  validates :start_date, date: { after_or_equal_to: Time.zone.today, message: 'must be no earlier than today' }
-  validates :end_date, date: { after_or_equal_to: :start_date, message: 'must be no earlier than today' }
+  validates :start_date, date: { after: Date.current, message: 'must be no earlier than today' }
+  validates :end_date, date: { after: :start_date, message: 'must be after start' }
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -49,23 +54,25 @@ class Rental < ActiveRecord::Base
 
   def create_reservation
     return false unless mostly_valid?
-
-    reservation = Inventory.create_reservation(item_type.name, start_date, start_date)
-    if reservation
-      self.reservation_id = reservation[:id]
-    else
-      errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
+    begin
+      reservation = Inventory.create_reservation(item_type.name, start_date, end_date)
+      self.reservation_id = reservation[:uuid]
+    rescue => error
+      errors.add :base, error.inspect
+      return false
     end
-
-    save
   end
 
   def delete_reservation
-    reservation = Inventory.delete_reservation(reservation_id)
-    return true unless reservation
-
-    errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
-    false
+    return true if reservation_id.nil? # nothing to delete here
+    return true if end_date < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    begin
+      Inventory.delete_reservation(reservation_id)
+      self.reservation_id = nil
+    rescue => error
+      errors.add(:base, error.inspect) and return false
+    end
+    true
   end
 
   def mostly_valid?

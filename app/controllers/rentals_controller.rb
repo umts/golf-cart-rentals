@@ -27,25 +27,20 @@ class RentalsController < ApplicationController
       render(:new) && return
     end
 
-    @rental = Rental.new(rental_params)
-
-    if @rental.create_reservation
+    rental = Rental.new(rental_params)
+    if rental.save
       flash[:success] = 'Rental Was Successfully Created'
-      redirect_to(@rental)
+      redirect_to(rental)
     else
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end
 
   # DELETE /rentals/1
   def destroy
-    if @rental.delete_reservation
-      @rental.destroy
-      flash[:success] = 'Rental Was Successfully Deleted'
-    else
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-    end
+    @rental.destroy
+    flash[:success] = 'Rental Was Successfully Deleted'
     redirect_to :back
   end
 
