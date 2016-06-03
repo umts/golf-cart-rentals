@@ -4,49 +4,38 @@ RSpec.describe FinancialTransaction, type: :model do
 
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
-      binding.pry
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
-      valid_rental = create :valid_rental, item_type: @item_type
+      valid_rental = create :rental, item_type: @item_type
 
       valid_transaction = build :financial_transaction, rental_id: valid_rental.id
 
       expect(valid_transaction).to be_valid
       expect(valid_transaction.rental).to eq(valid_rental)
-
-      #expect(rental.financial_transactions.include? f1.rental).to eq(true)
-      #expect(f1).to belong_to(:rental)
     end
 
     it 'does not create a financial transaction from an invalid rental' do
-      invalid_rental = create :invalid_rental
-      invalid_transaction = build :financial_transaction, rental_id: invalid_rental.id
-
-      # expect invalid_transaction to raise and error
-      expect(invalid_transaction).to_not be_valid
+      expect { invalid_rental = create :invalid_rental }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'does not create a financial transaction without first creating a rental' do
-      transaction = create :financial_transaction
-
-      # expext some error to be thrown
-      expect(transaction.rental).to be_nil?
+      expect { invalid_transaction = create :financial_transaction }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'creates a financial transaction via post hook from creating a Rental' do
-      transaction = create(:valid_rental).financial_transaction
+      @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
+      rental = create :rental_with_financial_transaction, item_type: @item_type
+      transaction = FinancialTransaction.where(rental_id: rental.id).last
 
-      expect(transaction).to be_valid?
+      expect(transaction).to be_valid
+      expect(transaction.rental).to eq(rental)
     end
   end
 
   describe "creating successive financial transactions" do
     before(:each) do
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
-      valid_rental = create :valid_rental, item_type: @item_type
-
-      valid_transaction = build :financial_transaction, rental_id: valid_rental.id
-      rental_trans = rental.transaction
-      expect(rental_trans).to be_valid?
+      @rental = create :rental, item_type: @item_type
+      @transaction = transaction = FinancialTransaction.where(rental_id: rental.id).last
     end
 
     it 'creates a valid financial transaction after creating an incurred incidental' do
