@@ -1,11 +1,14 @@
 FactoryGirl.define do
   factory :financial_transaction do
-    rental
     amount 100
     adjustment 0
     note_field "Property of Factory Girl"
     created_at DateTime.now
     updated_at DateTime.now
+
+    trait :with_rental do
+      rental
+    end
 
     trait :with_transactable_incidental do
       association :transactable, factory: :incidental_type
