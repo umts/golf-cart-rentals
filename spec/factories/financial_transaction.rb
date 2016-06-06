@@ -10,20 +10,20 @@ FactoryGirl.define do
       rental
     end
 
-    trait :with_transactable_incidental do
+    trait :with_incidental do
       association :transactable, factory: :incidental_type
     end
 
-    trait :with_transactable_fee do
+    trait :with_fee do
       association :transactable, factory: :fee_schedule
     end
 
     factory :incidental_type_transaction do
-      with_transactable_incidental
+      with_incidental
     end
 
     factory :fee_schedule_transaction do
-      with_transactable_fee
+      with_fee
     end
   end
 end
