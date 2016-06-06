@@ -4,6 +4,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
+      binding.pry
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
       valid_rental = create :rental, item_type: @item_type
 
@@ -35,14 +36,13 @@ RSpec.describe FinancialTransaction, type: :model do
     before(:each) do
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
       @rental = create :rental, item_type: @item_type
-      @transaction = transaction = FinancialTransaction.where(rental_id: rental.id).last
+      @transaction = FinancialTransaction.where(rental_id: rental.id).last
     end
 
     it 'creates a valid financial transaction after creating an incurred incidental' do
-      #binding.pry
-      incidental = create(:incidental)
-      incidental_trans = create(:incidental_type_transaction, incidental)
-
+      binding.pry
+      incidental = create :incidental
+      incidental_trans = create :incidental_type_transaction, incidental
 
       expect(incidental_trans).to be_valid?
       expect(incidental_trans.rental).to be_eq(rental) #expect the incidental's rental refers to the same starting rental.

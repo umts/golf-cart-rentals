@@ -4,6 +4,8 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
 
+  after_create :create_financial_transaction
+
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
@@ -96,6 +98,10 @@ class RentalsController < ApplicationController
 
   def set_item_types
     @item_types = ItemType.all
+  end
+
+  def create_financial_transaction
+    #FinancialTransaction.create rental_id: self.id
   end
 
   # Only allow a trusted parameter "white list" through.
