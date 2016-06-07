@@ -1,6 +1,7 @@
 class IncurredIncidental < ActiveRecord::Base
   belongs_to :rental
   belongs_to :incidental_type
+  has_one :financial_transaction, as: :transactable
 
   has_many :notes, as: :noteable
   has_many :incurred_incidentals_documents, dependent: :destroy
@@ -17,7 +18,8 @@ class IncurredIncidental < ActiveRecord::Base
 
   # private
   def create_financial_transaction
-    FinancialTransaction.create rental: rental, amount: fee, transactable_type: class, transactable_id: id
+    binding.pry
+    FinancialTransaction.create rental: rental, amount: fee, transactable_type: self.class, transactable_id: id
   end
 
 end
