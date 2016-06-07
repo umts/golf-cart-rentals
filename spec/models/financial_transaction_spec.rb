@@ -4,7 +4,6 @@ RSpec.describe FinancialTransaction, type: :model do
 
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
-      binding.pry
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
       valid_rental = create :rental, item_type: @item_type
 
@@ -40,7 +39,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'creates a valid financial transaction after creating an incurred incidental' do
-      binding.pry
+      # binding.pry
       incidental = create :incidental
       incidental_trans = create :incidental_type_transaction, incidental
 

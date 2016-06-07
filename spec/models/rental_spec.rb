@@ -38,6 +38,17 @@ RSpec.describe Rental do
         Rental.last.destroy
       end
     end
+
+    describe 'creation' do
+      it 'creates a financial transaction after creation' do
+        @rent = create :rental, item_type: @item_type
+
+        # TODO: insert expectation here FT is create
+
+        # TODO: For a single day it is calculated correctly
+        binding.pry
+      end
+    end
   end
 
   describe '#create_rental' do

@@ -4,8 +4,6 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
 
-  after_create :create_financial_transaction
-
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
@@ -76,6 +74,7 @@ class RentalsController < ApplicationController
     end
   end
 
+
   # DELETE /rentals/1
   def destroy
     if @rental.may_cancel?
@@ -100,10 +99,6 @@ class RentalsController < ApplicationController
     @item_types = ItemType.all
   end
 
-  def create_financial_transaction
-    #FinancialTransaction.create rental_id: self.id
-  end
-
   # Only allow a trusted parameter "white list" through.
   def rental_params
     p = params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)
@@ -111,4 +106,5 @@ class RentalsController < ApplicationController
     p[:end_time] = p[:end_time].to_datetime if p[:end_time]
     p
   end
+
 end
