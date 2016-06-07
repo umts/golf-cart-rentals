@@ -47,11 +47,17 @@ RSpec.describe FinancialTransaction, type: :model do
 
     it 'creates financial transaction after creating an incurred incidental' do
       binding.pry
-      incidental = create :incidental
-      incidental_trans = create :incidental_type_transaction, incidental
+
+      incidental = create :incurred_incidental
+      type = incident.incidental_type
+      incidental_trans = incidental.financial_transaction
 
       expect(incidental_trans).to be_valid?
-      expect(incidental_trans.rental).to be_eq(rental) #expect the incidental's rental refers to the same starting rental.
+      expect(incidental).to eq(incidental_trans.transactable)
+
+      expect(incidental.fee).to eq(type.base + (incident.times_modified * type.modifier_amount))
+
+      expect(incidental_trans.).to be_eq(rental) #expect the incidental's rental refers to the same starting rental.
       expect(incidental_trans.transactable).to eq(incidental)
       expect(incidental_trans).to eq(incidental_trans.transactable)
       financial_transaction = build(:incidental_type_transaction,
