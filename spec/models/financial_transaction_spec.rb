@@ -40,16 +40,13 @@ RSpec.describe FinancialTransaction, type: :model do
       @rental_trans = FinancialTransaction.where(rental_id: rental.id).first
     end
 
-    it 'creates a financial transaction after creating a rental' do
-      rent = create :rental, item_type: @item_type
-      transaction = FinancialTransaction.where(rental_id: rent.id).first
-
-      expect(rent).to eq(transaction.rental)
-      expect(transaction.amount).to eq((((rent.end_time.to_date - rent.start_time.to_date).to_i-1)*rent.item_type.fee_per_day)+rent.item_type.base_fee)
+    it 'checks that the rental transaction is properly allocated' do
+      expect(@rental).to eq(@rental_trans.rental)
+      expect(@rental_trans.amount).to eq((((@rental.end_time.to_date - @rental.start_time.to_date).to_i-1)*@rental.item_type.fee_per_day)+@rental.item_type.base_fee)
     end
 
-    it 'creates a valid financial transaction after creating an incurred incidental' do
-      # binding.pry
+    it 'creates financial transaction after creating an incurred incidental' do
+      binding.pry
       incidental = create :incidental
       incidental_trans = create :incidental_type_transaction, incidental
 
