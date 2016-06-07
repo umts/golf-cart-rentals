@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe FinancialTransaction, type: :model do
 
   describe 'testing initial financial transaction params' do
-    it 'creates a valid financial transaction from a rental' do
+    before(:each) do
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
-      valid_rental = create :rental, item_type: @item_type
+    end
 
+    it 'creates a valid financial transaction from a rental' do
+      valid_rental = create :rental, item_type: @item_type
       valid_transaction = build :financial_transaction, rental_id: valid_rental.id
 
       expect(valid_transaction).to be_valid
@@ -22,12 +24,12 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'creates a financial transaction via post hook from creating a Rental' do
-      @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
-      rental = create :rental_with_financial_transaction, item_type: @item_type
-      transaction = FinancialTransaction.where(rental_id: rental.id).last
+      rent = create :rental, item_type: @item_type
+      transaction = FinancialTransaction.where(rental_id: rent.id).first
 
       expect(transaction).to be_valid
-      expect(transaction.rental).to eq(rental)
+      expect(rent).to eq(transaction.rental)
+      expect(transaction.amount).to eq((((rent.end_time.to_date - rent.start_time.to_date).to_i-1)*rent.item_type.fee_per_day)+rent.item_type.base_fee)
     end
   end
 
@@ -35,7 +37,15 @@ RSpec.describe FinancialTransaction, type: :model do
     before(:each) do
       @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
       @rental = create :rental, item_type: @item_type
-      @transaction = FinancialTransaction.where(rental_id: rental.id).last
+      @rental_trans = FinancialTransaction.where(rental_id: rental.id).first
+    end
+
+    it 'creates a financial transaction after creating a rental' do
+      rent = create :rental, item_type: @item_type
+      transaction = FinancialTransaction.where(rental_id: rent.id).first
+
+      expect(rent).to eq(transaction.rental)
+      expect(transaction.amount).to eq((((rent.end_time.to_date - rent.start_time.to_date).to_i-1)*rent.item_type.fee_per_day)+rent.item_type.base_fee)
     end
 
     it 'creates a valid financial transaction after creating an incurred incidental' do
