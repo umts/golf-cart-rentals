@@ -13,7 +13,6 @@ RSpec.describe IncurredIncidental, type: :model do
 
   context 'properly does fee calculation' do
     it 'calculates a fee properly' do
-      binding.pry
       incident = create(:incurred_incidental)
       type = incident.incidental_type
       expect(incident.fee).to eq(type.base + (incident.times_modified * type.modifier_amount))
