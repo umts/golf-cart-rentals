@@ -99,11 +99,9 @@ class Rental < ActiveRecord::Base
   # private
   attr_accessor :skip_reservation_validation
 
-  # TODO: add validation for item_type presence and other validations
   def create_financial_transaction
     rental_amount = (((end_time.to_date - start_time.to_date).to_i-1) * item_type.fee_per_day) + item_type.base_fee
 
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
-
   end
 end

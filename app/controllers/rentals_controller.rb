@@ -74,7 +74,6 @@ class RentalsController < ApplicationController
     end
   end
 
-
   # DELETE /rentals/1
   def destroy
     if @rental.may_cancel?
@@ -106,5 +105,4 @@ class RentalsController < ApplicationController
     p[:end_time] = p[:end_time].to_datetime if p[:end_time]
     p
   end
-
 end
