@@ -42,7 +42,6 @@ class RentalsController < ApplicationController
 
   # PUT /rentals/1/
   def update
-    #binding.pry
     if params[:commit] == 'Check Out'
       DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_out, rental: @rental, author: :csr)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
@@ -68,7 +67,7 @@ class RentalsController < ApplicationController
     if @rental.save
       flash[:success] = 'Rental Was Successfully Created'
       redirect_to(@rental)
-    else #error has problem, cannot rental a error message here
+    else # error has problem, cannot rental a error message here
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end

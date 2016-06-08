@@ -56,8 +56,7 @@ class Rental < ActiveRecord::Base
 
   def create_reservation
     return true if Rails.env.test? && reservation_id.present?
-    return false unless valid? #check if the current rental object is valid or not
-    
+    return false unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       self.reservation_id = reservation[:uuid]
@@ -80,8 +79,7 @@ class Rental < ActiveRecord::Base
   end
 
   def times
-    start_time.strftime('%a %m/%d/%Y') + " - " + end_time.strftime('%a %m/%d/%Y')
+    start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
   alias dates times
-
 end
