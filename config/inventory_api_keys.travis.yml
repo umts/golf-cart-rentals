@@ -1,6 +1,6 @@
 development:
-  inventory_api_key: f80789561ba5adef946aa1170d2161b8
+  inventory_api_key: e1168a5eac92522ec8c7615a8d794d88
 test:
-  inventory_api_key: f80789561ba5adef946aa1170d2161b8
+  inventory_api_key: e1168a5eac92522ec8c7615a8d794d88
 production:
   inventory_api_key: censored

@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :rental do
     association :user
     association :department
-    reservation_id ('a'..'z').to_a.shuffle[0,36].join
     association :item_type, name: 'TEST_ITEM_TYPE'
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
