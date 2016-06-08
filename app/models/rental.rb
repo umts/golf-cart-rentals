@@ -3,7 +3,6 @@ class Rental < ActiveRecord::Base
   include InventoryExceptions
 
   before_create :create_reservation
-  before_save :create_reservation
   before_destroy :delete_reservation
 
   belongs_to :user
@@ -58,6 +57,7 @@ class Rental < ActiveRecord::Base
   def create_reservation
     return true if Rails.env.test? && reservation_id.present?
     return false unless valid? #check if the current rental object is valid or not
+    
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       self.reservation_id = reservation[:uuid]
