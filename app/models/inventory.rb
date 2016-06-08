@@ -1,4 +1,6 @@
 require 'json'
+include InventoryExceptions
+
 class Inventory
   @base_uri = Rails.application.config.inventory_api_uri
   @get_headers = { 'Authorization' => "Token #{INVENTORY_API_KEY}" }
@@ -15,20 +17,21 @@ class Inventory
                              body: { 'name' => name, 'allowed_keys' => allowed_keys }.to_json,
                              headers: @post_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.item_type(uuid)
+    raise ArgumentError unless uuid.present?
     response = HTTParty.get(@base_uri + "item_types/#{uuid}", headers: @get_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.update_item_type(uuid, params)
     raise ArgumentError if params.empty?
     response = HTTParty.put(@base_uri + "item_types/#{uuid}", body: params.to_json, headers: @post_headers)
     handle_item_type_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.delete_item_type(uuid)
@@ -42,13 +45,13 @@ class Inventory
                              body: { 'name' => name, 'item_type_uuid' => item_type_uuid, 'reservable' => reservable, 'data' => metadata }.to_json,
                              headers: @post_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.item(uuid)
     response = HTTParty.get(@base_uri + "items/#{uuid}", headers: @get_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.items_by_type(item_type_uuid)
@@ -59,7 +62,7 @@ class Inventory
     raise ArgumentError if params.empty?
     response = HTTParty.put(@base_uri + "items/#{uuid}", body: params.to_json, headers: @post_headers)
     handle_item_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.delete_item(uuid)
@@ -73,13 +76,14 @@ class Inventory
                              body: { 'item_type' => item_type, 'start_time' => start_time.iso8601, 'end_time' => end_time.iso8601 }.to_json,
                              headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.reservation(uuid)
+    raise ArgumentError unless uuid.present?
     response = HTTParty.get(@base_uri + "reservations/#{uuid}", headers: @get_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.reservations(start_time, end_time, item_type)
@@ -98,15 +102,15 @@ class Inventory
     params[:end_time] = params[:end_time].iso8601 if params[:end_time]
     response = HTTParty.put(@base_uri + "reservations/#{uuid}", body: { reservation: params }.to_json, headers: @post_headers)
     handle_reservation_errors(response)
-    JSON.parse(response.body)
+    JSON.parse(response.body).with_indifferent_access
   end
 
   def self.update_reservation_start_time(uuid, start_time)
-    update_reservation(uuid, reservation: { start_time: start_time })
+    update_reservation(uuid, start_time: start_time)
   end
 
   def self.update_reservation_end_time(uuid, end_time)
-    update_reservation(uuid, reservation: { end_time: end_time })
+    update_reservation(uuid, end_time: end_time)
   end
 
   def self.update_reservation_data(uuid, params = {})
@@ -133,7 +137,7 @@ class Inventory
     raise AuthError, response.body if response.code == 401
     raise ItemError, response.body if response.code == 422
     raise ItemNotFound, response.body if response.code == 404
-    raise InventoryError, response.body if response.code != 200 # handles stuff like a 500
+    raise InventoryError, response.body if response.code != 200
   end
 
   def self.handle_reservation_errors(response)

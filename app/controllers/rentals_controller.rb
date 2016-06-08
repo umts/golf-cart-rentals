@@ -1,8 +1,8 @@
 class RentalsController < ApplicationController
   @per_page = 10
 
-  before_action :set_rental, only: [:show, :edit, :update, :destroy]
-  before_action :set_item_types, only: [:index, :new, :create, :edit, :update]
+  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
+  before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
 
   # GET /rentals
   def index
@@ -20,19 +20,55 @@ class RentalsController < ApplicationController
     @rental = Rental.new
   end
 
+  # GET /rentals/processing
+  def processing
+    @q = Rental.all.search(params[:q])
+    @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
+                                               Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
+    @users = User.all
+  end
+
+  # GET /rentals/1/transform
+  def transform
+    if @rental.rental_status == 'reserved'
+      render :check_out, locals: { rental: @rental }
+    elsif @rental.rental_status == 'checked_out'
+      render :check_in, locals: { rental: @rental }
+    else
+      flash[:danger] = 'Error redirecting to processing form'
+      render :index
+    end
+  end
+
+  # PUT /rentals/1/
+  def update
+    #binding.pry
+    if params[:commit] == 'Check Out'
+      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_out, rental: @rental, author: :csr)
+      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
+      @rental.pickup if params[:commit] == 'Check Out'
+      @rental.return if params[:commit] == 'Check In'
+    elsif params[:commit] == 'Check In'
+      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_in, rental: @rental, author: :csr)
+      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
+      @rental.return
+    else
+      @rental.update rental_params
+    end
+    redirect_to @rental
+  end
+
   # POST /rentals
   def create
+    @rental = Rental.new(rental_params)
     if params[:disclaimer] != '1'
       flash[:success] = 'You must agree to the terms and conditions before creating a rental'
       render(:new) && return
     end
-
-    @rental = Rental.new(rental_params)
-
-    if @rental.create_reservation
+    if @rental.save
       flash[:success] = 'Rental Was Successfully Created'
       redirect_to(@rental)
-    else
+    else #error has problem, cannot rental a error message here
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -40,11 +76,13 @@ class RentalsController < ApplicationController
 
   # DELETE /rentals/1
   def destroy
-    if @rental.delete_reservation
-      @rental.destroy
-      flash[:success] = 'Rental Was Successfully Deleted'
+    if @rental.may_cancel?
+      @rental.cancel!
+      flash[:success] = 'Rental canceled.'
+    elsif @rental.canceled?
+      flash[:warning] = 'This rental is already canceled'
     else
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = 'This rental may not be canceled'
     end
     redirect_to :back
   end
@@ -62,9 +100,6 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    p = params.require(:rental).permit(:start_date, :end_date, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)
-    p[:start_date] = p[:start_date].to_datetime if p[:start_date]
-    p[:end_date] = p[:end_date].to_datetime if p[:end_date]
-    p
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)
   end
 end

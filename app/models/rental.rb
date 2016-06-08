@@ -1,15 +1,24 @@
 class Rental < ActiveRecord::Base
   include AASM
+  include InventoryExceptions
+
+  before_create :create_reservation
+  before_save :create_reservation
+  before_destroy :delete_reservation
 
   belongs_to :user
   belongs_to :department
   belongs_to :item_type
 
-  validates :reservation_id, presence: true, unless: :skip_reservation_validation
+  has_many :digital_signature
+
   validates :reservation_id, uniqueness: true
-  validates :user_id, :start_date, :end_date, :item_type_id, presence: true
-  validates :start_date, date: { after_or_equal_to: Time.zone.today, message: 'must be no earlier than today' }
-  validates :end_date, date: { after_or_equal_to: :start_date, message: 'must be no earlier than today' }
+  validates :user_id, :start_time, :end_time, :item_type_id, presence: true
+  validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
+  validates :end_time, date: { after: :start_time, message: 'must be after start' }
+
+  alias_attribute :start_date, :start_time
+  alias_attribute :end_date, :end_time
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -47,39 +56,32 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    return false unless mostly_valid?
-
-    reservation = Inventory.create_reservation(item_type.name, start_date, start_date)
-    if reservation
-      self.reservation_id = reservation[:id]
-    else
-      errors.add(:base, 'Error occured in aggressive epsilon: real error or unable to create reservation')
+    return true if Rails.env.test? && reservation_id.present?
+    return false unless valid? #check if the current rental object is valid or not
+    begin
+      reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
+      self.reservation_id = reservation[:uuid]
+    rescue => error
+      errors.add :base, error.inspect
+      return false
     end
-
-    save
   end
 
   def delete_reservation
-    reservation = Inventory.delete_reservation(reservation_id)
-    return true unless reservation
-
-    errors.add(:base, 'Error occured in aggressive epsilon: unable to delete reservation')
-    false
+    return true if reservation_id.nil? # nothing to delete here
+    return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    begin
+      Inventory.delete_reservation(reservation_id)
+      self.reservation_id = nil
+    rescue => error
+      errors.add(:base, error.inspect) && (return false)
+    end
+    true
   end
 
-  def mostly_valid?
-    self.skip_reservation_validation = true
-    is_valid = valid?
-    self.skip_reservation_validation = false
-    is_valid
+  def times
+    start_time.strftime('%a %m/%d/%Y') + " - " + end_time.strftime('%a %m/%d/%Y')
   end
+  alias dates times
 
-  def dates
-    date_string = start_date.strftime('%a %m/%d/%Y')
-    date_string += " - #{end_date.strftime('%a %m/%d/%Y')}" if start_date != end_date
-    date_string
-  end
-
-  # private
-  attr_accessor :skip_reservation_validation
 end

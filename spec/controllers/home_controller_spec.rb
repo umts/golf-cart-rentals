@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe HomeController do
-  let!(:rental) { create(:rental) }
-  let!(:rental2) { create(:rental) }
+  let(:rental) { create :mock_rental }
+  let(:rental2) { create :mock_rental }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -20,6 +20,7 @@ describe HomeController do
 
     it 'populates an array of item_types' do
       get :index
+
       expect(assigns[:item_types]).to eq([item_type, item_type2])
     end
     it 'renders the :index view' do

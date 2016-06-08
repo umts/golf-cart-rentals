@@ -12,7 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require 'jquery.backstretch'
 //= require bootstrap-sprockets
 //= require moment
 //= require bootstrap-datetimepicker
+//= require signature-pad
 //= require_tree .
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
