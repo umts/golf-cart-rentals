@@ -1,3 +1,4 @@
+class MissingUserError < StandardError; end
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -7,17 +8,16 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   before_action :current_user
-  before_action :has_permission?
+  before_action :check_permission
 
   # Set auto papertrail
   before_action :set_paper_trail_whodunnit
 
+  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development? # unless Rails.application.config.consider_all_requests_local
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development? # unless Rails.application.config.consider_all_requests_local
+
   def root
     redirect_to home_index_path
-  end
-
-  unless Rails.application.config.consider_all_requests_local
-    rescue_from RuntimeError, Exception, with: :render_500
   end
 
   def render_404
@@ -33,12 +33,7 @@ class ApplicationController < ActionController::Base
     logger.error error.backtrace.join("\n")
 
     # send email to IT
-    user = begin
-             @current_user.username
-           rescue
-             'unknown'
-           end
-    ErrorMailer.send_mail('parking-it@admin.umass.edu', request.fullpath, user, error).deliver_now
+    send_error_email(error)
 
     respond_to do |format|
       format.html { render template: 'errors/500.html.erb', status: 500 }
@@ -50,8 +45,6 @@ class ApplicationController < ActionController::Base
     controller.instance_methods(false).map(&:to_s) & controller.action_methods.to_a
   end
 
-  private
-
   def current_user
     # handle users approprately in production
     if Rails.env.production? || Rails.env.staging?
@@ -62,12 +55,47 @@ class ApplicationController < ActionController::Base
       user_from_session if @current_user.nil?
 
       # raise error if user failed to log in
-      fail 'Error occured logging user in' unless @current_user
+      raise MissingUserError unless @current_user
 
     # assign the first user when in development
     elsif Rails.env.development?
       @current_user = User.first
       session[:user_id] = @current_user.id
+    end
+  end
+
+  def has_permission?
+    # allow anyone in test
+    return true if Rails.env.test?
+
+    # allow anyone to view the root and 404 pages
+    return true if has_global_permission?
+
+    # allow logged in users to view pages they have access to
+    return true if @current_user &&
+                   @current_user.has_permission?(params[:controller], params[:action], params[:id])
+
+    # prevent users without permission
+    false
+  end
+
+  private
+
+  def send_error_email(error)
+    user = @current_user
+    # if Rails.env.production? || Rails.env.staging?
+    ErrorMailer.error_email('parking-it@admin.umass.edu', request.fullpath, user, error).deliver_now
+    # end
+  end
+
+  def check_permission
+    unless has_permission?
+      flash[:warning] = 'Your account does not have access to this page.'
+      begin
+        redirect_to :back
+      rescue ActionController::RedirectBackError, Module::DelegationError
+        redirect_to home_index_path
+      end
     end
   end
 
@@ -80,22 +108,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_from_session
-    @current_user = User.find(session[:user_id]) if session[:user_id]
-  end
-
-  def has_permission?
-    # allow anyone in test
-    return true if Rails.env.test?
-
-    # allow anyone to view the root page
-    return true if has_global_permission?
-
-    # allow logged in users to view 404 and pages they have access to
-    return true if @current_user &&
-                   @current_user.has_permission?(params[:controller], params[:action], params[:id])
-
-    # prevent users without permission
-    handle_no_permission if @current_user
+    @current_user = User.find_by_id(session[:user_id]) if session[:user_id]
   end
 
   def has_global_permission?
@@ -103,14 +116,5 @@ class ApplicationController < ActionController::Base
     (params[:controller] == 'application' && params[:action] == 'root') ||
       (params[:controller] == 'home' && params[:action] == 'index') ||
       params[:action] == 'render_404'
-  end
-
-  def handle_no_permission
-    flash[:warning] = 'Your account does not have access to this page.'
-    begin
-      redirect_to :back
-    rescue ActionController::RedirectBackError
-      redirect_to root_path
-    end
   end
 end

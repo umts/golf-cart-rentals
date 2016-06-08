@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226153041) do
+ActiveRecord::Schema.define(version: 20160520164244) do
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "name",       limit: 255,                null: false
+    t.boolean  "active",                 default: true, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  create_table "digital_signatures", force: :cascade do |t|
+    t.text     "image",      limit: 65535
+    t.integer  "rental_id",  limit: 4
+    t.integer  "author",     limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "intent",     limit: 4
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "filename",   limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -42,6 +64,55 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id", using: :btree
   add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id", using: :btree
 
+  create_table "incidental_types", force: :cascade do |t|
+    t.string   "name",                 limit: 255
+    t.string   "description",          limit: 255
+    t.decimal  "base",                             precision: 10
+    t.decimal  "modifier_amount",                  precision: 10
+    t.string   "modifier_description", limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  create_table "incurred_incidentals", force: :cascade do |t|
+    t.integer  "incidental_type_id", limit: 4
+    t.decimal  "times_modified",               precision: 10
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
+
+  create_table "incurred_incidentals_documents", force: :cascade do |t|
+    t.integer  "incurred_incidental_id", limit: 4, null: false
+    t.integer  "document_id",            limit: 4, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
+  add_index "incurred_incidentals_documents", ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
+
+  create_table "item_types", force: :cascade do |t|
+    t.string   "name",        limit: 255,   null: false
+    t.text     "disclaimer",  limit: 65535
+    t.float    "base_fee",    limit: 24
+    t.float    "fee_per_day", limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string   "note",          limit: 255
+    t.integer  "noteable_id",   limit: 4
+    t.string   "noteable_type", limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "notes", ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
+
   create_table "permissions", force: :cascade do |t|
     t.string   "controller", limit: 255, null: false
     t.string   "action",     limit: 255, null: false
@@ -50,15 +121,33 @@ ActiveRecord::Schema.define(version: 20160226153041) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "rentals", force: :cascade do |t|
+    t.string   "rental_status",  limit: 255, null: false
+    t.integer  "user_id",        limit: 4,   null: false
+    t.integer  "department_id",  limit: 4
+    t.string   "reservation_id", limit: 255, null: false
+    t.integer  "item_type_id",   limit: 4,   null: false
+    t.datetime "checked_in_at"
+    t.datetime "checked_out_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+  end
+
+  add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
+  add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
+
   create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 30,                 null: false
-    t.string   "last_name",  limit: 30,                 null: false
-    t.string   "email",      limit: 255,                null: false
-    t.integer  "phone",      limit: 8,                  null: false
-    t.integer  "spire_id",   limit: 4,                  null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "first_name",    limit: 30,                 null: false
+    t.string   "last_name",     limit: 30,                 null: false
+    t.string   "email",         limit: 255,                null: false
+    t.integer  "phone",         limit: 8,                  null: false
+    t.integer  "spire_id",      limit: 4,                  null: false
+    t.integer  "department_id", limit: 4
+    t.boolean  "active",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
@@ -78,4 +167,7 @@ ActiveRecord::Schema.define(version: 20160226153041) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
+  add_foreign_key "incurred_incidentals", "incidental_types"
+  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
+  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

@@ -35,7 +35,38 @@ module ApplicationHelper
   end
 
   def button_to(*_args)
-    fail 'Button to is not protected by permissions'
+    raise 'Button to is not protected by permissions'
+  end
+
+  # pre-format date and time fields to use bootstrap versions which work across browsers
+  def date_field_tag(method, options = {})
+    content_tag :div, class: 'input-group date datepicker' do
+      options[:placeholder] = 'YYYY-MM-DD'
+      concat text_field_tag(method, nil, options)
+      concat content_tag :span, (
+        content_tag :span, nil, class: 'glyphicon glyphicon-calendar'
+      ), class: 'input-group-addon'
+    end
+  end
+
+  def date_field(object_name, method, options = {})
+    content_tag :div, class: 'input-group date datepicker' do
+      options[:placeholder] = 'YYYY-MM-DD'
+      concat text_field(object_name, method, options)
+      concat content_tag :span, (
+        content_tag :span, nil, class: 'glyphicon glyphicon-calendar'
+      ), class: 'input-group-addon'
+    end
+  end
+
+  def time_field(object_name, method, options = {})
+    content_tag :div, class: 'input-group date timepicker' do
+      options[:placeholder] = 'HH:MM AM'
+      concat text_field(object_name, method, options)
+      concat content_tag :span, (
+        content_tag :span, nil, class: 'glyphicon glyphicon-time'
+      ), class: 'input-group-addon'
+    end
   end
 
   # Helper to handle and render multiple flash messages
@@ -46,6 +77,35 @@ module ApplicationHelper
     else
       flash[type] ||= []
       flash[type] << text
+    end
+  end
+
+  def rental_status_css_class(rental)
+    if rental.rental_status == 'checked_out' && rental.end_time < Time.current
+      return 'danger'
+    elsif rental.rental_status == 'checked_out'
+      return 'info'
+    elsif rental.rental_status == 'reserved' && rental.start_time < Time.current
+      return 'warning'
+    elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Time.zone.today
+      return 'success'
+    elsif rental.rental_status == 'reserved' && rental.start_time > Time.current
+      return 'active'
+    end
+  end
+
+  def rental_status_english(status)
+    case status
+    when 'active'
+      return 'Reserved future'
+    when 'success'
+      return 'Reserved pickup imminent'
+    when 'warning'
+      return 'Overdue for pickup'
+    when 'danger'
+      return 'Overdue return'
+    when 'info'
+      return 'Ongoing rental'
     end
   end
 end

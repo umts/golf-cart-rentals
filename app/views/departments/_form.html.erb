@@ -1,0 +1,22 @@
+<%= form_for(@department) do |f| %>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="name">Name</label>
+    <div class="col-xs-6">
+      <%= text_field :department, :name, size: 20, placeholder: "Department", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="users">Users</label>
+    <div class="col-xs-6">
+      <%= f.select :user_ids, options_from_collection_for_select(@users, 'id', 'full_name', selected: @department.users.ids), {}, multiple: true, class: "selectpicker form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit class: "btn btn-primary" %>
+      <%= link_to 'Back', departments_path, class: "btn btn-default" %>
+    </div>
+  </div>
+<% end %>

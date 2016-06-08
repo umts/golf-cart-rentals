@@ -39,4 +39,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # inventory api uri
+  config.inventory_api_uri = 'http://localhost:4000/v1/'
 end

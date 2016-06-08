@@ -31,5 +31,8 @@ module ProbableEngine
         :request_specs => false,
         :routing_specs => false
     end
+  
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end

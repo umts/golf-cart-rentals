@@ -51,7 +51,7 @@ describe UsersController do
     end
 
     context 'with invalid attributes' do
-      it 'does not save the new contact in the database' do
+      it 'does not save the new user in the database' do
         expect do
           post :create, user: attributes_for(:invalid_user)
         end.to_not change(User, :count)
@@ -77,25 +77,27 @@ describe UsersController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
-        post :update, id: user, user: { first_name: 'new_name' }
+        new_name = user.first_name + 'new'
+        post :update, id: user, user: { first_name: new_name }
         user.reload
-        expect(user.first_name).to eq('new_name')
+        expect(user.first_name).to eq(new_name)
       end
       it 'redirects to the user page' do
-        post :update, id: user, user: { first_name: 'new_name' }
+        new_name = user.first_name + 'new'
+        post :update, id: user, user: { first_name: new_name }
         expect(response).to redirect_to user
       end
     end
 
     context 'with invalid attributes' do
-      it 'does not save the contact in the database' do
+      it 'does not save the user in the database' do
         old_name = user.first_name
-        post :update, id: user, user: { first_name: nil }
+        post :update, id: user, user: attributes_for(:invalid_user)
         user.reload
         expect(user.first_name).to eq(old_name)
       end
       it 're-renders the :edit template' do
-        post :update, id: user, user: { first_name: nil }
+        post :update, id: user, user: attributes_for(:invalid_user)
         expect(response).to render_template :edit
       end
     end

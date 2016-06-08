@@ -1,0 +1,25 @@
+<% provide( :page_header, 'Rentals' ) %>
+
+<%= link_to 'New Rental', new_rental_path, class: "btn btn-primary" %>
+<br><br>
+
+<%= search_form_for @q, class: 'form-inline' do |f| %>
+  <%= f.label :item_type_id_eq, 'Item Type' %>
+  <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+
+  <%= f.label :user_id_eq, 'Customer' %>
+  <%= f.select :user_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :user_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+
+  <%= f.label :start_time_gteq, 'Between' %>
+  <%= f.date_field :start_time_gteq, class: "form-control" %>
+
+  <%= f.label :end_time_lteq, 'And' %>
+  <%= f.date_field :end_time_lteq, class: "form-control" %>
+
+  <%= f.submit class: "btn btn-default" %>
+<% end %>
+<br>
+
+<%= render partial: 'table' %>
+
+<%= will_paginate @past_rentals, renderer: BootstrapPagination::Rails %>

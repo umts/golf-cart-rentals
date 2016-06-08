@@ -1,0 +1,3 @@
+<%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), user, class: "btn btn-xs btn-success" %>
+<%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_user_path(user), class: "btn btn-xs btn-primary" %>
+<%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Delete"), user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>

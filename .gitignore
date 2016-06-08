@@ -20,3 +20,15 @@
 /config/database.yml
 
 /.idea/*
+/config/secrets.yml
+/config/inventory_api_keys.yml
+
+# Ignore storage files
+storage/development/*
+storage/production/*
+
+# Ignore coverage files
+coverage/*
+
+#Keep these empty folders
+!.keep

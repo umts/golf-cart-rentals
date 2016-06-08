@@ -15,6 +15,11 @@ gem 'therubyracer', platform: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'backstretch-rails'
+
+# Use signature pad
+gem 'signature-pad-rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -23,12 +28,28 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # for tracking created/updated user info on a per model basis
 gem 'paper_trail', '~> 4.0.0.rc'
 
+# for handling the state machine behind rental statuses
+gem 'aasm'
+
+# for simplified api calls
+gem 'httparty', '~> 0.13.7'
+
 # bootstrap!
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'bootstrap-switch-rails'
+gem 'will_paginate-bootstrap'
+
+# pagination
+gem 'will_paginate'
+
+# searchable pages
+gem 'ransack'
+
+# date validations
+gem 'date_validator'
 
 # deployment
 # gem 'savon'
@@ -46,6 +67,7 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'better_errors'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -54,7 +76,9 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
+  gem 'capybara', '~> 2.5'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'simplecov'
 end
