@@ -27,7 +27,7 @@
         <% hidden = 'display:none; ' unless type == @item_types.first %>
         <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
       <% end %>
-      
+
       </br></br>
 
       <label><%= check_box_tag 'disclaimer' %> I Agree To The Above Terms And Conditions</label>
