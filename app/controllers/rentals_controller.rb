@@ -48,6 +48,10 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
+  def rental_schedule
+    @rentals = Rental.all
+  end
+
   # GET /rentals/1
   def show
   end
