@@ -11,6 +11,15 @@ class RentalsController < ApplicationController
     @users = User.all
   end
 
+  # GET /rentals/1
+  def show
+  end
+
+  # GET /rentals/new
+  def new
+    @rental = Rental.new
+  end
+
   # GET /rentals/processing
   def processing
     @q = Rental.all.search(params[:q])
@@ -27,7 +36,7 @@ class RentalsController < ApplicationController
       render :check_in, locals: { rental: @rental }
     else
       flash[:danger] = 'Error redirecting to processing form'
-      render :show, id: @rental.id
+      render :index
     end
   end
 
@@ -48,28 +57,18 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
-  # GET /rentals/1
-  def show
-  end
-
-  # GET /rentals/new
-  def new
-    @rental = Rental.new
-  end
-
   # POST /rentals
   def create
+    @rental = Rental.new(rental_params)
     if params[:disclaimer] != '1'
       flash[:success] = 'You must agree to the terms and conditions before creating a rental'
       render(:new) && return
     end
-
-    rental = Rental.new(rental_params)
-    if rental.save
+    if @rental.save
       flash[:success] = 'Rental Was Successfully Created'
-      redirect_to(rental)
-    else
-      rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      redirect_to(@rental)
+    else # error has problem, cannot rental a error message here
+      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end
@@ -100,9 +99,6 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    p = params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department: @current_user.department)
-    p[:start_time] = p[:start_time].to_datetime if p[:start_time]
-    p[:end_time] = p[:end_time].to_datetime if p[:end_time]
-    p
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)
   end
 end

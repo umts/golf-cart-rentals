@@ -60,7 +60,7 @@ class Rental < ActiveRecord::Base
 
   def create_reservation
     return true if Rails.env.test? && reservation_id.present?
-    return false unless mostly_valid?
+    return false unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       self.reservation_id = reservation[:uuid]
@@ -82,17 +82,8 @@ class Rental < ActiveRecord::Base
     true
   end
 
-  def mostly_valid?
-    self.skip_reservation_validation = true
-    is_valid = valid?
-    self.skip_reservation_validation = false
-    is_valid
-  end
-
   def times
-    time_string = start_time.strftime('%a %m/%d/%Y')
-    time_string += " - #{end_time.strftime('%a %m/%d/%Y')}"
-    time_string
+    start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
   alias dates times
 

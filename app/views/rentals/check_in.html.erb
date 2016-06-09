@@ -1,4 +1,26 @@
-<% provide( :page_header, 'Process Rental' ) %>
+<% provide( :page_header, 'Check In' ) %>
+
+<table class="table table-bordered table-hover">
+  <tr class="info">
+    <th>Car Type</th>
+    <th>Amount</th>
+    <th>Responsible Person</th>
+    <th>Spire ID</th>
+    <th>Department</th>
+    <th>Rental Start Date</th>
+    <th>Rental End Date</th>
+  </tr>
+  <tr>
+    <td><%= rental.item_type.name%></td>
+    <td>$00</td>
+    <td><%= rental.user.full_name %></td>
+    <td><%= rental.user.spire_id %></td>
+    <td><%= rental.department.name %></td>
+    <td><%= rental.start_time.to_date %></td>
+    <td><%= rental.end_time.to_date %></td>
+  </tr>
+</table>
+
 <%= form_for rental, html: { id: 'signature_image' } do |f| %>
 
   <div class="form-group col-xs-12">
@@ -43,7 +65,7 @@
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit 'Check In', class: "btn btn-primary" %>
-      <%= link_to 'Back', rentals_processing_path, class: "btn btn-default" %>
+      <%= link_to 'Back', rentals_path, class: "btn btn-default" %>
     </div>
   </div>
 <% end %>
