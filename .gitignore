@@ -21,6 +21,10 @@
 /config/secrets.yml
 /config/inventory_api_keys.yml
 
+# Ignore development files
+/.idea/*
+*.swp
+
 # Ignore storage files
 storage/development/*
 storage/production/*

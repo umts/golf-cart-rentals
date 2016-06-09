@@ -2,8 +2,12 @@ class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
 
+  has_many :financial_transactions
+  has_one :financial_transaction, as: :transactable
+
   before_create :create_reservation
   before_destroy :delete_reservation
+  after_create :create_financial_transaction
 
   belongs_to :user
   belongs_to :department
@@ -94,4 +98,10 @@ class Rental < ActiveRecord::Base
 
   # private
   attr_accessor :skip_reservation_validation
+
+  def create_financial_transaction
+    rental_amount = (((end_time.to_date - start_time.to_date).to_i - 1) * item_type.fee_per_day) + item_type.base_fee
+
+    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+  end
 end
