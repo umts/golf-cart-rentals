@@ -2,10 +2,15 @@ FactoryGirl.define do
   factory :rental do
     association :user
     association :department
-    reservation_id nil
     association :item_type, name: 'TEST_ITEM_TYPE'
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
+
+    factory :rental_with_financial_transaction do
+      after(:create) do |rental|
+        create :financial_transaction, rental: rental
+      end
+    end
   end
 
   factory :invalid_rental, parent: :rental do
@@ -15,7 +20,6 @@ FactoryGirl.define do
   factory :new_rental, parent: :rental do
     user_id nil
     department_id nil
-    reservation_id nil
     item_type_id { create(:item_type).id }
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s

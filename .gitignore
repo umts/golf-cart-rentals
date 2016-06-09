@@ -21,12 +21,18 @@
 /config/secrets.yml
 /config/inventory_api_keys.yml
 
+# Ignore development files
+/.idea/*
+*.swp
+
 # Ignore storage files
 storage/development/*
 storage/production/*
 
-# Ignore coverage files
-coverage/*
+# Ignore a portion of simplecov
+coverage/assets/*
+coverage/index.html
+coverage/.resultset.*
 
 #Keep these empty folders
 !.keep
