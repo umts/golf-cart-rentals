@@ -7,6 +7,10 @@ h1 {
   color: #002E5C
 }
 
+.table td {
+  height: 100px !important;
+}
+
 /*
  * Custom Simple Calendar Style
  */
@@ -20,6 +24,10 @@ h1 {
 }
 
 .simple-calendar .past {
+  background-color: #C9C9C9 !important;
+}
+
+.simple-calendar .prev-month {
   background-color: #C9C9C9 !important;
 }
 
@@ -42,6 +50,10 @@ h1 {
 .simple-calendar .calendar-title {
   font-size: 30px
 }
+
+/*
+ * Reservation Buttons
+ */
 
 .simple-calendar {
   .day {
