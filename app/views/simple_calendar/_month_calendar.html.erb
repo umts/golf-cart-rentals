@@ -30,9 +30,13 @@
               <% else %>
                 <% block.call day, sorted_events.fetch(day, []) %>
               <% end %>
-              <% if ((DateTime.now - 1) < day) && (DateTime.now.month == day.month) %>
-                <button type="button" class="btn btn-primary-outline btn-sm">Reserve 4 Seater</button>
-                <button type="button" class="btn btn-primary-outline btn-sm">Reserve 6 Seater</button>
+              <% start_date ||= Date.today %>
+              <% start_date.to_date if start_date.class != Date %>
+              <% if (start_date.month == day.month) && ((Date.today - 1) < day) %>
+                <div class="reservation-control">
+                  <a class="btn btn-primary btn-sm reserve-4" href="#" role="button">Reserve 4 Seater</a>
+                  <a class="btn btn-primary btn-sm reserve-6" href="#" role="button">Reserve 6 Seater</a>
+                </div>
               <% end %>
             <% end %>
           <% end %>
