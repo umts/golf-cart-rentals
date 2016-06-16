@@ -39,4 +39,4 @@ coverage/.resultset.*
 !.keep
 
 # Ignore Precompilation Assets
-public/assets/*
+/public/assets/*
