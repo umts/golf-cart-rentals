@@ -1,6 +1,8 @@
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
+require "net/http"
+require "uri"
 
 SimpleCov.start
 
@@ -21,6 +23,19 @@ RSpec.configure do |config|
 
   config.before :suite do
     Permission.update_permissions_table
+
+    # Check for a running inventory API
+    begin
+      uri = URI.parse(Rails.application.config.inventory_api_uri)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Get.new('/')
+      response = http.request(request)
+    rescue Errno::ECONNREFUSED
+      puts "\n No connection to #{Rails.application.config.inventory_api_uri}"
+    rescue Timeout::Error, Errno::ENETUNREACH, Errno::EHOSTUNREACH
+      puts "\n Issues connection to #{Rails.application.config.inventory_api_uri}"
+    end
+
   end
 end
 
@@ -33,3 +48,4 @@ def current_user(user = nil)
                   end
   controller.instance_variable_set('@current_user', @current_user)
 end
+
