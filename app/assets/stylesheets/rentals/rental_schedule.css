@@ -3,11 +3,16 @@
  */
 
 h1 {
-  margin-left: 15px;
   color: #002E5C
 }
 
-.table td {
+table th {
+  background-color: #002E5C;
+  color: #FFFFFF;
+  font-size: 12px;
+}
+
+table td {
   height: 100px !important;
 }
 

@@ -1,4 +1,4 @@
-<div class="simple-calendar container">
+<div class="simple-calendar">
   <div class="calendar-heading row">
     <div class="col-lg-2- col-md-2 col-sm-2 col-xs-2" align="left">
       <%= link_to calendar.url_for_previous_view, class: "btn btn-default" do %>
@@ -12,6 +12,7 @@
       <%= link_to calendar.url_for_next_view, class: "btn btn-default" do %>
         <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
+    </div>
   </div>
 
   <table class="table table-striped">
@@ -31,7 +32,6 @@
               <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(block) %>
                 <% capture_haml(day, sorted_events.fetch(day, []), &block) %>
               <% else %>
-                <%# binding.pry %>
                 <% block.call day, sorted_events.fetch(day, []) %>
               <% end %>
               <% start_date ||= Date.today %>
