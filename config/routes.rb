@@ -8,11 +8,11 @@ Rails.application.routes.draw do
 
   # Home Pages -------------------------------------------------------
   resources :home, only: [:index]
-  
+
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
   resources :rentals
-  
+
   resources :departments do
     post :remove_user, on: :member
   end

@@ -14,6 +14,7 @@ describe RentalsController do
   before(:each) { current_user }
 
   before(:each) do
+    #binding.pry
     @rental = create(:rental)
     @rental2 = create(:rental)
   end
@@ -135,7 +136,7 @@ describe RentalsController do
       rental = mock_rental
       rental.cancel!
       get :transform, id: rental.id
-      expect(response).to render_template :show
+      expect(response).to render_template :index
     end
   end
 

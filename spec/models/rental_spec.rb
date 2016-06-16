@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Rental do
-  before do
+  before(:each) do
     @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
   end
   describe '#validations' do
@@ -41,7 +41,7 @@ RSpec.describe Rental do
   end
 
   describe '#create_rental' do
-    before do
+    before(:each) do
       @rent = create :rental, item_type: @item_type
     end
 
@@ -88,12 +88,12 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#mostly_valid?' do
+  describe 'check if the rental object is valid or not' do
     it 'returns true if the item is valid except for a missing reservation_id' do
-      expect(build(:rental, reservation_id: nil).mostly_valid?).to be true
+      expect(build(:rental, reservation_id: nil).valid?).to be true
     end
     it 'returns false if the item is in_valid except for a missing reservation_id' do
-      expect(build(:invalid_rental, reservation_id: nil).mostly_valid?).to be false
+      expect(build(:invalid_rental, reservation_id: nil).valid?).to be false
     end
   end
 
