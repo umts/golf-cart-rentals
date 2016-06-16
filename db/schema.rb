@@ -91,13 +91,11 @@ ActiveRecord::Schema.define(version: 20160520164244) do
   create_table "incurred_incidentals", force: :cascade do |t|
     t.integer  "incidental_type_id", limit: 4
     t.decimal  "times_modified",               precision: 10
-    t.integer  "rental_id",          limit: 4
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
   end
 
   add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  add_index "incurred_incidentals", ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
 
   create_table "incurred_incidentals_documents", force: :cascade do |t|
     t.integer  "incurred_incidental_id", limit: 4, null: false
