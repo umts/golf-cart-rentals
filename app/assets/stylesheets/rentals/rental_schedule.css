@@ -55,6 +55,19 @@ h1 {
  * Reservation Buttons
  */
 
+.reservation-control {
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+}
+
+.reservation-control .reserve-4 {
+  margin-bottom: 8px;
+}
+
+.reservation-control .reserve-6 {
+
+}
+
 .simple-calendar {
   .day {
   }
