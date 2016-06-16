@@ -30,8 +30,10 @@
 storage/development/*
 storage/production/*
 
-# Ignore coverage files
-coverage/*
+# Ignore a portion of simplecov
+coverage/assets/*
+coverage/index.html
+coverage/.resultset.*
 
 #Keep these empty folders
 !.keep
