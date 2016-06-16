@@ -35,5 +35,8 @@ coverage/assets/*
 coverage/index.html
 coverage/.resultset.*
 
-#Keep these empty folders
+# Keep these empty folders
 !.keep
+
+# Ignore Precompilation Assets
+public/assets/*
