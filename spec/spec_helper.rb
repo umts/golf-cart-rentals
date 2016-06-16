@@ -33,7 +33,7 @@ RSpec.configure do |config|
     rescue Errno::ECONNREFUSED
       puts "\n No connection to #{Rails.application.config.inventory_api_uri}"
     rescue Timeout::Error, Errno::ENETUNREACH, Errno::EHOSTUNREACH
-      puts "\n Issues connection to #{Rails.application.config.inventory_api_uri}"
+      puts "\n Issues connecting to #{Rails.application.config.inventory_api_uri}"
     end
 
   end
