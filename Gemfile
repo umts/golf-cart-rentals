@@ -32,7 +32,7 @@ gem 'paper_trail', '~> 4.0.0.rc'
 gem 'aasm'
 
 # A Calendar Generator
-gem "simple_calendar", "~> 2.0"
+gem 'simple_calendar', '~> 2.0'
 
 # for simplified api calls
 gem 'httparty', '~> 0.13.7'

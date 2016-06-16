@@ -60,15 +60,6 @@ class RentalsController < ApplicationController
   def rental_schedule
   end
 
-  # GET /rentals/1
-  def show
-  end
-
-  # GET /rentals/new
-  def new
-    @rental = Rental.new
-  end
-
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
