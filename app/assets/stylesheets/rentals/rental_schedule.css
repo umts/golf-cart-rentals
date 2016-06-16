@@ -2,17 +2,21 @@
  * Rentals#rental_schedule specific style
  */
 
-h1 {
+.simple-calendar h1 {
   color: #002E5C
 }
 
-table th {
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+.simple-calendar table th {
   background-color: #002E5C;
   color: #FFFFFF;
   font-size: 12px;
 }
 
-table td {
+.simple-calendar table td {
   height: 100px !important;
 }
 
