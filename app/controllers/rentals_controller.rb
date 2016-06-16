@@ -58,6 +58,7 @@ class RentalsController < ApplicationController
   end
 
   def rental_schedule
+    @rentals = Rental.all
   end
 
   # POST /rentals
