@@ -1,0 +1,13 @@
+<h1>Rental Schedule</h1>
+<%= month_calendar events: @rentals do |date, rental_dates| %>
+  <%= date.day %>
+
+  <% # Maybe a feature to admins later on to check the amount of rentals on this day %>
+  <!--
+  <% rental_dates.each do |rental_date| %>
+    <div>
+      <%= rental_date.id %>
+    </div>
+  <% end %>
+  !-->
+<% end %>
