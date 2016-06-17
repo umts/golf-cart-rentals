@@ -21,17 +21,19 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-6 panel panel-primary">
-      <div class="panel-heading">
-        Terms and Conditions
-      </div>
-      <% @item_types.each do |type| %>
-        <div class="panel-body" style="max-height: 10;overflow-y: scroll;">
-          <% hidden = '' %>
-          <% hidden = 'display:none; ' unless type == @item_types.first %>
-          <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
+    <div class="col-xs-offset-2 col-xs-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Terms and Conditions
         </div>
-      <% end %>
+        <% @item_types.each do |type| %>
+          <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+            <% hidden = '' %>
+            <% hidden = 'display:none; ' unless type == @item_types.first %>
+            <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
   <div class="form-group col-xs-12">
