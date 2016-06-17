@@ -38,8 +38,8 @@
               <% start_date.to_date if start_date.class != Date %>
               <% if (start_date.month == day.month) && ((Date.today - 1) < day) %>
                 <div class="reservation-control">
-                  <a class="btn btn-primary btn-sm reserve-4" href="#" role="button">Reserve 4 Seater</a>
-                  <a class="btn btn-primary btn-sm reserve-6" href="#" role="button">Reserve 6 Seater</a>
+                  <%= link_to 'Reserve 4 Seater', new_rental_path(item_type: "4 Seat"), class: 'btn btn-primary btn-sm reserve-4' %>
+                  <%= link_to 'Reserve 6 Seater', new_rental_path(item_type: "6 Seat"), class: 'btn btn-primary btn-sm' %>
                 </div>
               <% end %>
             <% end %>
