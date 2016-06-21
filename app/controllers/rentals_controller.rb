@@ -98,7 +98,8 @@ class RentalsController < ApplicationController
   end
 
   def set_item_types
-    @item_types = ItemType.all
+    @item_types ||= ItemType.all.order(name: :asc)
+    @item_types = @item_types.where(name: params["item_type"]).order(name: :asc) if params["item_type"]
   end
 
   # Only allow a trusted parameter "white list" through.
