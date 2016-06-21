@@ -69,7 +69,7 @@ class RentalsController < ApplicationController
       render(:new) && return
     end
     if @rental.save
-      flash[:success] = 'Rental Was Successfully Created'
+      flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
