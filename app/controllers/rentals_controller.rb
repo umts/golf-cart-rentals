@@ -18,6 +18,7 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
+    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
   end
 
   # GET /rentals/processing
