@@ -29,5 +29,6 @@ table.flash-message{
 }
 
 .table-center > thead > tr > th, .table-center > tbody > tr > td{
+
     text-align: center;
 }
