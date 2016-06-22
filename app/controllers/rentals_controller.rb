@@ -18,6 +18,7 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
+    @users = User.all
   end
 
   # GET /rentals/processing
@@ -30,6 +31,7 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/transform
   def transform
+    @users = User.all
     if @rental.rental_status == 'reserved'
       render :check_out, locals: { rental: @rental }
     elsif @rental.rental_status == 'checked_out'
@@ -59,6 +61,7 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
+    binding.pry
     @rental = Rental.new(rental_params)
     if params[:disclaimer] != '1'
       flash[:success] = 'You must agree to the terms and conditions before creating a rental'
@@ -99,6 +102,7 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)
+    user = User.find(params[:rental][:user_id].to_i)
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
   end
 end
