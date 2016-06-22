@@ -82,6 +82,7 @@ class Rental < ActiveRecord::Base
     true
   end
 
+  #TODO: Move logic to a Helper?
   def times
     start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
