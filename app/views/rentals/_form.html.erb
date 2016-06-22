@@ -1,8 +1,8 @@
 <%= form_for @rental, method: :post do |f| %>
   <div class="form-group col-xs-12">
-    <%= f.label :type, 'Item Type', class: 'control-label col-xs-2' %>
+    <%= f.label :type, 'Golf Cart', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.where(name: params["item_type"]).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", disabled: true %>
     </div>
   </div>
 
@@ -16,35 +16,42 @@
   <div class="form-group col-xs-12">
     <%= f.label :start_time, 'Start Time', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_time || Time.zone.today, required: true, class: "form-control" %>
+      <%= f.date_field :start_time, value: @start_time || params["start_date"].to_date, required: true, class: "form-control", disabled: true %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :end_time, 'End Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @end_time || Time.zone.today, required: true, class: "form-control" %>
+      <%= f.date_field :end_time, value: @end_time || params["start_date"].to_date.next_day, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-8">
-      <% @item_types.each do |type| %>
-        <% hidden = '' %>
-        <% hidden = 'display:none; ' unless type == @item_types.first %>
-        <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
-      <% end %>
-
-      </br></br>
-
+    <div class="col-xs-offset-2 col-xs-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Terms and Conditions
+        </div>
+        <% @item_types.each do |type| %>
+          <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+            <% hidden = '' %>
+            <% hidden = 'display:none; ' unless type == @item_types.first %>
+            <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-6">
       <label><%= check_box_tag 'disclaimer' %> I Agree To The Above Terms And Conditions</label>
     </div>
   </div>
-
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit class: "btn btn-primary", disabled: "disabled" %>
-      <%= link_to 'Back', rentals_path, class: "btn btn-default" %>
+      <%= link_to 'Back', rentals_schedule_path, class: "btn btn-default" %>
     </div>
   </div>
 <% end %>

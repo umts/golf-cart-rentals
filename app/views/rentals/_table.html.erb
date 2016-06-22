@@ -16,8 +16,8 @@
       <td><%= rental.start_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
       <td><%= rental.end_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
       <td><%= rental.item_type.name %></td>
-      <td>$</td>
-      <td>$</td>
+      <td><%= rental.financial_transaction.amount %></td>
+      <td><%= rental.financial_transaction.amount %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), rental, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
