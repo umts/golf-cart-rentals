@@ -65,6 +65,7 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
+    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
     if params[:disclaimer] != '1'
       flash[:success] = 'You must agree to the terms and conditions before creating a rental'
       render(:new) && return
