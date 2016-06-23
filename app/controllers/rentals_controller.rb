@@ -3,12 +3,12 @@ class RentalsController < ApplicationController
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_users, only: [:index, :new, :processing, :transform]
 
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
   end
 
   # GET /rentals/1
@@ -18,7 +18,6 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @users = User.all
   end
 
   # GET /rentals/processing
@@ -26,12 +25,10 @@ class RentalsController < ApplicationController
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
                                                Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
   end
 
   # GET /rentals/1/transform
   def transform
-    @users = User.all
     if @rental.rental_status == 'reserved'
       render :check_out, locals: { rental: @rental }
     elsif @rental.rental_status == 'checked_out'
@@ -101,6 +98,10 @@ class RentalsController < ApplicationController
 
   def set_item_types
     @item_types = ItemType.all
+  end
+
+  def set_users
+    @users = User.all
   end
 
   # Only allow a trusted parameter "white list" through.
