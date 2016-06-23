@@ -15,7 +15,7 @@
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
         <td><%= user.spire_id %></td>
-        <td><%= user.department.name %></td>
+        <td><%= user.department.try(:name) %></td>
         <td class="min-width">
           <% if controller_name == 'groups' %>
             <%= render partial: 'groups/actions', locals: { group: @group, user: user } %>
