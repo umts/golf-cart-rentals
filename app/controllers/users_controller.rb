@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_department
 
   def index
     @users = User.all
@@ -50,8 +51,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def set_department
+    @departments = Department.all
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :phone, :email, :spire_id)
+    params.require(:user).permit(:first_name, :last_name, :phone, :email, :spire_id, :department_id)
   end
 end

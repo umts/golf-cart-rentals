@@ -27,7 +27,7 @@ if Rails.env.development?
 
   puts 'Putting users in Parking department'
   parking = Department.find_by name: 'Parking'
-  parking.users << User.first
+  parking.users << User.all
 
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
@@ -36,7 +36,7 @@ if Rails.env.development?
   end
 
   puts 'Create Model Rental'
-  
+
 end
 
 puts '*****************************'

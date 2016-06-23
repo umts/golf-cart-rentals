@@ -3,12 +3,12 @@ class RentalsController < ApplicationController
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_users, only: [:index, :new, :processing, :transform]
 
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
   end
 
   # GET /rentals/1
@@ -25,7 +25,6 @@ class RentalsController < ApplicationController
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
                                                Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
   end
 
   # GET /rentals/1/transform
@@ -101,8 +100,13 @@ class RentalsController < ApplicationController
     @item_types = ItemType.all
   end
 
+  def set_users
+    @users = User.all
+  end
+
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)
+    user = User.find(params[:rental][:user_id].to_i)
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
   end
 end
