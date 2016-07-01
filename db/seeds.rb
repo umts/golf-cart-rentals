@@ -32,6 +32,7 @@ if Rails.env.development?
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
   item_types.each do |item_type|
+Inventory.create_item_type(item_type['name']) unless Inventory.item_types.each_with_object([]) {|item_type, memo| memo << item_type['name']}.include?(item_type['name'])
     ItemType.where(base_fee: item_type['base_fee'], fee_per_day: item_type['fee_per_day'], name: item_type['name'], disclaimer: item_type['disclaimer']).first_or_create
   end
 

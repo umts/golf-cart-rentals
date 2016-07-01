@@ -2,6 +2,9 @@ class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
 
+  has_many :incurred_incidentals, dependent: :destroy
+  has_many :incidental_type, through: :incurred_incidentals
+
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
@@ -80,6 +83,10 @@ class Rental < ActiveRecord::Base
       errors.add(:base, error.inspect) && (return false)
     end
     true
+  end
+
+  def basic_info
+    return "#{self.item_type.name}:(#{self.start_date.to_date} -> #{self.end_date.to_date})"
   end
 
   def times

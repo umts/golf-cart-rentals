@@ -35,6 +35,30 @@
   <div class="form-control-information col-xs-10">$</div>
 </div>
 
+  <h3><span class="label label-default auto">Incidental Type</span></h3>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Base Fee</th>
+        <th>Modifier Amount</th>
+        <th>Modifier Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+          <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+          <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+          <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
+          <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
+          <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
     <%#= link_to 'Edit Rental', edit_rental_path(@rental), class: "btn btn-primary" %>

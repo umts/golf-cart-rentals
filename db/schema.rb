@@ -183,7 +183,6 @@ ActiveRecord::Schema.define(version: 20160520164244) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals", "incidental_types"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

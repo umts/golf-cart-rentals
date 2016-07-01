@@ -2,7 +2,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :type, 'Golf Cart', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.where(name: params["item_type"]).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", disabled: true %>
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.where(name: params["item_type"]).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", readonly:true %>
     </div>
   </div>
 
@@ -16,7 +16,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :start_time, 'Start Time', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_time || params["start_date"].to_date, required: true, class: "form-control", disabled: true %>
+      <%= f.date_field :start_time, value: @start_time || params["start_date"].to_date, required: true, class: "form-control", readonly: true %>
     </div>
   </div>
 

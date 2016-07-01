@@ -4,6 +4,7 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
+  before_action :set_incidental_types, only: [:new]
 
   # GET /rentals
   def index
@@ -102,6 +103,10 @@ class RentalsController < ApplicationController
 
   def set_users
     @users = User.all
+  end
+
+  def set_incidental_types
+    @incidental_types = IncidentalType.all
   end
 
   # Only allow a trusted parameter "white list" through.
