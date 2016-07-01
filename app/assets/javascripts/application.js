@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-readyselector
 //= require 'jquery.backstretch'
 //= require bootstrap-sprockets
 //= require moment
@@ -19,5 +20,5 @@
 //= require signature-pad
 //= require_tree .
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
+    $('[data-toggle="tooltip"]').tooltip();
 });

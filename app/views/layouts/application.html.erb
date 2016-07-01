@@ -15,7 +15,7 @@
 
   <%= render partial: 'layouts/shared/navbar' %>
 
-  <div class="container main-content">
+  <div class="container main-content <%= controller_name %> <%= action_name %> ">
     <% flash.each do |name, msg| %>
       <%= content_tag :div, nil, class: "alert alert-#{name} container-fluid" do %>
         <% glyph = "glyphicon glyphicon-alert flash-icon" if name == 'warning' %>
