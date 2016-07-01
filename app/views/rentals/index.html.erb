@@ -1,6 +1,6 @@
 <% provide( :page_header, 'Rentals' ) %>
 
-<%= link_to 'New Rental', new_rental_path, class: "btn btn-primary" %>
+<%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
 <br><br>
 
 <%= search_form_for @q, class: 'form-inline' do |f| %>
