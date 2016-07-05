@@ -17,6 +17,18 @@ class IncurredIncidentalsController < ApplicationController
   def show
   end
 
+  def create
+    @incurred_incidental = IncurredIncidental.new(incurred_incidental_params)
+
+    if @incurred_incidental.save
+      flash[:success] = 'New Incurred Incidental Was Successfully Created'
+      redirect_to @incurred_incidental
+    else
+      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :new
+    end
+  end
+
   def update
     if @incurred_incidental.update(incurred_incidental_params)
       flash[:success] = 'Incurred Incidental Was Successfully Updated'
@@ -27,18 +39,6 @@ class IncurredIncidentalsController < ApplicationController
     end
   end
 
-  def create
-    @incurred_incidental = IncurredIncidental.new(incurred_incidental_params)
-
-    if @incurred_incidental.save
-      flash[:success] = 'New Incurred Incidetal Was Successfully Created'
-      redirect_to @incurred_incidental
-    else
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
-    end
-  end
-
   def destroy
     @incurred_incidental.destroy
     flash[:success] = 'Incurred Incidental Was Successfully Deleted'
@@ -46,7 +46,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
-  
+
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])
   end
