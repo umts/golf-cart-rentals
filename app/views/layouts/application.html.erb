@@ -7,6 +7,9 @@
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{params[:controller]}/#{params[:action]}.js") %>
 
+  <%= stylesheet_link_tag 'fullcalendar-2.8.0/fullcalendar' if ((params[:controller] == "rentals") && (params[:action] == "index")) %>
+  <%= javascript_include_tag 'fullcalendar-2.8.0/fullcalendar' if ((params[:controller] == "rentals") && (params[:action] == "index")) %>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
