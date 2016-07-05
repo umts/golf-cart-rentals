@@ -86,7 +86,7 @@ class Rental < ActiveRecord::Base
   end
 
   def basic_info
-    return "#{self.item_type.name}:(#{self.start_date.to_date} -> #{self.end_date.to_date})"
+    return "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
   end
 
   def times

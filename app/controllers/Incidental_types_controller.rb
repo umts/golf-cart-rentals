@@ -29,7 +29,6 @@ class IncidentalTypesController < ApplicationController
   end
 
   def update
-    binding.pry
     if @incidental_type.update(incidental_type_params)
       flash[:success] = 'Incidental Type Was Successfully Updated'
       redirect_to @incidental_type

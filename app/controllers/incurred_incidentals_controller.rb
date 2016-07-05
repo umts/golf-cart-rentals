@@ -29,6 +29,7 @@ class IncurredIncidentalsController < ApplicationController
 
   def create
     @incurred_incidental = IncurredIncidental.new(incurred_incidental_params)
+
     if @incurred_incidental.save
       flash[:success] = 'New Incurred Incidetal Was Successfully Created'
       redirect_to @incurred_incidental
@@ -45,6 +46,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
+  
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])
   end
@@ -60,5 +62,4 @@ class IncurredIncidentalsController < ApplicationController
   def incurred_incidental_params
     params.require(:incurred_incidental).permit(:incidental_type_id, :rental_id, :times_modified)
   end
-
 end
