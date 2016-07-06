@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520164244) do
+ActiveRecord::Schema.define(version: 20160706142001) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -117,7 +117,10 @@ ActiveRecord::Schema.define(version: 20160520164244) do
     t.float    "fee_per_day", limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "uuid",        limit: 255,   null: false
   end
+
+  add_index "item_types", ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
 
   create_table "notes", force: :cascade do |t|
     t.string   "note",          limit: 255
