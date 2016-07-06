@@ -13,6 +13,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
+# Interaction with jquery and controller without refreshing page
+gem 'gon'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'backstretch-rails'
