@@ -9,6 +9,11 @@ class RentalsController < ApplicationController
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
+
+		arr = []
+		Rental.all.each_with_object({}) { |obj, memo| arr << {start: obj.start_time, end: obj.end_time, name: obj.item_type.id } }
+		h = {events: arr}
+		h.to_json
   end
 
   # GET /rentals/1

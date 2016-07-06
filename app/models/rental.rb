@@ -87,6 +87,10 @@ class Rental < ActiveRecord::Base
   end
   alias dates times
 
+  def event_name
+    "Item Type: " << "#{item_type_id}" << ", Rental: " <<  "#{id}"
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 
