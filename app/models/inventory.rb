@@ -13,7 +13,7 @@ class Inventory
     end
   end
 
-  def self.respond_to?(method_name, include_private=false)
+  def self.respond_to?(method_name, include_private = false)
     AggressiveInventory.configure do |config|
       config.base_uri = Rails.application.config.inventory_api_uri
       config.auth_token = INVENTORY_API_KEY
@@ -26,5 +26,4 @@ class Inventory
       super
     end
   end
-
 end
