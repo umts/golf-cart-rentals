@@ -11,9 +11,9 @@ class RentalsController < ApplicationController
     @users = User.all
 
 		arr = []
-		Rental.all.each_with_object({}) { |obj, memo| arr << {start: obj.start_time, end: obj.end_time, name: obj.item_type.id } }
+		Rental.all.each_with_object({}) { |obj, memo| arr << {start: obj.start_time, end: obj.end_time, title: obj.item_type.id } }
 		h = {events: arr}
-		h.to_json
+		gon.reservations = h
   end
 
   # GET /rentals/1
