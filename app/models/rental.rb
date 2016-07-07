@@ -62,7 +62,7 @@ class Rental < ActiveRecord::Base
     if Rails.env.test?
       self.reservation_id = SecureRandom.uuid
       return true
-      #temp solution
+      # temp solution
     end
 
     return false unless valid? # check if the current rental object is valid or not
