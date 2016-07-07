@@ -91,11 +91,24 @@ class Rental < ActiveRecord::Base
     "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
   end
 
+  def event_color
+    if item_type.name == "4 Seat"
+      color = "#85C9A9"
+    elsif item_type.name == "6 Seat"
+      color = "#12d800"
+    else # black for non golf cart rentals
+      color = "#000000"
+    end
+  end
+
   def self.to_json_reservations
     arr = self.all.each_with_object([]) do |rental, list|
       list << {title: rental.event_name,
                start: rental.start_time.to_date,
-               end: rental.end_time.to_date }
+               end: rental.end_time.to_date,
+               color: rental.event_color,
+               textColor: "#000000"
+      }
     end
     {events: arr}
   end
