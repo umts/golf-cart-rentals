@@ -111,7 +111,7 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    user = User.find(params[:rental][:user_id].to_i)
+    user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
   end
 end

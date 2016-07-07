@@ -31,60 +31,33 @@ RSpec.describe Rental do
     end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
-        rental = create(:rental, item_type: @item_type)
+        rental = create(:mock_rental, item_type: @item_type)
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
-      end
-      after :each do # cleanup
-        Rental.last.destroy
       end
     end
   end
 
   describe '#create_rental' do
     before(:each) do
-      @rent = create :rental, item_type: @item_type
+      @rent = create :mock_rental, item_type: @item_type
     end
 
     it 'creates a rental with valid parameters' do
       expect(@rent).to be_valid
       expect(Rental.find(@rent.id)).to eq(@rent)
     end
-
-    it 'creates a reservation with the external api' do
-      response = nil
-      expect { response = Inventory.reservation(@rent.reservation_id) }.not_to raise_error
-      expect(response[:uuid]).to eq(@rent.reservation_id)
-    end
-
-    after do
-      @rent.destroy
-    end
-  end
-
-  describe '#reservation_creation_errors' do
-    it 'fails to create an item for an item_type that does not exist' do
-      item_type = create :item_type, name: 'i do not exist'
-      expect { create :rental, item_type: item_type }.to raise_error ActiveRecord::RecordNotSaved
-    end
   end
 
   describe '#delete_rental' do
     before :each do
-      @rent = create :rental, item_type: @item_type
+      @rent = create :mock_rental, item_type: @item_type
+      expect_any_instance_of(Rental).to receive(:delete_reservation).and_return(true)
     end
 
     it 'deletes a rental properly' do
       expect do
         @rent.destroy
       end.to change { Rental.count }.by(-1)
-    end
-
-    it 'deletes associated reservation on the external api' do
-      uuid = @rent.reservation_id
-      expect do
-        @rent.destroy
-      end.to change { Rental.count }.by(-1)
-      expect { Inventory.reservation(uuid) }.to raise_error ReservationNotFound
     end
   end
 
@@ -99,11 +72,7 @@ RSpec.describe Rental do
 
   describe '#times' do
     before :each do
-      @rental = create(:rental, item_type: @item_type)
-    end
-
-    after :each do
-      @rental.destroy
+      @rental = create(:mock_rental, item_type: @item_type)
     end
 
     it 'returns a string with times' do
@@ -114,11 +83,7 @@ RSpec.describe Rental do
 
   describe 'rental_status' do
     before :each do
-      @rental = create :rental, item_type: @item_type
-    end
-
-    after :each do
-      @rental.destroy
+      @rental = create :mock_rental, item_type: @item_type
     end
 
     it 'is reserved upon creation' do

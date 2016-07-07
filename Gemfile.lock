@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/umts/aggressive_inventory.git
+  revision: 4131d856acbbc9d9a83961ac300f99251e5ab256
+  specs:
+    aggressive_inventory (0.0.1)
+      activesupport
+      httparty
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -268,6 +276,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  aggressive_inventory (= 0.0.1)!
   backstretch-rails
   better_errors
   bootstrap-sass (~> 3.3.5)

@@ -15,9 +15,8 @@ describe RentalsController do
   before(:each) { current_user }
 
   before(:each) do
-    #binding.pry
-    @rental = create(:rental)
-    @rental2 = create(:rental)
+    @rental = create(:mock_rental)
+    @rental2 = create(:mock_rental)
   end
 
   after(:each) do
@@ -80,11 +79,13 @@ describe RentalsController do
       context 'without accepting the disclaimer' do
         it 'does not save the new Rental in the database' do
           expect do
-            post :create, rental: attributes_for(:rental)
+            rental = build(:rental)
+            post :create, rental: rental.attributes
           end.to_not change(Rental, :count)
         end
         it 're-renders the :new template' do
-          post :create, rental: attributes_for(:rental)
+          rental = build(:rental)
+          post :create, rental: rental.attributes
           expect(response).to render_template :new
         end
       end
@@ -93,11 +94,13 @@ describe RentalsController do
     context 'with invalid attributes' do
       it 'does not save the new Rental in the database' do
         expect do
-          post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
+          rental = build(:invalid_rental)
+          post :create, rental: rental.attributes, disclaimer: '1'
         end.to_not change(Rental, :count)
       end
       it 're-renders the :new template' do
-        post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
+        rental = build(:invalid_rental)
+        post :create, rental: rental.attributes, disclaimer: '1'
         expect(response).to render_template :new
       end
     end
