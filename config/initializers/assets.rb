@@ -10,4 +10,3 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w( rentals/rental_schedule.css )
 Rails.application.config.assets.precompile += %w( rentals/index.js )
-Rails.application.config.assets.precompile += %w( fullcalendar-2.8.0/* )

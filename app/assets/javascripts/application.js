@@ -16,10 +16,12 @@
 //= require 'jquery.backstretch'
 //= require bootstrap-sprockets
 //= require moment
-//= require fullcalendar-2.8.0/fullcalendar
+//= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require signature-pad
 //= require_tree .
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+$('#calendar').fullCalendar({});

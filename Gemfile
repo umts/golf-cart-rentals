@@ -15,6 +15,7 @@ gem 'therubyracer', platform: :ruby
 
 # Interaction with jquery and controller without refreshing page
 gem 'gon'
+gem 'fullcalendar-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

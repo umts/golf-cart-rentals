@@ -18,7 +18,7 @@ $(document).ready(function() {
 			allDay : false // will make the time show
 		}
 		] */
-		gon.reservations
+		//gon.reservations
 
 	})
 
