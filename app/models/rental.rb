@@ -88,13 +88,12 @@ class Rental < ActiveRecord::Base
   alias dates times
 
   def event_name
-    "Item Type: " << "#{item_type_id}" << ", Rental: " <<  "#{id}"
+    "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
   end
 
   def self.to_json_reservations
-    binding.pry
     arr = self.all.each_with_object([]) do |rental, list|
-      list << {title: rental.item_type.id,
+      list << {title: rental.event_name,
                start: rental.start_time.to_date,
                end: rental.end_time.to_date }
     end
