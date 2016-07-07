@@ -32,7 +32,7 @@ storage/production/*
 # Ignore a portion of simplecov
 coverage/assets/*
 coverage/index.html
-coverage/.resultset.*
+coverage/.resultset.json*
 
 #Keep these empty folders
 !.keep

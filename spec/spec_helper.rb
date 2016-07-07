@@ -22,6 +22,11 @@ RSpec.configure do |config|
   config.before :suite do
     Permission.update_permissions_table
   end
+
+  config.before(:each) do
+    # Loganote: using .and_return({uuid:...} is not lazily evaluated
+    allow(Inventory).to receive(:create_reservation) {{uuid: SecureRandom.uuid}}
+  end
 end
 
 # Helper method
