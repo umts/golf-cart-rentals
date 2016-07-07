@@ -32,11 +32,34 @@ if Rails.env.development?
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
   item_types.each do |item_type|
-    ItemType.where(base_fee: item_type['base_fee'], fee_per_day: item_type['fee_per_day'], name: item_type['name'], disclaimer: item_type['disclaimer']).first_or_create
+    inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+      memo[ i['name'] ] = i['uuid']
+    end
+
+    unless inv_item_types.keys.include?(item_type['name'])
+      Inventory.create_item_type(item_type['name'])
+      inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+        memo[ i['name'] ] = i['uuid']
+      end
+    end
+
+    item_type[:uuid] = inv_item_types[item_type['name']]
+    type = ItemType.where(item_type).first_or_create
   end
 
+  # Could have done in the above loop, but that was getting a bit messy
+  puts 'Creating Items in the API, by Item Type'
+  ItemType.all.each do |item_type|
+    if Inventory.items_by_type(item_type.uuid).empty?
+      (1..10).each do |i|
+        Inventory.create_item(item_type.uuid, "#{item_type.name} Cart #{i}", true, {})
+      end
+    end
+  end
+
+
   puts 'Create Model Rental'
-  
+
 end
 
 puts '*****************************'
