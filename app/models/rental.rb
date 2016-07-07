@@ -3,7 +3,6 @@ class Rental < ActiveRecord::Base
   include InventoryExceptions
 
   has_many :incurred_incidentals, dependent: :destroy
-  has_many :incidental_type, through: :incurred_incidentals
 
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable

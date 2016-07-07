@@ -16,9 +16,8 @@ class IncidentalTypesController < ApplicationController
   def show
   end
 
-  def create
+  def create    
     @incidental_type = IncidentalType.new(incidental_type_params)
-
     if @incidental_type.save
       flash[:success] = 'Incidental Type Was Successfully Created'
       redirect_to @incidental_type
