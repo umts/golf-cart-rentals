@@ -10,11 +10,8 @@ class RentalsController < ApplicationController
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
 
-		arr = []
-		Rental.all.each_with_object({}) { |obj, memo| arr << {start: obj.start_time.to_date, end: obj.end_time.to_date, title: obj.item_type.id } }
-		h = {events: arr}
-		gon.reservations = h
-  end
+		gon.reservations = Rental.to_json_reservations
+	end
 
   # GET /rentals/1
   def show

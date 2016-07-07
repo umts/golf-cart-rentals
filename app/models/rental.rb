@@ -91,6 +91,16 @@ class Rental < ActiveRecord::Base
     "Item Type: " << "#{item_type_id}" << ", Rental: " <<  "#{id}"
   end
 
+  def self.to_json_reservations
+    binding.pry
+    arr = self.all.each_with_object([]) do |rental, list|
+      list << {title: rental.item_type.id,
+               start: rental.start_time.to_date,
+               end: rental.end_time.to_date }
+    end
+    {events: arr}
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 
