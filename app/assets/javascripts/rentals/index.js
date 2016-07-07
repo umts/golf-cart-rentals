@@ -1,7 +1,10 @@
 $(document).ready(function() {
 
-	$('#calendar').fullCalendar({
-		/* events: [
+	$('#calendar').fullCalendar(
+
+	gon.reservations
+		/*{
+		events: [
 		{
 			title  : 'event1',
 			start  : '2016-07-01',
@@ -17,9 +20,9 @@ $(document).ready(function() {
 			start  : '2010-01-09T12:30:00',
 			allDay : false // will make the time show
 		}
-		] */
-		//gon.reservations
+		]
 
-	})
+
+	}*/)
 
 });
