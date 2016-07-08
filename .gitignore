@@ -24,6 +24,7 @@
 # Ignore development files
 /.idea/*
 *.swp
+*.swo
 
 # Ignore storage files
 storage/development/*
@@ -34,5 +35,8 @@ coverage/assets/*
 coverage/index.html
 coverage/.resultset.json*
 
-#Keep these empty folders
+# Keep these empty folders
 !.keep
+
+# Ignore Precompilation Assets
+/public/assets/*
