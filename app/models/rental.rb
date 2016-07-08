@@ -99,7 +99,7 @@ class Rental < ActiveRecord::Base
     when 'checked_in'
       color = '#09ff00'
     else
-      color = #000000 # black signifies a non event status
+      color = '#000000' # black signifies a non event status
     end
   end
 
