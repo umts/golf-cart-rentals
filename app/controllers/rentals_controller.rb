@@ -10,8 +10,8 @@ class RentalsController < ApplicationController
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
 
-		gon.reservations = Rental.to_json_reservations
-	end
+    gon.reservations = Rental.to_json_reservations
+  end
 
   # GET /rentals/1
   def show
@@ -20,7 +20,7 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
+    @start_date = params['start_date'] ? params['start_date'].to_date : Time.zone.today
   end
 
   # GET /rentals/processing
@@ -67,9 +67,10 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
-    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
+    @start_date = params['start_date'] ? params['start_date'].to_date : Time.zone.today
     if params[:disclaimer] != '1'
-      flash[:success] = 'You must agree to the terms and conditions before creating a rental'
+      flash[:success] = 'You must agree to the terms and conditions
+                         before creating a rental'
       render(:new) && return
     end
     if @rental.save
@@ -103,7 +104,7 @@ class RentalsController < ApplicationController
 
   def set_item_types
     @item_types ||= ItemType.all.order(name: :asc)
-    @item_types = @item_types.where(name: params["item_type"]).order(name: :asc) if params["item_type"]
+    @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
   end
 
   # Only allow a trusted parameter "white list" through.

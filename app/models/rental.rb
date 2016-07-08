@@ -92,25 +92,25 @@ class Rental < ActiveRecord::Base
 
   def event_status_color
     case rental_status
-    when "reserved"
-      color = "#0092ff"
-    when "checked_out"
-      color = "#f7ff76"
-    when "checked_in"
-      color = "#09ff00"
+    when 'reserved'
+      color = '#0092f'
+    when 'checked_out'
+      color = '#f7ff7'
+    when 'checked_in'
+      color = '#09ff00'
     else
-      color = "#000000" # black signifies a non event status
+      color = #000000 # black signifies a non event status
     end
   end
 
   def self.to_json_reservations
-    arr = self.all.each_with_object([]) do |rental, list|
-      list << {title: rental.event_name,
-               start: rental.start_time.to_date,
-               end: rental.end_time.to_date,
-               color: rental.event_status_color,
-               textColor: "#000000",
-               url: Rails.application.routes.url_helpers.rental_path(rental.id)
+    arr = all.each_with_object([]) do |rental, list|
+      list << { title: rental.event_name,
+                start: rental.start_time.to_date,
+                end: rental.end_time.to_date,
+                color: rental.event_status_color,
+                textColor: "#000000",
+                url: Rails.application.routes.url_helpers.rental_path(rental.id)
               }
     end
     arr
