@@ -67,17 +67,15 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
-    if params['start_date']
-      @start_date = params['start_date']
-    else
-      @start_date = Time.zone.today
+
+    @start_date = param['start_date'] ? param['start_date'] : Time.zone.today
+
+#    if params[:disclaimer] != '1'
+#      flash[:success] = 'You must agree to the terms and conditions
+#                         before creating a rental'
+#      render(:new) && return
     end
 
-    if params[:disclaimer] != '1'
-      flash[:success] = 'You must agree to the terms and conditions
-                         before creating a rental'
-      render(:new) && return
-    end
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
