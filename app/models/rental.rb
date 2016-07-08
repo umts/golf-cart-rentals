@@ -1,5 +1,4 @@
 class Rental < ActiveRecord::Base
-
   include AASM
   include InventoryExceptions
 
