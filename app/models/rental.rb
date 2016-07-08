@@ -107,10 +107,11 @@ class Rental < ActiveRecord::Base
                start: rental.start_time.to_date,
                end: rental.end_time.to_date,
                color: rental.event_color,
-               textColor: "#000000"
-      }
+               textColor: "#000000",
+               url: Rails.application.routes.url_helpers.rental_path(rental.id)
+              }
     end
-    {events: arr}
+    arr
   end
 
   # private
