@@ -74,8 +74,6 @@ class RentalsController < ApplicationController
 #      flash[:success] = 'You must agree to the terms and conditions
 #                         before creating a rental'
 #      render(:new) && return
-    end
-
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
