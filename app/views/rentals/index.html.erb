@@ -3,6 +3,12 @@
 <%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
 <br><br>
 
+<ul class="legend">
+    <li><span class="reserved"></span>Reserved</li>
+    <li><span class="checkedout"></span>Checked Out</li>
+    <li><span class="checkedin"></span>Checked In</li>
+</ul>
+
 <div id='calendar'></div>
 
 <%= search_form_for @q, class: 'form-inline' do |f| %>
