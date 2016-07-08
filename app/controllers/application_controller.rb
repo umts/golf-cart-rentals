@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include ApplicationHelper
-  include SessionsHelper
 
   before_action :current_user
   before_action :check_permission

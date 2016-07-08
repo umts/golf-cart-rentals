@@ -4,6 +4,7 @@ FactoryGirl.define do
     base_fee 100
     fee_per_day 10
     disclaimer 'dont be dumb'
+    uuid {SecureRandom.uuid}
   end
 
   factory :invalid_item_type, parent: :item_type do

@@ -14,9 +14,8 @@ describe RentalsController do
   before(:each) { current_user }
 
   before(:each) do
-    #binding.pry
-    @rental = create(:rental)
-    @rental2 = create(:rental)
+    @rental = create(:mock_rental)
+    @rental2 = create(:mock_rental)
   end
 
   after(:each) do

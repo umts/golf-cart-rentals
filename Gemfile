@@ -65,6 +65,8 @@ gem 'date_validator'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
 
+gem 'aggressive_inventory', '0.0.1', git: 'https://github.com/umts/aggressive_inventory.git'
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.0'
