@@ -10,7 +10,6 @@ class RentalsController < ApplicationController
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
 
-binding.pry
 		gon.reservations = Rental.to_json_reservations
 	end
 

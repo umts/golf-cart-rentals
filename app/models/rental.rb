@@ -91,13 +91,16 @@ class Rental < ActiveRecord::Base
     "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
   end
 
-  def event_color
-    if item_type.name == "4 Seat"
-      color = "#85C9A9"
-    elsif item_type.name == "6 Seat"
-      color = "#12d800"
-    else # black for non golf cart rentals
-      color = "#000000"
+  def event_status_color
+    case rental_status
+    when "reserved"
+      color = "#0092ff"
+    when "checked_out"
+      color = "#f7ff76"
+    when "checked_in"
+      color = "#09ff00"
+    else
+      color = "#000000" # black signifies a non event status
     end
   end
 
@@ -106,7 +109,7 @@ class Rental < ActiveRecord::Base
       list << {title: rental.event_name,
                start: rental.start_time.to_date,
                end: rental.end_time.to_date,
-               color: rental.event_color,
+               color: rental.event_status_color,
                textColor: "#000000",
                url: Rails.application.routes.url_helpers.rental_path(rental.id)
               }
