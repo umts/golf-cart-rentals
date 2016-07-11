@@ -61,12 +61,6 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    if Rails.env.test?
-      self.reservation_id = SecureRandom.uuid
-      return true
-      # temp solution
-    end
-
     return false unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
