@@ -1,0 +1,60 @@
+<% provide( :page_header, "Incurred Incidental ID: #{@incurred_incidental.id}" ) %>
+
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Rental Information
+      </div>
+      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <p>Rental Status:   <%= @incurred_incidental.rental.try(:rental_status) %></p>
+        <p>Item Type:       <%= @incurred_incidental.rental.try(:item_type).try(:name)%></p>
+        <p>Start Date:      <%= @incurred_incidental.rental.try(:start_date) %></p>
+        <p>End Date:        <%= @incurred_incidental.rental.try(:end_date) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Incidental Type Information
+      </div>
+      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <p>Name:                 <%= @incurred_incidental.incidental_type.try(:name) %></p>
+        <p>Description:          <%= @incurred_incidental.incidental_type.try(:description)%></p>
+        <p>Base Fee:             <%= @incurred_incidental.incidental_type.try(:base) %></p>
+        <p>Modifier Amount:      <%= @incurred_incidental.incidental_type.try(:modifier_amount) %></p>
+        <p>Modifier Description: <%= @incurred_incidental.incidental_type.try(:modifier_description) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Times Modified</label>
+  <div class="form-control-information col-xs-10"><%= @incurred_incidental.times_modified%></div>
+</div>
+
+<% if !@incurred_incidental.try(:documents).empty? %>
+  <h3><span class="label label-default auto">Documents</span></h3>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>Document Name<tr>
+    </thead>
+    <tbody>
+      <% @incurred_incidental.documents.each do |document| %>
+        <td><%= document.filename %> </td>
+      <% end %>
+    </tbody>
+  </table>
+<%end %>
+
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-10">
+    <%= link_to 'Edit', edit_incurred_incidental_path(@incurred_incidental), class: "btn btn-primary" %>
+    <%= link_to 'Back', incurred_incidentals_path, class: "btn btn-default" %>
+  </div>
+</div>

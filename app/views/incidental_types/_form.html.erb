@@ -1,0 +1,52 @@
+<%= form_for(@incidental_type) do |f| %>
+  <div class="form-group col-xs-12">
+    <%= f.label :name, 'Name', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.text_field :name, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :description, 'Description', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.text_field :description, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :base, 'Base Fee', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.number_field :base, class: 'form-control', min: 0, step: 0.01, required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :modifier_amount, 'Modifier Amount', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.number_field :modifier_amount, class: 'form-control', min: 0, step: 0.01, required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :modifier_description, 'Modifier Description', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.text_field :modifier_description, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+<% if false %>
+  <div class="form-group col-xs-12">
+    <%= f.label :rental_ids, 'Rental', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.select :rental_ids, options_from_collection_for_select(@rentals, 'id', 'name', selected: @incidental_type.rentals.try(:ids)), {}, multiple: true, class: "selectpicker form-control" %>
+    </div>
+  </div>
+<% end %>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit class: "btn btn-primary"%>
+      <%= link_to 'Back', incidental_types_path, class: "btn btn-default" %>
+    </div>
+  </div>
+<% end %>

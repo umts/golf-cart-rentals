@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
 
+  resources :incidental_types
+  resources :incurred_incidentals
+
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
   match '/:anything', to: 'application#render_404', constraints: { anything: /.*/ }, via: [:get, :post]
