@@ -43,7 +43,7 @@ function toggle_loading(){
 function accept_and_enable(box)
 {
     var submit = document.getElementById("TOC");
-    if (box.checked == true)
+    if (box.checked === true)
     {
         submit.disabled = false;
     }
