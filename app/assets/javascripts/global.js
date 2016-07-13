@@ -52,17 +52,3 @@ function accept_and_enable(box)
         submit.disabled = true;
     }
 }
-
-$(document).ready(function() {
-  $('#disclaimer').change(function(){
-    $(':submit').prop("disabled", !this.checked);
-  });
-});
-
-function update_disclaimer(element){
-  $('.disclaimer').hide();
-  $('#disclaimer_'+$(element).val()).show();
-
-  $('#disclaimer').attr('checked', false);
-  $('#disclaimer').trigger('change');
-}
