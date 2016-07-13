@@ -108,4 +108,8 @@ module ApplicationHelper
       return 'Ongoing rental'
     end
   end
+  
+  def basic_info
+    "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
+  end
 end
