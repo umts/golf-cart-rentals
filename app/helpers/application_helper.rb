@@ -109,10 +109,11 @@ module ApplicationHelper
     end
   end
 
-  def basic_info_collection(rentals)
+  def rental_basic_info_collection
+    rentals = Rental.all
     info_array = []
     rentals.each do |rental|
-      info_array << "Rental #{rental.id}: #{rental.item_type.name} (#{rental.start_date.to_date} -> #{rental.end_date.to_date})"
+      info_array << "#{rental.id}: #{rental.item_type.name} (#{rental.start_date.to_date} -> #{rental.end_date.to_date})"
     end
     info_array
   end
