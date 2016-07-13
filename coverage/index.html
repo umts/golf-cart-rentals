@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-13T09:50:53-04:00">2016-07-13T09:50:53-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-13T13:47:34-04:00">2016-07-13T13:47:34-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">96.15%</span></span>
+    (<span class="covered_percent"><span class="green">96.0%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         8.07
+         8.06
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>84</b> files in total.
-    <b>1896</b> relevant lines. 
+    <b>1899</b> relevant lines. 
     <span class="green"><b>1823</b> lines covered</span> and
-    <span class="red"><b>73</b> lines missed </span>
+    <span class="red"><b>76</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -152,12 +152,12 @@
       
       <tr>
         <td class="strong"><a href="#e7ddedee701586f897d64f5e24bc40744689c283" class="src_link" title="app/helpers/application_helper.rb">app/helpers/application_helper.rb</a></td>
-        <td class="red strong">50.0 %</td>
-        <td>115</td>
-        <td>58</td>
+        <td class="red strong">47.54 %</td>
+        <td>119</td>
+        <td>61</td>
         <td>29</td>
-        <td>29</td>
-        <td>1.8</td>
+        <td>32</td>
+        <td>1.7</td>
       </tr>
       
       <tr>
@@ -4929,11 +4929,11 @@
         <div class="source_table" id="e7ddedee701586f897d64f5e24bc40744689c283">
   <div class="header">
     <h3>app/helpers/application_helper.rb</h3>
-    <h4><span class="red">50.0 %</span> covered</h4>
+    <h4><span class="red">47.54 %</span> covered</h4>
     <div>
-      <b>58</b> relevant lines. 
+      <b>61</b> relevant lines. 
       <span class="green"><b>29</b> lines covered</span> and
-      <span class="red"><b>29</b> lines missed.</span>
+      <span class="red"><b>32</b> lines missed.</span>
     </div>
   </div>
   
@@ -5603,28 +5603,52 @@
         <li class="never" data-hits="" data-linenumber="111">
           
           
-          <code class="ruby">  </code>
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="112">
           <span class="hits">1</span>
           
-          <code class="ruby">  def basic_info</code>
+          <code class="ruby">  def basic_info_collection(rentals)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="113">
           
           
-          <code class="ruby">    &quot;#{item_type.name}:(#{start_date.to_date} -&gt; #{end_date.to_date})&quot;</code>
+          <code class="ruby">    info_array = []</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="114">
+        <li class="missed" data-hits="0" data-linenumber="114">
+          
+          
+          <code class="ruby">    rentals.each do |rental|</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="115">
+          
+          
+          <code class="ruby">      info_array &lt;&lt; &quot;Rental #{rental.id}: #{rental.item_type.name} (#{rental.start_date.to_date} -&gt; #{rental.end_date.to_date})&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="116">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="117">
+          
+          
+          <code class="ruby">    info_array</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="118">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="115">
+        <li class="never" data-hits="" data-linenumber="119">
           
           
           <code class="ruby">end</code>
