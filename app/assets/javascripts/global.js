@@ -40,6 +40,19 @@ function toggle_loading(){
 }
 
 //Toggle a forms submit button when a checkbox is checked/unchecked
+function accept_and_enable(box)
+{
+    var submit = document.getElementById("TOC");
+    if (box.checked == true)
+    {
+        submit.disabled = false;
+    }
+    else
+    {
+        submit.disabled = true;
+    }
+}
+
 $(document).ready(function() {
   $('#disclaimer').change(function(){
     $(':submit').prop("disabled", !this.checked);
