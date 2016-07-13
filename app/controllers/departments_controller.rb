@@ -39,11 +39,6 @@ class DepartmentsController < ApplicationController
       @users = User.with_no_department
       render :edit
     end
-  rescue => e
-    # in the case that users are assigned to second department
-    flash[:warning] = e
-    @users = User.with_no_department
-    render :edit
   end
 
   def remove_user

@@ -4,6 +4,7 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
 
@@ -78,11 +79,13 @@ describe RentalsController do
       context 'without accepting the disclaimer' do
         it 'does not save the new Rental in the database' do
           expect do
-            post :create, rental: attributes_for(:rental)
+            rental = build(:rental)
+            post :create, rental: rental.attributes
           end.to_not change(Rental, :count)
         end
         it 're-renders the :new template' do
-          post :create, rental: attributes_for(:rental)
+          rental = build(:rental)
+          post :create, rental: rental.attributes
           expect(response).to render_template :new
         end
       end
@@ -91,11 +94,13 @@ describe RentalsController do
     context 'with invalid attributes' do
       it 'does not save the new Rental in the database' do
         expect do
-          post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
+          rental = build(:invalid_rental)
+          post :create, rental: rental.attributes, disclaimer: '1'
         end.to_not change(Rental, :count)
       end
       it 're-renders the :new template' do
-        post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
+        rental = build(:invalid_rental)
+        post :create, rental: rental.attributes, disclaimer: '1'
         expect(response).to render_template :new
       end
     end

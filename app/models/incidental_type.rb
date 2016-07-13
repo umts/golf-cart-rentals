@@ -1,5 +1,5 @@
 class IncidentalType < ActiveRecord::Base
-  has_many :incurred_incidental
+  has_many :incurred_incidentals, dependent: :destroy
 
   validates :name, :description, :base, :modifier_amount, :modifier_description, presence: true
   validates :name, uniqueness: true
