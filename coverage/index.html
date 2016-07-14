@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-12T14:38:17-04:00">2016-07-12T14:38:17-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-14T13:47:10-04:00">2016-07-14T13:47:10-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -32,8 +32,8 @@
   <a name="AllFiles"></a>
   <div>
     <b>84</b> files in total.
-    <b>1898</b> relevant lines. 
-    <span class="green"><b>1825</b> lines covered</span> and
+    <b>1896</b> relevant lines. 
+    <span class="green"><b>1823</b> lines covered</span> and
     <span class="red"><b>73</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -132,10 +132,10 @@
       
       <tr>
         <td class="strong"><a href="#13d170b6493d55474addb79200b56c15ac943f55" class="src_link" title="app/controllers/rentals_controller.rb">app/controllers/rentals_controller.rb</a></td>
-        <td class="green strong">93.75 %</td>
-        <td>117</td>
-        <td>64</td>
-        <td>60</td>
+        <td class="green strong">93.55 %</td>
+        <td>115</td>
+        <td>62</td>
+        <td>58</td>
         <td>4</td>
         <td>2.0</td>
       </tr>
@@ -3819,10 +3819,10 @@
         <div class="source_table" id="13d170b6493d55474addb79200b56c15ac943f55">
   <div class="header">
     <h3>app/controllers/rentals_controller.rb</h3>
-    <h4><span class="green">93.75 %</span> covered</h4>
+    <h4><span class="green">93.55 %</span> covered</h4>
     <div>
-      <b>64</b> relevant lines. 
-      <span class="green"><b>60</b> lines covered</span> and
+      <b>62</b> relevant lines. 
+      <span class="green"><b>58</b> lines covered</span> and
       <span class="red"><b>4</b> lines missed.</span>
     </div>
   </div>
@@ -4103,277 +4103,277 @@
         <li class="covered" data-hits="1" data-linenumber="46">
           <span class="hits">1</span>
           
-          <code class="ruby">      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_out, rental: @rental, author: :csr)</code>
+          <code class="ruby">      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="47">
           <span class="hits">1</span>
           
-          <code class="ruby">      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)</code>
+          <code class="ruby">      @rental.pickup if params[:commit] == &#39;Check Out&#39;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="48">
           <span class="hits">1</span>
           
-          <code class="ruby">      @rental.pickup if params[:commit] == &#39;Check Out&#39;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="49">
-          <span class="hits">1</span>
-          
           <code class="ruby">      @rental.return if params[:commit] == &#39;Check In&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="50">
+        <li class="never" data-hits="" data-linenumber="49">
           
           
           <code class="ruby">    elsif params[:commit] == &#39;Check In&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="51">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_in, rental: @rental, author: :csr)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="52">
+        <li class="covered" data-hits="1" data-linenumber="50">
           <span class="hits">1</span>
           
           <code class="ruby">      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="53">
+        <li class="covered" data-hits="1" data-linenumber="51">
           <span class="hits">1</span>
           
           <code class="ruby">      @rental.return</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="never" data-hits="" data-linenumber="52">
           
           
           <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="55">
+        <li class="covered" data-hits="1" data-linenumber="53">
           <span class="hits">1</span>
           
           <code class="ruby">      @rental.update rental_params</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="56">
+        <li class="never" data-hits="" data-linenumber="54">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="57">
+        <li class="covered" data-hits="2" data-linenumber="55">
           <span class="hits">2</span>
           
           <code class="ruby">    redirect_to @rental</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="58">
+        <li class="never" data-hits="" data-linenumber="56">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="59">
+        <li class="never" data-hits="" data-linenumber="57">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="60">
+        <li class="covered" data-hits="1" data-linenumber="58">
           <span class="hits">1</span>
           
           <code class="ruby">  def rental_schedule</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="61">
+        <li class="missed" data-hits="0" data-linenumber="59">
           
           
           <code class="ruby">    @rentals = Rental.all</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="62">
+        <li class="never" data-hits="" data-linenumber="60">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="63">
+        <li class="never" data-hits="" data-linenumber="61">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="64">
+        <li class="never" data-hits="" data-linenumber="62">
           
           
           <code class="ruby">  # POST /rentals</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="65">
+        <li class="covered" data-hits="1" data-linenumber="63">
           <span class="hits">1</span>
           
           <code class="ruby">  def create</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="66">
+        <li class="covered" data-hits="5" data-linenumber="64">
           <span class="hits">5</span>
           
           <code class="ruby">    @rental = Rental.new(rental_params)</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="67">
+        <li class="covered" data-hits="5" data-linenumber="65">
           <span class="hits">5</span>
           
           <code class="ruby">    if params[:disclaimer] != &#39;1&#39;</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="68">
+        <li class="covered" data-hits="2" data-linenumber="66">
           <span class="hits">2</span>
           
           <code class="ruby">      flash[:success] = &#39;You must agree to the terms and conditions before creating a rental&#39;</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="69">
+        <li class="covered" data-hits="2" data-linenumber="67">
           <span class="hits">2</span>
           
           <code class="ruby">      render(:new) &amp;&amp; return</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="70">
+        <li class="never" data-hits="" data-linenumber="68">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="71">
+        <li class="covered" data-hits="3" data-linenumber="69">
           <span class="hits">3</span>
           
           <code class="ruby">    if @rental.save</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="72">
+        <li class="covered" data-hits="1" data-linenumber="70">
           <span class="hits">1</span>
           
           <code class="ruby">      flash[:success] = &#39;You have succesfully reserved your Rental!&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="73">
+        <li class="covered" data-hits="1" data-linenumber="71">
           <span class="hits">1</span>
           
           <code class="ruby">      redirect_to(@rental)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="74">
+        <li class="never" data-hits="" data-linenumber="72">
           
           
           <code class="ruby">    else # error has problem, cannot rental a error message here</code>
         </li>
       
-        <li class="covered" data-hits="8" data-linenumber="75">
+        <li class="covered" data-hits="8" data-linenumber="73">
           <span class="hits">8</span>
           
           <code class="ruby">      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="76">
+        <li class="covered" data-hits="2" data-linenumber="74">
           <span class="hits">2</span>
           
           <code class="ruby">      render :new</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="77">
+        <li class="never" data-hits="" data-linenumber="75">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="78">
+        <li class="never" data-hits="" data-linenumber="76">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="79">
+        <li class="never" data-hits="" data-linenumber="77">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="80">
+        <li class="never" data-hits="" data-linenumber="78">
           
           
           <code class="ruby">  # DELETE /rentals/1</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="81">
+        <li class="covered" data-hits="1" data-linenumber="79">
           <span class="hits">1</span>
           
           <code class="ruby">  def destroy</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="82">
+        <li class="covered" data-hits="2" data-linenumber="80">
           <span class="hits">2</span>
           
           <code class="ruby">    if @rental.may_cancel?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="83">
+        <li class="covered" data-hits="1" data-linenumber="81">
           <span class="hits">1</span>
           
           <code class="ruby">      @rental.cancel!</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="84">
+        <li class="covered" data-hits="1" data-linenumber="82">
           <span class="hits">1</span>
           
           <code class="ruby">      flash[:success] = &#39;Rental canceled.&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="85">
+        <li class="never" data-hits="" data-linenumber="83">
           
           
           <code class="ruby">    elsif @rental.canceled?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="86">
+        <li class="missed" data-hits="0" data-linenumber="84">
           
           
           <code class="ruby">      flash[:warning] = &#39;This rental is already canceled&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="87">
+        <li class="never" data-hits="" data-linenumber="85">
           
           
           <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="88">
+        <li class="covered" data-hits="1" data-linenumber="86">
           <span class="hits">1</span>
           
           <code class="ruby">      flash[:warning] = &#39;This rental may not be canceled&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="89">
+        <li class="never" data-hits="" data-linenumber="87">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="90">
+        <li class="covered" data-hits="2" data-linenumber="88">
           <span class="hits">2</span>
           
           <code class="ruby">    redirect_to :back</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="91">
+        <li class="never" data-hits="" data-linenumber="89">
           
           
           <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="90">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="91">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  private</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="92">
@@ -4382,151 +4382,139 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  private</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="94">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="95">
+        <li class="never" data-hits="" data-linenumber="93">
           
           
           <code class="ruby">  # Use callbacks to share common setup or constraints between actions.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="96">
+        <li class="covered" data-hits="1" data-linenumber="94">
           <span class="hits">1</span>
           
           <code class="ruby">  def set_rental</code>
         </li>
       
-        <li class="covered" data-hits="10" data-linenumber="97">
+        <li class="covered" data-hits="10" data-linenumber="95">
           <span class="hits">10</span>
           
           <code class="ruby">    @rental = Rental.find(params[:id])</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="98">
+        <li class="never" data-hits="" data-linenumber="96">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="99">
+        <li class="never" data-hits="" data-linenumber="97">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="100">
+        <li class="covered" data-hits="1" data-linenumber="98">
           <span class="hits">1</span>
           
           <code class="ruby">  def set_item_types</code>
         </li>
       
-        <li class="covered" data-hits="12" data-linenumber="101">
+        <li class="covered" data-hits="12" data-linenumber="99">
           <span class="hits">12</span>
           
           <code class="ruby">    @item_types = ItemType.all</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="102">
+        <li class="never" data-hits="" data-linenumber="100">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="103">
+        <li class="never" data-hits="" data-linenumber="101">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="104">
+        <li class="covered" data-hits="1" data-linenumber="102">
           <span class="hits">1</span>
           
           <code class="ruby">  def set_users</code>
         </li>
       
-        <li class="covered" data-hits="7" data-linenumber="105">
+        <li class="covered" data-hits="7" data-linenumber="103">
           <span class="hits">7</span>
           
           <code class="ruby">    @users = User.all</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="106">
+        <li class="never" data-hits="" data-linenumber="104">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="107">
+        <li class="never" data-hits="" data-linenumber="105">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="108">
+        <li class="covered" data-hits="1" data-linenumber="106">
           <span class="hits">1</span>
           
           <code class="ruby">  def set_incidental_types</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="109">
+        <li class="covered" data-hits="2" data-linenumber="107">
           <span class="hits">2</span>
           
           <code class="ruby">    @incidental_types = IncidentalType.all</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="110">
+        <li class="never" data-hits="" data-linenumber="108">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="111">
+        <li class="never" data-hits="" data-linenumber="109">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="112">
+        <li class="never" data-hits="" data-linenumber="110">
           
           
           <code class="ruby">  # Only allow a trusted parameter &quot;white list&quot; through.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="113">
+        <li class="covered" data-hits="1" data-linenumber="111">
           <span class="hits">1</span>
           
           <code class="ruby">  def rental_params</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="114">
+        <li class="covered" data-hits="6" data-linenumber="112">
           <span class="hits">6</span>
           
           <code class="ruby">    user = User.find(params.require(:rental).permit(:user_id)[:user_id])</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="115">
+        <li class="covered" data-hits="5" data-linenumber="113">
           <span class="hits">5</span>
           
           <code class="ruby">    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="116">
+        <li class="never" data-hits="" data-linenumber="114">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="117">
+        <li class="never" data-hits="" data-linenumber="115">
           
           
           <code class="ruby">end</code>
@@ -15545,13 +15533,13 @@
         <li class="covered" data-hits="1" data-linenumber="150">
           <span class="hits">1</span>
           
-          <code class="ruby">        put :update, id: @rental.id, rental: { csr_signature_image: &#39;something&#39;, customer_signature_image: &#39;a different thing&#39; }, commit: &#39;Check Out&#39;</code>
+          <code class="ruby">        put :update, id: @rental.id, rental: { customer_signature_image: &#39;something&#39; }, commit: &#39;Check Out&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="151">
           
           
-          <code class="ruby">      end.to change(DigitalSignature, :count).by(2)</code>
+          <code class="ruby">      end.to change(DigitalSignature, :count).by(1)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="152">
@@ -15599,13 +15587,13 @@
         <li class="covered" data-hits="1" data-linenumber="159">
           <span class="hits">1</span>
           
-          <code class="ruby">        put :update, id: @rental.id, rental: { csr_signature_image: &#39;something&#39;, customer_signature_image: &#39;a different thing&#39; }, commit: &#39;Check In&#39;</code>
+          <code class="ruby">        put :update, id: @rental.id, rental: { customer_signature_image: &#39;something&#39; }, commit: &#39;Check In&#39;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="160">
           
           
-          <code class="ruby">      end.to change(DigitalSignature, :count).by(2)</code>
+          <code class="ruby">      end.to change(DigitalSignature, :count).by(1)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="161">
