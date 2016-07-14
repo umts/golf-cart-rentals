@@ -83,10 +83,6 @@ class Rental < ActiveRecord::Base
     true
   end
 
-  def basic_info
-    "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
-  end
-
   def times
     start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
