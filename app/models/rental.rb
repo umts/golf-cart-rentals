@@ -83,10 +83,6 @@ class Rental < ActiveRecord::Base
     true
   end
 
-  def basic_info
-    rental_basic_info(self)
-  end
-
   def times
     start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
