@@ -10,7 +10,8 @@
 </ul>
 
 <div id='calendar'></div>
-
+</br>
+<h1>List of Rentals</h1>
 <%= search_form_for @q, class: 'form-inline' do |f| %>
   <%= f.label :item_type_id_eq, 'Item Type' %>
   <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
