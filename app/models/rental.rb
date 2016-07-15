@@ -99,9 +99,9 @@ class Rental < ActiveRecord::Base
   def event_status_color
     case rental_status
     when 'reserved'
-      return '#0092f'
+      return '#0092ff'
     when 'checked_out'
-      return '#f7ff7'
+      return '#f7ff76'
     when 'checked_in'
       return '#09ff00'
     else
