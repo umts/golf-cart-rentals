@@ -22,7 +22,8 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @start_date = params['start_date'] ? params['start_date'].to_date : Time.zone.today
+    @start_date = params['start_date'].try(:to_date) || Time.zone.today
+		@admin_status = @current_user.has_group? Group.where(name: "admin")
   end
 
   # GET /rentals/processing
