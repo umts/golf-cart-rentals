@@ -3,7 +3,7 @@ class CreateRentals < ActiveRecord::Migration
     create_table :rentals do |t|
       t.string :rental_status, null: false
       t.integer :user_id, null: false
-      t.integer :department_id
+      t.integer :department_id, null: false
       t.integer :reservation_id, null: false
       t.references :item_type, null: false
       t.datetime :start_date, null: false
