@@ -57,4 +57,23 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(incidental_trans.amount).to eq(incidental.incidental_type.base+(incidental.times_modified*incidental.incidental_type.modifier_amount))
     end
   end
+
+  describe '#self.get_rental_summation' do
+    before(:each) do
+      @item_type = create :item_type, name: 'TEST_ITEM_TYPE'
+      @rental = create :rental, item_type: @item_type
+      @incidental = create :incurred_incidental, rental: @rental
+    end
+
+    it 'return the sum of financial transactions which have the same rental' do
+      result_from_function = FinancialTransaction.get_rental_summation(@rental.id)
+      sum_ft_by_rental = 0
+
+      FinancialTransaction.where(rental: @rental).each do |ft|
+        sum_ft_by_rental += ft.amount
+      end
+
+      expect(result_from_function).to eq sum_ft_by_rental
+    end
+  end
 end

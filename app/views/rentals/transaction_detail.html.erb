@@ -1,0 +1,53 @@
+<% provide( :page_header, "Rental##{@rental.reservation_id}") %>
+
+<div class="col-xs-12">
+  <div class="col-xs-offset-2 col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Rental Information
+      </div>
+      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <p>Car Type: <%= @rental.item_type.name %></p>
+        <p>Period:   <%= @rental.times%></p>
+        <p>Status:   <%= @rental.rental_status %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Payment Summary</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Create Date</th>
+        <th>Transaction Type</th>
+        <th>Transaction Amount</th>
+        <th>Transaction Adjustment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @financial_transactions.each do |ft|%>
+        <tr>
+          <td><%= ft.created_at %></td>
+          <td><%= ft.transactable_type %></td>
+          <td><%= number_to_currency ft.amount if ft.amount != nil %>
+              <%= number_to_currency 0 if ft.amount == nil %></td>
+          <td><%= number_to_currency ft.adjustment if ft.adjustment != nil %>
+              <%= number_to_currency 0 if ft.adjustment == nil %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="text-right">
+      <h2><label>Total Amount:</label>
+      <%= number_to_currency FinancialTransaction.get_rental_summation(@rental.id) %></h2>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Back', rental_path(@rental), class: "btn btn-default" %>

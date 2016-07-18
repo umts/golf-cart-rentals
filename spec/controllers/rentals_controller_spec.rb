@@ -144,6 +144,18 @@ describe RentalsController do
     end
   end
 
+  describe 'GET #transaction_detail' do
+    it 'assigns a requested retnal to @rental'do
+      get :transaction_detail, id: @rental
+      expect(assigns[:rental]).to eq @rental
+    end
+
+    it 'all requsted financial transactions should contain the same rental as @rental' do
+      get :transaction_detail, id: @rental
+      expect(assigns[:financial_transactions].all?{|ft| ft.rental.id == @rental.id}).to be true
+    end
+  end
+
   describe 'PUT #update' do
     it 'properly checks out a rental' do
       expect do

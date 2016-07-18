@@ -32,7 +32,10 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Amount Due</label>
-  <div class="form-control-information col-xs-10">$</div>
+  <div class="form-control-information col-xs-1"><%= number_to_currency FinancialTransaction.get_rental_summation(@rental.id)%></div>
+  <div class="col-xs-4">
+    <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" Show Payment Summary"), rental_transaction_detail_path(@rental), class: "btn btn-default form-control" %>
+  </div>
 </div>
 
   <h3><span class="label label-default auto">Incidental Type</span></h3>
@@ -44,6 +47,7 @@
         <th>Base Fee</th>
         <th>Modifier Amount</th>
         <th>Modifier Description</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -53,11 +57,12 @@
           <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
           <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
           <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+          <td><%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View Incurred Incidentail"), incurred_incidental, class: "btn btn-xs btn-success"%>
+              <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Edit Incurred Incidental"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-info"%></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
