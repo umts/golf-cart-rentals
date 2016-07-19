@@ -6,6 +6,7 @@ class CreateRentals < ActiveRecord::Migration
       t.integer :department_id, null: false
       t.integer :reservation_id, null: false
       t.references :item_type, null: false
+      t.references :item, null: false
       t.datetime :start_date, null: false
       t.datetime :end_date, null: false
       t.datetime :checked_in_at

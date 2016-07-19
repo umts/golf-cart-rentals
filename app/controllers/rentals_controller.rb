@@ -3,6 +3,7 @@ class RentalsController < ApplicationController
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
   before_action :set_incidental_types, only: [:new]
 
@@ -101,6 +102,10 @@ class RentalsController < ApplicationController
     @item_types = ItemType.all
   end
 
+  def set_items
+    @items = Item.all
+  end
+
   def set_users
     @users = User.all
   end
@@ -112,6 +117,6 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
-    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :item_id, :user_id).merge(department_id: user.department_id)
   end
 end

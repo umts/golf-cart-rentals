@@ -14,6 +14,7 @@ class Rental < ActiveRecord::Base
   belongs_to :user
   belongs_to :department
   belongs_to :item_type
+  belongs_to :item
 
   has_many :digital_signature
 

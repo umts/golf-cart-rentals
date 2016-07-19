@@ -4,6 +4,7 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:item_id] = create(:item, name: "TEST_ITEM")
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
@@ -11,6 +12,8 @@ describe RentalsController do
   let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+
+  let(:item) { create(:item, name: "TEST_ITEM") }
 
   before(:each) { current_user }
 

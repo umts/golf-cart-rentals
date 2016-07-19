@@ -26,6 +26,13 @@ Rails.application.routes.draw do
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
+  resources :items, only: [:index, :show, :edit, :update, :new, :create] do
+    collection do
+      get :new_item
+      post :create_item
+      get :refresh_items
+    end
+  end
 
   resources :incidental_types
   resources :incurred_incidentals

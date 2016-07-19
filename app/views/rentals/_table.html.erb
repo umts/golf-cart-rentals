@@ -4,6 +4,7 @@
     <th>Customer</th>
     <th>Start Date</th>
     <th>End Date</th>
+    <th>Item Type</th>
     <th>Item</th>
     <th>Amount Charged</th>
     <th>Amount Due</th>
@@ -16,6 +17,7 @@
       <td><%= rental.start_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
       <td><%= rental.end_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
       <td><%= rental.item_type.name %></td>
+      <td><%= rental.item.name %></td>
       <td><%= rental.financial_transaction.amount %></td>
       <td><%= rental.financial_transaction.amount %></td>
       <td class="min-width">

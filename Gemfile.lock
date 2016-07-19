@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/umts/aggressive_inventory.git
-  revision: 4131d856acbbc9d9a83961ac300f99251e5ab256
+  revision: 2e922dab4221f2d112370116ba420292aba70135
   specs:
-    aggressive_inventory (0.0.1)
+    aggressive_inventory (0.0.2)
       activesupport
       httparty
 
@@ -276,7 +276,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
-  aggressive_inventory (= 0.0.1)!
+  aggressive_inventory (= 0.0.2)!
   backstretch-rails
   better_errors
   bootstrap-sass (~> 3.3.5)
@@ -315,4 +315,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
