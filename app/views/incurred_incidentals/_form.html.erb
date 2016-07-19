@@ -2,7 +2,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :incidental_type_id, 'Incidental Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'name'), {}, class: "selectpicker form-control" %>
+      <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'name', params[:incidental_type_id]), {}, class: "selectpicker form-control" %>
     </div>
     <div class="col-xs-4">
       <%= link_to 'New Incidental Type', new_incidental_type_path, class: "btn btn-info form-control" %>
@@ -12,7 +12,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :rental_id, 'Rental', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :rental_id, options_from_collection_for_select(@rentals, 'id', 'basic_info'), {}, class: "selectpicker form-control" %>
+      <%= f.select :rental_id, options_from_collection_for_select(@rentals, 'id', 'basic_info', params[:rental_id]), {}, class: "selectpicker form-control" %>
     </div>
     <div class="col-xs-4">
       <%= link_to 'New Rental', rentals_schedule_path, class: "btn btn-info form-control" %>

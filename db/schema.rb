@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20160706142001) do
   create_table "rentals", force: :cascade do |t|
     t.string   "rental_status",  limit: 255, null: false
     t.integer  "user_id",        limit: 4,   null: false
-    t.integer  "department_id",  limit: 4
+    t.integer  "department_id",  limit: 4,   null: false
     t.string   "reservation_id", limit: 255, null: false
     t.integer  "item_type_id",   limit: 4,   null: false
     t.datetime "checked_in_at"
