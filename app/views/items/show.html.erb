@@ -17,7 +17,8 @@
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
-    <%= link_to 'Edit Item Type', edit_item_path(@item), class: "btn btn-primary" %>
+    <%= link_to 'Edit Item', edit_item_path(@item), class: "btn btn-primary" %>
+    <%= link_to 'Delete Item', { :controller => "items", :action => "destroy" }, method: :delete, data: { :confirm => 'Are you sure?' }, class: 'btn btn-danger' %>
     <%= link_to 'Back', items_path, class: "btn btn-default" %>
   </div>
 </div>

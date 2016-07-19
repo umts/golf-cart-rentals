@@ -126,10 +126,12 @@ ActiveRecord::Schema.define(version: 20160715184902) do
     t.string   "name",         limit: 255, null: false
     t.string   "item_type_id", limit: 255, null: false
     t.string   "uuid",         limit: 255, null: false
+    t.datetime "deleted_at"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
 
+  add_index "items", ["deleted_at"], name: "index_items_on_deleted_at", using: :btree
   add_index "items", ["item_type_id"], name: "index_items_on_item_type_id", using: :btree
   add_index "items", ["uuid"], name: "index_items_on_uuid", unique: true, using: :btree
 

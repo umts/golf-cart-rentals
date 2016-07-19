@@ -2,10 +2,10 @@ class ItemsController < ApplicationController
 	before_action :set_item_type, only: [:show, :edit, :update]
 
 	def index
-		@items = Item.all
+		@items = Item.all.where(deleted_at: nil)
 		@item_types = ItemType.all
-    	@q = Item.all.search(params[:q])
-    	@items = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
+		@q = Item.all.where(deleted_at: nil).search(params[:q])
+		@items = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
 	end
 
 	def show
@@ -40,25 +40,30 @@ class ItemsController < ApplicationController
 		end
 	end
 
+	def destroy
+		@item = Item.find(params[:id])
+		@item.destroy
+		flash[:success] = "You have deleted the cart"
+		redirect_to items_path
+	end
+
 	def new_item
-	  #binding.pry
-	  @item_types = ItemType.all
+		@item_types = ItemType.all
 	end
 
 	def create_item
-	  #binding.pry
-	  name = params[:name]
-	  type = params[:type]
-	  itemtype = ItemType.where(name: type)
-	  if name != "" then
-	  	itemtype.each do |itype|
-	  		Inventory.create_item(itype.uuid, name, true, {})
-	  		flash[:success] = "Your cart has been successfully created. "
-	  	end
-	  else
-	  	flash[:danger] = "Enter a name for the cart"
-	  end
-	  refresh_items
+		name = params[:name]
+		type = params[:type]
+		itemtype = ItemType.where(name: type)
+		if name != "" then
+			itemtype.each do |itype|
+				Inventory.create_item(itype.uuid, name, true, {})
+				flash[:success] = "Your cart has been successfully created. "
+			end
+		else
+			flash[:danger] = "Enter a name for the cart"
+		end
+		refresh_items
 	end
 
 	def refresh_items

@@ -61,6 +61,9 @@ gem 'date_validator'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
 
+# permanent records
+gem 'permanent_records', git: 'https://github.com/JackDanger/permanent_records.git'
+
 gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do

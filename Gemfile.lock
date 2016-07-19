@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/JackDanger/permanent_records.git
+  revision: 63565f23964596db71d16ff3f82de477b39bbded
+  specs:
+    permanent_records (4.1.7)
+      activerecord (>= 4.2.0)
+      activesupport (>= 4.2.0)
+
+GIT
   remote: https://github.com/umts/aggressive_inventory.git
   revision: 2e922dab4221f2d112370116ba420292aba70135
   specs:
@@ -292,6 +300,7 @@ DEPENDENCIES
   momentjs-rails (>= 2.8.1)
   mysql2
   paper_trail (~> 4.0.0.rc)
+  permanent_records!
   pry-byebug
   rails (= 4.2.5.1)
   rake
