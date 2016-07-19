@@ -6,8 +6,7 @@
     <th>End Date</th>
     <th>Item Type</th>
     <th>Item</th>
-    <th>Amount Charged</th>
-    <th>Amount Due</th>
+    <th>Rental Amount</th>
     <th class="min-width">Actions</th>
   </tr>
   <% @rentals.sort_by { |r| r.start_time }.each do |rental| %>
@@ -18,7 +17,6 @@
       <td><%= rental.end_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
       <td><%= rental.item_type.name %></td>
       <td><%= rental.item.name %></td>
-      <td><%= rental.financial_transaction.amount %></td>
       <td><%= rental.financial_transaction.amount %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>

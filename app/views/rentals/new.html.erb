@@ -1,3 +1,7 @@
 <% provide( :page_header, 'New Rental' ) %>
 
-<%= (params["item_type"] ? render('form') : content_tag(:h1, "Please schedule a rental through the Rental Scheduler.")) %>
+<% unless @rental_status %>
+  <%= render('form') %>
+<% else %>
+  <%= (params["item_type"] ? render('form') : content_tag(:h1, "Please schedule a rental through the Rental Scheduler.")) %>
+<% end %>

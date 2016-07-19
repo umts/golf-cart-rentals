@@ -60,55 +60,6 @@ describe RentalsController do
     end
   end
 
-  describe 'POST #create' do
-    context 'with valid attributes' do
-      context 'with accepting the disclaimer' do
-        after :each do
-          Rental.last.destroy
-        end
-        it 'saves the new rental in the database' do
-          expect do
-            post :create, rental: rental_create, disclaimer: '1'
-          end.to change(Rental, :count).by(1)
-        end
-        it 'redirects to the rental page' do
-          expect do
-            post :create, rental: rental_create, disclaimer: '1'
-            expect(response).to redirect_to Rental.last
-          end
-        end
-      end
-
-      context 'without accepting the disclaimer' do
-        it 'does not save the new Rental in the database' do
-          expect do
-            rental = build(:rental)
-            post :create, rental: rental.attributes
-          end.to_not change(Rental, :count)
-        end
-        it 're-renders the :new template' do
-          rental = build(:rental)
-          post :create, rental: rental.attributes
-          expect(response).to render_template :new
-        end
-      end
-    end
-
-    context 'with invalid attributes' do
-      it 'does not save the new Rental in the database' do
-        expect do
-          rental = build(:invalid_rental)
-          post :create, rental: rental.attributes, disclaimer: '1'
-        end.to_not change(Rental, :count)
-      end
-      it 're-renders the :new template' do
-        rental = build(:invalid_rental)
-        post :create, rental: rental.attributes, disclaimer: '1'
-        expect(response).to render_template :new
-      end
-    end
-  end
-
   describe 'POST #destroy' do
     before :each do
       request.env['http_referer'] = 'back_page'

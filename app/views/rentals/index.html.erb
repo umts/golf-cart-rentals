@@ -1,8 +1,17 @@
 <% provide( :page_header, 'Rentals' ) %>
 
-<%= link_to 'New Rental', new_rental_path, class: "btn btn-primary" %>
+<%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
 <br><br>
 
+<ul class="legend">
+    <li><span class="reserved"></span>Reserved</li>
+    <li><span class="checkedout"></span>Checked Out</li>
+    <li><span class="checkedin"></span>Checked In</li>
+</ul>
+
+<div id='calendar'></div>
+</br>
+<h1>List of Rentals</h1>
 <%= search_form_for @q, class: 'form-inline' do |f| %>
   <%= f.label :item_type_id_eq, 'Item Type' %>
   <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>

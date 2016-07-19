@@ -2,7 +2,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.where(name: params["item_type"]).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", readonly:true %>
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
     </div>
   </div>
 
@@ -21,16 +21,16 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :start_time, 'Start Time', class: 'control-label col-xs-2' %>
+    <%= f.label :start_time, 'Start Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_time || params["start_date"].to_date, required: true, class: "form-control", readonly: true %>
+      <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :end_time, 'End Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @end_time || params["start_date"].to_date.next_day, required: true, class: "form-control" %>
+      <%= f.date_field :end_time, value: @start_date.next_day, required: true, class: "form-control" %>
     </div>
   </div>
 
@@ -52,12 +52,12 @@
   </div>
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-6">
-      <label><%= check_box_tag 'disclaimer' %> I Agree To The Above Terms And Conditions</label>
+      <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)">I Agree To The Above Terms And Conditions</label>
     </div>
   </div>
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", disabled: "disabled" %>
+      <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
       <%= link_to 'Back', rentals_schedule_path, class: "btn btn-default" %>
     </div>
   </div>
