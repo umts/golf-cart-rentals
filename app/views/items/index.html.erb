@@ -3,15 +3,14 @@
 <%= link_to 'New Cart', new_item_items_path, class: 'btn btn-primary btn-md
 reserve-4' %>
 <%= link_to 'Reload Items', { :controller => "items", :action => "refresh_items" }, class:'btn btn-primary btn-md reserve-4' %>
-<br><br>
+<br>
+<br>
 <%= search_form_for @q, class: 'form-inline' do |f| %>
       <%= f.label :item_type_id_eq, 'Item Type' %>
       <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
      <%= f.submit class: "btn btn-default" %>
     <% end %>
 <br>
-<br>
-
 <table class="table table-striped table-bordered table-hover">
   <tr>
     <th>Item Type</th>
@@ -21,7 +20,7 @@ reserve-4' %>
     <th>Disclaimer</th>
     <th class="min-width">Actions</th>
   </tr>
-  <% @items.each do |item| %>
+  <% @items.sort_by { |i| i.item_type_id }.each do |item| %>
     <tr>
       <td><%= item.item_type_name %></td>
       <td><%= item.name %></td>
