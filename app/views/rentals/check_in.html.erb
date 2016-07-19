@@ -47,22 +47,6 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <div class="col-xs-2 control-label">
-      <%= f.label :csr_signature_image, 'CSR Signature' %>
-    </div>
-    <div class="sigPad sigPad2 col-xs-6">
-      <%= f.hidden_field :csr_signature_image, required: false, class: "form-control output", value: '' %>
-      <input type="hidden", id="output-2", class="form-control output" required>
-      <ul class="sigNav">
-        <li class="clearButton"><a href="#clear">Clear</a></li>
-      </ul>
-      <div class="sig sigWrapper">
-        <canvas class="pad" width="598" height="55"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit 'Check In', class: "btn btn-primary" %>
       <%= link_to 'Back', rentals_path, class: "btn btn-default" %>
@@ -86,7 +70,6 @@
     sig2 = $('.sigPad2').signaturePad(options);
   });
   $("#signature_image").submit(function() {
-    document.getElementById('rental_csr_signature_image').value = sig.getSignatureImage();
     document.getElementById('rental_customer_signature_image').value = sig2.getSignatureImage();
   });
 </script>

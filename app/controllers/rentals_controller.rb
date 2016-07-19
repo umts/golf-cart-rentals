@@ -10,6 +10,9 @@ class RentalsController < ApplicationController
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
+    @users = User.all
+
+    gon.reservations = Rental.to_json_reservations
   end
 
   # GET /rentals/1
@@ -19,6 +22,8 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
+    @start_date = params['start_date'].try(:to_date) || Time.zone.today
+    @admin_status = @current_user.has_group? Group.where(name: 'admin')
   end
 
   # GET /rentals/processing
@@ -43,12 +48,10 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_out, rental: @rental, author: :csr)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
       @rental.pickup if params[:commit] == 'Check Out'
       @rental.return if params[:commit] == 'Check In'
     elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_in, rental: @rental, author: :csr)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
       @rental.return
     else
@@ -64,10 +67,9 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
-    if params[:disclaimer] != '1'
-      flash[:success] = 'You must agree to the terms and conditions before creating a rental'
-      render(:new) && return
-    end
+
+    @start_date = params['start_date'] ? params['start_date'] : Time.zone.today
+
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
@@ -98,7 +100,8 @@ class RentalsController < ApplicationController
   end
 
   def set_item_types
-    @item_types = ItemType.all
+    @item_types ||= ItemType.all.order(name: :asc)
+    @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
   end
 
   def set_users
