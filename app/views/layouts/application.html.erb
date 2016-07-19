@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ProbableEngine</title>
-  <%= stylesheet_link_tag 'application', media: 'all' %>
+	<title>ProbableEngine</title>
+	<%= Gon::Base.render_data({}) %>
+
+	<%= stylesheet_link_tag 'application', media: 'all' %>
   <%= stylesheet_link_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/stylesheets/#{params[:controller]}/#{params[:action]}.css") %>
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{params[:controller]}/#{params[:action]}.js") %>
@@ -15,7 +17,7 @@
 
   <%= render partial: 'layouts/shared/navbar' %>
 
-  <div class="container main-content">
+  <div class="container main-content <%= controller_name %> <%= action_name %> ">
     <% flash.each do |name, msg| %>
       <%= content_tag :div, nil, class: "alert alert-#{name} container-fluid" do %>
         <% glyph = "glyphicon glyphicon-alert flash-icon" if name == 'warning' %>

@@ -17,7 +17,8 @@ table, th, td {
 }
 
 .simple-calendar table td {
-  height: 100px !important;
+  height: 123px !important;
+  width : 163px !important;
 }
 
 /*
