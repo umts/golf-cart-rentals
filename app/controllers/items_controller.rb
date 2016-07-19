@@ -2,7 +2,6 @@ class ItemsController < ApplicationController
 	before_action :set_item_type, only: [:show, :edit, :update]
 
 	def index
-		@items = Item.all.where(deleted_at: nil)
 		@item_types = ItemType.all
 		@q = Item.all.where(deleted_at: nil).search(params[:q])
 		@items = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
@@ -12,6 +11,7 @@ class ItemsController < ApplicationController
 	end
 
 	def edit
+		@item_types = ItemType.all
 	end
 
 	def update

@@ -103,7 +103,7 @@ class RentalsController < ApplicationController
   end
 
   def set_items
-    @items = Item.all
+    @items = Item.all.where(deleted_at: nil)
   end
 
   def set_users
