@@ -84,6 +84,17 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#sum_amount' do
+    before :each do
+      @rental = create(:mock_rental, item_type: @item_type)
+    end
+
+    it 'return the sum of all @rental\'s financial transation amounts' do
+      sum_amount = FinancialTransaction.where(rental: @rental).map(&:amount).inject(:+)
+      expect(@rental.sum_amount).to eq(sum_amount)
+    end
+  end
+
   describe 'rental_status' do
     before :each do
       @rental = create :mock_rental, item_type: @item_type

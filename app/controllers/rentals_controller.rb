@@ -1,7 +1,7 @@
 class RentalsController < ApplicationController
   @per_page = 10
 
-  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
+  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :transaction_detail]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
@@ -14,6 +14,11 @@ class RentalsController < ApplicationController
     @users = User.all
 
     gon.reservations = Rental.to_json_reservations
+  end
+
+  # GET /Rental Financial Transaction Detail
+  def transaction_detail
+    @financial_transactions = FinancialTransaction.where(rental_id: @rental.id)
   end
 
   # GET /rentals/1

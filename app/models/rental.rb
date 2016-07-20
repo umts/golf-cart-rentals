@@ -122,6 +122,10 @@ class Rental < ActiveRecord::Base
     arr
   end
 
+  def sum_amount
+    financial_transactions.sum(:amount)
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 
