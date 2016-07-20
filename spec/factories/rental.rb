@@ -6,12 +6,6 @@ FactoryGirl.define do
     association :item, name: "TEST_ITEM"
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
-
-    factory :rental_with_financial_transaction do
-      after(:create) do |rental|
-        create :financial_transaction, rental: rental
-      end
-    end
   end
 
   factory :invalid_rental, parent: :rental do
