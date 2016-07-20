@@ -24,5 +24,5 @@ class HomeController < ApplicationController
     @no_show_rentals = @no_show_rentals.where('user_id = ?', @current_user.id)
     @q = @q.where('user_id = ?', @current_user.id).search(params[:q])
     @past_rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-  end  
+  end
 end
