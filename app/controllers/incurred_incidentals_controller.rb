@@ -12,8 +12,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def edit
-    params[:rental_id] = @incurred_incidental.rental.id
-    params[:incidental_type_id] = @incurred_incidental.incidental_type.id
   end
 
   def show

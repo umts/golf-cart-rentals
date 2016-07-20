@@ -37,7 +37,7 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Total Amount Due</label>
-  <div class="form-control-information col-xs-1"><%= number_to_currency FinancialTransaction.get_rental_summation(@rental.id)%></div>
+  <div class="form-control-information col-xs-1"><%= number_to_currency @rental.sum_amount%></div>
   <div class="col-xs-4">
     <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" Show Payment Summary"), rental_transaction_detail_path(@rental), class: "btn btn-default form-control" %>
   </div>
