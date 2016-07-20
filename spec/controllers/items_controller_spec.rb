@@ -80,4 +80,16 @@ RSpec.describe ItemsController, type: :controller do
 		end
 	end
 
+	describe 'DELETE #destroy' do
+		it 'locates an item record' do
+			delete :destroy, id: item.id
+			item.reload
+			expect(item.deleted_at).not_to eq(nil)
+		end
+		it 'renders the items index' do
+			delete :destroy, id: item.id
+			expect(response).to redirect_to items_path
+		end
+	end
+
 end

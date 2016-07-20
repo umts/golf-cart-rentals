@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-	before_action :set_item_type, only: [:show, :edit, :update]
+	before_action :set_item, only: [:show, :edit, :update]
 
 	def index
 		@item_types = ItemType.all
@@ -21,22 +21,6 @@ class ItemsController < ApplicationController
 		else
 			@item.errors.full_messages.each { |e| flash_message :warning, e, :now }
 			render :edit
-		end
-	end
-
-	def new
-		@item = Item.new
-		@item_types = ItemType.all
-	end
-
-	def create
-		@item = Item.new(item_params)
-		if @item.save
-			flash[:success] = 'You have succesfully created a new cart!'
-			redirect_to(@item)
-		else
-			@item.errors.full_messages.each { |e| flash_message :warning, e, :now }
-			render :new
 		end
 	end
 
@@ -85,7 +69,7 @@ class ItemsController < ApplicationController
 
 	private
 
-	def set_item_type
+	def set_item
 		@item = Item.find(params[:id])
 	end
 
