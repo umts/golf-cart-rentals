@@ -1,6 +1,6 @@
 <% provide( :page_header, 'New Rental' ) %>
 
-<% unless @current_user.has_group? Group.where(name: "admin") %>
+<% unless @rental_status %>
   <%= render('form') %>
 <% else %>
   <%= (params["item_type"] ? render('form') : content_tag(:h1, "Please schedule a rental through the Rental Scheduler.")) %>

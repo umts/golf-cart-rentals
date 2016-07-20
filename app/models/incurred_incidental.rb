@@ -10,6 +10,7 @@ class IncurredIncidental < ActiveRecord::Base
   after_create :create_financial_transaction
 
   validates :times_modified, presence: true
+  validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' }
   validates_associated :incidental_type
 
   def fee

@@ -4,6 +4,7 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
 
@@ -14,9 +15,8 @@ describe RentalsController do
   before(:each) { current_user }
 
   before(:each) do
-    #binding.pry
-    @rental = create(:rental)
-    @rental2 = create(:rental)
+    @rental = create(:mock_rental)
+    @rental2 = create(:mock_rental)
   end
 
   after(:each) do
@@ -54,51 +54,6 @@ describe RentalsController do
     it 'renders the :new template' do
       get :new
       expect(response).to render_template :new
-    end
-  end
-
-  describe 'POST #create' do
-    context 'with valid attributes' do
-      context 'with accepting the disclaimer' do
-        after :each do
-          Rental.last.destroy
-        end
-        it 'saves the new rental in the database' do
-          expect do
-            post :create, rental: rental_create, disclaimer: '1'
-          end.to change(Rental, :count).by(1)
-        end
-        it 'redirects to the rental page' do
-          expect do
-            post :create, rental: rental_create, disclaimer: '1'
-            expect(response).to redirect_to Rental.last
-          end
-        end
-      end
-
-      context 'without accepting the disclaimer' do
-        it 'does not save the new Rental in the database' do
-          expect do
-            post :create, rental: attributes_for(:rental)
-          end.to_not change(Rental, :count)
-        end
-        it 're-renders the :new template' do
-          post :create, rental: attributes_for(:rental)
-          expect(response).to render_template :new
-        end
-      end
-    end
-
-    context 'with invalid attributes' do
-      it 'does not save the new Rental in the database' do
-        expect do
-          post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
-        end.to_not change(Rental, :count)
-      end
-      it 're-renders the :new template' do
-        post :create, rental: attributes_for(:invalid_rental), disclaimer: '1'
-        expect(response).to render_template :new
-      end
     end
   end
 
@@ -143,8 +98,8 @@ describe RentalsController do
   describe 'PUT #update' do
     it 'properly checks out a rental' do
       expect do
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check Out'
-      end.to change(DigitalSignature, :count).by(2)
+        put :update, id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check Out'
+      end.to change(DigitalSignature, :count).by(1)
       expect(DigitalSignature.last.check_out?).to be true
       expect(@rental.reload.checked_out?).to be true
     end
@@ -152,8 +107,8 @@ describe RentalsController do
     it 'properly checks in a rental' do
       @rental.pickup
       expect do
-        put :update, id: @rental.id, rental: { csr_signature_image: 'something', customer_signature_image: 'a different thing' }, commit: 'Check In'
-      end.to change(DigitalSignature, :count).by(2)
+        put :update, id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check In'
+      end.to change(DigitalSignature, :count).by(1)
       expect(DigitalSignature.last.check_in?).to be true
       expect(@rental.reload.checked_in?).to be true
     end

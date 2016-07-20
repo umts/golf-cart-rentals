@@ -5,6 +5,7 @@ FactoryGirl.define do
     email 'jdoe@test.com'
     phone 1_234_567_890
     sequence(:spire_id)
+    association :department
   end
 
   factory :admin_user, parent: :user do

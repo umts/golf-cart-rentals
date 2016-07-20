@@ -2,6 +2,8 @@ class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
 
+  has_many :incurred_incidentals, dependent: :destroy
+
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
@@ -16,7 +18,7 @@ class Rental < ActiveRecord::Base
   has_many :digital_signature
 
   validates :reservation_id, uniqueness: true
-  validates :user_id, :start_time, :end_time, :item_type_id, presence: true
+  validates :user_id, :start_time, :end_time, :item_type_id, :department_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
 
@@ -59,7 +61,6 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    return true if Rails.env.test? && reservation_id.present?
     return false unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
@@ -82,10 +83,43 @@ class Rental < ActiveRecord::Base
     true
   end
 
+  def basic_info
+    "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
+  end
+
   def times
     start_time.strftime('%a %m/%d/%Y') + ' - ' + end_time.strftime('%a %m/%d/%Y')
   end
   alias dates times
+
+  def event_name
+    "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
+  end
+
+  def event_status_color
+    case rental_status
+    when 'reserved'
+      return '#0092ff'
+    when 'checked_out'
+      return '#f7ff76'
+    when 'checked_in'
+      return '#09ff00'
+    else
+      return '#000000' # black signifies a non event status
+    end
+  end
+
+  def self.to_json_reservations
+    arr = all.each_with_object([]) do |rental, list|
+      list << { title: rental.event_name,
+                start: rental.start_time.to_date,
+                end: rental.end_time.to_date,
+                color: rental.event_status_color,
+                textColor: '#000000',
+                url: Rails.application.routes.url_helpers.rental_path(rental.id) }
+    end
+    arr
+  end
 
   # private
   attr_accessor :skip_reservation_validation

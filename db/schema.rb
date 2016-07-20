@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520164244) do
+ActiveRecord::Schema.define(version: 20160706142001) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -117,7 +117,10 @@ ActiveRecord::Schema.define(version: 20160520164244) do
     t.float    "fee_per_day", limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "uuid",        limit: 255,   null: false
   end
+
+  add_index "item_types", ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
 
   create_table "notes", force: :cascade do |t|
     t.string   "note",          limit: 255
@@ -140,7 +143,7 @@ ActiveRecord::Schema.define(version: 20160520164244) do
   create_table "rentals", force: :cascade do |t|
     t.string   "rental_status",  limit: 255, null: false
     t.integer  "user_id",        limit: 4,   null: false
-    t.integer  "department_id",  limit: 4
+    t.integer  "department_id",  limit: 4,   null: false
     t.string   "reservation_id", limit: 255, null: false
     t.integer  "item_type_id",   limit: 4,   null: false
     t.datetime "checked_in_at"
@@ -183,7 +186,6 @@ ActiveRecord::Schema.define(version: 20160520164244) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals", "incidental_types"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

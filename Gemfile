@@ -13,6 +13,10 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
+# Interaction with jquery and controller without refreshing page
+gem 'gon'
+gem 'fullcalendar-rails'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'backstretch-rails'
@@ -57,6 +61,8 @@ gem 'date_validator'
 # gem 'capistrano-rails', '~> 1.1'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
+
+gem 'aggressive_inventory', '0.0.1', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'

@@ -3,12 +3,16 @@ class RentalsController < ApplicationController
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_users, only: [:index, :new, :processing, :transform]
+  before_action :set_incidental_types, only: [:new]
 
   # GET /rentals
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     @users = User.all
+
+    gon.reservations = Rental.to_json_reservations
   end
 
   # GET /rentals/1
@@ -18,7 +22,8 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   def new
     @rental = Rental.new
-    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
+    @start_date = params['start_date'].try(:to_date) || Time.zone.today
+    @admin_status = @current_user.has_group? Group.where(name: 'admin')
   end
 
   # GET /rentals/processing
@@ -26,7 +31,6 @@ class RentalsController < ApplicationController
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
                                                Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
   end
 
   # GET /rentals/1/transform
@@ -44,12 +48,10 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_out, rental: @rental, author: :csr)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
       @rental.pickup if params[:commit] == 'Check Out'
       @rental.return if params[:commit] == 'Check In'
     elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: params[:rental][:csr_signature_image], intent: :check_in, rental: @rental, author: :csr)
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
       @rental.return
     else
@@ -65,11 +67,9 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
-    @start_date = params["start_date"] ? params["start_date"].to_date : Date.today
-    if params[:disclaimer] != '1'
-      flash[:success] = 'You must agree to the terms and conditions before creating a rental'
-      render(:new) && return
-    end
+
+    @start_date = params['start_date'] ? params['start_date'] : Time.zone.today
+
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
@@ -101,11 +101,20 @@ class RentalsController < ApplicationController
 
   def set_item_types
     @item_types ||= ItemType.all.order(name: :asc)
-    @item_types = @item_types.where(name: params["item_type"]).order(name: :asc) if params["item_type"]
+    @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
+  end
+
+  def set_users
+    @users = User.all
+  end
+
+  def set_incidental_types
+    @incidental_types = IncidentalType.all
   end
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    params.require(:rental).permit(:start_time, :end_time, :item_type_id).merge(user_id: @current_user.id, department_id: @current_user.department_id)
+    user = User.find(params.require(:rental).permit(:user_id)[:user_id])
+    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
   end
 end
