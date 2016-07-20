@@ -60,10 +60,6 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
-  def rental_schedule
-    @rentals = Rental.all
-  end
-
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
