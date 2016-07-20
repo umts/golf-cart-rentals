@@ -23,9 +23,5 @@ describe HomeController do
 
       expect(assigns[:item_types]).to eq([item_type, item_type2])
     end
-    it 'renders the :index view' do
-      get :index
-      expect(response).to render_template :index
-    end
   end
 end
