@@ -3,36 +3,14 @@
 
 <div class="panel panel-primary">
   <div class="panel-body">
-    <h4 class="text-info header-no-margin">Upcoming Rentals</h4>
+    <h4 class="text-info header-no-margin">
+    	<%= "Upcoming Rentals" if rental_type == @upcoming_rentals %>
+		<%= "Ongoing Rentals" if rental_type == @ongoing_rentals %>
+		<%= "No-Show Rentals" if rental_type == @no_show_rentals %>
+    </h4>
   </div>
 
-  <%= render partial: 'rentals/table', locals: { rentals: @upcoming_rentals } %>
+  <%= render partial: 'rentals/table', locals: { rentals: rental_type } %>
 
   <div class="panel-footer"></div>
-</div>
-
-
-<div class="panel panel-primary">
-  <div class="panel-body">
-
-    <h4 class="text-info header-no-margin">Past Rentals</h4>
-
-    <br>
-    
-    <%= search_form_for @q, url: home_index_path, html: { method: :get }, class: 'form-inline' do |f| %>
-      <%= f.label :start_time_gteq, 'Between' %>
-      <%= f.date_field :start_time_gteq, class: "form-control" %>
-
-      <%= f.label :end_time_lteq, 'And' %>
-      <%= f.date_field :end_time_lteq, class: "form-control" %>
-
-      <%= f.submit class: "btn btn-default" %>
-    <% end %>
-
-  </div>
-  <%= render partial: 'rentals/table', locals: { rentals: @past_rentals } %>
-
-  <div class="panel-footer">
-    <%= will_paginate @past_rentals, renderer: BootstrapPagination::Rails %>
-  </div>
 </div>
