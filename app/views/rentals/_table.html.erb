@@ -8,7 +8,7 @@
     <th>Rental Amount</th>
     <th class="min-width">Actions</th>
   </tr>
-  <% @rentals.sort_by { |r| r.start_time }.each do |rental| %>
+  <% rentals.sort_by { |r| r.start_time }.each do |rental| %>
     <tr data-toggle='tooltip' data-placement='left' title="<%= rental_status_english(rental_status_css_class(rental)) %>" class=<%= rental_status_css_class(rental) %>>
       <td><%= rental.rental_status %></td>
       <td><%= rental.user.full_name %></td>
