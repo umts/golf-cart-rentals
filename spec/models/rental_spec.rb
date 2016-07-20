@@ -137,4 +137,21 @@ RSpec.describe Rental do
       expect(@rental).to be_available
     end
   end
+
+  describe '#create_financial_transaction' do
+    it '.create_financial_transaction callback is triggered on create' do
+      rental = build(:rental)
+      # Critical section.
+       Mutex.new.synchronize{
+         expect(rental).to receive(:create_financial_transaction)
+         rental.save
+       }
+    end
+    it 'creates a finacial transaction based on the item_type' do
+      rental = build(:rental)
+      expect(rental.financial_transaction).to be(nil)
+      rental.save
+      expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+    end
+  end
 end
