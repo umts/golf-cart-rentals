@@ -113,7 +113,7 @@ class Rental < ActiveRecord::Base
     arr = all.each_with_object([]) do |rental, list|
       list << { title: rental.event_name,
                 start: rental.start_time.to_date,
-                end: rental.end_time.to_date,
+                end: rental.end_time.to_date + 1.day,
                 color: rental.event_status_color,
                 textColor: '#000000',
                 url: Rails.application.routes.url_helpers.rental_path(rental.id) }
