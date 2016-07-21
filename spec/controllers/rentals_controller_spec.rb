@@ -60,6 +60,13 @@ describe RentalsController do
     end
   end
 
+  describe 'GET #processing' do
+    it 'populates an array of rentals' do
+      get :processing
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
+    end
+  end
+
   describe 'POST #destroy' do
     before :each do
       request.env['http_referer'] = 'back_page'
@@ -130,6 +137,13 @@ describe RentalsController do
 
     it 'change a rental' do
       put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
+    end
+  end
+
+  describe 'GET #rental_schedule' do
+    it 'populates an array of rentals' do
+      get :rental_schedule
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
   end
 end

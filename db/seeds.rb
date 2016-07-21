@@ -50,20 +50,21 @@ if Rails.env.development?
   # Could have done in the above loop, but that was getting a bit messy
   puts 'Creating Items in the API, by Item Type'
   items = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'items.yml'))
-  itemsint = 0
-  ItemType.all.each do |item_type|
-    if Inventory.items_by_type(item_type.uuid).empty?
-      (1..10).each do |i|
-        Inventory.create_item(item_type.uuid, items[itemsint]["name"], true, {})
-        itemsint += 1
-      end
+  item_types = ItemType.all
+  if Inventory.items_by_type(item_types.first.uuid).empty?
+    items[0..10].each do |item|
+      Inventory.create_item(item_type.first.uuid, item["name"], true, {})
+    end
+  end
+  if Inventory.items_by_type(item_types.last.uuid).empty?
+    items[11..20].each do |item|
+      Inventory.create_item(item_type.last.uuid, item["name"], true, {})
     end
   end
 
   puts 'Pulling Items from Api and Storing Locally'
   ItemType.all.each do |item_type|
-    items = Inventory.items_by_type(item_type.uuid)
-    items.each do |item|
+    Inventory.items_by_type(item_type.uuid).each do |item|
       Item.create(name: item["name"], item_type_id: item_type.id, uuid: item["uuid"])
     end
   end

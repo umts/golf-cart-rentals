@@ -111,7 +111,7 @@ class RentalsController < ApplicationController
   end
 
   def set_items
-    @items = Item.all.where(deleted_at: nil)
+    @items = Item.all
   end
 
   def set_users

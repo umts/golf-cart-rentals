@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   def index
     @item_types = ItemType.all
-    @q = Item.all.where(deleted_at: nil).search(params[:q])
+    @q = Item.all.search(params[:q])
     @items = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
   end
 
@@ -41,8 +41,11 @@ class ItemsController < ApplicationController
     itemtype = ItemType.where(name: type)
     if name != ''
       itemtype.each do |itype|
-        Inventory.create_item(itype.uuid, name, true, {})
-        flash[:success] = 'Your cart has been successfully created. '
+        if Inventory.create_item(itype.uuid, name, true, {})
+          flash[:success] = 'Your cart has been successfully created. '
+        else 
+          flash[:danger] = 'Failed to created cart in API'
+        end
       end
     else
       flash[:danger] = 'Enter a name for the cart'
@@ -51,13 +54,11 @@ class ItemsController < ApplicationController
   end
 
   def refresh_items
-    type_id = 1
     ItemType.all.each do |item_type|
       items = Inventory.items_by_type(item_type.uuid)
       items.each do |item|
-        Item.where(name: item['name']).first_or_create(item_type_id: type_id, uuid: item['uuid'])
+        Item.where(name: item['name']).first_or_create(item_type_id: item_type.id, uuid: item['uuid'])
       end
-      type_id += 1
     end
     if flash[:success].nil?
       flash[:success] = 'Items have been updated.'

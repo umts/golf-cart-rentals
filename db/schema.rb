@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715184902) do
+ActiveRecord::Schema.define(version: 20160721153126) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -159,13 +159,13 @@ ActiveRecord::Schema.define(version: 20160715184902) do
     t.integer  "department_id",  limit: 4,   null: false
     t.string   "reservation_id", limit: 255, null: false
     t.integer  "item_type_id",   limit: 4,   null: false
-    t.integer  "item_id",        limit: 4,   null: false
     t.datetime "checked_in_at"
     t.datetime "checked_out_at"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer  "item_id",        limit: 4,   null: false
   end
 
   add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
