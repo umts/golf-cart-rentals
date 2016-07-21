@@ -4,7 +4,7 @@ class Item < ActiveRecord::Base
   default_scope { where(deleted_at: nil) }
 
   def self.deleted
-    self.unscoped.where('deleted_at IS NOT NULL')
+    unscoped.where('deleted_at IS NOT NULL')
   end
 
   delegate :name, :base_fee, :fee_per_day, :disclaimer, to: :item_type, prefix: true

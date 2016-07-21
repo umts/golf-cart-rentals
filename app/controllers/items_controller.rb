@@ -43,7 +43,7 @@ class ItemsController < ApplicationController
       itemtype.each do |itype|
         if Inventory.create_item(itype.uuid, name, true, {})
           flash[:success] = 'Your cart has been successfully created. '
-        else 
+        else
           flash[:danger] = 'Failed to created cart in API'
         end
       end
