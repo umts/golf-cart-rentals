@@ -30,7 +30,7 @@ RSpec.describe Rental do
       expect(build(:rental, start_time: Time.zone.tomorrow, end_time: Time.zone.today)).not_to be_valid
     end
     it 'is invalid without a department_id' do
-      expect(build(:rental, department_id:nil)).not_to be_valid
+      expect(build(:rental, department_id: nil)).not_to be_valid
     end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
@@ -142,16 +142,16 @@ RSpec.describe Rental do
     it '.create_financial_transaction callback is triggered on create' do
       rental = build(:rental)
       # Critical section.
-       Mutex.new.synchronize{
-         expect(rental).to receive(:create_financial_transaction)
-         rental.save
-       }
+      Mutex.new.synchronize{
+       expect(rental).to receive(:create_financial_transaction)
+       rental.save
+     }
     end
-    it 'creates a finacial transaction based on the item_type' do
-      rental = build(:rental)
-      expect(rental.financial_transaction).to be(nil)
-      rental.save
-      expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
-    end
+   it 'creates a finacial transaction based on the item_type' do
+    rental = build(:rental)
+    expect(rental.financial_transaction).to be(nil)
+    rental.save
+    expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
   end
+end
 end

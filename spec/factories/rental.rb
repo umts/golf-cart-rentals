@@ -3,6 +3,7 @@ FactoryGirl.define do
     association :user
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
+    association :item, name: "TEST_ITEM"
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
   end
@@ -11,6 +12,7 @@ FactoryGirl.define do
     user_id { create(:user).id }
     department_id { create(:department).id }
     item_type_id { create(:item_type).id }
+    item_id { create(:item).id }
     start_time nil
     end_time (Time.current + 1.day).to_s
   end
@@ -19,6 +21,7 @@ FactoryGirl.define do
     user_id nil
     department_id nil
     item_type_id { create(:item_type).id }
+    item_id { create(:item).id }
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
   end
@@ -27,6 +30,7 @@ FactoryGirl.define do
     association :user
     department_id 0
     association :item_type
+    association :item
     sequence :reservation_id
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
@@ -36,6 +40,7 @@ FactoryGirl.define do
     user_id { create(:user).id }
     department_id { create(:department).id }
     item_type_id { create(:item_type).id }
+    item_id { create(:item).id }
     start_time Time.current.to_s
     end_time (Time.current + 1.day).to_s
   end

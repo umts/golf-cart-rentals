@@ -4,6 +4,7 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:item_id] = create(:item, name: "TEST_ITEM")
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
@@ -11,6 +12,8 @@ describe RentalsController do
   let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+
+  let(:item) { create(:item, name: "TEST_ITEM") }
 
   before(:each) { current_user }
 
@@ -80,6 +83,13 @@ describe RentalsController do
         post :create, rental: attributes_for(:invalid_rental)
         expect(response).to render_template :new
       end
+    end
+  end
+
+  describe 'GET #processing' do
+    it 'populates an array of rentals' do
+      get :processing
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
   end
 
@@ -153,6 +163,13 @@ describe RentalsController do
 
     it 'change a rental' do
       put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
+    end
+  end
+
+  describe 'GET #rental_schedule' do
+    it 'populates an array of rentals' do
+      get :rental_schedule
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
   end
 end

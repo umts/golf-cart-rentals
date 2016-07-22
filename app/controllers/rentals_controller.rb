@@ -3,6 +3,7 @@ class RentalsController < ApplicationController
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :transaction_detail]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
   before_action :set_incidental_types, only: [:new]
 
@@ -109,6 +110,10 @@ class RentalsController < ApplicationController
     @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
   end
 
+  def set_items
+    @items = Item.all
+  end
+
   def set_users
     @users = User.all
   end
@@ -121,6 +126,6 @@ class RentalsController < ApplicationController
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :item_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
   end
 end
