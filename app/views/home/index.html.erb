@@ -5,7 +5,7 @@
 <% if @rentals %>
   <ul class="nav nav-tabs">
   	<li class="active"><a data-toggle="tab" href="#all">All Rentals</a></li>
-  	<li><a data-toggle="tab" href="#upcoming">Upcoming Rentals</a></li>
+  	<li><a data-toggle="tab" href="#future">Future Rentals</a></li>
     <li><a data-toggle="tab" href="#ongoing">Ongoing Rentals</a></li>
     <li><a data-toggle="tab" href="#noshow">No-Show Rentals</a></li>
     <li><a data-toggle="tab" href="#past">Past Rentals</a></li>
@@ -18,8 +18,8 @@
       <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } if @no_show_rentals.present? %>
       <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals } %>
     </div>
-	<div id="upcoming" class="tab-pane fade">
-      <%= render partial: 'rentals', locals: { rental_type: @upcoming_rentals } %>	
+	<div id="future" class="tab-pane fade">
+      <%= render partial: 'rentals', locals: { rental_type: @future_rentals } %>	
 	</div>
 	<div id="ongoing" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } %>
