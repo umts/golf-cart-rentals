@@ -52,13 +52,13 @@ if Rails.env.development?
   items = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'items.yml'))
   item_types = ItemType.all
   if Inventory.items_by_type(item_types.first.uuid).empty?
-    items[0..10].each do |item|
-      Inventory.create_item(item_type.first.uuid, item["name"], true, {})
+    items[0..9].each do |item|
+      Inventory.create_item(item_types.first.uuid, item["name"], true, {})
     end
   end
   if Inventory.items_by_type(item_types.last.uuid).empty?
-    items[11..20].each do |item|
-      Inventory.create_item(item_type.last.uuid, item["name"], true, {})
+    items[10..19].each do |item|
+      Inventory.create_item(item_types.last.uuid, item["name"], true, {})
     end
   end
 
