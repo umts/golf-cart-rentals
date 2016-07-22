@@ -6,6 +6,16 @@
 </div>
 
 <div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Start Date/Time</label>
+  <div class="form-control-information col-xs-10"><%= @rental.start_date.strftime("%a %D %I:%M %p") %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">End Date/Time</label>
+  <div class="form-control-information col-xs-10"><%= @rental.end_date.strftime("%a %D %I:%M %p") %></div>
+</div>
+
+<div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Item Type</label>
   <div class="form-control-information col-xs-10"><%= @rental.item_type.name %></div>
 </div>

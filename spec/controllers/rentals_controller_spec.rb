@@ -57,6 +57,32 @@ describe RentalsController do
     end
   end
 
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'saves the new rental in the database' do
+        expect do
+          post :create, rental: attributes_for(:create_rental)
+        end.to change(Rental, :count).by(1)
+      end
+      it 'redirects to the rental show page' do
+        post :create, rental: attributes_for(:create_rental)
+        expect(response).to redirect_to Rental.last
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the new rental in the database' do
+        expect do
+          post :create, rental: attributes_for(:invalid_rental)
+        end.to_not change(Rental, :count)
+      end
+      it 're-renders the :new template' do
+        post :create, rental: attributes_for(:invalid_rental)
+        expect(response).to render_template :new
+      end
+    end
+  end
+
   describe 'POST #destroy' do
     before :each do
       request.env['http_referer'] = 'back_page'

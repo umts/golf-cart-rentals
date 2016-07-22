@@ -35,7 +35,7 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(transaction).to eq(polymorphism_trans)
       expect(rent).to eq(polymorphism_trans.rental)
 
-      expect(transaction.amount).to eq((((rent.end_time.to_date - rent.start_time.to_date).to_i-1)*rent.item_type.fee_per_day)+rent.item_type.base_fee)
+      expect(transaction.amount).to eq(((rent.end_time.to_date - rent.start_time.to_date).to_i*rent.item_type.fee_per_day)+rent.item_type.base_fee)
     end
   end
 
