@@ -25,7 +25,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     # Loganote: using .and_return({uuid:...} is not lazily evaluated
-    allow(Inventory).to receive(:create_reservation) {{uuid: SecureRandom.uuid}}
+    allow(Inventory).to receive(:create_reservation) { { uuid: SecureRandom.uuid } }
   end
 end
 

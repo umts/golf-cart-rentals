@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706142001) do
+ActiveRecord::Schema.define(version: 20160721153126) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -122,6 +122,19 @@ ActiveRecord::Schema.define(version: 20160706142001) do
 
   add_index "item_types", ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
 
+  create_table "items", force: :cascade do |t|
+    t.string   "name",         limit: 255, null: false
+    t.string   "item_type_id", limit: 255, null: false
+    t.string   "uuid",         limit: 255, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "items", ["deleted_at"], name: "index_items_on_deleted_at", using: :btree
+  add_index "items", ["item_type_id"], name: "index_items_on_item_type_id", using: :btree
+  add_index "items", ["uuid"], name: "index_items_on_uuid", unique: true, using: :btree
+
   create_table "notes", force: :cascade do |t|
     t.string   "note",          limit: 255
     t.integer  "noteable_id",   limit: 4
@@ -152,6 +165,7 @@ ActiveRecord::Schema.define(version: 20160706142001) do
     t.datetime "updated_at",                 null: false
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer  "item_id",        limit: 4,   null: false
   end
 
   add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree

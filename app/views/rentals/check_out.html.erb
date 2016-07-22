@@ -3,6 +3,7 @@
 <table class="table table-bordered table-hover">
   <tr class="info">
     <th>Car Type</th>
+    <th>Car Name</th>
     <th>Amount</th>
     <th>Responsible Person</th>
     <th>Spire ID</th>
@@ -12,6 +13,7 @@
   </tr>
   <tr>
     <td><%= rental.item_type.name%></td>
+    <td><%= rental.item.name%></td>
     <td>$00</td>
     <td><%= rental.user.full_name %></td>
     <td><%= rental.user.spire_id %></td>
