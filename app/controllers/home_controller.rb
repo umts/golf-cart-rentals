@@ -18,7 +18,7 @@ class HomeController < ApplicationController
     @past_rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
   end
 
-  #Not necessary now, but could be useful when non-admins use the site
+  # Not necessary now, but could be useful when non-admins use the site
   def non_admin_filter
     @upcoming_rentals = @upcoming_rentals.users_rentals(@current_user.id)
     @ongoing_rentals = @ongoing_rentals.users_rentals(@current_user.id)
