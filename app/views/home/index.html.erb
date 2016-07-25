@@ -1,6 +1,9 @@
 <% provide( :page_header, "Welcome to UMass Parking Services Rental Purchasing Program AKA RPP" ) %>
 
-<h4><%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %></h4>
+<h4>
+  <%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
+  <%= link_to 'Rental Calendar View', rentals_path, class: "btn btn-primary" %>
+</h4>
 
 <% if @rentals %>
   <ul class="nav nav-tabs">
