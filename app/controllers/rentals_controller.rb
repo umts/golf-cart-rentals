@@ -41,7 +41,9 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/transform
   def transform
-    if @rental.rental_status == 'reserved'
+    if @rental.rental_status == 'reserved' && @rental.end_date < DateTime.current
+      render :no_show_form, locals: { rental: @rental }
+    elsif @rental.rental_status == 'reserved'
       render :check_out, locals: { rental: @rental }
     elsif @rental.rental_status == 'checked_out'
       render :check_in, locals: { rental: @rental }
@@ -57,9 +59,12 @@ class RentalsController < ApplicationController
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
       @rental.pickup if params[:commit] == 'Check Out'
       @rental.return if params[:commit] == 'Check In'
+      @rental.process_no_show if params[:commit] == 'Process No Show'
     elsif params[:commit] == 'Check In'
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
       @rental.return
+    elsif params[:commit] == 'Process No Show'
+      @rental.process_no_show
     else
       @rental.update rental_params
     end

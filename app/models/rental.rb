@@ -59,6 +59,10 @@ class Rental < ActiveRecord::Base
     event :process do
       transitions from: [:inspected, :canceled], to: :available
     end
+
+    event :process_no_show do
+      transitions from: :reserved, to: :canceled
+    end
   end
 
   def create_reservation

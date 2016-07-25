@@ -1,0 +1,41 @@
+<% provide( :page_header, 'Process No Show' ) %>
+
+<table class="table table-bordered table-hover">
+  <tr class="info">
+    <th>Car Type</th>
+    <th>Car Name</th>
+    <th>Amount</th>
+    <th>Responsible Person</th>
+    <th>Spire ID</th>
+    <th>Department</th>
+    <th>Rental Start Date</th>
+    <th>Rental End Date</th>
+  </tr>
+  <tr>
+    <td><%= rental.item_type.name%></td>
+    <td><%= rental.item.name%></td>
+    <td>$00</td>
+    <td><%= rental.user.full_name %></td>
+    <td><%= rental.user.spire_id %></td>
+    <td><%= rental.department.name %></td>
+    <td><%= rental.start_time.to_date %></td>
+    <td><%= rental.end_time.to_date %></td>
+  </tr>
+</table>
+
+<%= form_for rental, html: { id: 'signature_image' } do |f| %>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label" for="contacted-customer">Customer informed of no-show status and subsequent fee?</label>
+    <div class="col-xs-6">
+      <input type="checkbox" name="contacted-customer?" data-on-text='Yes' data-off-text='No' required>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= f.submit 'Process No Show', class: "btn btn-primary" %>
+      <%= link_to 'Back', rentals_path, class: "btn btn-default" %>
+    </div>
+  </div>
+<% end %>
