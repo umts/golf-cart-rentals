@@ -152,6 +152,53 @@ RSpec.describe Rental do
     expect(rental.financial_transaction).to be(nil)
     rental.save
     expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+   end
   end
-end
+
+  describe '#event_status_color' do
+    before :each do
+      @rental = create(:mock_rental, item_type: @item_type)
+    end
+    it 'returns #0092ff when reserved' do
+      expect(@rental.event_status_color).to eq('#0092ff')
+    end
+    it 'returns #f7ff76 when checked_out' do
+      @rental.pickup!
+      expect(@rental.event_status_color).to eq('#f7ff76')
+    end
+    it 'returns #09ff00 when checked_in' do
+      @rental.pickup!
+      @rental.return!
+      expect(@rental.event_status_color).to eq('#09ff00')
+    end
+    it 'returns #000000 when cancelled' do
+      @rental.cancel!
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+    it 'returns #000000 when approved' do
+      @rental.pickup!
+      @rental.return!
+      @rental.approve!
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+    it 'returns #000000 when processed' do
+      @rental.cancel!
+      @rental.process!
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+  end
+
+  describe '#basic_info' do
+    it 'returns basic info of new rental' do
+      @rental = create(:mock_rental, item_type: @item_type)
+      expect(@rental.basic_info).to eq("#{@item_type.name}:(#{@rental.start_time.to_date} -> #{@rental.end_time.to_date})")
+    end
+  end
+
+  describe '#event_name' do
+    it 'returns event name of new rental' do
+      @rental = create(:mock_rental, item_type: @item_type)
+      expect(@rental.event_name).to eq("#{@item_type.name}(#{@item_type.id}) - Rental ID: #{@rental.id}")
+    end
+  end
 end

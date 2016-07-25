@@ -80,6 +80,53 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
+  describe 'POST #create_item' do
+    context 'with valid attributes' do
+      it 'creates an item with valid params' do
+        expect(item).to be_valid
+        expect(Item.find(item.id)).to eq(item)
+      end
+
+      it 'creates an item in the database and populates flash message' do
+      expect do
+        allow(Inventory).to receive(:create_item).and_return(true)
+        allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
+        post :create_item, name: item.name, type: item_type.name
+        expect(flash[:success]).to be_present
+        expect(flash[:success]).to eq('Your cart has been successfully created. Items have been updated.')
+      end.to change { Item.count }.by(1)
+      end
+    end
+
+    context 'with no name' do
+      it 'populates a danger flash message' do
+        post :create_item, name: '', type: item_type.name
+        expect(flash[:danger]).to be_present
+        expect(flash[:danger]).to eq('Enter a name for the cart')
+      end
+    end
+
+    context 'api fails' do
+      it 'populates a danger flash message' do
+        allow(Inventory).to receive(:create_item).and_return(false)
+        post :create_item, name: item.name, type: item_type.name
+        expect(flash[:danger]).to be_present
+        expect(flash[:danger]).to eq('Failed to create cart in API')
+      end
+    end
+  end
+
+  describe 'GET #refresh_items' do
+    context 'called independent of #create_item' do
+      it 'populates a flash success message' do
+        allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
+        get :refresh_items
+        expect(flash[:success]).to be_present
+        expect(flash[:success]).to eq('Items have been updated.')
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     it 'locates an item record' do
       delete :destroy, id: item.id
