@@ -14,6 +14,7 @@ class Rental < ActiveRecord::Base
   belongs_to :user
   belongs_to :department
   belongs_to :item_type
+  belongs_to :item
 
   has_many :digital_signature
 
@@ -124,6 +125,10 @@ class Rental < ActiveRecord::Base
                 url: Rails.application.routes.url_helpers.rental_path(rental.id) }
     end
     arr
+  end
+
+  def sum_amount
+    financial_transactions.sum(:amount)
   end
 
   # private

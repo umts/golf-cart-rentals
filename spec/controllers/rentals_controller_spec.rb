@@ -4,6 +4,7 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:item_id] = create(:item, name: "TEST_ITEM")
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
@@ -11,6 +12,8 @@ describe RentalsController do
   let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+
+  let(:item) { create(:item, name: "TEST_ITEM") }
 
   before(:each) { current_user }
 
@@ -57,6 +60,13 @@ describe RentalsController do
     end
   end
 
+  describe 'GET #processing' do
+    it 'populates an array of rentals' do
+      get :processing
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
+    end
+  end
+
   describe 'POST #destroy' do
     before :each do
       request.env['http_referer'] = 'back_page'
@@ -95,6 +105,18 @@ describe RentalsController do
     end
   end
 
+  describe 'GET #transaction_detail' do
+    it 'assigns a requested retnal to @rental'do
+      get :transaction_detail, id: @rental
+      expect(assigns[:rental]).to eq @rental
+    end
+
+    it 'all requsted financial transactions should contain the same rental as @rental' do
+      get :transaction_detail, id: @rental
+      expect(assigns[:financial_transactions].all?{|ft| ft.rental.id == @rental.id}).to be true
+    end
+  end
+
   describe 'PUT #update' do
     it 'properly checks out a rental' do
       expect do
@@ -115,6 +137,13 @@ describe RentalsController do
 
     it 'change a rental' do
       put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
+    end
+  end
+
+  describe 'GET #rental_schedule' do
+    it 'populates an array of rentals' do
+      get :rental_schedule
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
   end
 end

@@ -34,6 +34,22 @@
 </div>
 
 <div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Financial Transaction Information
+      </div>
+      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.try(:rental).try(:basic_info) %></p>
+        <p>Amount:               <%= @incurred_incidental.financial_transaction.try(:amount)%></p>
+        <p>Adjustment:           <%= @incurred_incidental.financial_transaction.try(:adjustment) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Times Modified</label>
   <div class="form-control-information col-xs-10"><%= @incurred_incidental.times_modified%></div>
 </div>
@@ -55,6 +71,8 @@
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
     <%= link_to 'Edit', edit_incurred_incidental_path(@incurred_incidental), class: "btn btn-primary" %>
+    <%= link_to 'View Rental', rental_path(@incurred_incidental.rental), class: "btn btn-success" %>
+    <%= link_to 'View Incidental Type', incidental_type_path(@incurred_incidental.incidental_type), class: "btn btn-success" %>
     <%= link_to 'Back', incurred_incidentals_path, class: "btn btn-default" %>
   </div>
 </div>

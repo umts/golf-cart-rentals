@@ -1,21 +1,22 @@
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" style="text-align: center">
   <tr>
     <th>Status</th>
     <th>Customer</th>
     <th>Start Date</th>
     <th>End Date</th>
+    <th>Item Type</th>
     <th>Item</th>
     <th>Rental Amount</th>
     <th class="min-width">Actions</th>
   </tr>
   <% rentals.sort_by { |r| r.start_time }.each do |rental| %>
     <tr data-toggle='tooltip' data-placement='left' title="<%= rental_status_english(rental_status_css_class(rental)) %>" class=<%= rental_status_css_class(rental) %>>
-      <td><%= rental.rental_status %></td>
+      <td><%= rental.rental_status.titleize %></td>
       <td><%= rental.user.full_name %></td>
-      <td><%= rental.start_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
-      <td><%= rental.end_time.strftime("%a %m/%d/%Y %k:%M %p") %></td>
+      <td><%= truncate(rental.start_time.strftime("%a %m/%d/%Y %k:%M %p"), length: 18) %></td>
+      <td><%= truncate(rental.end_time.strftime("%a %m/%d/%Y %k:%M %p"), length: 18) %></td>
       <td><%= rental.item_type.name %></td>
-      <td><%= rental.financial_transaction.amount %></td>
+      <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), rental, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
