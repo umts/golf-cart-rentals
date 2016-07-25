@@ -38,14 +38,13 @@ class ItemsController < ApplicationController
   def create_item
     name = params[:name]
     type = params[:type]
-    itemtype = ItemType.where(name: type)
-    #binding.pry
     if name.present?
-      itemtype.each do |itype|
-        if Inventory.create_item(itype.uuid, name, true, {})
+      ItemType.where(name: type).each do |itype|
+        begin
+          Inventory.create_item(itype.uuid, name, true, {})
           flash[:success] = 'Your cart has been successfully created. '
           refresh_items
-        else
+        rescue
           flash[:danger] = 'Failed to create cart in API'
           redirect_to new_item_items_path
         end
