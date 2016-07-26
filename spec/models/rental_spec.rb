@@ -158,11 +158,19 @@ RSpec.describe Rental do
     rent = build(:mock_rental, start_time: time, end_time: time, item_type: @item_type)
     expect(rent).not_to be_valid
   end
-  it 'creates a financial transaction with value: 110' do
+  it 'creates a 1 day financial transaction with value: 100' do
+    rent = create :mock_rental, end_time: (Time.current + 1.second), item_type: @item_type
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([100])
+  end
+  it 'creates a 2 day financial transaction with value: 110' do
     rent = create :mock_rental, item_type: @item_type
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
   end
-  it 'creates a financial transcation with value: 220' do
+  it 'creates a 3 day financial transcation with value: 120' do
+    rent = create :mock_rental, end_time: (Time.current + 2.days), item_type: @item_type
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
+  end
+  it 'creates a 2 day financial transcation with different fees with value: 220' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
   end
