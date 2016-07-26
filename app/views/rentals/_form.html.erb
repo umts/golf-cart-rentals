@@ -8,6 +8,7 @@
 </ul>
 
 <div class="tab-content">
+  </br>
   <div class="tab-pane active" id="single_day" role="tabpanel">
     <%= form_for @rental, method: :post, html: {id: :disclaimer_id } do |f| %>
       <div class="form-group col-xs-12">
@@ -28,6 +29,12 @@
         <%= f.label :start_time, 'Start Date', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
           <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-6">
+          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control" %>
         </div>
       </div>
 
