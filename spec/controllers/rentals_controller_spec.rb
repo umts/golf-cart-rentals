@@ -9,6 +9,12 @@ describe RentalsController do
     rental
   end
 
+  let(:invalid_create) do
+    rental = attributes_for(:invalid_rental)
+    rental[:user_id] = create(:user, first_name: 'Test_User')
+    rental
+  end
+
   let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
@@ -64,11 +70,11 @@ describe RentalsController do
     context 'with valid attributes' do
       it 'saves the new rental in the database' do
         expect do
-          post :create, rental: attributes_for(:create_rental)
+          post :create, rental: rental_create
         end.to change(Rental, :count).by(1)
       end
       it 'redirects to the rental show page' do
-        post :create, rental: attributes_for(:create_rental)
+        post :create, rental: rental_create
         expect(response).to redirect_to Rental.last
       end
     end
@@ -76,11 +82,11 @@ describe RentalsController do
     context 'with invalid attributes' do
       it 'does not save the new rental in the database' do
         expect do
-          post :create, rental: attributes_for(:invalid_rental)
+          post :create, rental: invalid_create
         end.to_not change(Rental, :count)
       end
       it 're-renders the :new template' do
-        post :create, rental: attributes_for(:invalid_rental)
+        post :create, rental: invalid_create
         expect(response).to render_template :new
       end
     end

@@ -153,5 +153,18 @@ RSpec.describe Rental do
     rental.save
     expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
   end
+  it "doesn't allow a zero day rental" do
+    time = Time.current
+    rent = build(:mock_rental, start_time: time, end_time: time, item_type: @item_type)
+    expect(rent).not_to be_valid
+  end
+  it 'creates a financial transaction with value: 110' do
+    rent = create :mock_rental, item_type: @item_type
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
+  end
+  it 'creates a financial transcation with value: 220' do
+    rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
 end
 end
