@@ -3,10 +3,10 @@ class HomeController < ApplicationController
 
   def index
     @rentals = if @current_user.groups.where(name: 'admin').present?
-      Rental.all
-    else
-      @current_user.rentals
-    end
+                 Rental.all
+               else
+                 @current_user.rentals
+               end
     @item_types = ItemType.all
     categorize_rentals
   end
