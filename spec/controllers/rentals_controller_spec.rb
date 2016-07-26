@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RentalsController do
-=begin
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
@@ -9,7 +8,6 @@ describe RentalsController do
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
-=end
 
   let(:mock_rental) { create :mock_rental }
 
