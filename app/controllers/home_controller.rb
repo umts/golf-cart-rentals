@@ -2,10 +2,10 @@ class HomeController < ApplicationController
   @per_page = 5
 
   def index
-    if @current_user.groups.where(name: 'admin').present?
-      @rentals = Rental.all
+    @rentals = if @current_user.groups.where(name: 'admin').present?
+      Rental.all
     else
-      @rentals = @current_user.rentals
+      @current_user.rentals
     end
     @item_types = ItemType.all
     categorize_rentals
@@ -21,5 +21,4 @@ class HomeController < ApplicationController
     @q = Rental.checked_in.search(params[:q])
     @past_rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
   end
-
 end
