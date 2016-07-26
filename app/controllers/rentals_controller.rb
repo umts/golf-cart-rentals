@@ -70,7 +70,7 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date']  || Time.zone.today
+    @start_date = params['start_date'] || Time.zone.today
 
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
