@@ -26,7 +26,7 @@
 <%= form_for rental, html: { id: 'signature_image' } do |f| %>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="contacted-customer">Customer informed of no-show status and subsequent fee?</label>
+    <label class="col-xs-2 control-label" for="contacted-customer?">Customer informed of no-show status?</label>
     <div class="col-xs-6">
       <input type="checkbox" name="contacted-customer?" data-on-text='Yes' data-off-text='No' required>
     </div>
@@ -39,3 +39,7 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  $("[name='contacted-customer?']").bootstrapSwitch();
+</script>

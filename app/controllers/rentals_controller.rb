@@ -41,11 +41,11 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/transform
   def transform
-    if @rental.rental_status == 'reserved' && @rental.end_date < DateTime.current
+    if @rental.reserved? && @rental.end_date < DateTime.current
       render :no_show_form, locals: { rental: @rental }
-    elsif @rental.rental_status == 'reserved'
+    elsif @rental.reserved?
       render :check_out, locals: { rental: @rental }
-    elsif @rental.rental_status == 'checked_out'
+    elsif @rental.checked_out?
       render :check_in, locals: { rental: @rental }
     else
       flash[:danger] = 'Error redirecting to processing form'
