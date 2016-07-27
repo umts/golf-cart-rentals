@@ -10,8 +10,8 @@ FactoryGirl.define do
   end
 
   factory :admin_group, parent: :group do
-    name 'Admin'
-    description 'Admin group'
+    name 'admin'
+    description 'admin group'
     permissions { Permission.all }
   end
 

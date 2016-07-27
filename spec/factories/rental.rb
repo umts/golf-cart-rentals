@@ -35,4 +35,22 @@ FactoryGirl.define do
     start_time Time.current
     end_time (Time.current + 1.day)
   end
+  
+  factory :upcoming_rental, parent: :rental do
+    start_time (Time.current + 1.day).to_s
+    end_time (Time.current + 5.day).to_s
+  end
+  
+  factory :past_rental, parent: :rental do
+    rental_status 'checked_in'
+  end
+
+  factory :far_future_rental, parent: :rental do
+    start_time (Time.current + 8.day).to_s
+    end_time (Time.current + 9.day).to_s
+  end
+  
+  factory :ongoing_rental, parent: :rental do
+    rental_status 'checked_out'
+  end
 end

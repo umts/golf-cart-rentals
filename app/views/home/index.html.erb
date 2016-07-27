@@ -3,5 +3,32 @@
 <h4><%= link_to 'Schedule Rental', new_rental_path, class: "btn btn-primary" %> <%= link_to 'View All Rentals', rentals_path, class: "btn btn-primary" %></h4>
 
 <% if @rentals %>
-  <%= render partial: 'rentals', locals: { rentals: @rentals } %>
+  <ul class="nav nav-tabs">
+  	<li class="active"><a data-toggle="tab" href="#all">All Rentals</a></li>
+  	<li><a data-toggle="tab" href="#future">Future Rentals</a></li>
+    <li><a data-toggle="tab" href="#ongoing">Ongoing Rentals</a></li>
+    <li><a data-toggle="tab" href="#noshow">No-Show Rentals</a></li>
+    <li><a data-toggle="tab" href="#past">Past Rentals</a></li>
+  </ul>
+
+  <div class="tab-content">
+	<div id="all" class="tab-pane fade in active">
+      <%= render partial: 'rentals', locals: { rental_type: @upcoming_rentals } %>
+      <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } if @ongoing_rentals.present? %>
+      <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } if @no_show_rentals.present? %>
+      <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals } %>
+    </div>
+	<div id="future" class="tab-pane fade">
+      <%= render partial: 'rentals', locals: { rental_type: @future_rentals } %>
+	</div>
+	<div id="ongoing" class="tab-pane fade">
+      <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } %>
+	</div>
+	<div id="noshow" class="tab-pane fade">
+      <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } %>
+	</div>
+	<div id="past" class="tab-pane fade">
+	  <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals }%>
+	</div>
+  </div>
 <% end %>
