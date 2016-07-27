@@ -1,5 +1,4 @@
-//Clear search fields
-//Add <%= f.submit "Clear", :name => nil, :id => :q_reset %> to the bottom of your search form
+//Clear search fields //Add <%= f.submit "Clear", :name => nil, :id => :q_reset %> to the bottom of your search form
 $(function(){
   $("#q_reset").click(function(index, element){
     $("input,select").not(':submit').val('')
@@ -42,7 +41,8 @@ function toggle_loading(){
 //Toggle a forms submit button when a checkbox is checked/unchecked
 function accept_and_enable(box)
 {
-    var submit = document.getElementById("TOC");
+    var submit = $(box).closest('form').find("input[type='submit']")[0];
+
     if (box.checked === true)
     {
         submit.disabled = false;

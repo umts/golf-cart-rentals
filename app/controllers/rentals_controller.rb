@@ -66,15 +66,12 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
-  def rental_schedule
-    @rentals = Rental.all
-  end
-
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] ? params['start_date'] : Time.zone.today
+    @start_date = params['start_date'] || Time.zone.today
+
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)

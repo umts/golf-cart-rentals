@@ -1,64 +1,149 @@
-<%= form_for @rental, method: :post do |f| %>
-  <div class="form-group col-xs-12">
-    <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
-    </div>
-  </div>
+<ul class="nav nav-tabs">
+  <li class="nav-item active">
+    <a class-"nav-link active" data-toggle="tab" href="#single_day">Single Day</a>
+  </li>
+  <li class="nav-item">
+    <a class-"nav-link" data-toggle="tab" href="#multiple_day">Multiple Day</a>
+  </li>
+</ul>
 
-  <div class="form-group col-xs-12">
-    <%= f.label :name, 'Cart Name', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.select :item_id, options_from_collection_for_select(@items.where(item_type_id: params["item_type_id"], deleted_at: nil).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control" %>
-    </div>
-  </div>
+<div class="tab-content">
+  </br>
+  <div class="tab-pane active" id="single_day" role="tabpanel">
+    <%= form_for @rental, method: :post do |f| %>
 
-  <div class="form-group col-xs-12">
-    <%= f.label :user, 'User', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.select :user_id, options_from_collection_for_select(@users.order(last_name: :asc), "id", "full_name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= f.label :start_time, 'Start Date', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= f.label :end_time, 'End Date', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @start_date.next_day, required: true, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-6">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          Terms and Conditions
+      <div class="form-group col-xs-12">
+        <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
         </div>
-        <% @item_types.each do |type| %>
-          <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
-            <% hidden = '' %>
-            <% hidden = 'display:none; ' unless type == @item_types.first %>
-            <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
-          </div>
-        <% end %>
       </div>
-    </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :name, 'Cart Name', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :item_id, options_from_collection_for_select(@items.where(item_type_id: params["item_type_id"], deleted_at: nil).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :user, 'User', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :user_id, options_from_collection_for_select(@users.order(last_name: :asc), "id", "full_name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :start_time, 'Start Date', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-6">
+          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Terms and Conditions
+            </div>
+            <% @item_types.each do |type| %>
+              <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+                <% hidden = '' %>
+                <% hidden = 'display:none; ' unless type == @item_types.first %>
+                <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-6">
+          <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)">I Agree To The Above Terms And Conditions</label>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-10">
+          <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
+          <%= link_to 'Back', new_rental_path, class: "btn btn-default" %>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-6">
-      <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)">I Agree To The Above Terms And Conditions</label>
-    </div>
+
+  <div class="tab-pane" id="multiple_day" role="tabpanel">
+    <%= form_for @rental, method: :post do |f| %>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :name, 'Cart Name', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :item_id, options_from_collection_for_select(@items.where(item_type_id: params["item_type_id"], deleted_at: nil).order(name: :asc), "id", "name"), {}, class: "selectpicker form-control" %>
+        </div>
+      </div>
+      <div class="form-group col-xs-12">
+        <%= f.label :user, 'User', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.select :user_id, options_from_collection_for_select(@users.order(last_name: :asc), "id", "full_name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :start_time, 'Start Date', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :end_time, 'End Date', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= f.date_field :end_time, value: @start_date.next_day, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Terms and Conditions
+            </div>
+            <% @item_types.each do |type| %>
+              <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+                <% hidden = '' %>
+                <% hidden = 'display:none; ' unless type == @item_types.first %>
+                <%= content_tag :span, type.disclaimer, class: "disclaimer", id: "disclaimer_#{type.id}", style: "#{hidden}white-space: pre;" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-6">
+          <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)">I Agree To The Above Terms And Conditions</label>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-offset-2 col-xs-10">
+          <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
+          <%= link_to 'Back', new_rental_path, class: "btn btn-default" %>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
-      <%= link_to 'Back', rentals_schedule_path, class: "btn btn-default" %>
-    </div>
-  </div>
-<% end %>
+</div>
