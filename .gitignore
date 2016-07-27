@@ -40,3 +40,5 @@ coverage/.resultset.json*
 
 # Ignore Precompilation Assets
 /public/assets/*
+
+.DS_Store
