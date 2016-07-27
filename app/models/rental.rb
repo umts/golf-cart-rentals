@@ -28,7 +28,7 @@ class Rental < ActiveRecord::Base
 
   scope :upcoming_rentals, -> { reserved.where('start_time <= ? AND end_time >= ?', DateTime.current + 1.day, DateTime.current) }
   scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
-  scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) } 
+  scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
