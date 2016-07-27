@@ -56,10 +56,10 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
+      DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
       @rental.pickup
     elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
+      DigitalSignature.create(image: sig_image_params, intent: :check_in, rental: @rental, author: :customer)
       @rental.return
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
@@ -129,5 +129,9 @@ class RentalsController < ApplicationController
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :item_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+  end
+  
+  def sig_image_params
+    params.require(:rental).permit(:customer_signature_image)
   end
 end
