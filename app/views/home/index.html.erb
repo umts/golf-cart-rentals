@@ -1,9 +1,6 @@
 <% provide( :page_header, "Welcome to UMass Parking Services Rental Purchasing Program AKA RPP" ) %>
 
-<h4>
-  <%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
-  <%= link_to 'Rental Calendar View', rentals_path, class: "btn btn-primary" %>
-</h4>
+<h4><%= link_to 'Schedule Rental', new_rental_path, class: "btn btn-primary" %> <%= link_to 'View All Rentals', rentals_path, class: "btn btn-primary" %></h4>
 
 <% if @rentals %>
   <ul class="nav nav-tabs">
@@ -13,16 +10,16 @@
     <li><a data-toggle="tab" href="#noshow">No-Show Rentals</a></li>
     <li><a data-toggle="tab" href="#past">Past Rentals</a></li>
   </ul>
-  
+
   <div class="tab-content">
-	<div id="all" class="tab-pane fade in active">  
+	<div id="all" class="tab-pane fade in active">
       <%= render partial: 'rentals', locals: { rental_type: @upcoming_rentals } %>
       <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } if @ongoing_rentals.present? %>
       <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } if @no_show_rentals.present? %>
       <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals } %>
     </div>
 	<div id="future" class="tab-pane fade">
-      <%= render partial: 'rentals', locals: { rental_type: @future_rentals } %>	
+      <%= render partial: 'rentals', locals: { rental_type: @future_rentals } %>
 	</div>
 	<div id="ongoing" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } %>
