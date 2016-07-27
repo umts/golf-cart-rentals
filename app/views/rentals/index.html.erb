@@ -32,6 +32,6 @@
 <% end %>
 <br>
 
-<%= render partial: 'table' %>
+<%= render partial: 'table', locals: { rentals: @rentals } %>
 
 <%= will_paginate @past_rentals, renderer: BootstrapPagination::Rails %>
