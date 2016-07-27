@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Rental do
-  before(:each) do
-    @item_type = create(:item_type, name: 'TEST_ITEM_TYPE')
-  end
   describe '#validations' do
     it 'has a valid factory' do
       expect(build(:rental)).to be_valid
@@ -34,7 +31,7 @@ RSpec.describe Rental do
     end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
-        rental = create(:mock_rental, item_type: @item_type)
+        rental = create :mock_rental
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
     end
@@ -42,7 +39,7 @@ RSpec.describe Rental do
 
   describe '#create_rental' do
     before(:each) do
-      @rent = create :mock_rental, item_type: @item_type
+      @rent = create :mock_rental
     end
 
     it 'creates a rental with valid parameters' do
@@ -53,7 +50,7 @@ RSpec.describe Rental do
 
   describe '#delete_rental' do
     before :each do
-      @rent = create :mock_rental, item_type: @item_type
+      @rent = create :mock_rental
       expect_any_instance_of(Rental).to receive(:delete_reservation).and_return(true)
     end
 
@@ -75,7 +72,7 @@ RSpec.describe Rental do
 
   describe '#times' do
     before :each do
-      @rental = create(:mock_rental, item_type: @item_type)
+      @rental = create :mock_rental
     end
 
     it 'returns a string with times' do
@@ -86,7 +83,7 @@ RSpec.describe Rental do
 
   describe '#sum_amount' do
     before :each do
-      @rental = create(:mock_rental, item_type: @item_type)
+      @rental = create :mock_rental
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
@@ -97,7 +94,7 @@ RSpec.describe Rental do
 
   describe 'rental_status' do
     before :each do
-      @rental = create :mock_rental, item_type: @item_type
+      @rental = create :mock_rental
     end
 
     it 'is reserved upon creation' do
@@ -152,6 +149,73 @@ RSpec.describe Rental do
     expect(rental.financial_transaction).to be(nil)
     rental.save
     expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+   end
   end
-end
+
+  describe '#event_status_color' do
+    before :each do
+      @rental = create :mock_rental
+    end
+    it 'returns #0092ff when reserved' do
+      expect(@rental.event_status_color).to eq('#0092ff')
+    end
+    it 'returns #f7ff76 when checked_out' do
+      @rental.rental_status = :checked_out
+      expect(@rental.event_status_color).to eq('#f7ff76')
+    end
+    it 'returns #09ff00 when checked_in' do
+      @rental.rental_status = :checked_in
+      expect(@rental.event_status_color).to eq('#09ff00')
+    end
+    it 'returns #000000 when cancelled' do
+      @rental.rental_status = :canceled
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+    it 'returns #000000 when approved' do
+      @rental.rental_status = :inspected
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+    it 'returns #000000 when processed' do
+      @rental.rental_status = :available
+      expect(@rental.event_status_color).to eq('#000000')
+    end
+  end
+
+  describe '#basic_info' do
+    it 'returns basic info of new rental' do
+      @item_type = create :item_type
+      @rental = create :mock_rental, item_type: @item_type
+      expect(@rental.basic_info).to eq("#{@item_type.name}:(#{@rental.start_time.to_date} -> #{@rental.end_time.to_date})")
+    end
+  end
+
+  describe '#event_name' do
+    it 'returns event name of new rental' do
+      @item_type = create :item_type
+      @rental = create :mock_rental, item_type: @item_type
+      expect(@rental.event_name).to eq("#{@item_type.name}(#{@item_type.id}) - Rental ID: #{@rental.id}")
+    end
+  end
+
+  it "doesn't allow a zero day rental" do
+    time = Time.current
+    rent = build(:mock_rental, start_time: time, end_time: time)
+    expect(rent).not_to be_valid
+  end
+  it 'creates a 1 day financial transaction with value: 100' do
+    rent = create :mock_rental, end_time: (Time.current + 1.second)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([100])
+  end
+  it 'creates a 2 day financial transaction with value: 110' do
+    rent = create :mock_rental
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
+  end
+  it 'creates a 3 day financial transcation with value: 120' do
+    rent = create :mock_rental, end_time: (Time.current + 2.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
+  end
+  it 'creates a 2 day financial transcation with different fees with value: 220' do
+    rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
 end

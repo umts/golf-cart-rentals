@@ -16,6 +16,7 @@
       <td><%= truncate(rental.start_time.strftime("%a %m/%d/%Y %k:%M %p"), length: 18) %></td>
       <td><%= truncate(rental.end_time.strftime("%a %m/%d/%Y %k:%M %p"), length: 18) %></td>
       <td><%= rental.item_type.name %></td>
+      <td><%= rental.item.name %></td>
       <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
