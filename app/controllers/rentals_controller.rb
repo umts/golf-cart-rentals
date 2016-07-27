@@ -57,9 +57,7 @@ class RentalsController < ApplicationController
   def update
     if params[:commit] == 'Check Out'
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
-      @rental.pickup if params[:commit] == 'Check Out'
-      @rental.return if params[:commit] == 'Check In'
-      @rental.process_no_show if params[:commit] == 'Process No Show'
+      @rental.pickup
     elsif params[:commit] == 'Check In'
       DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
       @rental.return
