@@ -41,12 +41,7 @@ function toggle_loading(){
 //Toggle a forms submit button when a checkbox is checked/unchecked
 function accept_and_enable(box)
 {
-    //var submit = document.getElementById("TOC");
-
-
-    var submit = $(box).parent().parent().parent().parent().find("input[type='submit']")[0];
-    //console.log($(box).parentsUntil("#disclaimer_id").last()[0]);
-    console.log(submit)
+    var submit = $(box).closest('form').find("input[type='submit']")[0];
 
     if (box.checked === true)
     {
