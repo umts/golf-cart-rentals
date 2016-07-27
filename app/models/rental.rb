@@ -26,6 +26,11 @@ class Rental < ActiveRecord::Base
   alias_attribute :start_date, :start_time
   alias_attribute :end_date, :end_time
 
+  scope :upcoming_rentals, -> { reserved.where('start_time <= ? AND end_time >= ?', DateTime.current + 1.day, DateTime.current) }
+  scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
+  scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
+  scope :inactive_rentals, -> { where('rental_status = ? OR rental_status = ?', 'canceled', 'checked_in') }
+
   aasm column: :rental_status do
     state :reserved, initial: true
     state :checked_out
