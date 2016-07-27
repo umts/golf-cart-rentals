@@ -4,12 +4,17 @@ FactoryGirl.define do
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
     association :item, name: "TEST_ITEM"
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
+    start_time Time.current
+    end_time (Time.current + 1.day)
   end
 
   factory :invalid_rental, parent: :rental do
+    association :user
+    association :department
+    association :item_type
+    association :item
     start_time nil
+    end_time (Time.current + 1.day)
   end
 
   factory :new_rental, parent: :rental do
@@ -17,8 +22,8 @@ FactoryGirl.define do
     department_id nil
     item_type_id { create(:item_type).id }
     item_id { create(:item).id }
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
+    start_time Time.current
+    end_time (Time.current + 1.day)
   end
 
   factory :mock_rental, parent: :rental do
@@ -27,7 +32,7 @@ FactoryGirl.define do
     association :item_type
     association :item
     sequence :reservation_id
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
+    start_time Time.current
+    end_time (Time.current + 1.day)
   end
 end
