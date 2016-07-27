@@ -130,7 +130,7 @@ class RentalsController < ApplicationController
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :item_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
   end
-  
+
   def sig_image_params
     params.require(:rental).permit(:customer_signature_image)
   end
