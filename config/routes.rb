@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   resources :home, only: [:index]
 
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
-  get 'rentals/rental_schedule', to: 'rentals#rental_schedule', as: 'rentals_schedule'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
+  get 'rentals/:id/transaction_detail', to: 'rentals#transaction_detail', as: 'rental_transaction_detail'
   resources :rentals
 
   resources :departments do
@@ -26,6 +26,13 @@ Rails.application.routes.draw do
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
+  resources :items do
+    collection do
+      get :new_item
+      post :create_item
+      get :refresh_items
+    end
+  end
 
   resources :incidental_types
   resources :incurred_incidentals

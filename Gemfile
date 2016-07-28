@@ -35,9 +35,6 @@ gem 'paper_trail', '~> 4.0.0.rc'
 # for handling the state machine behind rental statuses
 gem 'aasm'
 
-# A Calendar Generator
-gem 'simple_calendar', '~> 2.0'
-
 # for simplified api calls
 gem 'httparty', '~> 0.13.7'
 
@@ -64,6 +61,9 @@ gem 'date_validator'
 # gem 'capistrano-rails', '~> 1.1'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
+
+# permanent records
+gem 'permanent_records'
 
 gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
 

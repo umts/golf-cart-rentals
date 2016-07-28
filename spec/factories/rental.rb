@@ -3,34 +3,54 @@ FactoryGirl.define do
     association :user
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
-
-    factory :rental_with_financial_transaction do
-      after(:create) do |rental|
-        create :financial_transaction, rental: rental
-      end
-    end
+    association :item, name: "TEST_ITEM"
+    start_time Time.current
+    end_time (Time.current + 1.day)
   end
 
   factory :invalid_rental, parent: :rental do
+    association :user
+    association :department
+    association :item_type
+    association :item
     start_time nil
+    end_time (Time.current + 1.day)
   end
 
   factory :new_rental, parent: :rental do
     user_id nil
     department_id nil
     item_type_id { create(:item_type).id }
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
+    item_id { create(:item).id }
+    start_time Time.current
+    end_time (Time.current + 1.day)
   end
 
   factory :mock_rental, parent: :rental do
     association :user
     department_id 0
     association :item_type
+    association :item
     sequence :reservation_id
-    start_time Time.current.to_s
-    end_time (Time.current + 1.day).to_s
+    start_time Time.current
+    end_time (Time.current + 1.day)
+  end
+  
+  factory :upcoming_rental, parent: :rental do
+    start_time (Time.current + 1.day).to_s
+    end_time (Time.current + 5.day).to_s
+  end
+  
+  factory :past_rental, parent: :rental do
+    rental_status 'checked_in'
+  end
+
+  factory :far_future_rental, parent: :rental do
+    start_time (Time.current + 8.day).to_s
+    end_time (Time.current + 9.day).to_s
+  end
+  
+  factory :ongoing_rental, parent: :rental do
+    rental_status 'checked_out'
   end
 end

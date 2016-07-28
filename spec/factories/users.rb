@@ -9,7 +9,7 @@ FactoryGirl.define do
   end
 
   factory :admin_user, parent: :user do
-    groups { [Group.find_by(name: 'Admin') || create(:admin_group)] }
+    groups { [Group.find_by(name: 'admin') || create(:admin_group)] }
   end
 
   factory :invalid_user, parent: :user do

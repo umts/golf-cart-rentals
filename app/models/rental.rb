@@ -14,6 +14,7 @@ class Rental < ActiveRecord::Base
   belongs_to :user
   belongs_to :department
   belongs_to :item_type
+  belongs_to :item
 
   has_many :digital_signature
 
@@ -24,6 +25,10 @@ class Rental < ActiveRecord::Base
 
   alias_attribute :start_date, :start_time
   alias_attribute :end_date, :end_time
+
+  scope :upcoming_rentals, -> { reserved.where('start_time <= ? AND end_time >= ?', DateTime.current + 1.day, DateTime.current) }
+  scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
+  scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -112,8 +117,8 @@ class Rental < ActiveRecord::Base
   def self.to_json_reservations
     arr = all.each_with_object([]) do |rental, list|
       list << { title: rental.event_name,
-                start: rental.start_time.to_date,
-                end: rental.end_time.to_date,
+                start: rental.start_time,
+                end: rental.end_time,
                 color: rental.event_status_color,
                 textColor: '#000000',
                 url: Rails.application.routes.url_helpers.rental_path(rental.id) }
@@ -121,11 +126,15 @@ class Rental < ActiveRecord::Base
     arr
   end
 
+  def sum_amount
+    financial_transactions.sum(:amount)
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 
   def create_financial_transaction
-    rental_amount = (((end_time.to_date - start_time.to_date).to_i - 1) * item_type.fee_per_day) + item_type.base_fee
+    rental_amount = ((end_time.to_date - start_time.to_date).to_i * item_type.fee_per_day) + item_type.base_fee
 
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
