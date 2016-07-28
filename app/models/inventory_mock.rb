@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'json'
 class InventoryMock
   @base_uri = Rails.application.config.inventory_api_uri

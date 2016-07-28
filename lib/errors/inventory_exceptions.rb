@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module InventoryExceptions
   class AuthError < StandardError; end # 401 unauth
   class InventoryError < StandardError; end # 500 server error or anything remaining
