@@ -94,7 +94,7 @@ RSpec.describe ItemsController, type: :controller do
           allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
           post :create_item, name: item.name, type: item_type.name
           expect(flash[:success]).to be_present
-          expect(flash[:success]).to eq('Your cart has been successfully created. Items have been updated.')
+          expect(flash[:success]).to eq('Your cart has been successfully created. ')
         end.to change { Item.count }.by(1)
       end
     end
