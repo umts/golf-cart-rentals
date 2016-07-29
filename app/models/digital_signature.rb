@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DigitalSignature < ActiveRecord::Base
   belongs_to :rental
   validates :image, :intent, :author, presence: true

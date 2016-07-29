@@ -1,6 +1,6 @@
 <% provide( :page_header, 'Rentals' ) %>
 
-<%= link_to 'Schedule Rental', rentals_schedule_path, class: "btn btn-primary" %>
+<%= link_to 'Schedule Rental', new_rental_path, class: "btn btn-primary" %>
 <br><br>
 
 <ul class="legend">
@@ -16,6 +16,9 @@
   <%= f.label :item_type_id_eq, 'Item Type' %>
   <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
 
+  <%= f.label :item_id_eq, 'Item Name' %>
+  <%= f.select :item_id_eq, options_from_collection_for_select(@items.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+
   <%= f.label :user_id_eq, 'Customer' %>
   <%= f.select :user_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :user_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
 
@@ -29,6 +32,6 @@
 <% end %>
 <br>
 
-<%= render partial: 'table' %>
+<%= render partial: 'table', locals: { rentals: @rentals } %>
 
 <%= will_paginate @past_rentals, renderer: BootstrapPagination::Rails %>

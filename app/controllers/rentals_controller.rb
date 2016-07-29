@@ -1,8 +1,10 @@
+# frozen_string_literal: true
 class RentalsController < ApplicationController
   @per_page = 10
 
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :transaction_detail]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
   before_action :set_incidental_types, only: [:new]
 
@@ -65,15 +67,11 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
-  def rental_schedule
-    @rentals = Rental.all
-  end
-
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] ? params['start_date'] : Time.zone.today
+    @start_date = params['start_date'] || Time.zone.today
 
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
@@ -109,6 +107,10 @@ class RentalsController < ApplicationController
     @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
   end
 
+  def set_items
+    @items = Item.all
+  end
+
   def set_users
     @users = User.all
   end
@@ -120,6 +122,7 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
-    params.require(:rental).permit(:start_time, :end_time, :item_type_id, :user_id).merge(department_id: user.department_id)
+    new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
   end
 end

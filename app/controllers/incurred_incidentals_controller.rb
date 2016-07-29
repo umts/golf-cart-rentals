@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class IncurredIncidentalsController < ApplicationController
   before_action :set_incurred_incidental, only: [:edit, :update, :destroy, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]

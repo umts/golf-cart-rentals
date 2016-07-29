@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class IncidentalTypesController < ApplicationController
   before_action :set_incidental_type, only: [:edit, :update, :destroy, :show]
   before_action :set_rentals, only: [:new, :edit, :create, :update]

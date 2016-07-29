@@ -4,13 +4,22 @@ describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
+    rental[:item_id] = create(:item, name: "TEST_ITEM")
     rental[:user_id] = create(:user, first_name: 'Test2')
+    rental
+  end
+
+  let(:invalid_create) do
+    rental = attributes_for(:invalid_rental)
+    rental[:user_id] = create(:user, first_name: 'Test_User')
     rental
   end
 
   let(:mock_rental) { create :mock_rental }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+
+  let(:item) { create(:item, name: "TEST_ITEM") }
 
   before(:each) { current_user }
 
@@ -54,6 +63,39 @@ describe RentalsController do
     it 'renders the :new template' do
       get :new
       expect(response).to render_template :new
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'saves the new rental in the database' do
+        expect do
+          post :create, rental: rental_create
+        end.to change(Rental, :count).by(1)
+      end
+      it 'redirects to the rental show page' do
+        post :create, rental: rental_create
+        expect(response).to redirect_to Rental.last
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the new rental in the database' do
+        expect do
+          post :create, rental: invalid_create
+        end.to_not change(Rental, :count)
+      end
+      it 're-renders the :new template' do
+        post :create, rental: invalid_create
+        expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'GET #processing' do
+    it 'populates an array of rentals' do
+      get :processing
+      expect(assigns[:rentals]).to eq([@rental, @rental2])
     end
   end
 

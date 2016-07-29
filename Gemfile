@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -35,9 +36,6 @@ gem 'paper_trail', '~> 4.0.0.rc'
 # for handling the state machine behind rental statuses
 gem 'aasm'
 
-# A Calendar Generator
-gem 'simple_calendar', '~> 2.0'
-
 # for simplified api calls
 gem 'httparty', '~> 0.13.7'
 
@@ -65,7 +63,10 @@ gem 'date_validator'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
 
-gem 'aggressive_inventory', '0.0.1', git: 'https://github.com/umts/aggressive_inventory.git'
+# permanent records
+gem 'permanent_records'
+
+gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'

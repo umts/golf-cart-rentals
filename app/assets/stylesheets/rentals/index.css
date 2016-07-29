@@ -28,3 +28,11 @@
 .legend .checkedin {
 	background-color: #09ff00;
 }
+
+form#rental_search {
+	width: 70%;
+}
+
+.btn-group.bootstrap-select.form-control.col-xs-2 {
+	margin: 10px;
+}
