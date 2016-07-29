@@ -117,6 +117,10 @@ describe RentalsController do
   end
 
   describe 'GET #transform' do
+    after :each do
+      Timecop.return
+    end
+
     it 'redirects to check in page if it was checked out' do
       rental = mock_rental
       rental.pickup
@@ -129,6 +133,13 @@ describe RentalsController do
       expect(response).to render_template :check_out
     end
 
+    it 'redirects to no show form if it was reserved but never checked out before end date' do
+      rental = create(:mock_rental, end_date: DateTime.current.next_day)
+      Timecop.travel(rental.start_time + 2.day)
+      get :transform, id: rental.id
+      expect(response).to render_template :no_show_form
+    end
+
     it 'redirects to rentals if passed a rental that is not reserved or checked out' do
       rental = mock_rental
       rental.cancel!
@@ -138,12 +149,12 @@ describe RentalsController do
   end
 
   describe 'GET #transaction_detail' do
-    it 'assigns a requested retnal to @rental'do
+    it 'assigns a requested rental to @rental'do
       get :transaction_detail, id: @rental
       expect(assigns[:rental]).to eq @rental
     end
 
-    it 'all requsted financial transactions should contain the same rental as @rental' do
+    it 'all requested financial transactions should contain the same rental as @rental' do
       get :transaction_detail, id: @rental
       expect(assigns[:financial_transactions].all?{|ft| ft.rental.id == @rental.id}).to be true
     end
