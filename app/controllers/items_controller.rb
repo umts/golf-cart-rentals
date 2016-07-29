@@ -55,11 +55,7 @@ class ItemsController < ApplicationController
         refresh_items_helper(item_type)
       end
 
-      if flash[:success].nil?
-        flash[:success] = 'Items have been updated.'
-      else
-        flash[:success] = "#{flash[:success]}Items have been updated."
-      end
+      flash[:success] ||= 'Items have been updated.'
     rescue => error
       flash[:danger] = "Failed to refresh items from api. #{error.inspect}"
     end
