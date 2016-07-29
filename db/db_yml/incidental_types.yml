@@ -1,0 +1,23 @@
+- name: 'Late'
+  description: 'Cart was checked in late'
+  base: 10
+  modifier_amount: 10
+  modifier_description: 'Customer assessed daily rental fee until returned'
+
+- name: 'Cleaning'
+  description: 'Washing, Trash removal, etc'
+  base: 0
+  modifier_amount: 35
+  modifier_description: 'Per hour above normal wear and tear'
+
+- name: 'Minor Damage'
+  description: 'Minor damages caused by customer'
+  base: 20
+  modifier_amount: 20
+  modifier_description: 'Quotes obtained from fleet services and customers assessed that total'
+
+- name: 'Towing'
+  description: 'Because customer did not monitor the charge on the vehicle or it got stuck somehere'
+  base: 35
+  modifier_amount: 35
+  modifier_description: 'Per hour'
