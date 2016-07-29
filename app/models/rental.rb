@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
@@ -78,6 +79,7 @@ class Rental < ActiveRecord::Base
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       self.reservation_id = reservation[:uuid]
+      self.item = Item.find_by(name: reservation[:item])
     rescue => error
       errors.add :base, error.inspect
       return false

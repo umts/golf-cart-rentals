@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RentalsController < ApplicationController
   @per_page = 10
 
@@ -69,15 +70,12 @@ class RentalsController < ApplicationController
     redirect_to @rental
   end
 
-  def rental_schedule
-    @rentals = Rental.all
-  end
-
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] ? params['start_date'] : Time.zone.today
+    @start_date = params['start_date'] || Time.zone.today
+
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
@@ -128,7 +126,7 @@ class RentalsController < ApplicationController
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :item_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
   end
 
   def sig_image_params

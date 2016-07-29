@@ -182,11 +182,4 @@ describe RentalsController do
       put :update, id: @rental.id, rental: { start_time: @rental.start_time + 1.hour }
     end
   end
-
-  describe 'GET #rental_schedule' do
-    it 'populates an array of rentals' do
-      get :rental_schedule
-      expect(assigns[:rentals]).to eq([@rental, @rental2])
-    end
-  end
 end

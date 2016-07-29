@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user]
 

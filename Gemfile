@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -34,9 +35,6 @@ gem 'paper_trail', '~> 4.0.0.rc'
 
 # for handling the state machine behind rental statuses
 gem 'aasm'
-
-# A Calendar Generator
-gem 'simple_calendar', '~> 2.0'
 
 # for simplified api calls
 gem 'httparty', '~> 0.13.7'

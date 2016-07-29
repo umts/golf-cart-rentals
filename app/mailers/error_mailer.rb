@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ErrorMailer < ActionMailer::Base
   def error_email(email, path, user, error)
     @path = path
