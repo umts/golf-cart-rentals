@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DigitalSignaturesController < ApplicationController
   before_action :set_digital_signature, only: [:show]
 

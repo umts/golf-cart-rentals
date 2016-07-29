@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ItemTypesController < ApplicationController
   before_action :set_item_type, only: [:show, :edit, :update]
 

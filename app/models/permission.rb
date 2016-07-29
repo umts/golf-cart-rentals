@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Permission < ActiveRecord::Base
   has_many :groups_permissions, dependent: :destroy
   has_many :groups, through: :groups_permissions

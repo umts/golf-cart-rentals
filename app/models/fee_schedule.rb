@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FeeSchedule < ActiveRecord::Base
   belongs_to :item_type
   has_one :financial_transaction, as: :transactable
