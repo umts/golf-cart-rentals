@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Item < ActiveRecord::Base
   belongs_to :item_type
   validates :name, :item_type_id, presence: true

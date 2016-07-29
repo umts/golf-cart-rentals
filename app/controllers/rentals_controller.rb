@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RentalsController < ApplicationController
   @per_page = 10
 

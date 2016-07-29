@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class IncurredIncidental < ActiveRecord::Base
   belongs_to :rental
   belongs_to :incidental_type
