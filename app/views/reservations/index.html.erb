@@ -1,0 +1,24 @@
+<% provide( :page_header, 'Reservation' ) %>
+
+<%= link_to 'New Reservation', new_reservation_path, class: "btn btn-primary" %>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Item Type</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+  </thead>
+    <% @reservations.each |reservation| do %>
+      <tr>
+        <th><%= reservation.type %></th>
+        <th><%= reservation.item_type.name %></th>
+        <th><%= reservation.get_api_reservation[:start_time] %></th>
+        <th><%= reservation.get_api_reservation[:start_time] %></th>
+      </tr>
+    <% end %>
+  <tbody>
+  </tbody>
+</table>
