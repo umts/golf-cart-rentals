@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Inventory
   def self.method_missing(method_name, *args, &block)
     AggressiveInventory.configure do |config|

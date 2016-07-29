@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class IncidentalType < ActiveRecord::Base
   has_many :incurred_incidentals, dependent: :destroy
 

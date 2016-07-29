@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ApplicationHelper
   def link_to(name = nil, url_options = nil, html_options = nil, &block)
     # Convert given options to a usable url, this allows:

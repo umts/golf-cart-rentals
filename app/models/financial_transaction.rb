@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FinancialTransaction < ActiveRecord::Base
   belongs_to :rental
   belongs_to :transactable, polymorphic: true
