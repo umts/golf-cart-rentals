@@ -133,9 +133,13 @@ describe RentalsController do
       expect(response).to render_template :check_out
     end
 
-    it 'redirects to no show form if it was reserved but never checked out before end date' do
-      rental = create(:mock_rental, end_date: DateTime.current.next_day)
-      Timecop.travel(rental.start_time + 2.day)
+    it 'handles the no show flag correctly' do
+      rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
+      Timecop.freeze(DateTime.current + 23.hour)
+      get :transform, id: rental.id
+      expect(response).to render_template :check_out
+      Timecop.return
+      Timecop.freeze(DateTime.current + 1.day)
       get :transform, id: rental.id
       expect(response).to render_template :no_show_form
     end

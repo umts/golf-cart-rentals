@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(checked_in_at: Time.zone.now)
+        update(checked_in_at: nil)
       end
     end
   end
