@@ -15,7 +15,7 @@
       <%= f.select :rental_id, options_from_collection_for_select(@rentals, 'id', 'basic_info', params[:rental_id] || @incurred_incidental.rental.try(:id)), {}, class: "selectpicker form-control" %>
     </div>
     <div class="col-xs-4">
-      <%= link_to 'New Rental', rentals_schedule_path, class: "btn btn-info form-control" %>
+      <%= link_to 'New Rental',new_rental_path, class: "btn btn-info form-control" %>
     </div>
   </div>
 

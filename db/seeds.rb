@@ -65,11 +65,15 @@ if Rails.env.development?
   puts 'Pulling Items from Api and Storing Locally'
   ItemType.all.each do |item_type|
     Inventory.items_by_type(item_type.uuid).each do |item|
-      Item.create(name: item["name"], item_type_id: item_type.id, uuid: item["uuid"])
+      Item.where(name: item["name"]).first_or_create(name: item["name"], item_type_id: item_type.id, uuid: item["uuid"])
     end
   end
 
-  puts 'Create Model Rental'
+  puts 'Create Incidental Types'
+  incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
+  incidentals.each do |incidental|
+    IncidentalType.where(name: incidental['name']).first_or_create incidental
+  end
 
 end
 
