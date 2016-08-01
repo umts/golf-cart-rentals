@@ -119,6 +119,11 @@ RSpec.describe Rental do
       expect(@rental).to be_checked_in
     end
 
+    it 'is canceled after being processed as a no show' do
+      @rental.process_no_show!
+      expect(@rental).to be_canceled
+    end
+
     it 'is inspected after approve' do
       @rental.pickup
       @rental.return

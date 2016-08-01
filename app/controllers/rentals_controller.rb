@@ -42,9 +42,11 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/transform
   def transform
-    if @rental.rental_status == 'reserved'
+    if @rental.reserved? && @rental.end_date < DateTime.current
+      render :no_show_form, locals: { rental: @rental }
+    elsif @rental.reserved?
       render :check_out, locals: { rental: @rental }
-    elsif @rental.rental_status == 'checked_out'
+    elsif @rental.checked_out?
       render :check_in, locals: { rental: @rental }
     else
       flash[:danger] = 'Error redirecting to processing form'
@@ -55,12 +57,13 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_out, rental: @rental, author: :customer)
-      @rental.pickup if params[:commit] == 'Check Out'
-      @rental.return if params[:commit] == 'Check In'
+      DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
+      @rental.pickup
     elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: params[:rental][:customer_signature_image], intent: :check_in, rental: @rental, author: :customer)
+      DigitalSignature.create(image: sig_image_params, intent: :check_in, rental: @rental, author: :customer)
       @rental.return
+    elsif params[:commit] == 'Process No Show'
+      @rental.process_no_show
     else
       @rental.update rental_params
     end
@@ -124,5 +127,9 @@ class RentalsController < ApplicationController
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+  end
+
+  def sig_image_params
+    params.require(:rental).permit(:customer_signature_image)
   end
 end
