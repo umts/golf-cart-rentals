@@ -10,6 +10,7 @@ describe HomeController do
   let(:future) { create :far_future_rental }
   let(:ongoing) { create :ongoing_rental }
   let(:ongoing2) { create :ongoing_rental }
+  let(:canceled) { create :mock_rental, rental_status: 'canceled' }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -39,8 +40,9 @@ describe HomeController do
 
       it 'populates an array of past rentals' do
         past2
+        canceled
         get :index
-        expect(assigns[:past_rentals]).to include(past, past2)
+        expect(assigns[:past_rentals]).to include(past, past2, canceled)
         expect(assigns[:past_rentals]).not_to include(rental, upcoming, future, ongoing)
       end
 
@@ -55,10 +57,6 @@ describe HomeController do
         get :index
         expect(assigns[:ongoing_rentals]).to include(ongoing, ongoing2)
         expect(assigns[:ongoing_rentals]).not_to include(rental, upcoming, past, future)
-      end
-
-      it 'populates an array of no show rentals' do
-        upcoming2.update(start_time: Time.current - 5.days, end_time: Time.current - 3.days)
       end
 
       it 'populates an array of item_types' do
