@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721153126) do
+ActiveRecord::Schema.define(version: 20160801150013) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -39,11 +39,11 @@ ActiveRecord::Schema.define(version: 20160721153126) do
     t.integer  "rental_id",         limit: 4
     t.integer  "transactable_id",   limit: 4
     t.string   "transactable_type", limit: 255
-    t.integer  "amount",            limit: 4
-    t.integer  "adjustment",        limit: 4
+    t.integer  "amount",            limit: 4,     default: 0, null: false
+    t.integer  "adjustment",        limit: 4,     default: 0, null: false
     t.text     "note_field",        limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   add_index "financial_transactions", ["rental_id"], name: "index_financial_transactions_on_rental_id", using: :btree
