@@ -117,8 +117,7 @@ describe RentalsController do
     end
 
     it 'remains canceled if already canceled' do
-      delete :destroy, id: @rental.id
-      expect(@rental.reload.canceled?).to be true
+      @rental.cancel!
       delete :destroy, id: @rental.id
       expect(@rental.reload.canceled?).to be true
     end
