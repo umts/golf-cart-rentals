@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
+  include Rails.application.routes.url_helpers
   let!(:user) { create(:user) }
 
   before(:each) { current_user }
@@ -56,6 +57,35 @@ describe ApplicationHelper do
       expect { rental = create :mock_rental, start_time: Time.current + 2.days, end_time: Time.current + 4.days }.not_to raise_error
       expect(rental_status_css_class(rental)).to eq('active')
       expect(rental_status_english('active')).to eq('Reserved future')
+    end
+  end
+
+  describe '#link_to' do
+    it 'returns nil if @current_user does not have access to an object' do
+      expect(helper.link_to('Rentals', rentals_path)).to be_nil
+    end
+
+    it 'returns html if @current user does have access to a route' do
+      current_user.groups << create(:admin_group)
+      expect(helper.link_to('Rentals', rentals_path)).to include('href', 'rentals')
+    end
+
+    it 'returns html if @current user does have access to an object' do
+      current_user.groups << create(:admin_group)
+      rental = create(:rental)
+      expect(helper.link_to('Rentals', rentals_path(rental))).to include('href', 'rentals', rental.id.to_s)
+    end
+
+    it 'returns html if @current user does have access to an object, with block options' do
+      current_user.groups << create(:admin_group)
+      rental = create(:rental)
+      expect(helper.link_to(rental) {rental.id }).to include('href', 'rentals', rental.id.to_s)
+    end
+  end
+
+  describe '#button_to' do
+    it 'raises an error' do
+      expect{helper.button_to(anything)}.to raise_error(RuntimeError)
     end
   end
 end
