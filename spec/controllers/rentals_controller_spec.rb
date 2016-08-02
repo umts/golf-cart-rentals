@@ -31,6 +31,7 @@ describe RentalsController do
   after(:each) do
     @rental.destroy
     @rental2.destroy
+    Timecop.return
   end
 
   describe 'GET #index' do
@@ -114,12 +115,16 @@ describe RentalsController do
       delete :destroy, id: @rental.id
       expect(@rental.reload.checked_out?).to be true
     end
+
+    it 'remains canceled if already canceled' do
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.canceled?).to be true
+      delete :destroy, id: @rental.id
+      expect(@rental.reload.canceled?).to be true
+    end
   end
 
   describe 'GET #transform' do
-    after :each do
-      Timecop.return
-    end
 
     it 'redirects to check in page if it was checked out' do
       rental = mock_rental
@@ -180,6 +185,12 @@ describe RentalsController do
       end.to change(DigitalSignature, :count).by(1)
       expect(DigitalSignature.last.check_in?).to be true
       expect(@rental.reload.checked_in?).to be true
+    end
+
+    it 'properly processes a no show' do
+      Timecop.freeze(Time.current + 1.day)
+      put :update, id: @rental.id, commit: 'Process No Show'
+      expect(@rental.reload.canceled?).to be true
     end
 
     it 'change a rental' do
