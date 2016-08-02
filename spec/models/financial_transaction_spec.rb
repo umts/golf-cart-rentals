@@ -32,14 +32,6 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(transaction.amount).to eq(base_fee + daily_fee)
     end
 
-    it 'is invalid with a nil amount' do
-      expect(build :financial_transaction, :with_rental, amount: nil).not_to be_valid 
-    end
-
-    it 'is invalid with a nil adjustment' do
-      expect(build :financial_transaction, :with_rental, adjustment: nil).not_to be_valid
-    end
-
     it 'defaults to 0 when amount is not specified' do
       fc = build(:financial_transaction, :with_rental)
       expect(fc.amount).to eq(0)
