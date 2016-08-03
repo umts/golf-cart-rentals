@@ -70,8 +70,8 @@ gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_in
 
 group :development, :test do
   gem 'pry-byebug'
-  gem "rails-controller-testing"
-  gem "rspec-rails", "3.5.0.beta2"
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '3.5.0.beta2'
   gem 'rubocop', require: false
 end
 

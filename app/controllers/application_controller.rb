@@ -90,10 +90,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_permission
-    unless has_permission?
-      flash[:warning] = 'Your account does not have access to this page.'
-      redirect_back(fallback_location: home_index_path)
-    end
+    return if has_permission?
+    flash[:warning] = 'Your account does not have access to this page.'
+    redirect_back(fallback_location: home_index_path)
   end
 
   def user_from_shibboleth
