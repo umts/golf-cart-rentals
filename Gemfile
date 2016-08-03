@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.1'
+gem 'rails', '5.0.0'
 # Use mariadb as the database for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
@@ -23,15 +23,15 @@ gem 'jquery-rails'
 gem 'backstretch-rails'
 
 # Use signature pad
-gem 'signature-pad-rails'
+gem 'signature-pad-rails', '~> 0.5'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.0.1'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for tracking created/updated user info on a per model basis
-gem 'paper_trail', '~> 4.0.0.rc'
+gem 'paper_trail', '~> 4.2.0'
 
 # for handling the state machine behind rental statuses
 gem 'aasm'
@@ -70,7 +70,8 @@ gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_in
 
 group :development, :test do
   gem 'pry-byebug'
-  gem 'rspec-rails', '~> 3.0'
+  gem "rails-controller-testing"
+  gem "rspec-rails", "3.5.0.beta2"
   gem 'rubocop', require: false
 end
 

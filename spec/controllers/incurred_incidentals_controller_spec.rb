@@ -17,22 +17,22 @@ describe IncurredIncidentalsController do
 
   describe 'GET #show' do
     it 'assigns the requested incurred_incidental to @incurred_incidental' do
-      get :show, id: incurred_incidental
+      get :show, params: { id: incurred_incidental }
       expect(assigns[:incurred_incidental]).to eq(incurred_incidental)
     end
     it 'renders the :show template' do
-      get :show, id: incurred_incidental
+      get :show, params: { id: incurred_incidental }
       expect(response).to render_template :show
     end
   end
 
   describe 'GET #edit' do
     it 'assigns the requested incurred_incidental to @incurred_incidental' do
-      get :edit, id: incurred_incidental
+      get :edit, params: { id: incurred_incidental }
       expect(assigns[:incurred_incidental]).to eq(incurred_incidental)
     end
     it 'renders the :edit template' do
-      get :edit, id: incurred_incidental
+      get :edit, params: { id: incurred_incidental }
       expect(response).to render_template :edit
     end
   end

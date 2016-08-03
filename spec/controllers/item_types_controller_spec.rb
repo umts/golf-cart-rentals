@@ -17,22 +17,22 @@ describe ItemTypesController do
 
   describe 'GET #show' do
     it 'assigns the requested item_type to @item_type' do
-      get :show, id: item_type
+      get :show, params: { id: item_type }
       expect(assigns[:item_type]).to eq(item_type)
     end
     it 'renders the :show template' do
-      get :show, id: item_type
+      get :show, params: { id: item_type }
       expect(response).to render_template :show
     end
   end
 
   describe 'GET #edit' do
     it 'assigns the requested item_type to @item_type' do
-      get :edit, id: item_type
+      get :edit, params: { id: item_type }
       expect(assigns[:item_type]).to eq(item_type)
     end
     it 'renders the :edit template' do
-      get :edit, id: item_type
+      get :edit, params: { id: item_type }
       expect(response).to render_template :edit
     end
   end
@@ -41,13 +41,13 @@ describe ItemTypesController do
     context 'with valid attributes' do
       it 'updates the item_type in the database' do
         new_fee = item_type.base_fee + 10
-        post :update, id: item_type, item_type: { base_fee: new_fee }
+        post :update, params: { id: item_type, item_type: { base_fee: new_fee } }
         item_type.reload
         expect(item_type.base_fee).to eq(new_fee)
       end
       it 'redirects to the item_type page' do
         new_fee = item_type.base_fee + 10
-        post :update, id: item_type, item_type: { base_fee: new_fee }
+        post :update, params: { id: item_type, item_type: { base_fee: new_fee } }
         expect(response).to redirect_to item_type
       end
     end
@@ -55,12 +55,12 @@ describe ItemTypesController do
     context 'with invalid attributes' do
       it 'does not save the item_type in the database' do
         old_fee = item_type.base_fee
-        post :update, id: item_type, item_type: attributes_for(:invalid_item_type)
+        post :update, params: { id: item_type, item_type: attributes_for(:invalid_item_type) }
         item_type.reload
         expect(item_type.base_fee).to eq(old_fee)
       end
       it 're-renders the :edit template' do
-        post :update, id: item_type, item_type: attributes_for(:invalid_item_type)
+        post :update, params: { id: item_type, item_type: attributes_for(:invalid_item_type) }
         expect(response).to render_template :edit
       end
     end

@@ -92,11 +92,7 @@ class ApplicationController < ActionController::Base
   def check_permission
     unless has_permission?
       flash[:warning] = 'Your account does not have access to this page.'
-      begin
-        redirect_to :back
-      rescue ActionController::RedirectBackError, Module::DelegationError
-        redirect_to home_index_path
-      end
+      redirect_back(fallback_location: home_index_path)
     end
   end
 

@@ -17,11 +17,11 @@ describe UsersController do
 
   describe 'GET #show' do
     it 'assigns the requested user to @user' do
-      get :show, id: user
+      get :show, params: { id: user }
       expect(assigns[:user]).to eq(user)
     end
     it 'renders the :show template' do
-      get :show, id: user
+      get :show, params: { id: user }
       expect(response).to render_template :show
     end
   end
@@ -41,11 +41,11 @@ describe UsersController do
     context 'with valid attributes' do
       it 'saves the new user in the database' do
         expect do
-          post :create, user: attributes_for(:user)
+          post :create, params: { user: attributes_for(:user) }
         end.to change(User, :count).by(1)
       end
       it 'redirects to the user page' do
-        post :create, user: attributes_for(:user)
+        post :create, params: { user: attributes_for(:user) }
         expect(response).to redirect_to User.last
       end
     end
@@ -53,11 +53,11 @@ describe UsersController do
     context 'with invalid attributes' do
       it 'does not save the new user in the database' do
         expect do
-          post :create, user: attributes_for(:invalid_user)
+          post :create, params: { user: attributes_for(:invalid_user) }
         end.to_not change(User, :count)
       end
       it 're-renders the :new template' do
-        post :create, user: attributes_for(:invalid_user)
+        post :create, params: { user: attributes_for(:invalid_user) }
         expect(response).to render_template :new
       end
     end
@@ -65,11 +65,11 @@ describe UsersController do
 
   describe 'GET #edit' do
     it 'assigns the requested user to @user' do
-      get :edit, id: user
+      get :edit, params: { id: user }
       expect(assigns[:user]).to eq(user)
     end
     it 'renders the :edit template' do
-      get :edit, id: user
+      get :edit, params: { id: user }
       expect(response).to render_template :edit
     end
   end
@@ -78,13 +78,13 @@ describe UsersController do
     context 'with valid attributes' do
       it 'updates the user in the database' do
         new_name = user.first_name + 'new'
-        post :update, id: user, user: { first_name: new_name }
+        post :update, params: { id: user, user: { first_name: new_name } }
         user.reload
         expect(user.first_name).to eq(new_name)
       end
       it 'redirects to the user page' do
         new_name = user.first_name + 'new'
-        post :update, id: user, user: { first_name: new_name }
+        post :update, params: { id: user, user: { first_name: new_name } }
         expect(response).to redirect_to user
       end
     end
@@ -92,12 +92,12 @@ describe UsersController do
     context 'with invalid attributes' do
       it 'does not save the user in the database' do
         old_name = user.first_name
-        post :update, id: user, user: attributes_for(:invalid_user)
+        post :update, params: { id: user, user: attributes_for(:invalid_user) }
         user.reload
         expect(user.first_name).to eq(old_name)
       end
       it 're-renders the :edit template' do
-        post :update, id: user, user: attributes_for(:invalid_user)
+        post :update, params: { id: user, user: attributes_for(:invalid_user) }
         expect(response).to render_template :edit
       end
     end
@@ -106,11 +106,11 @@ describe UsersController do
   describe 'POST #destroy' do
     it 'deletes the user from the database' do
       expect do
-        delete :destroy, id: user
+        delete :destroy, params: { id: user }
       end.to change(User, :count).by(-1)
     end
     it 'redirects to the users index page' do
-      delete :destroy, id: user
+      delete :destroy, params: { id: user }
       expect(response).to redirect_to users_url
     end
   end

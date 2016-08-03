@@ -17,22 +17,22 @@ describe IncidentalTypesController do
 
   describe 'GET #show' do
     it 'assigns the requested incidental_type to @incidental_type' do
-      get :show, id: incidental_type
+      get :show, params: { id: incidental_type }
       expect(assigns[:incidental_type]).to eq(incidental_type)
     end
     it 'renders the :show template' do
-      get :show, id: incidental_type
+      get :show, params: { id: incidental_type }
       expect(response).to render_template :show
     end
   end
 
   describe 'GET #edit' do
     it 'assigns the requested incidental_type to @incidental_type' do
-      get :edit, id: incidental_type
+      get :edit, params: { id: incidental_type }
       expect(assigns[:incidental_type]).to eq(incidental_type)
     end
     it 'renders the :edit template' do
-      get :edit, id: incidental_type
+      get :edit, params: { id: incidental_type }
       expect(response).to render_template :edit
     end
   end
