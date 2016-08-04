@@ -49,13 +49,13 @@ describe IncidentalTypesController do
   describe 'POST #update' do
     context 'with valid params' do
       it 'updates the type in the database' do
-        post :update, id: incidental_type, incidental_type: { name: 'new type' }
+        post :update, params: { id: incidental_type, incidental_type: { name: 'new type' } }
         incidental_type.reload
         expect(incidental_type.name).to eq('new type')
       end
 
       it 'redirects to the show page for that type' do
-        post :update, id: incidental_type, incidental_type: { name: 'new type' }
+        post :update, params: { id: incidental_type, incidental_type: { name: 'new type' } }
         expect(response).to redirect_to incidental_type
       end
     end
@@ -63,13 +63,13 @@ describe IncidentalTypesController do
     context 'with invalid params' do
       it 'does not update the type in the database' do
         old_name = incidental_type.name
-        post :update, id: incidental_type, incidental_type: attributes_for(:invalid_type)
+        post :update, params: { id: incidental_type, incidental_type: attributes_for(:invalid_type) }
         incidental_type.reload
         expect(incidental_type.name).to eq(old_name)
       end
 
       it 'renders the :edit page' do
-        post :update, id: incidental_type, incidental_type: attributes_for(:invalid_type)
+        post :update, params: { id: incidental_type, incidental_type: attributes_for(:invalid_type) }
         expect(response).to render_template :edit
       end
     end
@@ -86,12 +86,12 @@ describe IncidentalTypesController do
     context 'with valid params' do
       it 'saves a new incidental type to the database' do
         expect do
-          post :create, incidental_type: incidental_type_create
+          post :create, params: { incidental_type: incidental_type_create }
         end.to change(IncidentalType, :count).by(1)
       end
 
       it 'redirects to the show page for the new incidental type' do
-        post :create, incidental_type: incidental_type_create
+        post :create, params: { incidental_type: incidental_type_create }
         expect(response).to redirect_to IncidentalType.last
       end
     end
@@ -99,12 +99,12 @@ describe IncidentalTypesController do
     context 'with invalid params' do
       it 'does not save the incidental type to the database' do
         expect do
-          post :create, incidental_type: invalid_incidental
+          post :create, params: { incidental_type: invalid_incidental }
         end.to_not change(IncidentalType, :count)
       end
 
       it 'renders the :new template' do
-        post :create, incidental_type: invalid_incidental
+        post :create, params: { incidental_type: invalid_incidental }
         expect(response).to render_template :new
       end
     end
@@ -113,12 +113,12 @@ describe IncidentalTypesController do
   describe 'DELETE #destroy' do
     it 'deletes the incidental type from the database' do
       expect do
-        delete :destroy, id: incidental_type
+        delete :destroy, params: { id: incidental_type }
       end.to change(IncidentalType, :count).by(-1)
     end
 
     it 'redirects to the incidental type index page' do
-      delete :destroy, id: incidental_type
+      delete :destroy, params: { id: incidental_type }
       expect(response).to redirect_to incidental_types_path
     end
   end
