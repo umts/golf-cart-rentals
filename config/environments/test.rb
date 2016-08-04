@@ -42,4 +42,8 @@ Rails.application.configure do
 
   # inventory api uri
   config.inventory_api_uri = 'http://localhost:4000/v1/'
+
+  config.after_initialize do
+    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  end
 end
