@@ -35,5 +35,7 @@ module ProbableEngine
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths += Dir["#{config.root}/app/models/inventory/**"]
     config.time_zone = 'Eastern Time (US & Canada)'
+
+    ActiveSupport.halt_callback_chains_on_return_false = false
   end
 end
