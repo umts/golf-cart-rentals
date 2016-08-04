@@ -1,3 +1,8 @@
+/* Disclaimer hidden class */
+.disclaimer-hidden {
+  visibility: hidden
+}
+
 /*
  * Rentals#rental_schedule specific style
  */

@@ -39,6 +39,14 @@ function toggle_loading(){
   $('#loading').toggle();
 }
 
+//Toggle disclaimers on rental schedule page
+function display_disc(select) {
+  for (i=0; i<=2; i++)
+  {
+    $(select).closest('form').find("#disclaimer_"+i).toggleClass("disclaimer-hidden")
+  }
+}
+
 //Toggle a forms submit button when a checkbox is checked/unchecked
 function accept_and_enable(box)
 {
