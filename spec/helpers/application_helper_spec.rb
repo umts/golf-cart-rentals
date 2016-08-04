@@ -58,4 +58,70 @@ describe ApplicationHelper do
       expect(rental_status_english('active')).to eq('Reserved future')
     end
   end
+
+  describe '#link_to' do
+    it 'returns nil if @current_user does not have access to an object' do
+      expect(link_to('Rentals', rentals_path)).to be_nil
+    end
+
+    it 'returns html if @current user does have access to a route' do
+      current_user.groups << create(:admin_group)
+      expect(link_to('Rentals', rentals_path)).to include('href', 'rentals')
+    end
+
+    it 'returns html if @current user does have access to an object' do
+      current_user.groups << create(:admin_group)
+      rental = create(:rental)
+      expect(link_to('Rentals', rentals_path(rental))).to include('href', 'rentals', rental.id.to_s)
+    end
+
+    it 'returns html if @current user does have access to an object, with block options' do
+      current_user.groups << create(:admin_group)
+      rental = create(:rental)
+      expect(link_to(rental) {rental.id }).to include('href', 'rentals', rental.id.to_s)
+    end
+  end
+
+  describe '#button_to' do
+    it 'raises an error' do
+      expect{button_to(anything)}.to raise_error(RuntimeError)
+    end
+  end
+
+  describe '#date_field_tag' do
+    it 'formats the date field correctly' do
+      expect(date_field_tag(:start_time)).to include('YYYY-MM-DD',
+                                                     'start_time',
+                                                     'glyphicon glyphicon-calendar',
+                                                     'input-group date datepicker'
+                                                    )
+    end
+  end
+
+  describe '#date_field' do
+    it 'formats the date field correctly' do
+      expect(date_field(:start_time, value: Date.today)).to include('YYYY-MM-DD',
+                                                                    'start_time',
+                                                                    'glyphicon glyphicon-calendar',
+                                                                    'input-group date datepicker'
+                                                                   )
+    end
+  end
+
+  describe '#time_field' do
+    it 'formats the date field correctly' do
+      expect(time_field(:start_time, value: Time.now)).to include('HH:MM AM',
+                                                                    'start_time',
+                                                                    'glyphicon glyphicon-time',
+                                                                    'input-group date timepicker'
+                                                                   )
+    end
+  end
+
+  # I am not a fan of the way this method works, but I want to make sure it is tested
+  describe '#flash_message' do
+    it 'groups messages correctly' do
+      expect(flash_message(:danger, 'Danger Danger')).to eq(['Danger Danger'])
+    end
+  end
 end
