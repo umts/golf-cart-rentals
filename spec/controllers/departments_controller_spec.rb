@@ -17,11 +17,11 @@ describe DepartmentsController do
 
   describe 'GET #show' do
     it 'assigns the requested department do @department' do
-      get :show, id: department
+      get :show, params: { id: department }
       expect(assigns[:department]).to eq(department)
     end
     it 'renders the :show template' do
-      get :show, id: department
+      get :show, params: { id: department }
       expect(response).to render_template :show
     end
   end
@@ -42,12 +42,12 @@ describe DepartmentsController do
     context 'with valid attributes' do
       it 'saves the new department in the databse' do
         expect do
-          post :create, department: attributes_for(:department)
+          post :create, params: { department: attributes_for(:department) }
         end.to change(Department, :count).by(1)
       end
 
       it 'redirects to the department page' do
-        post :create, department: attributes_for(:department)
+        post :create, params: { department: attributes_for(:department) }
         expect(response).to redirect_to Department.last
       end
     end
@@ -55,11 +55,11 @@ describe DepartmentsController do
     context 'with invalid attributes' do
       it 'does not save the new department in the database' do
         expect do
-          post :create, department: attributes_for(:invalid_department)
+          post :create, params: { department: attributes_for(:invalid_department) }
         end.to_not change(Department, :count)
       end
       it 're-renders the :new template' do
-        post :create, department: attributes_for(:invalid_department)
+        post :create, params: { department: attributes_for(:invalid_department) }
         expect(response).to render_template :new
       end
     end
@@ -67,11 +67,11 @@ describe DepartmentsController do
 
   describe 'GET #edit' do
     it 'assigns the requested department to @department' do
-      get :edit, id: department
+      get :edit, params: { id: department }
       expect(assigns[:department]).to eq(department)
     end
     it 'renders the :edit template' do
-      get :edit, id: department
+      get :edit, params: { id: department }
       expect(response).to render_template :edit
     end
   end
@@ -80,13 +80,13 @@ describe DepartmentsController do
     context 'with valid attributes' do
       it 'updates the department in the database' do
         new_name = department.name + 'new'
-        post :update, id: department, department: { name: new_name }
+        post :update, params: { id: department, department: { name: new_name } }
         department.reload
         expect(department.name).to eq(new_name)
       end
       it 'redirects to the group page' do
         new_name = department.name + 'new'
-        post :update, id: department, department: { name: new_name }
+        post :update, params: { id: department, department: { name: new_name } }
         expect(response).to redirect_to department
       end
     end
@@ -94,12 +94,12 @@ describe DepartmentsController do
     context 'with invalid attributes' do
       it 'does not save the department in the database' do
         old_name = department.name
-        post :update, id: department, department: attributes_for(:invalid_department)
+        post :update, params: { id: department, department: attributes_for(:invalid_department) }
         department.reload
         expect(department.name).to eq(old_name)
       end
       it 're-renders the :edit template' do
-        post :update, id: department, department: attributes_for(:invalid_department)
+        post :update, params: { id: department, department: attributes_for(:invalid_department) }
         expect(response).to render_template :edit
       end
     end
@@ -110,7 +110,7 @@ describe DepartmentsController do
       old_user = create(:user)
       department.users << old_user
 
-      post :remove_user, id: department, user_id: old_user
+      post :remove_user, params: { id: department, user_id: old_user }
 
       department.reload
       expect(department.users).not_to include(old_user)

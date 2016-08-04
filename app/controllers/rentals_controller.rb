@@ -95,7 +95,7 @@ class RentalsController < ApplicationController
     else
       flash[:warning] = 'This rental may not be canceled'
     end
-    redirect_to :back
+    redirect_back(fallback_location: rentals_path)
   end
 
   private

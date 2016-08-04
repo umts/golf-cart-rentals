@@ -12,7 +12,7 @@ RSpec.describe DigitalSignaturesController, type: :controller do
 
   describe 'GET #show' do
     it 'assigns the requested digital_signature as @digital_signature' do
-      get :show, id: ds.to_param
+      get :show, params: { id: ds.to_param }
       expect(assigns(:digital_signature)).to eq(ds)
     end
   end

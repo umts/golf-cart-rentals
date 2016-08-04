@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many   :groups_users, dependent: :destroy
   has_many   :groups, through: :groups_users
-  has_many   :permissions, -> { uniq }, through: :groups
+  has_many   :permissions, -> { distinct }, through: :groups
   has_many   :rentals
 
   belongs_to :department
