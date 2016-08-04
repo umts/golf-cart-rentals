@@ -6,4 +6,8 @@ FactoryGirl.define do
     modifier_amount 1
     modifier_description '1'
   end
+
+  factory :invalid_type, parent: :incidental_type do
+    name nil
+  end
 end

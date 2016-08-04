@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
+  include Rails.application.routes.url_helpers
+
   let!(:user) { create(:user) }
 
   before(:each) { current_user }

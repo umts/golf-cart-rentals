@@ -4,4 +4,8 @@ FactoryGirl.define do
     association :incidental_type
     association :rental, factory: :mock_rental
   end
+  
+  factory :invalid, parent: :incurred_incidental do
+    times_modified nil
+  end
 end
