@@ -1,6 +1,8 @@
 /* Disclaimer hidden class */
 .disclaimer-hidden {
-  visibility: hidden
+  color: transparent;
+  transition-duration: 0.4s;
+  visibility: hidden;
 }
 
 .disclaimer {
