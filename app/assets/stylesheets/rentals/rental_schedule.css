@@ -1,3 +1,14 @@
+/* Disclaimer hidden class */
+.disclaimer-hidden {
+  color: transparent;
+  transition-duration: 0.4s;
+  visibility: hidden;
+}
+
+.disclaimer {
+  white-space: pre;
+}
+
 /*
  * Rentals#rental_schedule specific style
  */
