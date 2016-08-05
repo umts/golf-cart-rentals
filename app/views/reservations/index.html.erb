@@ -18,12 +18,12 @@
         <td><%= reservation.reservation_type %></td>
         <td><%= reservation.item_type.name %></td>
         <td><%= reservation.item.name %></td>
-        <td><%= reservation.start_time %></td>
-        <td><%= reservation.end_time %></td>
+        <td><%= number_to_currency reservation.start_time %></td>
+        <td><%= number_to_currency reservation.end_time %></td>
         <td>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), reservation, class: "btn btn-xs btn-success" %>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_reservation_path(reservation), class: "btn btn-xs btn-primary" %>
-            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+"Delete"), reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
         </td>
       </tr>
     <% end %>
