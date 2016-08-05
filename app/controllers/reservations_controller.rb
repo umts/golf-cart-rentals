@@ -1,6 +1,6 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:new, :edit, :update, :create, :destroy]
-  before_action :set_item_types
+  before_action :set_reservation, only: [:edit, :update, :show, :destroy]
+  before_action :set_item_types, only: [:new, :create]
 
   def index
     @reservations = Reservation.all
@@ -14,6 +14,7 @@ class ReservationsController < ApplicationController
   end
 
   def edit
+    @item_types = ItemType.where(id: @reservation.item_type_id)
   end
 
   def update
@@ -28,7 +29,6 @@ class ReservationsController < ApplicationController
 
   def create
     @reservation = Reservation.new(reservation_params)
-    @reservation.create_reservation(params[:end_time])
 
     if @reservation.save
       flash[:success] = 'Reservation Was Successfully Created'
@@ -40,15 +40,10 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    begin
-      delete_reservation(@reservation.reservation_id)
+    binding.pry
       @reservation.destroy
       flash[:success] = 'Reservation Was Successfully Deleted'
       redirect_to reservations_url
-    rescue
-      errors.add :base, error.inspect
-      render @reservation
-    end
   end
 
   private
@@ -57,7 +52,11 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
   end
 
+  def set_item_types
+    @item_types = ItemType.all
+  end
+
   def reservation_params
-    params.require(:reservation).permit(:type, :item_type)
+    params.require(:reservation).permit(:reservation_type, :item_type_id, :end_time, :start_time)
   end
 end

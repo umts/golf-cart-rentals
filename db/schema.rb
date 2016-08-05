@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721153126) do
+ActiveRecord::Schema.define(version: 20160727140740) do
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",       limit: 255,                null: false
@@ -170,6 +170,17 @@ ActiveRecord::Schema.define(version: 20160721153126) do
 
   add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
   add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
+
+  create_table "reservations", force: :cascade do |t|
+    t.string   "reservation_type", limit: 255
+    t.string   "reservation_id",   limit: 255
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "item_type_id",     limit: 4
+    t.integer  "item_id",          limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",    limit: 30,                 null: false
