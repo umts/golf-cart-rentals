@@ -54,9 +54,10 @@ class ItemsController < ApplicationController
       ItemType.all.each do |item_type|
         refresh_items_helper(item_type)
       end
-      refresh_items_flash_helper
+
+      flash[:success] ||= 'Items have been updated.'
     rescue => error
-      flash[:danger] = 'Failed to refresh items from api. ' << error.inspect
+      flash[:danger] = "Failed to refresh items from api. #{error.inspect}"
     end
     redirect_to items_path
   end
@@ -68,7 +69,7 @@ class ItemsController < ApplicationController
     flash[:success] = 'Your cart has been successfully created. '
     refresh_items
   rescue => error
-    flash[:danger] = 'Failed to create cart in API. ' << error.inspect
+    flash[:danger] = "Failed to create cart in API. #{error.inspect}"
     redirect_to new_item_items_path
   end
 
@@ -76,14 +77,6 @@ class ItemsController < ApplicationController
     items = Inventory.items_by_type(item_type.uuid)
     items.each do |item|
       Item.where(name: item['name']).first_or_create(item_type_id: item_type.id, uuid: item['uuid'])
-    end
-  end
-
-  def refresh_items_flash_helper
-    if flash[:success].nil?
-      flash[:success] = 'Items have been updated.'
-    else
-      flash[:success] << 'Items have been updated.'
     end
   end
 

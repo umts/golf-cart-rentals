@@ -1,7 +1,5 @@
 FactoryGirl.define do
   factory :financial_transaction do
-    amount 100
-    adjustment 0
     note_field "Property of Factory Girl"
     created_at DateTime.now
     updated_at DateTime.now

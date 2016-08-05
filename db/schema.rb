@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,201 +10,190 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727140740) do
+ActiveRecord::Schema.define(version: 20160801150013) do
 
-  create_table "departments", force: :cascade do |t|
-    t.string   "name",       limit: 255,                null: false
-    t.boolean  "active",                 default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+  create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",                      null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  create_table "digital_signatures", force: :cascade do |t|
+  create_table "digital_signatures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "image",      limit: 65535
-    t.integer  "rental_id",  limit: 4
-    t.integer  "author",     limit: 4
+    t.integer  "rental_id"
+    t.integer  "author"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.integer  "intent",     limit: 4
+    t.integer  "intent"
   end
 
-  create_table "documents", force: :cascade do |t|
-    t.string   "filename",   limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "filename",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "financial_transactions", force: :cascade do |t|
-    t.integer  "rental_id",         limit: 4
-    t.integer  "transactable_id",   limit: 4
-    t.string   "transactable_type", limit: 255
-    t.integer  "amount",            limit: 4
-    t.integer  "adjustment",        limit: 4
+  create_table "financial_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "rental_id"
+    t.integer  "transactable_id"
+    t.string   "transactable_type"
+    t.integer  "amount",                          default: 0, null: false
+    t.integer  "adjustment",                      default: 0, null: false
     t.text     "note_field",        limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
-  add_index "financial_transactions", ["rental_id"], name: "index_financial_transactions_on_rental_id", using: :btree
-  add_index "financial_transactions", ["transactable_id"], name: "index_financial_transactions_on_transactable_id", using: :btree
-
-  create_table "groups", force: :cascade do |t|
-    t.string   "name",        limit: 255, null: false
-    t.string   "description", limit: 255, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  create_table "groups_permissions", force: :cascade do |t|
-    t.integer  "group_id",      limit: 4
-    t.integer  "permission_id", limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "groups_permissions", ["group_id", "permission_id"], name: "index_groups_permissions_on_group_id_and_permission_id", unique: true, using: :btree
-  add_index "groups_permissions", ["group_id"], name: "index_groups_permissions_on_group_id", using: :btree
-  add_index "groups_permissions", ["permission_id"], name: "index_groups_permissions_on_permission_id", using: :btree
-
-  create_table "groups_users", force: :cascade do |t|
-    t.integer  "group_id",   limit: 4, null: false
-    t.integer  "user_id",    limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "groups_users", ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true, using: :btree
-  add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id", using: :btree
-  add_index "groups_users", ["user_id"], name: "index_groups_users_on_user_id", using: :btree
-
-  create_table "incidental_types", force: :cascade do |t|
-    t.string   "name",                 limit: 255
-    t.string   "description",          limit: 255
-    t.decimal  "base",                             precision: 10
-    t.decimal  "modifier_amount",                  precision: 10
-    t.string   "modifier_description", limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-  end
-
-  create_table "incurred_incidentals", force: :cascade do |t|
-    t.integer  "incidental_type_id", limit: 4
-    t.decimal  "times_modified",               precision: 10
-    t.integer  "rental_id",          limit: 4
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
+    t.index ["rental_id"], name: "index_financial_transactions_on_rental_id", using: :btree
+    t.index ["transactable_id"], name: "index_financial_transactions_on_transactable_id", using: :btree
   end
 
-  add_index "incurred_incidentals", ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
-  add_index "incurred_incidentals", ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
-
-  create_table "incurred_incidentals_documents", force: :cascade do |t|
-    t.integer  "incurred_incidental_id", limit: 4, null: false
-    t.integer  "document_id",            limit: 4, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",        null: false
+    t.string   "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  add_index "incurred_incidentals_documents", ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
-  add_index "incurred_incidentals_documents", ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
-  add_index "incurred_incidentals_documents", ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
+  create_table "groups_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "group_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["group_id", "permission_id"], name: "index_groups_permissions_on_group_id_and_permission_id", unique: true, using: :btree
+    t.index ["group_id"], name: "index_groups_permissions_on_group_id", using: :btree
+    t.index ["permission_id"], name: "index_groups_permissions_on_permission_id", using: :btree
+  end
 
-  create_table "item_types", force: :cascade do |t|
-    t.string   "name",        limit: 255,   null: false
+  create_table "groups_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "group_id",   null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true, using: :btree
+    t.index ["group_id"], name: "index_groups_users_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_groups_users_on_user_id", using: :btree
+  end
+
+  create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "description"
+    t.decimal  "base",                 precision: 10
+    t.decimal  "modifier_amount",      precision: 10
+    t.string   "modifier_description"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "incidental_type_id"
+    t.decimal  "times_modified",     precision: 10
+    t.integer  "rental_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
+    t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
+  end
+
+  create_table "incurred_incidentals_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "incurred_incidental_id", null: false
+    t.integer  "document_id",            null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
+    t.index ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
+    t.index ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
+  end
+
+  create_table "item_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",                      null: false
     t.text     "disclaimer",  limit: 65535
     t.float    "base_fee",    limit: 24
     t.float    "fee_per_day", limit: 24
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.string   "uuid",        limit: 255,   null: false
+    t.string   "uuid",                      null: false
+    t.index ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
   end
 
-  add_index "item_types", ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
-
-  create_table "items", force: :cascade do |t|
-    t.string   "name",         limit: 255, null: false
-    t.string   "item_type_id", limit: 255, null: false
-    t.string   "uuid",         limit: 255, null: false
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",         null: false
+    t.string   "item_type_id", null: false
+    t.string   "uuid",         null: false
     t.datetime "deleted_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["deleted_at"], name: "index_items_on_deleted_at", using: :btree
+    t.index ["item_type_id"], name: "index_items_on_item_type_id", using: :btree
+    t.index ["uuid"], name: "index_items_on_uuid", unique: true, using: :btree
   end
 
-  add_index "items", ["deleted_at"], name: "index_items_on_deleted_at", using: :btree
-  add_index "items", ["item_type_id"], name: "index_items_on_item_type_id", using: :btree
-  add_index "items", ["uuid"], name: "index_items_on_uuid", unique: true, using: :btree
-
-  create_table "notes", force: :cascade do |t|
-    t.string   "note",          limit: 255
-    t.integer  "noteable_id",   limit: 4
-    t.string   "noteable_type", limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+  create_table "notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "note"
+    t.string   "noteable_type"
+    t.integer  "noteable_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
   end
 
-  add_index "notes", ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
-
-  create_table "permissions", force: :cascade do |t|
-    t.string   "controller", limit: 255, null: false
-    t.string   "action",     limit: 255, null: false
-    t.string   "id_field",   limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "controller", null: false
+    t.string   "action",     null: false
+    t.string   "id_field"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "rentals", force: :cascade do |t|
-    t.string   "rental_status",  limit: 255, null: false
-    t.integer  "user_id",        limit: 4,   null: false
-    t.integer  "department_id",  limit: 4,   null: false
-    t.string   "reservation_id", limit: 255, null: false
-    t.integer  "item_type_id",   limit: 4,   null: false
+  create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "rental_status",  null: false
+    t.integer  "user_id",        null: false
+    t.integer  "department_id",  null: false
+    t.string   "reservation_id", null: false
+    t.integer  "item_type_id",   null: false
     t.datetime "checked_in_at"
     t.datetime "checked_out_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_id",        limit: 4,   null: false
+    t.integer  "item_id",        null: false
+    t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
+    t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end
 
-  add_index "rentals", ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
-  add_index "rentals", ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
-
-  create_table "reservations", force: :cascade do |t|
-    t.string   "reservation_type", limit: 255
-    t.string   "reservation_id",   limit: 255
+  create_table "reservations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "reservation_type"
+    t.string   "reservation_id"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_type_id",     limit: 4
-    t.integer  "item_id",          limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "item_type_id"
+    t.integer  "item_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "first_name",    limit: 30,                 null: false
-    t.string   "last_name",     limit: 30,                 null: false
-    t.string   "email",         limit: 255,                null: false
-    t.integer  "phone",         limit: 8,                  null: false
-    t.integer  "spire_id",      limit: 4,                  null: false
-    t.integer  "department_id", limit: 4
-    t.boolean  "active",                    default: true, null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "first_name",    limit: 30,                null: false
+    t.string   "last_name",     limit: 30,                null: false
+    t.string   "email",                                   null: false
+    t.bigint   "phone",                                   null: false
+    t.integer  "spire_id",                                null: false
+    t.integer  "department_id"
+    t.boolean  "active",                   default: true, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.index ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
   end
 
-  add_index "users", ["spire_id"], name: "index_users_on_spire_id", unique: true, using: :btree
-
-  create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  limit: 255,   null: false
-    t.integer  "item_id",    limit: 4,     null: false
-    t.string   "event",      limit: 255,   null: false
-    t.string   "whodunnit",  limit: 255
+  create_table "versions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "item_type",                null: false
+    t.integer  "item_id",                  null: false
+    t.string   "event",                    null: false
+    t.string   "whodunnit"
     t.text     "object",     limit: 65535
     t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
-
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "groups_permissions", "groups", name: "fk_groups_permissions_groups"
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"

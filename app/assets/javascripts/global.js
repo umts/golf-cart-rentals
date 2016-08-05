@@ -10,6 +10,7 @@ $(function(){
   $("[required]").each(function(index, element){
     $(element).parent().addClass("required");
     $(element).parents("form").addClass("with-required");
+    $("[name='contacted-customer?']").bootstrapSwitch();
   });
 });
 
@@ -27,6 +28,15 @@ $(document).ready(function() {
     $( ".timepicker" ).datetimepicker({
       format: 'h:mm A'
     });
+
+    //Adds listeners to select inputs to toggle disclaimers on rental schedule page
+    $(document.getElementsByName("rental[item_type_id]")).each(function() {
+      $(this).change(function () {
+        $(this).closest("form").find(".disclaimer").each(function() {
+          $(this).toggleClass("disclaimer-hidden")
+        })
+      })
+    })
 });
 
 //Toggle the loading div

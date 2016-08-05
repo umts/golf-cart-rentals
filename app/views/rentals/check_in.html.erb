@@ -14,7 +14,7 @@
   <tr>
     <td><%= rental.item_type.name%></td>
     <td><%= rental.item.name%></td>
-    <td>$00</td>
+    <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.user.full_name %></td>
     <td><%= rental.user.spire_id %></td>
     <td><%= rental.department.name %></td>

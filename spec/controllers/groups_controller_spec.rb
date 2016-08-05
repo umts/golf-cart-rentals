@@ -17,11 +17,11 @@ describe GroupsController do
 
   describe 'GET #show' do
     it 'assigns the requested group to @group' do
-      get :show, id: group
+      get :show, params: { id: group }
       expect(assigns[:group]).to eq(group)
     end
     it 'renders the :show template' do
-      get :show, id: group
+      get :show, params: { id: group }
       expect(response).to render_template :show
     end
   end
@@ -48,17 +48,17 @@ describe GroupsController do
     context 'with valid attributes' do
       it 'saves the new group in the database' do
         expect do
-          post :create, group: attributes_for(:group)
+          post :create, params: { group: attributes_for(:group) }
         end.to change(Group, :count).by(1)
       end
       it 'attaches the group to users and permissions' do
         attributes = attributes_for(:group_with_users_and_permissions)
-        post :create, group: attributes
+        post :create, params: { group: attributes }
         expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
         expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
       it 'redirects to the group page' do
-        post :create, group: attributes_for(:group)
+        post :create, params: { group: attributes_for(:group) }
         expect(response).to redirect_to Group.last
       end
     end
@@ -66,11 +66,11 @@ describe GroupsController do
     context 'with invalid attributes' do
       it 'does not save the new contact in the database' do
         expect do
-          post :create, group: attributes_for(:invalid_group)
+          post :create, params: { group: attributes_for(:invalid_group) }
         end.to_not change(Group, :count)
       end
       it 're-renders the :new template' do
-        post :create, group: attributes_for(:invalid_group)
+        post :create, params: { group: attributes_for(:invalid_group) }
         expect(response).to render_template :new
       end
     end
@@ -78,7 +78,7 @@ describe GroupsController do
 
   describe 'GET #edit' do
     it 'assigns the requested group to @group' do
-      get :edit, id: group
+      get :edit, params: { id: group }
       expect(assigns[:group]).to eq(group)
     end
     it 'assigns all the permissions to @permissions' do
@@ -90,7 +90,7 @@ describe GroupsController do
       expect(assigns[:groups]).to eq([group, group2])
     end
     it 'renders the :edit template' do
-      get :edit, id: group
+      get :edit, params: { id: group }
       expect(response).to render_template :edit
     end
   end
@@ -99,19 +99,19 @@ describe GroupsController do
     context 'with valid attributes' do
       it 'updates the group in the database' do
         new_name = group.name + 'new'
-        post :update, id: group, group: { name: new_name }
+        post :update, params: { id: group, group: { name: new_name } }
         group.reload
         expect(group.name).to eq(new_name)
       end
       it 'updates the groups attached users and permissions' do
         attributes = attributes_for(:group_with_users_and_permissions)
-        post :create, group: attributes
+        post :create, params: { group: attributes }
         expect(Group.last.users.to_ary).to eq(attributes[:user_ids])
         expect(Group.last.permissions.to_ary).to eq(attributes[:permission_ids])
       end
       it 'redirects to the group page' do
         new_name = group.name + 'new'
-        post :update, id: group, group: { name: new_name }
+        post :update, params: { id: group, group: { name: new_name } }
         expect(response).to redirect_to group
       end
     end
@@ -119,12 +119,12 @@ describe GroupsController do
     context 'with invalid attributes' do
       it 'does not save the contact in the database' do
         old_name = group.name
-        post :update, id: group, group: attributes_for(:invalid_group)
+        post :update, params: { id: group, group: attributes_for(:invalid_group) }
         group.reload
         expect(group.name).to eq(old_name)
       end
       it 're-renders the :edit template' do
-        post :update, id: group, group: attributes_for(:invalid_group)
+        post :update, params: { id: group, group: attributes_for(:invalid_group) }
         expect(response).to render_template :edit
       end
     end
@@ -133,11 +133,11 @@ describe GroupsController do
   describe 'POST #destroy' do
     it 'deletes the group from the database' do
       expect do
-        delete :destroy, id: group
+        delete :destroy, params: { id: group }
       end.to change(Group, :count).by(-1)
     end
     it 'redirects to the groups index page' do
-      delete :destroy, id: group
+      delete :destroy, params: { id: group }
       expect(response).to redirect_to groups_url
     end
   end
@@ -151,7 +151,7 @@ describe GroupsController do
       new_attributes = new_permission.attributes
       new_attributes[:old_id_field] = old_permission.id_field
 
-      post :update_permission, id: group, permission: new_attributes
+      post :update_permission, params: { id: group, permission: new_attributes }
 
       group.reload
       expect(group.permissions).not_to include(old_permission)
@@ -165,7 +165,7 @@ describe GroupsController do
       old_permission = create(:permission)
       group.permissions << old_permission
 
-      post :remove_permission, id: group, permission_id: old_permission
+      post :remove_permission, params: { id: group, permission_id: old_permission }
 
       group.reload
       expect(group.permissions).not_to include(old_permission)
@@ -178,7 +178,7 @@ describe GroupsController do
       old_user = create(:user)
       group.users << old_user
 
-      post :remove_user, id: group, user_id: old_user
+      post :remove_user, params: { id: group, user_id: old_user }
 
       group.reload
       expect(group.users).not_to include(old_user)
