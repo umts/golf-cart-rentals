@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :show, :destroy]
   before_action :set_item_types, only: [:new, :create]
@@ -40,10 +41,9 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    binding.pry
-      @reservation.destroy
-      flash[:success] = 'Reservation Was Successfully Deleted'
-      redirect_to reservations_url
+    @reservation.destroy
+    flash[:success] = 'Reservation Was Successfully Deleted'
+    redirect_to reservations_url
   end
 
   private
