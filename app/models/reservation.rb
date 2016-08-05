@@ -14,12 +14,13 @@ class Reservation < ActiveRecord::Base
     return false unless valid?
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
-      reservation_id = reservation[:uuid]
-      item = Item.find_by(name: reservation[:item])
+      self.reservation_id = reservation[:uuid]
+      self.item = Item.find_by(name: reservation[:item])
     rescue => error
       errors.add :base, error.inspect
       return false
     end
+    true
   end
 
   def update_api_reservation
