@@ -28,6 +28,15 @@ $(document).ready(function() {
     $( ".timepicker" ).datetimepicker({
       format: 'h:mm A'
     });
+
+    //Adds listeners to select inputs to toggle disclaimers on rental schedule page
+    $(document.getElementsByName("rental[item_type_id]")).each(function() {
+      $(this).change(function () {
+        $(this).closest("form").find(".disclaimer").each(function() {
+          $(this).toggleClass("disclaimer-hidden")
+        })
+      })
+    })
 });
 
 //Toggle the loading div
@@ -37,14 +46,6 @@ $(function(){
 });
 function toggle_loading(){
   $('#loading').toggle();
-}
-
-//Toggle disclaimers on rental schedule page
-function display_disc(select) {
-  for (i=0; i<=2; i++)
-  {
-    $(select).closest('form').find("#disclaimer_"+i).toggleClass("disclaimer-hidden")
-  }
 }
 
 //Toggle a forms submit button when a checkbox is checked/unchecked

@@ -3,6 +3,10 @@
   visibility: hidden
 }
 
+.disclaimer {
+  white-space: pre;
+}
+
 /*
  * Rentals#rental_schedule specific style
  */

@@ -15,7 +15,7 @@
       <div class="form-group col-xs-12">
         <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control", onchange: 'display_disc(this)' %>
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
             <% @item_types.each do |type| %>
               <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
                 <% hidden = 'disclaimer-hidden' unless type == @item_types.first %>
-                <%= content_tag :span, type.disclaimer, class: "disclaimer #{hidden}", id: "disclaimer_#{type.id}", style: "white-space: pre;" %>
+                <%= content_tag :span, type.disclaimer, class: "disclaimer #{hidden}", id: "disclaimer_#{type.id}" %>
               </div>
             <% end %>
           </div>
@@ -76,7 +76,7 @@
       <div class="form-group col-xs-12">
         <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control", onchange: "display_disc(this)" %>
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
         </div>
       </div>
 
@@ -110,7 +110,7 @@
             <% @item_types.each do |type| %>
               <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
                 <% hidden = 'disclaimer-hidden' unless type == @item_types.first %>
-                <%= content_tag :span, type.disclaimer, class: "disclaimer #{hidden}", id: "disclaimer_#{type.id}", style: "white-space: pre;" %>
+                <%= content_tag :span, type.disclaimer, class: "disclaimer #{hidden}", id: "disclaimer_#{type.id}" %>
               </div>
             <% end %>
           </div>
