@@ -75,7 +75,6 @@ class RentalsController < ApplicationController
     @rental = Rental.new(rental_params)
 
     @start_date = params['start_date'] || Time.zone.today
-
     if @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
@@ -125,7 +124,7 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
-    new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
+    new_time = Time.zone.parse(params[:rental][:start_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
   end
 
