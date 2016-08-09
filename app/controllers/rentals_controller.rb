@@ -124,15 +124,19 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
-    if params[:commit] == 'Create Single Day Rental'
-      new_time = Time.zone.parse(params[:rental][:start_time]).end_of_day
-    else
-      new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    end
-    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: assign_time)
   end
 
   def sig_image_params
     params.require(:rental).permit(:customer_signature_image)
+  end
+
+  def assign_time
+    new_time = if params[:commit] == 'Create Single Day Rental'
+                 Time.zone.parse(params[:rental][:start_time]).end_of_day
+               else
+                 new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
+               end
+    new_time
   end
 end
