@@ -135,7 +135,7 @@ class RentalsController < ApplicationController
     new_time = if params[:commit] == 'Create Single Day Rental'
                  Time.zone.parse(params[:rental][:start_time]).end_of_day
                else
-                 new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
+                 Time.zone.parse(params[:rental][:end_time]).end_of_day
                end
     new_time
   end
