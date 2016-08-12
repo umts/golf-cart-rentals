@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
-  get 'rentals/:id/transaction_detail', to: 'rentals#transaction_detail', as: 'rental_transaction_detail'
   resources :rentals
 
   resources :departments do
