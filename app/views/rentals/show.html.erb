@@ -107,5 +107,6 @@
     <% else %>
       <%= link_to 'Back', root_url, class: "btn btn-default" %>
     <% end %>
+    <%= link_to 'Print Rental', @rental, :onclick => 'window.print();return false;', class: "btn btn-primary"%>
   </div>
 </div>
