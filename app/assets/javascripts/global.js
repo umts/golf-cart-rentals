@@ -37,6 +37,11 @@ $(document).ready(function() {
         })
       })
     })
+
+    //Single day submit button function for updating end time
+    $('#TOC').click(function () {
+      $('#rental_end_time').val($('#rental_start_time').val())
+    })
 });
 
 //Toggle the loading div
