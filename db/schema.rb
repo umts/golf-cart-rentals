@@ -161,6 +161,17 @@ ActiveRecord::Schema.define(version: 20160801150013) do
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end
 
+  create_table "reservations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "reservation_type"
+    t.string   "reservation_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "item_type_id"
+    t.integer  "item_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name",    limit: 30,                null: false
     t.string   "last_name",     limit: 30,                null: false
