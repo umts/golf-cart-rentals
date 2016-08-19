@@ -34,12 +34,6 @@
       </div>
 
       <div class="form-group col-xs-12">
-        <div class="col-xs-6">
-          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control" %>
-        </div>
-      </div>
-
-      <div class="form-group col-xs-12">
         <div class="col-xs-offset-2 col-xs-6">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -63,7 +57,7 @@
 
       <div class="form-group col-xs-12">
         <div class="col-xs-offset-2 col-xs-10">
-          <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
+          <%= f.submit 'Create Single Day Rental', class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
           <%= link_to 'Back', :back, class: "btn btn-default" %>
         </div>
       </div>
@@ -125,7 +119,7 @@
 
       <div class="form-group col-xs-12">
         <div class="col-xs-offset-2 col-xs-10">
-          <%= f.submit class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
+          <%= f.submit 'Create Multi Day Rental', class: "btn btn-primary", id: "TOC", disabled: "disabled" %>
           <%= link_to 'Back', :back, class: "btn btn-default" %>
         </div>
       </div>

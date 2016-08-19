@@ -80,6 +80,13 @@ describe RentalsController do
       end
     end
 
+    context 'single day rental' do
+      it 'handles the date correctly' do
+        post :create, params: { rental: rental_create, commit: 'Create Single Day Rental' }
+        expect(Rental.last.end_date).to eq(Rental.last.start_date.next_day.midnight - 1.second)
+      end
+    end
+
     context 'with invalid attributes' do
       it 'does not save the new rental in the database' do
         expect do

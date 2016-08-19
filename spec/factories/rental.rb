@@ -9,12 +9,10 @@ FactoryGirl.define do
   end
 
   factory :invalid_rental, parent: :rental do
-    association :user
+    user nil
     association :department
     association :item_type
     association :item
-    start_time nil
-    end_time (Time.current + 1.day)
   end
 
   factory :new_rental, parent: :rental do
