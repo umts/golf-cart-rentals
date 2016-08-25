@@ -56,7 +56,7 @@ function toggle_loading(){
 //Toggle a forms submit button when a checkbox is checked/unchecked
 function accept_and_enable(box)
 {
-    var submit = $(box).closest('form').find("input[type='submit']")[0];
+    var submit = $(box).closest('form').find("input[type='submit']").elements[""][0];
 
     if (box.checked === true)
     {
@@ -66,4 +66,31 @@ function accept_and_enable(box)
     {
         submit.disabled = true;
     }
+}
+
+function calculate_price(blah)
+{
+  // Grab the Price of the item types
+  // TODO: Switch out index id for item type names
+  var item_type_prices = new Array();
+  item_type_prices[1] = 40;
+  item_type_prices[2] = 60;
+
+  var item_type_daily_rates = new Array();
+  item_type_daily_rates[1] = 35;
+  item_type_daily_rates[2] = 40;
+
+  var item_type_price = 0;
+  var rentalForm = document.forms["single_day"];
+
+  var cart = rentalForm.elements["rental_item_type_id"];
+  item_type_price = item_type_prices[cart.value];
+
+  var start = new Date(rentalForm.elements["rental_start_time"].value);
+
+  var date_range = 1;
+  var item_type_daily_rate = item_type_daily_rates[cart.value];
+
+  var price = item_type_price + (date_range*item_type_daily_rate)
+  console.log(price);
 }
