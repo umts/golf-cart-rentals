@@ -56,7 +56,7 @@ function toggle_loading(){
 //Toggle a forms submit button when a checkbox is checked/unchecked
 function accept_and_enable(box)
 {
-    var submit = $(box).closest('form').find("input[type='submit']").elements[""][0];
+    var submit = $(box).closest('form').find("input[type='submit']")[0];
 
     if (box.checked === true)
     {
@@ -93,4 +93,7 @@ function calculate_price(blah)
 
   var price = item_type_price + (date_range*item_type_daily_rate)
   console.log(price);
+
+  document.getElementById('single_day_range').innerHTML = date_range;
+  document.getElementById('single_day_pricing').innerHTML = "$"+price;
 }
