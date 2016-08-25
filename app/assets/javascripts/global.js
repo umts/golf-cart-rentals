@@ -72,6 +72,7 @@ function calculate_price(blah)
 {
   // Grab the Price of the item types
   // TODO: Switch out index id for item type names
+  // TODO: json for item type pricing and rates
   var item_type_prices = new Array();
   item_type_prices[1] = 40;
   item_type_prices[2] = 60;
@@ -81,19 +82,22 @@ function calculate_price(blah)
   item_type_daily_rates[2] = 40;
 
   var item_type_price = 0;
-  var rentalForm = document.forms["single_day"];
+  var rentalForm = document.forms["rental_reservation"];
 
   var cart = rentalForm.elements["rental_item_type_id"];
   item_type_price = item_type_prices[cart.value];
 
   var start = new Date(rentalForm.elements["rental_start_time"].value);
+  var end = new Date(rentalForm.elements["rental_end_time"].value);
 
-  var date_range = 1;
+  var date_range = Math.abs(end.getTime() - start.getTime());
+  date_range = Math.ceil(date_range / (1000 * 3600 * 24));
+
   var item_type_daily_rate = item_type_daily_rates[cart.value];
 
   var price = item_type_price + (date_range*item_type_daily_rate)
   console.log(price);
 
-  document.getElementById('single_day_range').innerHTML = date_range;
-  document.getElementById('single_day_pricing').innerHTML = "$"+price;
+  document.getElementById('rental_date_range').innerHTML = date_range;
+  document.getElementById('rental_pricing').innerHTML = "$"+price;
 }
