@@ -18,3 +18,20 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
 @import "bootstrap-datetimepicker"
+
+// Removes link urls, page header, buttons and displays all tabs and page breaks when printing
+@media print
+  a[href]:after
+    content: none !important
+  div#payment
+    display: block
+    opacity: 1
+  div#incidental
+    display: block
+    opacity: 1
+  .page-header
+    display: none
+  li
+    margin-top: 300px
+  a.btn
+    display: none
