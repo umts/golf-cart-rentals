@@ -96,7 +96,6 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/invoice
   def invoice
-    render :_transaction_detail
   end
 
   private
