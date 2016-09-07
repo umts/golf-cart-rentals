@@ -1,4 +1,22 @@
 <% provide( :page_header, "Rental ##{@rental.id} --- #{@rental.dates}" ) %>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <%= image_tag 'umass_logo', size: 130 %>
+    </div>
+    <div class="col-xs-4">
+      <p>
+        Parking Services <br>
+        University of Massachusetts Amherst<br>
+        51 Forestry Way Amherst, MA 01003-9262<br>
+        phone: (413) 577-PARK fax: (413) 545-4440<br>
+        web: http://parking.umass.edu<br>
+        email: parking@admin.umass.edu<br>
+      </p>
+    <div>
+  </div>
+</div>
+
 <div class="form-group col-xs-12">
   <h3><label class="col-xs-2 control-label">Status</label>
   <span class="label label-info auto"><%= @rental.rental_status.upcase %></span></h3>
