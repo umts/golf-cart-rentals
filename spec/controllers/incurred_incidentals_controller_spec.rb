@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe IncurredIncidentalsController do
@@ -13,8 +14,8 @@ describe IncurredIncidentalsController do
     inc
   end
 
-  let!(:incurred_incidental) {create(:incurred_incidental)}
-  let!(:incurred_incidental2) {create(:incurred_incidental)}
+  let!(:incurred_incidental) { create(:incurred_incidental) }
+  let!(:incurred_incidental2) { create(:incurred_incidental) }
 
   describe 'GET #index' do
     it 'polulates an array of incurred incidental' do

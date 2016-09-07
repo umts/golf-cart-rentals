@@ -100,40 +100,40 @@ class RentalsController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rental
-      @rental = Rental.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_rental
+    @rental = Rental.find(params[:id])
+  end
 
-    def set_financial_transactions
-      @financial_transactions = FinancialTransaction.where(rental_id: @rental.id)
-    end
+  def set_financial_transactions
+    @financial_transactions = FinancialTransaction.where(rental_id: @rental.id)
+  end
 
-    def set_item_types
-      @item_types ||= ItemType.all.order(name: :asc)
-      @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
-    end
+  def set_item_types
+    @item_types ||= ItemType.all.order(name: :asc)
+    @item_types = @item_types.where(name: params['item_type']).order(name: :asc) if params['item_type']
+  end
 
-    def set_items
-      @items = Item.all
-    end
+  def set_items
+    @items = Item.all
+  end
 
-    def set_users
-      @users = User.all
-    end
+  def set_users
+    @users = User.all
+  end
 
-    def set_incidental_types
-      @incidental_types = IncidentalType.all
-    end
+  def set_incidental_types
+    @incidental_types = IncidentalType.all
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def rental_params
-      user = User.find(params.require(:rental).permit(:user_id)[:user_id])
-      new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-      params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def rental_params
+    user = User.find(params.require(:rental).permit(:user_id)[:user_id])
+    new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+  end
 
-    def sig_image_params
-      params.require(:rental).permit(:customer_signature_image)
-    end
+  def sig_image_params
+    params.require(:rental).permit(:customer_signature_image)
+  end
 end

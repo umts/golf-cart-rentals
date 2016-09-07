@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Rental do
@@ -144,17 +145,17 @@ RSpec.describe Rental do
     it '.create_financial_transaction callback is triggered on create' do
       rental = build(:rental)
       # Critical section.
-      Mutex.new.synchronize{
-       expect(rental).to receive(:create_financial_transaction)
-       rental.save
-     }
+      Mutex.new.synchronize do
+        expect(rental).to receive(:create_financial_transaction)
+        rental.save
+      end
     end
-   it 'creates a finacial transaction based on the item_type' do
-    rental = build(:rental)
-    expect(rental.financial_transaction).to be(nil)
-    rental.save
-    expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
-   end
+    it 'creates a finacial transaction based on the item_type' do
+      rental = build(:rental)
+      expect(rental.financial_transaction).to be(nil)
+      rental.save
+      expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+    end
   end
 
   describe '#event_status_color' do
