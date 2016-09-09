@@ -6,8 +6,20 @@ RSpec.describe IncurredIncidental, type: :model do
       expect(build(:incurred_incidental)).to be_valid
     end
 
-    it 'doesnt build when given improper params' do
+    it 'doesnt build when incidental_type_id is nil' do
+      expect(build(:incurred_incidental, incidental_type_id: nil)).not_to be_valid
+    end
+
+    it 'doesnt build when rental_id is nil' do
+      expect(build(:incurred_incidental, rental_id: nil)).not_to be_valid
+    end
+
+    it 'doesnt build when times_modified is nil' do
       expect(build(:incurred_incidental, times_modified: nil)).not_to be_valid
+    end
+
+    it 'doesnt build when times_modified is not a number' do
+      expect(build(:incurred_incidental, times_modified: "NaN")).not_to be_valid
     end
   end
 

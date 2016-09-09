@@ -13,17 +13,19 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def show
-    @incidental = IncurredIncidental.find(params[:id])
+    @incurred_incidental = IncurredIncidental.find(params[:id])
   end
 
   def create
-    @incidental = @rental.incurred_incidentals.new(incidental_params)
+    @incurred_incidental = IncurredIncidental.new(incidental_params)
+    # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
     respond_to do |format|
-      if @incidental.save
-        format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental),
+      if @incurred_incidental.save
+        format.html { redirect_to incurred_incidental_path(@incurred_incidental),
                       notice: 'Incidental successfully created.' }
       else
-        format.html { render :new }
+        format.html { render :new,
+                      notice: 'Failed to create Incidental' }
       end
     end
   end
@@ -33,31 +35,22 @@ class IncurredIncidentalsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @incidental.update(incidental_params)
-        format.html { redirect_to rental_incurred_incidental_path(@rental, @incidental),
+      # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
+      if @incurred_incidental.update(incidental_params)
+        format.html { redirect_to incurred_incidental_path(@incurred_incidental),
                       notice: 'Incidental successfully updated.' }
       else
-        format.html { render :edit }
+        format.html { render :edit,
+                      notice: 'Failed to update Incidental' }
       end
     end
   end
 
-  #def destroy
-  #  @incidental.destroy
-  #  respond_to do |format|
-  #    format.html { redirect_to rental_incurred_incidentals_path,
-  #                  notice: 'Incidental successfully destroyed.' }
-  #  end
-  #end
-
-  def change_active
+  def destroy
+    @incurred_incidental.destroy
     respond_to do |format|
-      if @incidental.update(is_active: @incidental.re_de_activate)
-        format.html { redirect_to rental_incurred_incidentals_path,
-                      notice: 'Incidental successfully updated.' }
-      else
-        format.html { render :index, notice: 'Failed to update incidental' }
-      end
+      format.html { render :index,
+                    notice: 'Incidental successfully destroyed.' }
     end
   end
 
@@ -74,7 +67,7 @@ class IncurredIncidentalsController < ApplicationController
       @rentals = Rental.all
     end
 
-    def incurred_incidental_params
-      params.require(:incurred_incidental).permit(:incidental_type_id, :rental_id, :times_modified)
+    def incidental_params
+      params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :times_modified)
     end
 end

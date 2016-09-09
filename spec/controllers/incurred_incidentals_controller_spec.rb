@@ -5,16 +5,17 @@ describe IncurredIncidentalsController do
     inc = attributes_for(:incurred_incidental)
     inc[:incidental_type_id] = create(:incidental_type)
     inc[:rental_id] = create(:rental)
+    inc[:times_modified] = 0
     inc
   end
 
   let(:invalid_create) do
-    inc = attributes_for(:invalid)
+    inc = attributes_for(:invalid_incidental)
     inc
   end
 
-  let!(:incurred_incidental) {create(:incurred_incidental)}
-  let!(:incurred_incidental2) {create(:incurred_incidental)}
+  let!(:incurred_incidental)  { create(:incurred_incidental) }
+  let!(:incurred_incidental2) { create(:incurred_incidental) }
 
   describe 'GET #index' do
     it 'polulates an array of incurred incidental' do
@@ -106,13 +107,13 @@ describe IncurredIncidentalsController do
     context 'with invalid params' do
       it 'does not update the incurred incidental in the database' do
         old_times_modified = incurred_incidental.times_modified
-        post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid) }
+        post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         incurred_incidental.reload
         expect(incurred_incidental.times_modified).to eq(old_times_modified)
       end
 
       it 'renders the :edit template' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid) }
+        post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         expect(response).to render_template :edit
       end
     end
@@ -127,7 +128,7 @@ describe IncurredIncidentalsController do
 
     it 'redirects to the incurred incidental page' do
       delete :destroy, params: { id: incurred_incidental }
-      expect(response).to redirect_to incurred_incidental
+      expect(response).to render_template :index
     end
   end
 end

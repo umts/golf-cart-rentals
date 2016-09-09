@@ -39,17 +39,11 @@ Rails.application.routes.draw do
   resources :incurred_incidentals
   resources :reservations
 
-  resources :rentals do
-    resources :incurred_incidentals, except: [:destroy] do
-      patch :active, on: :member
-    end
-  end
-
-  resources :rentals do
-    resources :incurred_incidentals, except: [:destroy] do
-      patch :active, on: :member
-    end
-  end
+  #resources :rentals do
+  #  resources :incurred_incidentals, except: [:destroy] do
+  #    patch :active, on: :member
+  #  end
+  #end
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
