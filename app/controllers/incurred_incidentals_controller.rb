@@ -4,6 +4,10 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
 
+  def show
+    @incurred_incidental = IncurredIncidental.find(params[:id])
+  end
+
   def index
     @incurred_incidentals = IncurredIncidental.all
   end
@@ -12,20 +16,16 @@ class IncurredIncidentalsController < ApplicationController
     @incurred_incidental = IncurredIncidental.new
   end
 
-  def show
-    @incurred_incidental = IncurredIncidental.find(params[:id])
-  end
-
   def create
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
     respond_to do |format|
       if @incurred_incidental.save
         format.html { redirect_to incurred_incidental_path(@incurred_incidental),
-                      notice: 'Incidental successfully created.' }
+                      flash: { success: 'Incidental successfully created' } }
       else
         format.html { render :new,
-                      notice: 'Failed to create Incidental' }
+                      flash: { error: 'Failed to update Incidental' } }
       end
     end
   end
@@ -38,10 +38,10 @@ class IncurredIncidentalsController < ApplicationController
       # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
       if @incurred_incidental.update(incidental_params)
         format.html { redirect_to incurred_incidental_path(@incurred_incidental),
-                      notice: 'Incidental successfully updated.' }
+                      flash: { success: 'Incidental successfully updated' } }
       else
         format.html { render :edit,
-                      notice: 'Failed to update Incidental' }
+                      flash: { error: 'Failed to update Incidental' } }
       end
     end
   end
@@ -49,8 +49,8 @@ class IncurredIncidentalsController < ApplicationController
   def destroy
     @incurred_incidental.destroy
     respond_to do |format|
-      format.html { render :index,
-                    notice: 'Incidental successfully destroyed.' }
+      format.html { redirect_to incurred_incidentals_path,
+                    flash: { success: 'Incidental successfully deleted' } }
     end
   end
 
