@@ -21,11 +21,15 @@ class IncurredIncidentalsController < ApplicationController
     # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
     respond_to do |format|
       if @incurred_incidental.save
-        format.html { redirect_to incurred_incidental_path(@incurred_incidental),
-                      flash: { success: 'Incidental successfully created' } }
+        format.html do
+          redirect_to incurred_incidental_path(@incurred_incidental)
+          flash[:success] = 'Incidental successfully created'
+        end
       else
-        format.html { render :new,
-                      flash: { error: 'Failed to update Incidental' } }
+        format.html do
+          render :new
+          flash[:error] = 'Failed to update Incidental'
+        end
       end
     end
   end
@@ -37,11 +41,15 @@ class IncurredIncidentalsController < ApplicationController
     respond_to do |format|
       # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
       if @incurred_incidental.update(incidental_params)
-        format.html { redirect_to incurred_incidental_path(@incurred_incidental),
-                      flash: { success: 'Incidental successfully updated' } }
+        format.html do
+          redirect_to incurred_incidental_path(@incurred_incidental)
+          flash[:success] = 'Incidental successfully updated'
+        end
       else
-        format.html { render :edit,
-                      flash: { error: 'Failed to update Incidental' } }
+        format.html do
+          render :edit
+          flash[:error] = 'Failed to update Incidental'
+        end
       end
     end
   end
@@ -49,25 +57,28 @@ class IncurredIncidentalsController < ApplicationController
   def destroy
     @incurred_incidental.destroy
     respond_to do |format|
-      format.html { redirect_to incurred_incidentals_path,
-                    flash: { success: 'Incidental successfully deleted' } }
+      format.html do
+        redirect_to incurred_incidentals_path
+        flash[:success] = 'Incidental successfully deleted'
+      end
     end
   end
 
   private
-    def set_incurred_incidental
-      @incurred_incidental = IncurredIncidental.find(params[:id])
-    end
 
-    def set_incidental_types
-      @incidental_types = IncidentalType.all
-    end
+  def set_incurred_incidental
+    @incurred_incidental = IncurredIncidental.find(params[:id])
+  end
 
-    def set_rentals
-      @rentals = Rental.all
-    end
+  def set_incidental_types
+    @incidental_types = IncidentalType.all
+  end
 
-    def incidental_params
-      params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :times_modified)
-    end
+  def set_rentals
+    @rentals = Rental.all
+  end
+
+  def incidental_params
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :times_modified)
+  end
 end

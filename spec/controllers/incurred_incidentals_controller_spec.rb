@@ -128,7 +128,7 @@ describe IncurredIncidentalsController do
 
     it 'redirects to the incurred incidental page' do
       delete :destroy, params: { id: incurred_incidental }
-      expect(response).to render_template :index
+      expect(response).to redirect_to incurred_incidentals_path
     end
   end
 end
