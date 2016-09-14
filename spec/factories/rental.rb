@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :rental do
     association :user
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
-    association :item, name: "TEST_ITEM"
+    association :item, name: 'TEST_ITEM'
     start_time Time.current
     end_time (Time.current + 1.day)
   end
@@ -35,21 +36,21 @@ FactoryGirl.define do
     start_time Time.current
     end_time (Time.current + 1.day)
   end
-  
+
   factory :upcoming_rental, parent: :rental do
     start_time (Time.current + 1.day).to_s
-    end_time (Time.current + 5.day).to_s
+    end_time (Time.current + 5.days).to_s
   end
-  
+
   factory :past_rental, parent: :rental do
     rental_status 'checked_in'
   end
 
   factory :far_future_rental, parent: :rental do
-    start_time (Time.current + 8.day).to_s
-    end_time (Time.current + 9.day).to_s
+    start_time (Time.current + 8.days).to_s
+    end_time (Time.current + 9.days).to_s
   end
-  
+
   factory :ongoing_rental, parent: :rental do
     rental_status 'checked_out'
   end
