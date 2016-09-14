@@ -13,26 +13,26 @@
   </ul>
 
   <div class="tab-content">
-	<div id="all" class="tab-pane fade in active">
+    <div id="all" class="tab-pane fade in active">
       <%= render partial: 'rentals', locals: { rental_type: @upcoming_rentals } %>
       <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } if @ongoing_rentals.present? %>
       <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } if @no_show_rentals.present? %>
       <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals } %>
     </div>
-	<div id="upcoming" class="tab-pane fade">
+    <div id="upcoming" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @upcoming_rentals } %>
-	</div>
-	<div id="future" class="tab-pane fade">
+    </div>
+    <div id="future" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @future_rentals } %>
-	</div>
-	<div id="ongoing" class="tab-pane fade">
+    </div>
+    <div id="ongoing" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @ongoing_rentals } %>
-	</div>
-	<div id="noshow" class="tab-pane fade">
+    </div>
+    <div id="noshow" class="tab-pane fade">
       <%= render partial: 'rentals', locals: { rental_type: @no_show_rentals } %>
-	</div>
-	<div id="past" class="tab-pane fade">
-	  <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals }%>
-	</div>
+    </div>
+    <div id="past" class="tab-pane fade">
+      <%= render partial: 'rentals_with_search', locals: { rental_type: @past_rentals }%>
+    </div>
   </div>
 <% end %>
