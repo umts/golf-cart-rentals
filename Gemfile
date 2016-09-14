@@ -66,7 +66,7 @@ gem 'date_validator'
 # permanent records
 gem 'permanent_records'
 
-gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
+gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git' # isnt version is ignored here? it should be 'tag'
 
 group :development, :test do
   gem 'pry-byebug'
