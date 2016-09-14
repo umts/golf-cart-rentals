@@ -237,9 +237,15 @@ RSpec.describe Rental do
 
   describe '#create_reservation' do
     context 'error thrown' do
-      it 'logs error and returns false' do
+      it 'logs error and returns false for a series of errors' do
         r = build(:rental)
         allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
         expect(r.create_reservation).to be false
       end
     end
