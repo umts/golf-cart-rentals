@@ -5,7 +5,7 @@
       <input type="text" class="selectpicker form-control" disabled="true" value="<%= @rental.basic_info %>"/>
     </div>
     <div>
-      <%= f.text_field :rental_id, class: "hidden selectpicker form-control", value: params[:rental_id] || @incurred_incidental.rental.id, visibility: 'hidden' %>
+      <%= f.hidden_field :rental_id, class: "selectpicker form-control", value: params[:rental_id] || @incurred_incidental.rental.id %>
     </div>
   </div>
 
@@ -13,9 +13,6 @@
     <%= f.label :incidental_type_id, 'Incidental Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'name', params[:incidental_type_id] || @incurred_incidental.incidental_type.try(:id)), {}, class: "selectpicker form-control" %>
-    </div>
-    <div class="col-xs-4">
-      <%= link_to 'New Incidental Type', new_incidental_type_path, class: "btn btn-info form-control" %>
     </div>
   </div>
 
@@ -33,9 +30,3 @@
     </div>
   </div>
 <% end %>
-
-<style>
-div.hidden {
-    display: none;
-}
-</style>
