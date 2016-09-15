@@ -28,7 +28,7 @@ class IncurredIncidentalsController < ApplicationController
         end
       else
         format.html do
-          redirect_to incurred_incidentals_path
+          render :new
           flash[:error] = 'Failed to update Incidental'
         end
       end
