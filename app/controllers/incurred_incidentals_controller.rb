@@ -14,6 +14,7 @@ class IncurredIncidentalsController < ApplicationController
 
   def new
     @incurred_incidental = IncurredIncidental.new
+    @rental = Rental.find(params[:rental_id])
   end
 
   def create
@@ -27,7 +28,7 @@ class IncurredIncidentalsController < ApplicationController
         end
       else
         format.html do
-          render :new
+          redirect_to incurred_incidentals_path
           flash[:error] = 'Failed to update Incidental'
         end
       end
@@ -35,6 +36,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def edit
+    @rental = @incurred_incidental.rental
   end
 
   def update
