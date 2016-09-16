@@ -164,7 +164,7 @@ describe RentalsController do
 
     it 'all requested financial transactions should contain the same rental as @rental' do
       get :show, params: { id: @rental }
-      expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
+      expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
     end
   end
 
