@@ -106,7 +106,7 @@ class RentalsController < ApplicationController
   end
 
   def set_financial_transactions
-    @financial_transactions = FinancialTransaction.where(rental_id: @rental.id)
+    @financial_transactions = FinancialTransaction.where(rental: @rental)
   end
 
   def set_item_types
