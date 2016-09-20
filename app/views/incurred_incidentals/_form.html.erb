@@ -1,12 +1,6 @@
 <%= form_for @incurred_incidental do |f| %>
-  <div class="form-group col-xs-12">
-    <%= f.label :rental_id, 'Rental', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <input type="text" class="selectpicker form-control" disabled="true" value="<%= @rental.basic_info %>"/>
-    </div>
-    <div>
-      <%= f.hidden_field :rental_id, class: "selectpicker form-control", value: params[:rental_id] || @incurred_incidental.rental.id %>
-    </div>
+  <div>
+    <%= f.hidden_field :rental_id, class: "selectpicker form-control", value: params[:rental_id] || @incurred_incidental.rental.id %>
   </div>
 
   <div class="form-group col-xs-12">
