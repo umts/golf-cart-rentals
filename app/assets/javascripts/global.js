@@ -23,7 +23,10 @@ $(document).ready(function() {
       showTodayButton: true,
       showClear: true,
       showClose: true
-    });
+    }).on('changeDate', function(ev) {
+    alert(new Date(ev.date));
+    $(this).datepicker('hide');
+  });
 
     $( ".timepicker" ).datetimepicker({
       format: 'h:mm A'
@@ -68,7 +71,7 @@ function accept_and_enable(box)
     }
 }
 
-function calculate_price(blah)
+function calculate_price()
 {
   // Grab the Price of the item types
   // TODO: Switch out index id for item type names
