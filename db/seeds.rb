@@ -75,7 +75,6 @@ if Rails.env.development?
     IncidentalType.where(name: i['name'],
                          description: i['description'],
                          base: i['base'],
-                         modifier_amount: i['modifier_amount'],
                          modifier_description: i['modifier_description']).first_or_create
   end
 

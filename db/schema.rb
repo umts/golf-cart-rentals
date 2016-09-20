@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801150013) do
+ActiveRecord::Schema.define(version: 20160920191013) do
+
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.boolean  "active",     default: true, null: false
@@ -77,7 +78,6 @@ ActiveRecord::Schema.define(version: 20160801150013) do
     t.string   "name"
     t.string   "description"
     t.decimal  "base",                 precision: 10
-    t.decimal  "modifier_amount",      precision: 10
     t.string   "modifier_description"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20160801150013) do
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "incidental_type_id"
-    t.decimal  "times_modified",     precision: 10
+    t.decimal  "adjustment_amount",  precision: 10
     t.integer  "rental_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
@@ -94,10 +94,12 @@ ActiveRecord::Schema.define(version: 20160801150013) do
   end
 
   create_table "incurred_incidentals_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "incurred_incidental_id", null: false
-    t.integer  "document_id",            null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "incurred_incidental_id",               null: false
+    t.integer  "document_id",                          null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "filename"
+    t.binary   "file",                   limit: 65535
     t.index ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
     t.index ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
     t.index ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
@@ -198,8 +200,8 @@ ActiveRecord::Schema.define(version: 20160801150013) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
-  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
   add_foreign_key "incurred_incidentals", "incidental_types"
   add_foreign_key "incurred_incidentals", "rentals"
+  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
+  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

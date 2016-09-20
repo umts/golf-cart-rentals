@@ -71,6 +71,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :times_modified)
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :adjustment_amount)
   end
 end

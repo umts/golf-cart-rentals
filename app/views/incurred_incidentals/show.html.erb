@@ -26,7 +26,6 @@
         <p>Name:                 <%= @incurred_incidental.incidental_type.try(:name) %></p>
         <p>Description:          <%= @incurred_incidental.incidental_type.try(:description)%></p>
         <p>Base Fee:             <%= @incurred_incidental.incidental_type.try(:base) %></p>
-        <p>Modifier Amount:      <%= @incurred_incidental.incidental_type.try(:modifier_amount) %></p>
         <p>Modifier Description: <%= @incurred_incidental.incidental_type.try(:modifier_description) %></p>
       </div>
     </div>
@@ -50,7 +49,7 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Times Modified</label>
-  <div class="form-control-information col-xs-10"><%= @incurred_incidental.times_modified%></div>
+  <div class="form-control-information col-xs-10"><%= @incurred_incidental.adjustment_amount%></div>
 </div>
 
 <% if !@incurred_incidental.try(:documents).empty? %>

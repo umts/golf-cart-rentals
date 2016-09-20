@@ -13,7 +13,7 @@ class IncurredIncidental < ActiveRecord::Base
 
   validates_associated :rental, :incidental_type, :notes
 
-  validates :times_modified, presence: true, numericality: true
+  validates :adjustment_amount, presence: true, numericality: true
   validates :rental, presence: true
   validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' },
                               presence: true
@@ -21,7 +21,7 @@ class IncurredIncidental < ActiveRecord::Base
   after_create :create_financial_transaction
 
   def fee
-    incidental_type.base + (times_modified * incidental_type.modifier_amount)
+    incidental_type.base + adjustment_amount
   end
 
   # private

@@ -5,7 +5,7 @@ describe IncurredIncidentalsController do
     inc = attributes_for(:incurred_incidental)
     inc[:incidental_type_id] = create(:incidental_type)
     inc[:rental_id] = create(:rental)
-    inc[:times_modified] = 0
+    inc[:adjustment_amount] = 0
     inc
   end
 
@@ -93,23 +93,23 @@ describe IncurredIncidentalsController do
   describe 'POST #update' do
     context 'with valid params' do
       it 'updates the incurred incidental in the database' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { times_modified: 5 } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { adjustment_amount: 5 } }
         incurred_incidental.reload
-        expect(incurred_incidental.times_modified).to eq(5)
+        expect(incurred_incidental.adjustment_amount).to eq(5)
       end
 
       it 'redirects to the updated incurred incidentals :show page' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { times_modified: 5 } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { adjustment_amount: 5 } }
         expect(response).to redirect_to incurred_incidental
       end
     end
 
     context 'with invalid params' do
       it 'does not update the incurred incidental in the database' do
-        old_times_modified = incurred_incidental.times_modified
+        old_adjustment_amount = incurred_incidental.adjustment_amount
         post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         incurred_incidental.reload
-        expect(incurred_incidental.times_modified).to eq(old_times_modified)
+        expect(incurred_incidental.adjustment_amount).to eq(old_adjustment_amount)
       end
 
       it 'renders the :edit template' do

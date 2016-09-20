@@ -14,12 +14,12 @@ RSpec.describe IncurredIncidental, type: :model do
       expect(build(:incurred_incidental, rental_id: nil)).not_to be_valid
     end
 
-    it 'doesnt build when times_modified is nil' do
-      expect(build(:incurred_incidental, times_modified: nil)).not_to be_valid
+    it 'doesnt build when adjustment_amount is nil' do
+      expect(build(:incurred_incidental, adjustment_amount: nil)).not_to be_valid
     end
 
-    it 'doesnt build when times_modified is not a number' do
-      expect(build(:incurred_incidental, times_modified: "NaN")).not_to be_valid
+    it 'doesnt build when adjustment_amount is not a number' do
+      expect(build(:incurred_incidental, adjustment_amount: "NaN")).not_to be_valid
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe IncurredIncidental, type: :model do
     it 'calculates a fee properly' do
       incident = create(:incurred_incidental)
       type = incident.incidental_type
-      expect(incident.fee).to eq(type.base + (incident.times_modified * type.modifier_amount))
+      expect(incident.fee).to eq(type.base + incident.adjustment_amount)
     end
   end
 end
