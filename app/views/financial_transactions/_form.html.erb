@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="form-group col-xs-12">
-    <%= f.label :name, 'Name', class: 'control-label col-xs-2' %>
+    <%= f.label :amount, 'Amount', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.text_field :name, class: 'form-control', required: true %>
+      <%= f.number_field :amount, class: 'form-control', min: 0, step: 0.01, required: true %>
     </div>
   </div>
-
+  
   <div class="form-group col-xs-12">
-    <%= f.label :item_type_id, 'Type', class: 'control-label col-xs-2' %>
+    <%= f.label :adjustment, 'Adjustment', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types.all.order(name: :asc), "id", "name"), {}, class: "selectpicker form-control" %>
+      <%= f.number_field :adjustment, class: 'form-control', min: 0, step: 0.01, required: true %>
     </div>
   </div>
 
