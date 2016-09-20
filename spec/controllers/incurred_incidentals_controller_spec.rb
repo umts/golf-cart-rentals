@@ -118,17 +118,4 @@ describe IncurredIncidentalsController do
       end
     end
   end
-
-  describe 'DELETE #destroy' do
-    it 'deletes the incurred incidental from the database' do
-      expect do
-        delete :destroy, params: { id: incurred_incidental }
-      end.to change(IncurredIncidental, :count).by(-1)
-    end
-
-    it 'redirects to the incurred incidental page' do
-      delete :destroy, params: { id: incurred_incidental }
-      expect(response).to redirect_to incurred_incidentals_path
-    end
-  end
 end

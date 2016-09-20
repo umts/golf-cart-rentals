@@ -17,7 +17,6 @@
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), incurred_incidental, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-primary" %>
-        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Delete"), incurred_incidental, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
       </td>
     </tr>
   <% end %>

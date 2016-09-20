@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class IncurredIncidentalsController < ApplicationController
-  before_action :set_incurred_incidental, only: [:edit, :update, :destroy, :show]
+  before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
 
@@ -52,16 +52,6 @@ class IncurredIncidentalsController < ApplicationController
           render :edit
           flash[:error] = 'Failed to update Incidental'
         end
-      end
-    end
-  end
-
-  def destroy
-    @incurred_incidental.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to incurred_incidentals_path
-        flash[:success] = 'Incidental successfully deleted'
       end
     end
   end
