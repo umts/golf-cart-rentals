@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
   before_action :set_financial_transaction, only: [:show, :edit, :update, :destroy]
 
   # GET /financial_transactions
   def index
-    binding.pry
     @q = FinancialTransaction.search(params[:q])
     @trans_type = FinancialTransaction.all.pluck(:transactable_type).uniq
     @financial_transactions = @q.result.paginate(page: params[:page], per_page: 10)
@@ -43,13 +43,14 @@ class FinancialTransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_financial_transaction
-      @financial_transaction = FinancialTransaction.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def financial_transaction_params
-      params.fetch(:financial_transaction, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_financial_transaction
+    @financial_transaction = FinancialTransaction.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def financial_transaction_params
+    params.fetch(:financial_transaction, {})
+  end
 end

@@ -1,11 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe FinancialTransaction, type: :model do
-
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
       expect do
-      expect( build :financial_transaction, :with_rental ).to be_valid
+        expect(build(:financial_transaction, :with_rental)).to be_valid
       end.to change { FinancialTransaction.count }.by(1)
     end
 
@@ -33,11 +33,11 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'is invalid without an amount' do
-      expect(build :financial_transaction, :with_rental, amount: nil).not_to be_valid 
+      expect(build(:financial_transaction, :with_rental, amount: nil)).not_to be_valid
     end
 
     it 'is invalid without an adjustment' do
-      expect(build :financial_transaction, :with_rental, adjustment: nil).not_to be_valid 
+      expect(build(:financial_transaction, :with_rental, adjustment: nil)).not_to be_valid
     end
 
     it 'defaults to 0 when amount is not specified' do
@@ -51,7 +51,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
   end
 
-  describe "creating successive financial transactions" do
+  describe 'creating successive financial transactions' do
     it 'creates financial transaction after creating an incurred incidental' do
       rental = create :rental
       rental_trans = rental.financial_transaction
