@@ -26,6 +26,13 @@
   </div>
 
   <div class="form-group col-xs-12">
+    <%= label_tag :payment_type, 'Payment Type', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= text_field_tag :payment_type, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit class: "btn btn-primary" %>
       <%= link_to 'Back', :back, class: "btn btn-default" %>
