@@ -119,6 +119,8 @@ class Rental < ActiveRecord::Base
       return '#f7ff76'
     when 'checked_in'
       return '#09ff00'
+    when 'canceled'
+      return '#ff0000'
     else
       return '#000000' # black signifies a non event status
     end
