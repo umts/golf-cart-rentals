@@ -1,0 +1,1 @@
+Permission.update_permissions_table

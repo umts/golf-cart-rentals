@@ -1,0 +1,31 @@
+<% provide :page_header, 'Financial Transactions' %>
+
+<%= search_form_for @q, class: 'form-inline' do |f| %>
+  <%= f.label :transactable_type, 'Transaction Type' %>
+  <%= f.select :transactable_type, options_for_select(@trans_type.sort, selected: (params[:q].try(:[], :transactable_type) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+  <%= f.submit class: "btn btn-default" %>
+<% end %>
+
+<%= will_paginate @financial_transactions, renderer: BootstrapPagination::Rails, params: params.to_unsafe_h %>
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th><%= sort_link(@q, :transactable_type, 'Transaction Type') %></th>
+    <th><%= sort_link(@q, :amount, 'Amount') %></th>
+    <th><%= sort_link(@q, :adjustment,'Adjustment') %></th>
+    <th><%= sort_link(@q, :updated_at, 'Updated Time') %></th>
+    <th class="min-width">Actions</th>
+  </tr>
+  <% @financial_transactions.each do |financial_transaction| %>
+    <tr>
+      <td><%= financial_transaction.transactable_type %></td>
+      <td><%=financial_transaction.amount%></td>
+      <td><%=financial_transaction.adjustment%></td>
+      <td><%=financial_transaction.updated_at%></td>
+      <td class="min-width">
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), financial_transaction, class: "btn btn-xs btn-success" %>
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_financial_transaction_path(financial_transaction), class: "btn btn-xs btn-primary" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @financial_transactions, renderer: BootstrapPagination::Rails, params: params.to_unsafe_h %>
