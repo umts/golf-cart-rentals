@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe IncidentalTypesController do
@@ -10,8 +11,8 @@ describe IncidentalTypesController do
     inc_type = attributes_for(:invalid_type)
   end
 
-  let!(:incidental_type) {create(:incidental_type)}
-  let!(:incidental_type2) {create(:incidental_type)}
+  let!(:incidental_type) { create(:incidental_type) }
+  let!(:incidental_type2) { create(:incidental_type) }
 
   describe 'GET #index' do
     it 'polulates an array of incidental type' do

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ApplicationHelper do
@@ -80,13 +81,13 @@ describe ApplicationHelper do
     it 'returns html if @current user does have access to an object, with block options' do
       current_user.groups << create(:admin_group)
       rental = create(:rental)
-      expect(link_to(rental) {rental.id }).to include('href', 'rentals', rental.id.to_s)
+      expect(link_to(rental) { rental.id }).to include('href', 'rentals', rental.id.to_s)
     end
   end
 
   describe '#button_to' do
     it 'raises an error' do
-      expect{button_to(anything)}.to raise_error(RuntimeError)
+      expect { button_to(anything) }.to raise_error(RuntimeError)
     end
   end
 
@@ -95,8 +96,7 @@ describe ApplicationHelper do
       expect(date_field_tag(:start_time)).to include('YYYY-MM-DD',
                                                      'start_time',
                                                      'glyphicon glyphicon-calendar',
-                                                     'input-group date datepicker'
-                                                    )
+                                                     'input-group date datepicker')
     end
   end
 
@@ -105,18 +105,16 @@ describe ApplicationHelper do
       expect(date_field(:start_time, value: Date.today)).to include('YYYY-MM-DD',
                                                                     'start_time',
                                                                     'glyphicon glyphicon-calendar',
-                                                                    'input-group date datepicker'
-                                                                   )
+                                                                    'input-group date datepicker')
     end
   end
 
   describe '#time_field' do
     it 'formats the date field correctly' do
       expect(time_field(:start_time, value: Time.now)).to include('HH:MM AM',
-                                                                    'start_time',
-                                                                    'glyphicon glyphicon-time',
-                                                                    'input-group date timepicker'
-                                                                   )
+                                                                  'start_time',
+                                                                  'glyphicon glyphicon-time',
+                                                                  'input-group date timepicker')
     end
   end
 
