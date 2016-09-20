@@ -48,8 +48,8 @@
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Times Modified</label>
-  <div class="form-control-information col-xs-10"><%= @incurred_incidental.adjustment_amount%></div>
+  <label class="col-xs-offset-2 col-xs-2 control-label">Adjustment Amount</label>
+  <div class="form-control-information col-xs-8"><%= @incurred_incidental.adjustment_amount%></div>
 </div>
 
 <% if !@incurred_incidental.try(:documents).empty? %>
