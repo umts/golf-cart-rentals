@@ -86,7 +86,7 @@ describe RentalsController do
           post :create, params: { rental: invalid_create }
         end.to_not change(Rental, :count)
       end
-      it 're-renders the :new template' do
+      it 're-renders the :new template with a generic warning message' do
         post :create, params: { rental: invalid_create }
         expect(response).to render_template :new
       end

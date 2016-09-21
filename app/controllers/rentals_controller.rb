@@ -76,11 +76,16 @@ class RentalsController < ApplicationController
 
     @start_date = params['start_date'] || Time.zone.today
 
-    if @rental.save
+    if @rental.create_reservation && @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      set_users
+      if @rental.item_type_id.present? && Rental.where(item_type_id: @rental.item_type_id).count == Item.where(item_type_id: @rental.item_type_id).count
+        flash[:danger] = "#{ItemType.find(@rental.item_type_id).name} is unavailable for this date."
+      else
+        flash[:danger] = 'Something went wrong. Please try again.'
+      end
       render :new
     end
   end
