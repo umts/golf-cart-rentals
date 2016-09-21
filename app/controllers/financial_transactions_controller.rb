@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
-  before_action :set_financial_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_financial_transaction, only: [:show, :edit, :update]
 
   # GET /financial_transactions
   def index
@@ -13,13 +13,19 @@ class FinancialTransactionsController < ApplicationController
   def show
   end
 
-  # GET /financial_transactions/new
   def new
     @financial_transaction = FinancialTransaction.new
+    @financial_transaction.rental = Rental.find(params.require(:rental_id))
+    @financial_transaction.transactable = @financial_transaction.rental
+    if !@financial_transaction.rental
+      flash[:danger] = 'A rental has not been found for this financial transaction.'
+    end
   end
 
   # GET /financial_transactions/1/edit
   def edit
+    @financial_transaction.rental = Rental.find(params.require(:rental_id))
+    @financial_transaction.transactable = @financial_transaction.rental
   end
 
   # POST /financial_transactions
@@ -27,7 +33,7 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
 
     if @financial_transaction.save
-      redirect_to @financial_transaction, notice: 'Financial transaction was successfully created.'
+      redirect_to rental_invoice_path(@rental), success: 'Financial transaction was successfully created.'
     else
       render :new
     end
@@ -36,7 +42,7 @@ class FinancialTransactionsController < ApplicationController
   # PATCH/PUT /financial_transactions/1
   def update
     if @financial_transaction.update(financial_transaction_params)
-      redirect_to @financial_transaction, notice: 'Financial transaction was successfully updated.'
+      redirect_to @financial_transaction, success: 'Financial transaction was successfully updated.'
     else
       render :edit
     end
@@ -51,6 +57,8 @@ class FinancialTransactionsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def financial_transaction_params
-    params.fetch(:financial_transaction, {})
+    binding.pry
+    notes = params.permit(:payed_by, :payment_form).to_h.to_s
+    params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id)
   end
 end
