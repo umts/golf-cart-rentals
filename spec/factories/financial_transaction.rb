@@ -4,9 +4,12 @@ FactoryGirl.define do
     note_field 'Property of Factory Girl'
     created_at DateTime.now
     updated_at DateTime.now
+    adjustment 0
+    amount 0
+    association :rental
 
     trait :with_rental do
-      rental
+      transactable rental
     end
 
     trait :with_incidental do
