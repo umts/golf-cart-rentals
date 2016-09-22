@@ -3,9 +3,10 @@ require 'rails_helper'
 describe IncurredIncidentalsController do
   let(:incurred_incidental_create) do
     inc = attributes_for(:incurred_incidental)
-    inc[:incidental_type_id] = create(:incidental_type)
     inc[:rental_id] = create(:rental)
+    inc[:incidental_type_id] = create(:incidental_type)
     inc[:adjustment_amount] = 0
+    inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
     inc
   end
 

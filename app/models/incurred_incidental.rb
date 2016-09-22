@@ -13,7 +13,7 @@ class IncurredIncidental < ActiveRecord::Base
 
   validates_associated :rental, :incidental_type, :notes
 
-  validates :rental, presence: true
+  validates :rental, :notes, presence: true
   validates :adjustment_amount, numericality: true, presence: true
   validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' },
                               presence: true

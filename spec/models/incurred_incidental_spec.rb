@@ -21,11 +21,17 @@ RSpec.describe IncurredIncidental, type: :model do
     it 'doesnt build when adjustment_amount is not a number' do
       expect(build(:incurred_incidental, adjustment_amount: "NaN")).not_to be_valid
     end
+
+    it 'doesnt build without a note' do
+      incidental = build(:incurred_incidental)
+      incidental.notes.delete_all
+      expect(incidental).not_to be_valid
+    end
   end
 
   context 'properly does fee calculation' do
     it 'calculates a fee properly' do
-      incident = create(:incurred_incidental)
+      incident = build(:incurred_incidental)
       type = incident.incidental_type
       expect(incident.fee).to eq(type.base + incident.adjustment_amount)
     end
