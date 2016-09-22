@@ -41,7 +41,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     end
 
     it 'properly creates @financial_transaction for a IncurredIncidental based FinancialTransaction' do
-      rental = create :rental
+      rental = create :rental, :with_incidental
       ii = create :incurred_incidental
       get :new, params: {rental_id: rental.id, transactable_type: IncurredIncidental.name, transactable_id: ii.id }
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
@@ -121,8 +121,8 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "re-renders the 'new' template given empty params" do
-        post :create, params: { financial_transaction: {}}
+      it "re-renders the 'new' template given invalid params" do
+        post :create, params: { financial_transaction: { 'notnil' => 'for real' } }
         expect(response).to render_template('new')
       end
     end
