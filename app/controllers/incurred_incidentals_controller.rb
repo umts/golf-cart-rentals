@@ -19,7 +19,6 @@ class IncurredIncidentalsController < ApplicationController
 
   def create
     @incurred_incidental = IncurredIncidental.new(incidental_params)
-    # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
     respond_to do |format|
       if @incurred_incidental.save
         format.html do
@@ -41,7 +40,6 @@ class IncurredIncidentalsController < ApplicationController
 
   def update
     respond_to do |format|
-      # @incurred_incidental.notes << Note.create(note: params[:incurred_incidental][:note][:note])
       if @incurred_incidental.update(incidental_params)
         format.html do
           redirect_to incurred_incidental_path(@incurred_incidental)
@@ -71,6 +69,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :adjustment_amount)
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :adjustment_amount, notes_attributes: [:note])
   end
 end

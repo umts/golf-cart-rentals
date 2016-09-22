@@ -9,12 +9,12 @@ class IncurredIncidental < ActiveRecord::Base
   has_many :incurred_incidentals_documents, dependent: :destroy
   has_many :documents, through: :incurred_incidentals_documents
 
-  accepts_nested_attributes_for :notes
+  accepts_nested_attributes_for :notes, :reject_if => proc { |attributes| attributes.all? { |k,v| v.blank? } }
 
   validates_associated :rental, :incidental_type, :notes
 
-  validates :adjustment_amount, presence: true, numericality: true
   validates :rental, presence: true
+  validates :adjustment_amount, numericality: true, presence: true
   validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' },
                               presence: true
 
