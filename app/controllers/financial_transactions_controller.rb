@@ -16,8 +16,8 @@ class FinancialTransactionsController < ApplicationController
   def new
     @financial_transaction = FinancialTransaction.new
     @financial_transaction.rental = Rental.find(params.require(:rental_id))
-    @financial_transaction.transactable_type = params.require(:transactable_type)
-    @financial_transaction.transactable_id = params.require(:transactable_id)
+    @financial_transaction.transactable_type = params[:transactable_type]
+    @financial_transaction.transactable_id = params[:transactable_id]
     if !@financial_transaction.rental
       flash[:danger] = 'A rental has not been found for this financial transaction.'
     end
@@ -25,9 +25,6 @@ class FinancialTransactionsController < ApplicationController
 
   # GET /financial_transactions/1/edit
   def edit
-    @financial_transaction.rental = Rental.find(params.require(:rental_id))
-    @financial_transaction.transactable_type = params.require(:transactable_type)
-    @financial_transaction.transactable_id = params.require(:transactable_id)
   end
 
   # POST /financial_transactions
@@ -58,7 +55,7 @@ class FinancialTransactionsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def financial_transaction_params
-    notes = params.permit(:payed_by, :payment_form).to_h.to_s
+    notes = params.permit(:payed_by, :payment_form).to_h.to_s # not required
     params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id).merge(note_field: notes)
   end
 end
