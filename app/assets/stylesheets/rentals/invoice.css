@@ -1,3 +1,7 @@
 .legal-blurb {
   margin-bottom: 15px;
 }
+@media print {
+  #payment {page-break-inside: left;}
+  #incidental {page-break-after: avoid;}
+}
