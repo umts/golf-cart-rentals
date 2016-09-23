@@ -11,11 +11,6 @@
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Modifier Description</label>
-  <div class="form-control-information col-xs-10"><%= simple_format @incidental_type.modifier_description %></div>
-</div>
-
-<div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
     <%= link_to 'Edit Incidental Type', edit_incidental_type_path(@incidental_type), class: "btn btn-primary" %>
     <%= link_to 'Create Incurred Incidental', new_incurred_incidental_path(:incidental_type_id => @incidental_type.id), class: "btn btn-success" %>

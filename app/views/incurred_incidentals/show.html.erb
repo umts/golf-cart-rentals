@@ -1,8 +1,8 @@
 <% provide( :page_header, "Incurred Incidental ID: #{@incurred_incidental.id}" ) %>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-offset-2 col-xs-2 control-label">Adjustment Amount</label>
-  <div class="form-control-information col-xs-8"><%= @incurred_incidental.adjustment_amount%></div>
+  <label class="col-xs-offset-2 col-xs-2 control-label">Amount</label>
+  <div class="form-control-information col-xs-8"><%= @incurred_incidental.amount%></div>
 </div>
 
 <div class="form-group col-xs-12">
@@ -46,7 +46,6 @@
         <p>Name:                 <%= @incurred_incidental.incidental_type.try(:name) %></p>
         <p>Description:          <%= @incurred_incidental.incidental_type.try(:description)%></p>
         <p>Base Fee:             <%= @incurred_incidental.incidental_type.try(:base) %></p>
-        <p>Modifier Description: <%= @incurred_incidental.incidental_type.try(:modifier_description) %></p>
       </div>
     </div>
   </div>

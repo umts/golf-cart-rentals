@@ -33,11 +33,11 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'is invalid without an amount' do
-      expect(build :financial_transaction, :with_rental, amount: nil).not_to be_valid 
+      expect(build :financial_transaction, :with_rental, amount: nil).not_to be_valid
     end
 
     it 'is invalid without an adjustment' do
-      expect(build :financial_transaction, :with_rental, adjustment: nil).not_to be_valid 
+      expect(build :financial_transaction, :with_rental, adjustment: nil).not_to be_valid
     end
 
     it 'defaults to 0 when amount is not specified' do
@@ -62,10 +62,7 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(incidental).to eq(incidental_trans.transactable)
       expect(rental).to eq(incidental_trans.rental)
 
-      base = 1
-      times_modded = 1
-      type_mod = 1
-      expect(incidental_trans.amount).to eq(base + (times_modded * type_mod))
+      expect(incidental_trans.amount).to eq(incidental.amount)
     end
   end
 end

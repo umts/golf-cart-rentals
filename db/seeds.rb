@@ -74,8 +74,7 @@ if Rails.env.development?
   incidentals.each do |i|
     IncidentalType.where(name: i['name'],
                          description: i['description'],
-                         base: i['base'],
-                         modifier_description: i['modifier_description']).first_or_create
+                         base: i['base']).first_or_create
   end
 
   puts " "
