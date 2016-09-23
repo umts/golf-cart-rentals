@@ -4,4 +4,5 @@
 @media print {
   #payment {page-break-inside: left;}
   #incidental {page-break-after: avoid;}
+  .form-group { margin-bottom: 0px;}
 }

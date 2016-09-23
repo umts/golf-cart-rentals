@@ -34,43 +34,43 @@
 </div>
 -->
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Item Type</label>
-  <div class="form-control-information col-xs-10"><%= @rental.item_type.name %></div>
+  <label class="col-xs-3 control-label">Item Type</label>
+  <div class="form-control-information col-xs-9"><%= @rental.item_type.name %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Item Name</label>
-  <div class="form-control-information col-xs-10"><%= @rental.item.name %></div>
+  <label class="col-xs-3 control-label">Item Name</label>
+  <div class="form-control-information col-xs-9"><%= @rental.item.name %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">User Name</label>
-  <div class="form-control-information col-xs-10"><%= @rental.user.full_name %></div>
+  <label class="col-xs-3 control-label">User Name</label>
+  <div class="form-control-information col-xs-9"><%= @rental.user.full_name %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Reservation ID</label>
-  <div class="form-control-information col-xs-10"><%= @rental.reservation_id %></div>
+  <label class="col-xs-3 control-label">Reservation ID</label>
+  <div class="form-control-information col-xs-9"><%= @rental.reservation_id %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Department</label>
-  <div class="form-control-informaton col-xs-10"><%= @rental.department.name %></div>
+  <label class="col-xs-3 control-label">Department</label>
+  <div class="form-control-informaton col-xs-9"><%= @rental.department.name %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Amount Charged</label>
-  <div class="form-control-information col-xs-10">$</div>
+  <label class="col-xs-3 control-label">Amount Charged</label>
+  <div class="form-control-information col-xs-9">$</div>
 </div>
 
 <div class="form-group col-xs-12">
-   <label class="col-xs-2 control-label">Rental Amount</label>
-   <div class="form-control-information col-xs-10"><%= number_to_currency @rental.financial_transaction.amount %></div>
+   <label class="col-xs-3 control-label">Rental Amount</label>
+   <div class="form-control-information col-xs-9"><%= number_to_currency @rental.financial_transaction.amount %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Total Amount Due</label>
-  <div class="form-control-information col-xs-1"><%= number_to_currency @rental.sum_amount%></div>
+  <label class="col-xs-3 control-label">Total Amount Due</label>
+  <div class="form-control-information col-xs-9"><%= number_to_currency @rental.sum_amount%></div>
 </div>
 
 <%#<ul class="nav nav-tabs hidden-print">%>
