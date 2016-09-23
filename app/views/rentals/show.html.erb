@@ -41,7 +41,7 @@
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">User Name</label>
+  <label class="col-xs-2 control-label">Reserved By</label>
   <div class="form-control-information col-xs-10"><%= @rental.user.full_name %></div>
 </div>
 
@@ -54,6 +54,20 @@
   <label class="col-xs-2 control-label">Department</label>
   <div class="form-control-informaton col-xs-10"><%= @rental.department.name %></div>
 </div>
+
+<% if @rental.pickup_name.present? %>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Picked Up By:</label>
+  <div class="form-control-informaton col-xs-10"><%= @rental.pickup_name + " (Phone: #{number_to_phone(@rental.pickup_phone_number, area_code: true)})" %></div>
+</div>
+<% end %>
+
+<% if @rental.dropoff_name.present? %>
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Dropped Off By:</label>
+  <div class="form-control-informaton col-xs-10"><%= @rental.dropoff_name + " (Phone: #{number_to_phone(@rental.dropoff_phone_number, area_code: true)})" %></div>
+</div>
+<% end %>
 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#incidental">Incidental Type</a></li>

@@ -53,11 +53,16 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
+      binding.pry
       DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
-      @rental.pickup
+      if @rental.pickup
+        @rental.update(pickup_name: params[:rental][:pickup_name], pickup_phone_number: params[:rental][:pickup_phone_number])
+      end
     elsif params[:commit] == 'Check In'
       DigitalSignature.create(image: sig_image_params, intent: :check_in, rental: @rental, author: :customer)
-      @rental.return
+      if @rental.return
+        @rental.update(dropoff_name: params[:rental][:dropoff_name], dropoff_phone_number: params[:rental][:dropoff_phone_number])
+      end
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
     else
@@ -122,7 +127,7 @@ class RentalsController < ApplicationController
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id, :pickup_name, :dropoff_name, :pickup_phone_number, :dropoff_phone_number).merge(department_id: user.department_id, end_time: new_time)
   end
 
   def sig_image_params

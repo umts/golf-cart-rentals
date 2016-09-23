@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801150013) do
+ActiveRecord::Schema.define(version: 20160923192142) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
@@ -145,18 +145,22 @@ ActiveRecord::Schema.define(version: 20160801150013) do
   end
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "rental_status",  null: false
-    t.integer  "user_id",        null: false
-    t.integer  "department_id",  null: false
-    t.string   "reservation_id", null: false
-    t.integer  "item_type_id",   null: false
+    t.string   "rental_status",        null: false
+    t.integer  "user_id",              null: false
+    t.integer  "department_id",        null: false
+    t.string   "reservation_id",       null: false
+    t.integer  "item_type_id",         null: false
     t.datetime "checked_in_at"
     t.datetime "checked_out_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_id",        null: false
+    t.integer  "item_id",              null: false
+    t.string   "pickup_name"
+    t.string   "dropoff_name"
+    t.string   "pickup_phone_number"
+    t.string   "dropoff_phone_number"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end
