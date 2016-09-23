@@ -23,10 +23,6 @@ th.min-width ,td.min-width{
   white-space: nowrap;
 }
 
-th, td {
-  width: 200px
-}
-
 table.flash-message{
   border-collapse: separate;
   border-spacing: 10px 0;
