@@ -2,7 +2,7 @@
   margin-bottom: 15px;
 }
 @media print {
-  #payment {page-break-inside: left;}
-  #incidental {page-break-after: avoid;}
+  /*#payment {page-break-inside: avoid;}*/
+  /*#incidental {page-break-inside: avoid;page-break-after: avoid;}*/
   .form-group { margin-bottom: 0px;}
 }
