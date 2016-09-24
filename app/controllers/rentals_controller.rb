@@ -53,7 +53,6 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Check Out'
-      binding.pry
       DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
       if @rental.pickup
         @rental.update(pickup_name: params[:rental][:pickup_name], pickup_phone_number: params[:rental][:pickup_phone_number])
