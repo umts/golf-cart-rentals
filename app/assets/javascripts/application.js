@@ -29,8 +29,8 @@ $(document).ready(function(){
 $(document).ready(function() {
   $("#select_incidental_type").change(function() {
     $("#select_incidental_type option:selected").map(function() {
-      var len = $(this).text().length;
-      $("#incurred_incidental_amount").val($(this).text().slice(len - 3, len - 1));
+      var price = $(this).text().split('$')[1].split(')')[0]; // Parsing for extract price, regardless of number of digits
+      $("#incurred_incidental_amount").val(price);
     });
   });
 });
