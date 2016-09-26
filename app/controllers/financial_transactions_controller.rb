@@ -34,7 +34,7 @@ class FinancialTransactionsController < ApplicationController
   def create
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
 
-    if @financial_transaction.transactable_type == Payment
+    if @financial_transaction.transactable_type == Payment.name
       payment = Payment.create!(payment_params) # hard fail
       @financial_transaction.transactable_id = payment.id
     end
