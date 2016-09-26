@@ -14,6 +14,10 @@ RSpec.describe IncurredIncidental, type: :model do
       expect(build(:incurred_incidental, rental_id: nil)).not_to be_valid
     end
 
+    it 'doesnt build when amount is < 0' do
+      expect(build(:incurred_incidental, amount: -5)).not_to be_valid
+    end
+
     it 'doesnt build when amount is nil' do
       expect(build(:incurred_incidental, amount: nil)).not_to be_valid
     end

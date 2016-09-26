@@ -19,7 +19,7 @@ RSpec.describe IncidentalType, type: :model do
   context 'will properly display basic information' do
     it 'displays name and price' do
       type = create(:incidental_type)
-      expect("#{type.name} - $#{type.base}").to eq(type.basic_info)
+      expect("#{type.name} ($#{type.base})").to eq(type.basic_info)
     end
   end
 end

@@ -7,6 +7,6 @@ class IncidentalType < ActiveRecord::Base
   validates :base, numericality: { greater_than_or_equal_to: 0 }
 
   def basic_info
-    "#{name} - $#{base}"
+    "#{name} ($#{base})"
   end
 end
