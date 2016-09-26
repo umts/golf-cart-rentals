@@ -45,9 +45,9 @@ class RentalsController < ApplicationController
     if @rental.reserved? && @rental.end_date < DateTime.current
       render :no_show_form, locals: { rental: @rental }
     elsif @rental.reserved?
-      render :check_out, locals: { rental: @rental }
-    elsif @rental.checked_out?
-      render :check_in, locals: { rental: @rental }
+      render :pick_up, locals: { rental: @rental }
+    elsif @rental.picked_up?
+      render :drop_off, locals: { rental: @rental }
     else
       flash[:danger] = 'Error redirecting to processing form'
       render :index
@@ -56,12 +56,12 @@ class RentalsController < ApplicationController
 
   # PUT /rentals/1/
   def update
-    if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
+    if params[:commit] == 'Pick Up'
+      DigitalSignature.create(image: sig_image_params, intent: :pickup, rental: @rental, author: :customer)
       @rental.pickup
-    elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: sig_image_params, intent: :check_in, rental: @rental, author: :customer)
-      @rental.return
+    elsif params[:commit] == 'Drop Off'
+      DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
+      @rental.drop_off
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
     else

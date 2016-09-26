@@ -106,17 +106,17 @@ RSpec.describe Rental do
       expect(@rental).to be_canceled
     end
 
-    it 'is checked_out after pickup' do
+    it 'is picked_up after pickup' do
       @rental.pickup!
-      expect(@rental.checked_out_at).not_to be_nil
-      expect(@rental).to be_checked_out
+      expect(@rental.picked_up_at).not_to be_nil
+      expect(@rental).to be_picked_up
     end
 
-    it 'is checked_in after return' do
+    it 'is dropped_off after return' do
       @rental.pickup
-      @rental.return!
-      expect(@rental.checked_in_at).not_to be_nil
-      expect(@rental).to be_checked_in
+      @rental.drop_off!
+      expect(@rental.dropped_off_at).not_to be_nil
+      expect(@rental).to be_dropped_off
     end
 
     it 'is canceled after being processed as a no show' do
@@ -126,14 +126,14 @@ RSpec.describe Rental do
 
     it 'is inspected after approve' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve!
       expect(@rental).to be_inspected
     end
 
     it 'is available after process' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve
       @rental.process!
       expect(@rental).to be_available
@@ -164,12 +164,12 @@ RSpec.describe Rental do
     it 'returns #0092ff when reserved' do
       expect(@rental.event_status_color).to eq('#0092ff')
     end
-    it 'returns #f7ff76 when checked_out' do
-      @rental.rental_status = :checked_out
+    it 'returns #f7ff76 when picked_up' do
+      @rental.rental_status = :picked_up
       expect(@rental.event_status_color).to eq('#f7ff76')
     end
-    it 'returns #09ff00 when checked_in' do
-      @rental.rental_status = :checked_in
+    it 'returns #09ff00 when dropped_off' do
+      @rental.rental_status = :dropped_off
       expect(@rental.event_status_color).to eq('#09ff00')
     end
     it 'returns #000000 when cancelled' do

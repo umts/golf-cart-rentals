@@ -1,4 +1,4 @@
-<% provide( :page_header, 'Check Out' ) %>
+<% provide( :page_header, 'Pick Up' ) %>
 
 <table class="table table-bordered table-hover">
   <tr class="info">
@@ -62,9 +62,9 @@
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <% if rental.start_time > Time.current %>
-        <%= f.submit 'Check Out', class: "btn btn-primary", data: { confirm: "This is an early checkout, continue processing?" } %>
+        <%= f.submit 'Pick Up', class: "btn btn-primary", data: { confirm: "This is an early pick up, continue processing?" } %>
       <% else %>
-        <%= f.submit 'Check Out', class: "btn btn-primary" %>
+        <%= f.submit 'Pick Up', class: "btn btn-primary" %>
       <% end %>
       <%= link_to 'Back', rentals_processing_path, class: "btn btn-default" %>
     </div>
