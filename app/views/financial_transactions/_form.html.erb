@@ -30,16 +30,30 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <%= label_tag :payment_form, 'Payment Form', class: 'control-label col-xs-2' %>
+    <%= label_tag :payment_type, 'Payment Form', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= text_field_tag :payment_form, nil, class: 'form-control', required: true %>
+      <%= select_tag :payment_type, options_for_select(Payment.payment_types), include_blank: true, class: 'form-control', required: true %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= label_tag :payed_by, 'Payed By', class: 'control-label col-xs-2' %>
+    <%= label_tag :contact_name, 'Contact Name', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= text_field_tag :payed_by, nil, class: 'form-control', required: true %>
+      <%= text_field_tag :contact_name, nil, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= label_tag :contact_email, 'Contact Email', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= text_field_tag :contact_email, nil, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= label_tag :contact_phone, 'Contact Phone', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= text_field_tag :contact_phone, nil, class: 'form-control', required: true %>
     </div>
   </div>
 

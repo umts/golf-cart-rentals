@@ -13,11 +13,14 @@ class FinancialTransactionsController < ApplicationController
   def show
   end
 
+  # only really handles transactable_type payment
   def new
     @financial_transaction = FinancialTransaction.new
     @financial_transaction.rental = Rental.find(params.require(:rental_id))
     @financial_transaction.transactable_type = params[:transactable_type]
-    @financial_transaction.transactable_id = params[:transactable_id]
+    if @financial_transaction.transactable_type != Payment 
+      @financial_transaction.transactable_id = params[:transactable_id]
+    end
     if !@financial_transaction.rental
       flash[:danger] = 'A rental has not been found for this financial transaction.'
     end
@@ -30,6 +33,12 @@ class FinancialTransactionsController < ApplicationController
   # POST /financial_transactions
   def create
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
+
+    if @financial_transaction.transactable_type == Payment
+      payment = Payment.create!(payment_params) # hard fail
+      @financial_transaction.transactable_id = payment.id
+    end
+
     if @financial_transaction.save
       redirect_to rental_invoice_path(@financial_transaction.rental_id), success: 'Financial transaction was successfully created.'
     else
@@ -48,14 +57,17 @@ class FinancialTransactionsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_financial_transaction
-    @financial_transaction = FinancialTransaction.find(params[:id])
-  end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_financial_transaction
+      @financial_transaction = FinancialTransaction.find(params[:id])
+    end
 
-  # Only allow a trusted parameter "white list" through.
-  def financial_transaction_params
-    notes = params.permit(:payed_by, :payment_form).to_h.to_s # not required
-    params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id).merge(note_field: notes)
-  end
+    def payment_params
+      params.require(:payment_type, :contact_name, :contact_email, :contact_phone)
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def financial_transaction_params
+      params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
+    end
 end
