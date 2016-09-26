@@ -41,7 +41,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     end
 
     it 'properly creates @financial_transaction for a IncurredIncidental based FinancialTransaction' do
-      rental = create :rental, :with_incidental
+      rental = create :rental
       ii = create :incurred_incidental
       get :new, params: {rental_id: rental.id, transactable_type: IncurredIncidental.name, transactable_id: ii.id }
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
