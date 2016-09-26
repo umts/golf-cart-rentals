@@ -18,7 +18,7 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction = FinancialTransaction.new
     @financial_transaction.rental = Rental.find(params.require(:rental_id))
     @financial_transaction.transactable_type = params[:transactable_type]
-    if @financial_transaction.transactable_type != Payment 
+    if @financial_transaction.transactable_type != Payment.name
       @financial_transaction.transactable_id = params[:transactable_id]
     end
     if !@financial_transaction.rental
@@ -34,7 +34,7 @@ class FinancialTransactionsController < ApplicationController
   def create
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
 
-    if @financial_transaction.transactable_type == Payment
+    if @financial_transaction.transactable_type == Payment.name
       payment = Payment.create!(payment_params) # hard fail
       @financial_transaction.transactable_id = payment.id
     end
