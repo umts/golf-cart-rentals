@@ -12,6 +12,10 @@ FactoryGirl.define do
       after(:build) { |f| f.transactable = f.rental }
     end
 
+    trait :with_payment do
+      association :transactable, factory: :payment
+    end
+
     trait :with_incidental do
       association :transactable, factory: :incurred_incidental
     end
