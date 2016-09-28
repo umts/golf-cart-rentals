@@ -33,9 +33,9 @@ class FinancialTransactionsController < ApplicationController
   # POST /financial_transactions
   def create
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
-
     if @financial_transaction.transactable_type == Payment.name
-      payment = Payment.create!(payment_params) # hard fail
+      payment = Payment.new(payment_params) # hard fail
+      render :new and return if !payment.save
       @financial_transaction.transactable_id = payment.id
     end
 
@@ -63,7 +63,7 @@ class FinancialTransactionsController < ApplicationController
     end
 
     def payment_params
-      params.require(:payment_type, :contact_name, :contact_email, :contact_phone)
+      params.permit(:payment_type, :contact_name, :contact_email, :contact_phone)
     end
 
     # Only allow a trusted parameter "white list" through.
