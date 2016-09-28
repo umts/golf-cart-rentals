@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   resources :incidental_types
   resources :incurred_incidentals
   resources :reservations
-  resources :financial_transaction, except: %i(destroy)
+  resources :financial_transaction, except: %i(destroy update)
   resources :items do
     collection do
       get :new_item

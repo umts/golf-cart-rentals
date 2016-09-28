@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
-  before_action :set_financial_transaction, only: [:show, :edit, :update]
+  before_action :set_financial_transaction, only: [:show, :edit]
 
   # GET /financial_transactions
   def index
@@ -20,9 +20,6 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction.transactable_type = params[:transactable_type]
     if @financial_transaction.transactable_type != Payment.name #  handles transactable_type payment which will be created with this form
       @financial_transaction.transactable_id = params[:transactable_id]
-    end
-    if !@financial_transaction.rental
-      flash[:danger] = 'A rental has not been found for this financial transaction.'
     end
   end
 
@@ -46,15 +43,6 @@ class FinancialTransactionsController < ApplicationController
       redirect_to rental_invoice_path(@financial_transaction.rental_id), success: 'Financial transaction was successfully created.'
     else
       render :new
-    end
-  end
-
-  # PATCH/PUT /financial_transactions/1
-  def update
-    if @financial_transaction.update(financial_transaction_params)
-      redirect_to @financial_transaction, success: 'Financial transaction was successfully updated.'
-    else
-      render :edit
     end
   end
 

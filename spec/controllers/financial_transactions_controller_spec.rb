@@ -64,6 +64,14 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       get :new, { rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id }
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
     end
+
+
+    it 'properly handles an invalid rental reference' do
+      rental = create :rental
+      get :new, { rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id }
+      expect(response.code).to eq("404")
+    end
+
   end
 
   describe 'GET #edit' do
@@ -148,47 +156,12 @@ RSpec.describe FinancialTransactionsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    skip('not yet')
-=begin
-    context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
-
-      it 'updates the requested financial_transaction' do
-        financial_transaction = FinancialTransaction.create! valid_attributes
-        put :update, { id: financial_transaction.to_param, financial_transaction: new_attributes }
-        financial_transaction.reload
-        skip('Add assertions for updated state')
-      end
-
-      it 'assigns the requested financial_transaction as @financial_transaction' do
-        financial_transaction = FinancialTransaction.create! valid_attributes
-        put :update, { id: financial_transaction.to_param, financial_transaction: valid_attributes }
-        expect(assigns(:financial_transaction)).to eq(financial_transaction)
-      end
-
-      it 'redirects to the financial_transaction' do
-        financial_transaction = FinancialTransaction.create! valid_attributes
-        put :update, { id: financial_transaction.to_param, financial_transaction: valid_attributes }
-        expect(response).to redirect_to(financial_transaction)
-      end
+    it 'cannot find a route' do
+      ft = create :financial_transaction 
+      expect do
+        put :update, params: { id: ft.to_param }
+      end.to raise_error AbstractController::ActionNotFound
     end
-
-    context 'with invalid params' do
-      it 'assigns the financial_transaction as @financial_transaction' do
-        financial_transaction = FinancialTransaction.create! valid_attributes
-        put :update, { id: financial_transaction.to_param, financial_transaction: invalid_attributes }
-        expect(assigns(:financial_transaction)).to eq(financial_transaction)
-      end
-
-      it "re-renders the 'edit' template" do
-        financial_transaction = FinancialTransaction.create! valid_attributes
-        put :update, { id: financial_transaction.to_param, financial_transaction: invalid_attributes }
-        expect(response).to render_template('edit')
-      end
-    end
-=end
   end
 
   describe 'DELETE #destroy' do
