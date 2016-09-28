@@ -41,7 +41,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
   describe 'GET #new' do
     it 'properly creates @financial_transaction for a rental based FinancialTransaction' do
       rental = create :rental
-      get :new, params: {rental_id: rental.id, transactable_type: Rental.name, transactable_id: rental.id }
+      get :new, params: { rental_id: rental.id, transactable_type: Rental.name, transactable_id: rental.id }
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
       expect(assigns(:financial_transaction).rental).to eq(rental)
       expect(assigns(:financial_transaction).transactable_id).to eq(rental.id)
@@ -51,7 +51,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     it 'properly creates @financial_transaction for a IncurredIncidental based FinancialTransaction' do
       rental = create :rental
       ii = create :incurred_incidental
-      get :new, params: {rental_id: rental.id, transactable_type: IncurredIncidental.name, transactable_id: ii.id }
+      get :new, params: { rental_id: rental.id, transactable_type: IncurredIncidental.name, transactable_id: ii.id }
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
       expect(assigns(:financial_transaction).rental).to eq(rental)
       expect(assigns(:financial_transaction).transactable_id).to eq(ii.id)
@@ -61,17 +61,15 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     it 'properly creates @financial_transaction for a FeeSchedule based FinancialTransaction' do
       skip('fee shedule is not done yet')
       rental = create :rental
-      get :new, { rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id }
+      get :new, rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id
       expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
     end
 
-
     it 'properly handles an invalid rental reference' do
       rental = create :rental
-      get :new, { rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id }
-      expect(response.code).to eq("404")
+      get :new, rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id
+      expect(response.code).to eq('404')
     end
-
   end
 
   describe 'GET #edit' do
@@ -87,8 +85,8 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       it 'creates a new rental based FinancialTransaction' do
         attributes = ft_transact_rental # ft_transact_rental has to create one for its rental as well
         expect do
-          post :create, params: { financial_transaction: attributes}
-        end.to change(FinancialTransaction, :count).by(1) 
+          post :create, params: { financial_transaction: attributes }
+        end.to change(FinancialTransaction, :count).by(1)
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:rental_id])
@@ -98,10 +96,10 @@ RSpec.describe FinancialTransactionsController, type: :controller do
 
       it 'creates a payment based FinancialTransaction' do # specialized logic, params are passed in root and payment is created in this controller
         attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
-        payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309'}
+        payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309' }
         expect do
-          post :create, params: { financial_transaction: attributes}.merge(payment)
-        end.to change(FinancialTransaction, :count).by(1) and change(Payment, :count).by(1)
+          post :create, params: { financial_transaction: attributes }.merge(payment)
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Payment, :count).by(1)
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(Payment.last.id)
@@ -113,7 +111,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         attributes = ft_transact_incidental # ft_transact_incidental has to create one for its rental as well
         expect do
           post :create, params: { financial_transaction: attributes }
-        end.to change(FinancialTransaction, :count).by(1) 
+        end.to change(FinancialTransaction, :count).by(1)
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:transactable_id])
@@ -143,10 +141,10 @@ RSpec.describe FinancialTransactionsController, type: :controller do
 
       it 'will not create a payment based financial transaction without the proper params' do
         attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
-        payment = { payment_type: Payment.payment_types.keys.first} # missing payment attributes
+        payment = { payment_type: Payment.payment_types.keys.first } # missing payment attributes
         expect do
-          post :create, params: { financial_transaction: attributes}.merge(payment)
-        end.not_to change(FinancialTransaction, :count) and change(Payment, :count)
+          post :create, params: { financial_transaction: attributes }.merge(payment)
+        end.not_to(change(FinancialTransaction, :count)) && change(Payment, :count)
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).not_to be_persisted
         expect(assigns(:financial_transaction).transactable_type).to eq(Payment.name)
@@ -157,7 +155,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
 
   describe 'PUT #update' do
     it 'cannot find a route' do
-      ft = create :financial_transaction 
+      ft = create :financial_transaction
       expect do
         put :update, params: { id: ft.to_param }
       end.to raise_error AbstractController::ActionNotFound
@@ -166,7 +164,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'cannot find a route' do
-      ft = create :financial_transaction 
+      ft = create :financial_transaction
       expect do
         delete :destroy, params: { id: ft.to_param }
       end.to raise_error AbstractController::ActionNotFound

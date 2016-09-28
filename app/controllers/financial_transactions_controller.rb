@@ -13,7 +13,6 @@ class FinancialTransactionsController < ApplicationController
   def show
   end
 
-  
   def new
     @financial_transaction = FinancialTransaction.new
     @financial_transaction.rental = Rental.find(params.require(:rental_id))
@@ -32,9 +31,9 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params) # hard fail
-      if !payment.save
+      unless payment.save
         flash[:danger] = 'Please properly fill out Contact and Payment fields'
-        render :new and return 
+        render(:new) && return
       end
       @financial_transaction.transactable_id = payment.id
     end
@@ -48,17 +47,17 @@ class FinancialTransactionsController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_financial_transaction
-      @financial_transaction = FinancialTransaction.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_financial_transaction
+    @financial_transaction = FinancialTransaction.find(params[:id])
+  end
 
-    def payment_params
-      params.permit(:payment_type, :contact_name, :contact_email, :contact_phone)
-    end
+  def payment_params
+    params.permit(:payment_type, :contact_name, :contact_email, :contact_phone)
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def financial_transaction_params
-      params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def financial_transaction_params
+    params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
+  end
 end

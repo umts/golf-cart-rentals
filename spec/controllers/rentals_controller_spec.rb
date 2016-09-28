@@ -167,19 +167,19 @@ describe RentalsController do
       expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
     end
   end
-  
-  # unless i'm mistaken this is not an action anymore, just a partial
-  #describe 'GET #transaction_detail' do
-    #it 'assigns a requested rental to @rental' do
-      #get :transaction_detail, params: { id: @rental.id }
-      #expect(assigns[:rental]).to eq @rental
-    #end
 
-    #it 'all requested financial transactions should contain the same rental as @rental' do
-      #get :transaction_detail, params: { id: @rental }
-      #expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
-    #end
-  #end
+  # unless i'm mistaken this is not an action anymore, just a partial
+  # describe 'GET #transaction_detail' do
+  # it 'assigns a requested rental to @rental' do
+  # get :transaction_detail, params: { id: @rental.id }
+  # expect(assigns[:rental]).to eq @rental
+  # end
+
+  # it 'all requested financial transactions should contain the same rental as @rental' do
+  # get :transaction_detail, params: { id: @rental }
+  # expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
+  # end
+  # end
 
   describe 'PUT #update' do
     it 'properly checks out a rental' do

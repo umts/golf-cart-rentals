@@ -137,8 +137,8 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_amount
-    due = financial_transactions.where.not(transactable_type: Payment.name ).sum(:amount) 
-    paid = financial_transactions.where(transactable_type: Payment.name ).sum(:amount)
+    due = financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+    paid = financial_transactions.where(transactable_type: Payment.name).sum(:amount)
     due - paid # costs - payments
   end
 
