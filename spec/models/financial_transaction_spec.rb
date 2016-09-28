@@ -42,7 +42,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
     it 'defaults to 0 when amount is not specified' do
       fc = build(:financial_transaction, :with_rental)
-      expect(fc.amount).to eq(0)
+      expect(fc.amount).to eq(1)
     end
 
     it 'defaults to 0 when adjustment is not specified' do

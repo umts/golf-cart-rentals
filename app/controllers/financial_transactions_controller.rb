@@ -35,7 +35,10 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params) # hard fail
-      render :new and return if !payment.save
+      if !payment.save
+        flash[:danger] = 'Please properly fill out Contact and Payment fields'
+        render :new and return 
+      end
       @financial_transaction.transactable_id = payment.id
     end
 

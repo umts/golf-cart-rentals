@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
+
+  it 'has a valid factory' do
+    expect(build :payment).to be_valid
+  end
+
   context 'validations' do
     it 'requires payment_type' do
       expect(build :payment, payment_type: nil).not_to be_valid
@@ -16,6 +21,10 @@ RSpec.describe Payment, type: :model do
 
     it 'requires contact_phone' do
       expect(build :payment, contact_phone: nil).not_to be_valid
+    end
+
+    it 'requires length contact_phone to be 10' do
+      expect(build :payment, contact_phone: '1'*9).not_to be_valid
     end
   end
 
