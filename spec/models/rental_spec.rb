@@ -172,9 +172,9 @@ RSpec.describe Rental do
       @rental.rental_status = :checked_in
       expect(@rental.event_status_color).to eq('#09ff00')
     end
-    it 'returns #000000 when cancelled' do
+    it 'returns #ff0000 when cancelled' do
       @rental.rental_status = :canceled
-      expect(@rental.event_status_color).to eq('#000000')
+      expect(@rental.event_status_color).to eq('#ff0000')
     end
     it 'returns #000000 when approved' do
       @rental.rental_status = :inspected
