@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:edit, :update, :show, :destroy]
-  before_action :set_item_types, only: [:new, :create]
+  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+
+  def show
+  end
 
   def index
     @reservations = Reservation.all
@@ -11,7 +13,16 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
   end
 
-  def show
+  def create
+    @reservation = Reservation.new(reservation_params)
+
+    if @reservation.save
+      flash[:success] = 'Reservation Was Successfully Created'
+      redirect_to @reservation
+    else
+      @reservation.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :new
+    end
   end
 
   def edit
@@ -28,18 +39,6 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def create
-    @reservation = Reservation.new(reservation_params)
-
-    if @reservation.save
-      flash[:success] = 'Reservation Was Successfully Created'
-      redirect_to @reservation
-    else
-      @reservation.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
-    end
-  end
-
   def destroy
     @reservation.destroy
     flash[:success] = 'Reservation Was Successfully Deleted'
@@ -52,11 +51,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
   end
 
-  def set_item_types
-    @item_types = ItemType.all
-  end
-
   def reservation_params
-    params.require(:reservation).permit(:reservation_type, :item_type_id, :end_time, :start_time)
+    params.require(:reservation).permit(:item_id, :reservation_type, :start_time, :end_time)
   end
 end

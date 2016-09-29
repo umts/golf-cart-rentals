@@ -4,8 +4,9 @@ class Reservation < ActiveRecord::Base
   belongs_to :item
 
   before_create :create_api_reservation
-  before_destroy :destroy_api_reservation
   before_update :update_api_reservation
+  before_destroy :destroy_api_reservation
+
   validates :reservation_id, uniqueness: true
   validates :reservation_type, :end_time, :item_type_id, presence: true
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
