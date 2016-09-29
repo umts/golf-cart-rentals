@@ -63,6 +63,7 @@ class RentalsController < ApplicationController
         @rental.update(dropoff_name: params[:rental][:dropoff_name], dropoff_phone_number: params[:rental][:dropoff_phone_number])
       end
     elsif params[:commit] == 'Process No Show'
+      binding.pry
       @rental.process_no_show
     else
       @rental.update rental_params
