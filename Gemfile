@@ -56,6 +56,10 @@ gem 'ransack'
 # date validations
 gem 'date_validator'
 
+# wicked pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
