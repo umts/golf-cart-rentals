@@ -48,21 +48,21 @@ class ApplicationController < ActionController::Base
 
   def current_user
     # handle users approprately in production
-    if Rails.env.production? || Rails.env.staging?
-      # try logging in user with shibboleth info
-      user_from_shibboleth
+    #if Rails.env.production? || Rails.env.staging?
+      ## try logging in user with shibboleth info
+      #user_from_shibboleth
 
-      # try to retrieve user from session if didn't log in
-      user_from_session if @current_user.nil?
+      ## try to retrieve user from session if didn't log in
+      #user_from_session if @current_user.nil?
 
-      # raise error if user failed to log in
-      raise MissingUserError unless @current_user
+      ## raise error if user failed to log in
+      #raise MissingUserError unless @current_user 
 
-    # assign the first user when in development
-    elsif Rails.env.development?
+    ## assign the first user when in development
+    #elsif Rails.env.development?
       @current_user = User.first
       session[:user_id] = @current_user.id
-    end
+    #end
   end
 
   def has_permission?
