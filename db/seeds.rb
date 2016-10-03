@@ -1,11 +1,3 @@
-
-  puts 'Creating users'
-  users = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'users.yml'))
-  users.each do |user|
-    u = User.where(spire_id: user['spire_id']).first_or_create user
-  end
-
-if Rails.env.development?
   puts '*****************************'
   puts 'Seeding development'
   puts '*****************************'
@@ -82,7 +74,6 @@ if Rails.env.development?
     IncidentalType.where(name: incidental['name']).first_or_create incidental
   end
 
-end
 
 puts '*****************************'
 puts "Seeding all environments\n"
