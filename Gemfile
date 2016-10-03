@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0'
-
+gem 'rails_12factor' # heroku logging requirement
 gem 'pg' # got to use postgres for heroku
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
