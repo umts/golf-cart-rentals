@@ -83,5 +83,6 @@ Rails.application.configure do
   }
 
   # Inventory api url
-  config.inventory_api_uri = 'http://pvta.com/apis/aggressive/v1/' # not sure what this is yet
+  # config.inventory_api_uri = 'http://pvta.com/apis/aggressive/v1/' # not sure what this is yet
+  config.inventory_api_uri = 'https://aggressive-epsilon.herokuapp.com/v1/' # 'http://localhost:4000/v1/'
 end
