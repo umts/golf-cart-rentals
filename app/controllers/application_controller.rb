@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     logger.error error.backtrace.join("\n")
 
     # send email to IT
-    send_error_email(error)
+    # send_error_email(error) 'dont do this in staging
 
     respond_to do |format|
       format.html { render template: 'errors/500.html.erb', status: 500 }
