@@ -19,7 +19,7 @@ class Rental < ActiveRecord::Base
 
   has_many :digital_signature
 
-  validates :reservation_id, uniqueness: true
+  validates :reservation_id, presence: true, uniqueness: true
   validates :user_id, :start_time, :end_time, :item_type_id, :department_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
