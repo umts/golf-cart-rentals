@@ -5,8 +5,8 @@
   <%= Gon::Base.render_data({}) %>
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
-  <link rel="stylesheet" type="text/css" href="assets/application.css">
-  <script src="assets/application.js"> 
+  <!--link rel="stylesheet" type="text/css" href="assets/application.css">
+  <script src="assets/application.js"--> 
   <%= stylesheet_link_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/stylesheets/#{params[:controller]}/#{params[:action]}.css") %>
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{params[:controller]}/#{params[:action]}.js") %>
