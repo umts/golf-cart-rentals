@@ -13,7 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
-
+gem 'rails_serve_static_assets'
 # Interaction with jquery and controller without refreshing page
 gem 'gon'
 gem 'fullcalendar-rails'
