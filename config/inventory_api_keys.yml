@@ -1,0 +1,6 @@
+development:
+  inventory_api_key: f8c503df23d6acc61c89284d3436fbca
+test:
+  inventory_api_key: f8c503df23d6acc61c89284d3436fbca
+production:
+  inventory_api_key: f8c503df23d6acc61c89284d3436fbca
