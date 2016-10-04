@@ -6,7 +6,6 @@
     <th>Car Name</th>
     <th>Amount</th>
     <th>Responsible Person</th>
-    <th>Spire ID</th>
     <th>Department</th>
     <th>Rental Start Date</th>
     <th>Rental End Date</th>
@@ -16,7 +15,6 @@
     <td><%= rental.item.name%></td>
     <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.user.full_name %></td>
-    <td><%= rental.user.spire_id %></td>
     <td><%= rental.department.name %></td>
     <td><%= rental.start_time.to_date %></td>
     <td><%= rental.end_time.to_date %></td>

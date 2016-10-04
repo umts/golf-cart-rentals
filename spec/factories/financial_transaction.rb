@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :financial_transaction do
-    note_field "Property of Factory Girl"
+    note_field 'Property of Factory Girl'
     created_at DateTime.now
     updated_at DateTime.now
 
@@ -25,4 +26,3 @@ FactoryGirl.define do
     end
   end
 end
-
