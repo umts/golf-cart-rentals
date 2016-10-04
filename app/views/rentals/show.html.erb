@@ -58,14 +58,14 @@
 <% if @rental.pickup_name.present? %>
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Picked Up By:</label>
-  <div class="form-control-informaton col-xs-10"><%= @rental.pickup_name + " (Phone: #{number_to_phone(@rental.pickup_phone_number.gsub(/[\s+)(-]/, ""), area_code: true)})" %></div>
+  <div class="form-control-informaton col-xs-10"><%= @rental.pickup_name + " (Phone: #{numberify(@rental.pickup_phone_number)})" %></div>
 </div>
 <% end %>
 
 <% if @rental.dropoff_name.present? %>
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Dropped Off By:</label>
-  <div class="form-control-informaton col-xs-10"><%= @rental.dropoff_name + " (Phone: #{number_to_phone(@rental.dropoff_phone_number.gsub(/[\s+)(-]/, ""), area_code: true)})" %></div>
+  <div class="form-control-informaton col-xs-10"><%= @rental.dropoff_name + " (Phone: #{numberify(@rental.dropoff_phone_number)})" %></div>
 </div>
 <% end %>
 
