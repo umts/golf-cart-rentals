@@ -24,7 +24,9 @@ $(document).ready(function() {
       showClear: true,
       showClose: true
     }).on('dp.change', function(ev) {
-      calculate_price();
+      if(window.location.pathname == '/rentals/new') {
+        calculate_price();
+      }
     });
 
     $( ".timepicker" ).datetimepicker({
