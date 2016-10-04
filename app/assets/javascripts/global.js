@@ -23,10 +23,9 @@ $(document).ready(function() {
       showTodayButton: true,
       showClear: true,
       showClose: true
-    }).on('changeDate', function(ev) {
-    alert(new Date(ev.date));
-    $(this).datepicker('hide');
-  });
+    }).on('dp.change', function(ev) {
+      calculate_price();
+    });
 
     $( ".timepicker" ).datetimepicker({
       format: 'h:mm A'
