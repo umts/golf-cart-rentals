@@ -1,42 +1,23 @@
-<br><br>
-<div class="col-xs-12">
-  <div class="col-xs-offset-2 col-xs-6">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        Rental Information
-      </div>
-      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
-        <p>Car Type: <%= @rental.item_type.name %></p>
-        <p>Period:   <%= @rental.times%></p>
-        <p>Status:   <%= @rental.rental_status %></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <h2>Payment Summary</h2>
-  <table class="table table-sm">
-    <thead>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Create Date</th>
+      <th>Transaction Type</th>
+      <th>Transaction Amount</th>
+      <th>Transaction Adjustment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @financial_transactions.each do |ft| %>
       <tr>
-        <th>Create Date</th>
-        <th>Transaction Type</th>
-        <th>Transaction Amount</th>
-        <th>Transaction Adjustment</th>
+        <td><%= ft.created_at %></td>
+        <td><%= ft.transactable_type %></td>
+        <td><%= number_to_currency (ft.amount || 0) %></td>
+        <td><%= number_to_currency (ft.adjustment || 0) %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @financial_transactions.each do |ft|%>
-        <tr>
-          <td><%= ft.created_at %></td>
-          <td><%= ft.transactable_type %></td>
-          <td><%= number_to_currency (ft.amount || 0) %></td>
-          <td><%= number_to_currency (ft.adjustment || 0) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+</table>
 
 <div class="row">
   <div class="col-xs-12">

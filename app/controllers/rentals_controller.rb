@@ -2,11 +2,12 @@
 class RentalsController < ApplicationController
   @per_page = 10
 
-  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform]
+  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_users, only: [:index, :new, :processing, :transform]
   before_action :set_incidental_types, only: [:new]
+  before_action :set_financial_transactions, only: [:show, :invoice]
 
   # GET /rentals
   def index
@@ -19,7 +20,6 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1
   def show
-    @financial_transactions = FinancialTransaction.where(rental_id: @rental.id)
   end
 
   # GET /rentals/new
@@ -102,11 +102,19 @@ class RentalsController < ApplicationController
     redirect_back(fallback_location: rentals_path)
   end
 
+  # GET /rentals/1/invoice
+  def invoice
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
+  end
+
+  def set_financial_transactions
+    @financial_transactions = FinancialTransaction.where(rental: @rental)
   end
 
   def set_item_types

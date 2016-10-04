@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
-    rental[:item_id] = create(:item, name: "TEST_ITEM")
+    rental[:item_id] = create(:item, name: 'TEST_ITEM')
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
@@ -19,7 +20,7 @@ describe RentalsController do
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
-  let(:item) { create(:item, name: "TEST_ITEM") }
+  let(:item) { create(:item, name: 'TEST_ITEM') }
 
   before(:each) { current_user }
 
@@ -124,7 +125,6 @@ describe RentalsController do
   end
 
   describe 'GET #transform' do
-
     it 'redirects to check in page if it was checked out' do
       rental = mock_rental
       rental.pickup
@@ -139,7 +139,7 @@ describe RentalsController do
 
     it 'handles the no show flag correctly' do
       rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
-      Timecop.freeze(DateTime.current + 23.hour)
+      Timecop.freeze(DateTime.current + 23.hours)
       get :transform, params: { id: rental.id }
       expect(response).to render_template :check_out
       Timecop.return
@@ -156,15 +156,27 @@ describe RentalsController do
     end
   end
 
+  describe 'GET #invoice' do
+    it 'assigns a requested rental to @rental' do
+      get :invoice, params: { id: @rental }
+      expect(assigns[:rental]).to eq @rental
+    end
+
+    it 'all requested financial transactions should contain the same rental as @rental' do
+      get :show, params: { id: @rental }
+      expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
+    end
+  end
+
   describe 'GET #transaction_detail' do
-    it 'assigns a requested rental to @rental'do
+    it 'assigns a requested rental to @rental' do
       get :show, params: { id: @rental }
       expect(assigns[:rental]).to eq @rental
     end
 
     it 'all requested financial transactions should contain the same rental as @rental' do
       get :show, params: { id: @rental }
-      expect(assigns[:financial_transactions].all?{|ft| ft.rental.id == @rental.id}).to be true
+      expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
     end
   end
 
