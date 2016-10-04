@@ -99,7 +99,7 @@ function calculate_price()
 
   var item_type_daily_rate = item_type_daily_rates[cart.value];
 
-  var price = item_type_price + (date_range*item_type_daily_rate)
+  var price = item_type_price + (Math.floor((date_range-((date_range+1)/7)))*item_type_daily_rate)
   console.log(price);
 
   document.getElementById('rental_date_range').innerHTML = date_range;
