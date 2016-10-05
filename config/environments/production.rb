@@ -19,11 +19,8 @@ Rails.application.configure do
   # NGINX, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
   config.public_file_server.enabled = true
-  # config.serve_static_assets = true
-  config.serve_static_files = true
+  config.serve_static_assets = true
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
