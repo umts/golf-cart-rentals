@@ -17,9 +17,9 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction = FinancialTransaction.new
     @financial_transaction.rental = Rental.find(params.require(:rental_id))
     @financial_transaction.transactable_type = params[:transactable_type]
-    if @financial_transaction.transactable_type != Payment.name #  handles transactable_type payment which will be created with this form
-      @financial_transaction.transactable_id = params[:transactable_id]
-    end
+  
+    # handles transactable_type payment which will be created with this form
+    @financial_transaction.transactable_id = params[:transactable_id] if @financial_transaction.transactable_type != Payment.name 
   end
 
   # GET /financial_transactions/1/edit
