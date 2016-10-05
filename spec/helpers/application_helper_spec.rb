@@ -103,18 +103,18 @@ describe ApplicationHelper do
   describe '#date_field' do
     it 'formats the date field correctly' do
       expect(date_field(:start_time, value: Time.zone.today)).to include('YYYY-MM-DD',
-                                                                    'start_time',
-                                                                    'glyphicon glyphicon-calendar',
-                                                                    'input-group date datepicker')
+                                                                         'start_time',
+                                                                         'glyphicon glyphicon-calendar',
+                                                                         'input-group date datepicker')
     end
   end
 
   describe '#time_field' do
     it 'formats the date field correctly' do
       expect(time_field(:start_time, value: Time.current)).to include('HH:MM AM',
-                                                                  'start_time',
-                                                                  'glyphicon glyphicon-time',
-                                                                  'input-group date timepicker')
+                                                                      'start_time',
+                                                                      'glyphicon glyphicon-time',
+                                                                      'input-group date timepicker')
     end
   end
 
