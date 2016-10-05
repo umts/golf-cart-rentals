@@ -19,7 +19,7 @@
 # Ignore sensitive config files
 /config/database.yml
 /config/secrets.yml
-# /config/inventory_api_keys.yml
+/config/inventory_api_keys.yml
 
 # Ignore development files
 /.idea/*
