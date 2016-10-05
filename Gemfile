@@ -4,7 +4,6 @@ ruby "2.3.1"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0'
 gem 'rails_12factor' # heroku logging requirement
-gem 'pg' # got to use postgres for heroku
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -67,6 +66,11 @@ gem 'wkhtmltopdf-binary'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
 
+group :production do
+  gem 'pg' # got to use postgres for heroku
+  gem 'thin'
+end
+
 # permanent records
 gem 'permanent_records'
 
@@ -77,6 +81,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails', '3.5.0.beta2'
   gem 'rubocop', require: false
+  gem 'mysql2'
 end
 
 group :development do
