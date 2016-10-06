@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   resources :incidental_types
   resources :incurred_incidentals
-  resources :reservations
+  resources :holds
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'

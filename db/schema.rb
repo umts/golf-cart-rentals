@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(version: 20160801150013) do
     t.index ["user_id"], name: "index_groups_users_on_user_id", using: :btree
   end
 
+  create_table "holds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "hold_reason"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "item_type_id"
+    t.integer  "item_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
@@ -159,17 +169,6 @@ ActiveRecord::Schema.define(version: 20160801150013) do
     t.integer  "item_id",        null: false
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
-  end
-
-  create_table "reservations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "reservation_type"
-    t.string   "reservation_id"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer  "item_type_id"
-    t.integer  "item_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
