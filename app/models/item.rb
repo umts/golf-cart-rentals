@@ -8,6 +8,10 @@ class Item < ActiveRecord::Base
     unscoped.where('deleted_at IS NOT NULL')
   end
 
+  def self.all_reservable_items
+    Item.all.select { |i| Inventory.item(i.uuid)[:reservable] }
+  end
+
   def basic_info
     "#{name} (#{item_type.name})"
   end

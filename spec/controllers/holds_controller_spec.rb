@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe HoldsController do
   let!(:hold) { create :hold }
-
-  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+  
   let(:item) { create(:item, name: "TEST_ITEM") }
+  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
   describe 'GET #index' do
     it 'populates an array of holds' do
@@ -85,18 +85,6 @@ describe HoldsController do
         post :create, params: { hold: attributes_for(:invalid_date_time_hold) }
         expect(response).to render_template :new
       end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'deletes the hold from the database' do
-      expect do
-        delete :destroy, params: { id: hold.id }
-      end.to change(Hold, :count).by(-1)
-    end
-    it 'redirects to the users index page' do
-      delete :destroy, params: { id: hold.id }
-      expect(response).to redirect_to holds_url
     end
   end
 end

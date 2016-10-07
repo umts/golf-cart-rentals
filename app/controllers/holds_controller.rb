@@ -26,7 +26,6 @@ class HoldsController < ApplicationController
   end
 
   def edit
-    @item_types = ItemType.where(id: @hold.item_type_id)
   end
 
   def update
@@ -52,6 +51,7 @@ class HoldsController < ApplicationController
   end
 
   def hold_params
-    params.require(:hold).permit(:hold_reason, :start_time, :end_time, :item_id)
+    item_type_id = Item.find(params[:hold][:item_id]).item_type_id
+    params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
   end
 end

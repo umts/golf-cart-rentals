@@ -7,8 +7,8 @@
   <thead>
     <tr>
       <th>Reason for Hold</th>
-      <th>Item Type</th>
       <th>Item</th>
+      <th>Item Type</th>
       <th>Start Time</th>
       <th>End Time</th>
       <th></th>
@@ -17,8 +17,8 @@
     <% @holds.each do |hold| %>
       <tr>
         <td><%= hold.hold_reason %></td>
-        <td><%= hold.item_type.name %></td>
         <td><%= hold.item.name %></td>
+        <td><%= hold.item_type.name %></td>
         <td><%= hold.start_time.to_date %></td>
         <td><%= hold.end_time.to_date %></td>
         <td>
