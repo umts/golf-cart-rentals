@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 20160923192142) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "fee_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "base_amount",    limit: 24
+    t.float    "amount_per_day", limit: 24
+    t.integer  "item_type_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "financial_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "rental_id"
     t.integer  "transactable_id"

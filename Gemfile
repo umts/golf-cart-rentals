@@ -55,7 +55,6 @@ gem 'ransack'
 
 # date validations
 gem 'date_validator'
-
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
