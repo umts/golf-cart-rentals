@@ -1,14 +1,14 @@
 <%= form_for @rental, method: :post, html: {id:  'rental_reservation'} do |f| %>
 
   <div class="form-group col-xs-12">
-    <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
+    <%= f.label :type, 'Golf Cart Size', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control", onchange: 'calculate_price()' %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :user, 'User', class: 'control-label col-xs-2' %>
+    <%= f.label :user, 'Name', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.select :user_id, options_from_collection_for_select(@users.order(last_name: :asc), "id", "full_name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
     </div>
@@ -47,7 +47,7 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :attachments, 'Agreements', class: 'control-label col-xs-2' %>
+    <%= f.label :attachments, 'Forms and Conditions', class: 'control-label col-xs-2' %>
 
     <div class="col-xs-12 col-md-2 col-lg-2 col-xl-2">
       <%= button_tag 'Golf Kart Checklist', class: 'btn btn-info' %>
