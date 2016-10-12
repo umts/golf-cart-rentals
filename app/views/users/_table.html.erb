@@ -19,8 +19,6 @@
         <td class="min-width">
           <% if controller_name == 'groups' %>
             <%= render partial: 'groups/actions', locals: { group: @group, user: user } %>
-          <% elsif controller_name == 'departments' %>
-            <%= render partial: 'departments/actions', locals: { department: @department, user: user } %>
           <% else %>
             <%= render partial: 'users/actions', locals: { user: user } %>
           <% end %>

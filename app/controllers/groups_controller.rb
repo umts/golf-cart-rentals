@@ -69,8 +69,13 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group.users.delete(params[:user_id])
-    redirect_to edit_group_path(@group)
+    user = @group.users.find params[:user_id]
+    if user.update(active: false)
+      redirect_to edit_group_path(@group)
+    else
+      user.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :edit
+    end
   end
 
   private

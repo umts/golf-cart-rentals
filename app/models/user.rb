@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def has_permission?(controller, action, id = nil)
+    return false if !active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
     relevant_permissions = permissions.where(controller: controller, action: action)
 
