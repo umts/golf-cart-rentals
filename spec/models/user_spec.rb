@@ -82,7 +82,7 @@ RSpec.describe User, type: :model do
       group.permissions << permission
       user.groups << group
 
-      expect(user).to have_permission permission.controller,
+      expect(user).not_to have_permission permission.controller,
                                       permission.action,
                                       user.id
     end

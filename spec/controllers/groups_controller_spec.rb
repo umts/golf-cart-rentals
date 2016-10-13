@@ -182,7 +182,8 @@ describe GroupsController do
       post :remove_user, params: { id: group, user_id: old_user }
 
       group.reload
-      expect(group.users).not_to include(old_user)
+      expect(group.users).to include(old_user) # we dont delete users!
+      expect(old_user.reload.active).to be false
       expect(response).to redirect_to edit_group_url(group)
     end
   end

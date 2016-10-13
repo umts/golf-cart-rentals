@@ -40,9 +40,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    flash[:success] = 'User Was Successfully Deleted'
-    redirect_to users_url
+    if @user.update(active: false)
+      flash[:success] = 'User Was Successfully Deleted'
+      redirect_to users_url
+    else
+      @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      redirect_to @user
+    end
   end
 
   private

@@ -86,7 +86,7 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
-  gem 'capybara', '~> 2.5'
+  #gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
