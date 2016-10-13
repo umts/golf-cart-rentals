@@ -4,9 +4,8 @@ class ItemsController < ApplicationController
 
   def index
     @item_types = ItemType.all
-    binding.pry
     @q = Item.search(params[:q])
-    @items = @q.result.paginate(page: params[:page], per_page: 8)#@per_page) change this
+    @items = @q.result.paginate(page: params[:page], per_page: 8) # @per_page) change this
   end
 
   def show
