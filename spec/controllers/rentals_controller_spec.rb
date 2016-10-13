@@ -156,14 +156,26 @@ describe RentalsController do
     end
   end
 
-  describe 'GET #transaction_detail' do
+  describe 'GET #invoice' do
     it 'assigns a requested rental to @rental' do
-      get :transaction_detail, params: { id: @rental }
+      get :invoice, params: { id: @rental }
       expect(assigns[:rental]).to eq @rental
     end
 
     it 'all requested financial transactions should contain the same rental as @rental' do
-      get :transaction_detail, params: { id: @rental }
+      get :show, params: { id: @rental }
+      expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
+    end
+  end
+
+  describe 'GET #transaction_detail' do
+    it 'assigns a requested rental to @rental' do
+      get :show, params: { id: @rental }
+      expect(assigns[:rental]).to eq @rental
+    end
+
+    it 'all requested financial transactions should contain the same rental as @rental' do
+      get :show, params: { id: @rental }
       expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
     end
   end
