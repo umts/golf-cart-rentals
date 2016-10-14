@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 20161011205258) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "fee_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "base_amount",    limit: 24
+    t.float    "amount_per_day", limit: 24
+    t.integer  "item_type_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "financial_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "rental_id"
     t.integer  "transactable_id"
@@ -78,16 +86,14 @@ ActiveRecord::Schema.define(version: 20161011205258) do
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
-    t.decimal  "base",                 precision: 10
-    t.decimal  "modifier_amount",      precision: 10
-    t.string   "modifier_description"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.decimal  "base",        precision: 10
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "incidental_type_id"
-    t.decimal  "times_modified",     precision: 10
+    t.decimal  "amount",             precision: 10
     t.integer  "rental_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
