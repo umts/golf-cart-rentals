@@ -124,5 +124,8 @@
     <% end %>
     <%= link_to 'Print Rental', @rental, :onclick => 'window.print();return false;', class: "btn btn-primary"%>
     <%= link_to 'View Invoice', rental_invoice_path(@rental), class: "btn btn-primary"%>
+    <% if @rental.sum_amount != 0 %>
+      <%= link_to 'New Payment', new_financial_transaction_path(rental_id: @rental.id, transactable_type: Payment.name), class: "btn btn-primary"%>
+    <% end %>
   </div>
 </div>

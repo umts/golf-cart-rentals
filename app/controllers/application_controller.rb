@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def render_404
     respond_to do |format|
       format.html { render template: 'errors/404.html.erb', status: 404 }
-      format.all { render nothing: true, status: 404 }
+      format.all { render body: nil, status: 404 }
     end
   end
 
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html { render template: 'errors/500.html.erb', status: 500 }
-      format.all { render nothing: true, status: 500 }
+      format.all { render body: nil, status: 500 }
     end
   end
 

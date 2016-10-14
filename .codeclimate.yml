@@ -13,6 +13,7 @@ engines:
       - python
       - php
     exclude_fingerprints:
+    - f8728cae8f316da8d60cd9fe03f658fd
     - 5d92a0498369d22fd35db5cc3684f29c
     - 1b4c600e85265b79c1f7ee140ff5c800
     - c5f08d507e17e0aed6c7c2e902f0a3e6
