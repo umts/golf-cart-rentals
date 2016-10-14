@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(checked_in_at: nil)
+        update(checked_in_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
       end
     end
   end
@@ -119,6 +119,8 @@ class Rental < ActiveRecord::Base
       return '#f7ff76'
     when 'checked_in'
       return '#09ff00'
+    when 'canceled'
+      return '#ff0000'
     else
       return '#000000' # black signifies a non event status
     end

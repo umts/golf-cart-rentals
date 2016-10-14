@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover" style="text-align: center">
+<table id="const-width" class="table table-bordered table-hover" style="text-align: center">
   <tr>
     <th>Status</th>
     <th>Customer</th>
@@ -17,7 +17,7 @@
       <td><%= rental.end_time.strftime("%a %m/%d/%Y") %></td>
       <td><%= rental.item_type.name %></td>
       <td><%= rental.item.name %></td>
-      <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
+      <td><%= number_to_currency(rental.sum_amount) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
         <% if rental.reserved? && rentals.no_show_rentals.exclude?(rental) %>
