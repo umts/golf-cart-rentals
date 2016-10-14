@@ -8,14 +8,19 @@ RSpec.describe Note, type: :model do
     end
   end
 
-  context 'properly builds association with note' do
-    it 'is noteable' do
+  context 'properly builds association with incurred_incidental' do
+    before(:each) do
       @incident = create(:incurred_incidental)
       @incident.notes << create(:note)
       @note = Note.first
+    end
 
-      expect(@incident.notes.first).to eq @note
+    it 'is noteable' do
       expect(@note.noteable).to eq @incident
+    end
+
+    it 'is accessible in incurred_incidental' do
+      expect(@incident.notes.include? @note).to eq true
     end
   end
 end
