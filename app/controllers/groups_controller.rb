@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user]
 
   def index
     @groups = Group.all
@@ -68,9 +68,20 @@ class GroupsController < ApplicationController
     redirect_to edit_group_path(@group)
   end
 
+  # mark inactive
   def remove_user
     user = @group.users.find params[:user_id]
     if user.update(active: false)
+      redirect_to edit_group_path(@group)
+    else
+      user.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :edit
+    end
+  end
+
+  def enable_user
+    user = @group.users.find params[:user_id]
+    if user.update(active: true)
       redirect_to edit_group_path(@group)
     else
       user.errors.full_messages.each { |e| flash_message :warning, e, :now }
