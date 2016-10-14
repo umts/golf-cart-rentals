@@ -4,8 +4,8 @@ class ItemsController < ApplicationController
 
   def index
     @item_types = ItemType.all
-    @q = Item.all.search(params[:q])
-    @items = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
+    @q = Item.search(params[:q])
+    @items = @q.result.paginate(page: params[:page], per_page: 8)
   end
 
   def show

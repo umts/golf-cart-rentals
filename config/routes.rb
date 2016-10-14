@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :financial_transactions
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
 
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
-  get 'rentals/:id/transaction_detail', to: 'rentals#transaction_detail', as: 'rental_transaction_detail'
+  get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
   resources :rentals
 
   resources :departments do
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
   resources :users
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
+  resources :incidental_types
+  resources :incurred_incidentals
+  resources :reservations
+  resources :financial_transaction, except: %i(destroy update)
   resources :items do
     collection do
       get :new_item
@@ -34,10 +39,6 @@ Rails.application.routes.draw do
       get :refresh_items
     end
   end
-
-  resources :incidental_types
-  resources :incurred_incidentals
-  resources :reservations
 
   #Errors --------------------------------------------------------------
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'

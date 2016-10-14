@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
@@ -25,15 +26,19 @@ RSpec.configure do |config|
 
   config.before(:each) do
     # Loganote: using .and_return({uuid:...} is not lazily evaluated
-    allow(Inventory).to receive(:create_reservation) { {uuid: SecureRandom.uuid,
-                                                        item: create(:item).name}
-                                                     }
-    allow(Inventory).to receive(:update_reservation_start_time) { { start_time: Time.current
-                                                                } }
-    allow(Inventory).to receive(:update_reservation_end_time) { { end_time: Time.current + 1.day
-                                                                } }
-    allow(Inventory).to receive(:delete_reservation) { { uuid: nil
-                                                      } }
+    allow(Inventory).to receive(:create_reservation) {
+                          { uuid: SecureRandom.uuid,
+                            item: create(:item).name }
+                        }
+    allow(Inventory).to receive(:update_reservation_start_time) {
+      { start_time: Time.current }
+    }
+    allow(Inventory).to receive(:update_reservation_end_time) {
+      { end_time: Time.current + 1.day }
+    }
+    allow(Inventory).to receive(:delete_reservation) {
+      { uuid: nil }
+    }
   end
 end
 

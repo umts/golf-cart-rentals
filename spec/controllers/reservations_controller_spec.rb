@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ReservationsController do
   let!(:reservation) { create :reservation }
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
-  let(:item) { create(:item, name: "TEST_ITEM") }
+  let(:item) { create(:item, name: 'TEST_ITEM') }
 
   describe 'GET #index' do
     it 'populates an array of reservation' do
@@ -53,9 +54,9 @@ describe ReservationsController do
     end
 
     it 'no change for reservation with non valid data' do
-      new_start_time = @reservation.end_time + 10.day
-      new_end_time = @reservation.start_time - 10.day
-      post :update, params: { id: @reservation, reservation: { start_time: new_start_time, end_time: new_end_time } }
+      new_start_time = @reservation.end_time + 10.days
+      new_end_time = @reservation.start_time - 10.days
+      post :update, id: @reservation, reservation: { start_time: new_start_time, end_time: new_end_time }
       @reservation.reload
       expect(@reservation.start_time).not_to eq(new_start_time)
       expect(@reservation.end_time).not_to eq(new_end_time)
