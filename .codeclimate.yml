@@ -6,6 +6,9 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    checks:
+      Similar code:
+          enabled: false
     config:
       languages:
       - ruby
@@ -31,6 +34,8 @@ engines:
     enabled: true
     checks:
       Rubocop/Style/AndOr:
+        enabled: false
+      Rubocop/Metrics/BlockLength:
         enabled: false
     exclude_fingerprints:
     - a3e1dbf8cb97a435038c8390306d8fdc
