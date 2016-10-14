@@ -14,7 +14,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'does not create a financial transaction without first creating a rental' do
-      expect { create :financial_transaction }.to raise_error ActiveRecord::RecordInvalid
+      expect { create :financial_transaction, rental: nil }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'creates a financial transaction via post hook from creating a Rental' do
@@ -42,7 +42,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
     it 'defaults to 0 when amount is not specified' do
       fc = build(:financial_transaction, :with_rental)
-      expect(fc.amount).to eq(0)
+      expect(fc.amount).to eq(1)
     end
 
     it 'defaults to 0 when adjustment is not specified' do

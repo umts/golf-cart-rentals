@@ -56,6 +56,10 @@ gem 'ransack'
 # date validations
 gem 'date_validator'
 
+# wicked pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
@@ -66,7 +70,7 @@ gem 'date_validator'
 # permanent records
 gem 'permanent_records'
 
-gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'

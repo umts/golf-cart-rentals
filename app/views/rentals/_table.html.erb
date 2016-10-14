@@ -20,7 +20,10 @@
       <td><%= number_to_currency(rental.sum_amount) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
-        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), rental, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" unless rental.canceled? || rental.checked_in? %>
+        <% if rental.reserved? && rentals.no_show_rentals.exclude?(rental) %>
+          <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+" Cancel"), rental, method: :delete, 
+            data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+        <% end %>
         <% if rental.rental_status == "checked_out" or rental.rental_status == "reserved" %>
           <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Process"), rental_transform_path(rental), class: "btn btn-xs btn-primary" %>
         <% end %>
