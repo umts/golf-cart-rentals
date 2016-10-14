@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 FactoryGirl.define do
   factory :incurred_incidental do
-    times_modified 1
-    association :incidental_type
     association :rental, factory: :mock_rental
+    association :incidental_type
+    amount 10
+
+    after(:build) do |incidental|
+      incidental.notes = FactoryGirl.build_list(:note, 1)
+    end
   end
 
-  factory :invalid, parent: :incurred_incidental do
-    times_modified nil
+  factory :invalid_incidental, parent: :incurred_incidental do
+    amount nil
   end
 end

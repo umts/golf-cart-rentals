@@ -5,4 +5,8 @@ class IncidentalType < ActiveRecord::Base
   validates :name, :description, :base, presence: true
   validates :name, uniqueness: true
   validates :base, numericality: { greater_than_or_equal_to: 0 }
+  
+  def basic_info
+    "#{name} ($#{base})"
+  end
 end

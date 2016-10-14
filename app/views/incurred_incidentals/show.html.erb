@@ -1,8 +1,8 @@
-<% provide( :page_header, "Incurred Incidental ID: #{@incurred_incidental.id}" ) %>
+<% provide(:page_header, "Incurred Incidental ID: #{@incurred_incidental.id}") %>
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-6">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">
         Rental Information
       </div>
@@ -18,7 +18,7 @@
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-6">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">
         Incidental Type Information
       </div>
@@ -26,8 +26,6 @@
         <p>Name:                 <%= @incurred_incidental.incidental_type.try(:name) %></p>
         <p>Description:          <%= @incurred_incidental.incidental_type.try(:description)%></p>
         <p>Base Fee:             <%= @incurred_incidental.incidental_type.try(:base) %></p>
-        <p>Modifier Amount:      <%= @incurred_incidental.incidental_type.try(:modifier_amount) %></p>
-        <p>Modifier Description: <%= @incurred_incidental.incidental_type.try(:modifier_description) %></p>
       </div>
     </div>
   </div>
@@ -35,7 +33,7 @@
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-6">
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
       <div class="panel-heading">
         Financial Transaction Information
       </div>
@@ -48,10 +46,24 @@
   </div>
 </div>
 
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        Notes
+      </div>
+      <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <% @incurred_incidental.notes.reverse_each do |n| %>
+          <div class="form-control-information col-xs-8"><%= "#{n.created_at.strftime("%b %e, %l:%M %p")} - #{n.note}" %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Times Modified</label>
-  <div class="form-control-information col-xs-10"><%= @incurred_incidental.times_modified%></div>
+  <label class="col-xs-offset-2 col-xs-2 control-label">Amount</label>
+  <div class="form-control-information col-xs-8"><%= @incurred_incidental.amount%></div>
 </div>
 
 <% if !@incurred_incidental.try(:documents).empty? %>
