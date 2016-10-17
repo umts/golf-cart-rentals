@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161011205258) do
+ActiveRecord::Schema.define(version: 20161014205517) do
+
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.boolean  "active",     default: true, null: false
@@ -64,8 +65,9 @@ ActiveRecord::Schema.define(version: 20161011205258) do
   create_table "groups_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "group_id"
     t.integer  "permission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "active",        default: true
     t.index ["group_id", "permission_id"], name: "index_groups_permissions_on_group_id_and_permission_id", unique: true, using: :btree
     t.index ["group_id"], name: "index_groups_permissions_on_group_id", using: :btree
     t.index ["permission_id"], name: "index_groups_permissions_on_permission_id", using: :btree
@@ -154,11 +156,12 @@ ActiveRecord::Schema.define(version: 20161011205258) do
   end
 
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "controller", null: false
-    t.string   "action",     null: false
+    t.string   "controller",                null: false
+    t.string   "action",                    null: false
     t.string   "id_field"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true
   end
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
