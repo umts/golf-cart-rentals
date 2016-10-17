@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926145201) do
+ActiveRecord::Schema.define(version: 20160926165113) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
@@ -77,16 +77,14 @@ ActiveRecord::Schema.define(version: 20160926145201) do
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
-    t.decimal  "base",                 precision: 10
-    t.decimal  "modifier_amount",      precision: 10
-    t.string   "modifier_description"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.decimal  "base",        precision: 10
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "incidental_type_id"
-    t.decimal  "times_modified",     precision: 10
+    t.decimal  "amount",             precision: 10
     t.integer  "rental_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
@@ -136,6 +134,15 @@ ActiveRecord::Schema.define(version: 20160926145201) do
     t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
   end
 
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "payment_type"
+    t.string   "contact_name"
+    t.string   "contact_phone"
+    t.string   "contact_email"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "controller", null: false
     t.string   "action",     null: false
@@ -145,18 +152,22 @@ ActiveRecord::Schema.define(version: 20160926145201) do
   end
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "rental_status",  null: false
-    t.integer  "user_id",        null: false
-    t.integer  "department_id",  null: false
-    t.string   "reservation_id", null: false
-    t.integer  "item_type_id",   null: false
+    t.string   "rental_status",        null: false
+    t.integer  "user_id",              null: false
+    t.integer  "department_id",        null: false
+    t.string   "reservation_id",       null: false
+    t.integer  "item_type_id",         null: false
     t.datetime "dropped_off_at"
     t.datetime "picked_up_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_id",        null: false
+    t.integer  "item_id",              null: false
+    t.string   "pickup_name"
+    t.string   "dropoff_name"
+    t.string   "pickup_phone_number"
+    t.string   "dropoff_phone_number"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end

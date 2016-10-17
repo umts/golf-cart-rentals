@@ -71,10 +71,13 @@ if Rails.env.development?
 
   puts 'Create Incidental Types'
   incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
-  incidentals.each do |incidental|
-    IncidentalType.where(name: incidental['name']).first_or_create incidental
+  incidentals.each do |i|
+    IncidentalType.where(name: i['name'],
+                         description: i['description'],
+                         base: i['base']).first_or_create
   end
 
+  puts " "
 end
 
 puts '*****************************'

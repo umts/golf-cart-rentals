@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(dropped_off_at: nil)
+        update(dropped_off_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
       end
     end
   end
@@ -119,6 +119,8 @@ class Rental < ActiveRecord::Base
       return '#f7ff76'
     when 'dropped_off'
       return '#09ff00'
+    when 'canceled'
+      return '#ff0000'
     else
       return '#000000' # black signifies a non event status
     end
@@ -137,7 +139,9 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_amount
-    financial_transactions.sum(:amount)
+    due = financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+    paid = financial_transactions.where(transactable_type: Payment.name).sum(:amount)
+    due - paid # costs - payments
   end
 
   # private

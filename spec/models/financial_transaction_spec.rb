@@ -1,11 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe FinancialTransaction, type: :model do
-
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
       expect do
-      expect( build :financial_transaction, :with_rental ).to be_valid
+        expect(build(:financial_transaction, :with_rental)).to be_valid
       end.to change { FinancialTransaction.count }.by(1)
     end
 
@@ -14,7 +14,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'does not create a financial transaction without first creating a rental' do
-      expect { create :financial_transaction }.to raise_error ActiveRecord::RecordInvalid
+      expect { create :financial_transaction, rental: nil }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'creates a financial transaction via post hook from creating a Rental' do
@@ -33,16 +33,16 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'is invalid without an amount' do
-      expect(build :financial_transaction, :with_rental, amount: nil).not_to be_valid 
+      expect(build(:financial_transaction, :with_rental, amount: nil)).not_to be_valid
     end
 
     it 'is invalid without an adjustment' do
-      expect(build :financial_transaction, :with_rental, adjustment: nil).not_to be_valid 
+      expect(build(:financial_transaction, :with_rental, adjustment: nil)).not_to be_valid
     end
 
     it 'defaults to 0 when amount is not specified' do
       fc = build(:financial_transaction, :with_rental)
-      expect(fc.amount).to eq(0)
+      expect(fc.amount).to eq(1)
     end
 
     it 'defaults to 0 when adjustment is not specified' do
@@ -51,7 +51,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
   end
 
-  describe "creating successive financial transactions" do
+  describe 'creating successive financial transactions' do
     it 'creates financial transaction after creating an incurred incidental' do
       rental = create :rental
       rental_trans = rental.financial_transaction
@@ -62,10 +62,7 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(incidental).to eq(incidental_trans.transactable)
       expect(rental).to eq(incidental_trans.rental)
 
-      base = 1
-      times_modded = 1
-      type_mod = 1
-      expect(incidental_trans.amount).to eq(base + (times_modded * type_mod))
+      expect(incidental_trans.amount).to eq(incidental.amount)
     end
   end
 end
