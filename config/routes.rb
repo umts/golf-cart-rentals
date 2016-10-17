@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :groups do
     post :update_permission, on: :member
     post :remove_permission, on: :member
+    post :enable_permission, on: :member
     post :remove_user, on: :member
     post :enable_user, on: :member
   end

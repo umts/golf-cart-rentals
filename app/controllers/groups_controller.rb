@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user, :enable_permission]
 
   def index
     @groups = Group.all
@@ -62,10 +62,25 @@ class GroupsController < ApplicationController
     redirect_to edit_group_path(@group)
   end
 
+  # mark inactive
   def remove_permission
-    permission = Permission.find(params[:permission_id])
-    @group.permissions.delete(permission)
-    redirect_to edit_group_path(@group)
+    permission = @group.permissions.find params[:permission_id]
+    if permission.update(active: false)
+      redirect_to edit_group_path(@group)
+    else
+      permission.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :edit
+    end
+  end
+
+  def enable_permission
+    permission = @group.permissions.find params[:permission_id]
+    if permission.update(active: true)
+      redirect_to edit_group_path(@group)
+    else
+      permission.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :edit
+    end
   end
 
   # mark inactive

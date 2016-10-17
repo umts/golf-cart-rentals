@@ -114,15 +114,15 @@ class Rental < ActiveRecord::Base
   def event_status_color
     case rental_status
     when 'reserved'
-      return '#0092ff'
+      '#0092ff'
     when 'picked_up'
-      return '#f7ff76'
+      '#f7ff76'
     when 'dropped_off'
-      return '#09ff00'
+      '#09ff00'
     when 'canceled'
-      return '#ff0000'
+      '#ff0000'
     else
-      return '#000000' # black signifies a non event status
+      '#000000' # black signifies a non event status
     end
   end
 

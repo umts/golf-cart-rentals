@@ -83,8 +83,8 @@ RSpec.describe User, type: :model do
       user.groups << group
 
       expect(user).not_to have_permission permission.controller,
-                                      permission.action,
-                                      user.id
+                                          permission.action,
+                                          user.id
     end
 
     it 'returns false if the user has a permission with the requested controller, action and an id_field,

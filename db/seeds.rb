@@ -31,18 +31,6 @@ if Rails.env.development?
   parking = Department.find_by name: 'Parking'
   parking.users << User.all
 
-  puts '*****************************'
-  puts "Seeding all environments\n"
-  puts '*****************************'
-  puts 'Updating permissions'
-  admin = Group.find_by name: 'admin'
-  Permission.update_permissions_table
-
-  puts 'Giving all permissions to admin'
-  Permission.all.each do |p|
-    GroupsPermission.where(group: admin, permission: p).first_or_create
-  end
-
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
   item_types.each do |item_type|
