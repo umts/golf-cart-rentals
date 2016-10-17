@@ -41,7 +41,7 @@ class RentalsController < ApplicationController
     if @rental.reserved? && @rental.end_date < DateTime.current
       render :no_show_form, locals: { rental: @rental }
     elsif @rental.reserved?
-      render :pick_up, locals: { rental: @rental }
+      render :pickup, locals: { rental: @rental }
     elsif @rental.picked_up?
       render :drop_off, locals: { rental: @rental }
     else

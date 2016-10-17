@@ -132,16 +132,16 @@ describe RentalsController do
       expect(response).to render_template :drop_off
     end
 
-    it 'redirects to pick_up page if it was reserved' do
+    it 'redirects to pickup page if it was reserved' do
       get :transform, params: { id: mock_rental.id }
-      expect(response).to render_template :pick_up
+      expect(response).to render_template :pickup
     end
 
     it 'handles the no show flag correctly' do
       rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
       Timecop.freeze(DateTime.current + 23.hours)
       get :transform, params: { id: rental.id }
-      expect(response).to render_template :pick_up
+      expect(response).to render_template :pickup
       Timecop.return
       Timecop.freeze(DateTime.current + 1.day)
       get :transform, params: { id: rental.id }
