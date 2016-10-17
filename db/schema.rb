@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923192142) do
+ActiveRecord::Schema.define(version: 20160926165113) do
+
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.boolean  "active",     default: true, null: false
@@ -92,12 +93,10 @@ ActiveRecord::Schema.define(version: 20160923192142) do
   end
 
   create_table "incurred_incidentals_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "incurred_incidental_id",               null: false
-    t.integer  "document_id",                          null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "filename"
-    t.binary   "file",                   limit: 65535
+    t.integer  "incurred_incidental_id", null: false
+    t.integer  "document_id",            null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.index ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
     t.index ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
     t.index ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
@@ -211,8 +210,6 @@ ActiveRecord::Schema.define(version: 20160923192142) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals", "incidental_types"
-  add_foreign_key "incurred_incidentals", "rentals"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end
