@@ -65,43 +65,27 @@ class GroupsController < ApplicationController
   # mark inactive
   def remove_permission
     permission = @group.permissions.find params[:permission_id]
-    if permission.update(active: false)
-      redirect_to edit_group_path(@group)
-    else
-      permission.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
-    end
+    permission.update(active: false)
+    redirect_to edit_group_path(@group)
   end
 
   def enable_permission
     permission = @group.permissions.find params[:permission_id]
-    if permission.update(active: true)
-      redirect_to edit_group_path(@group)
-    else
-      permission.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
-    end
+    permission.update(active: true)
+    redirect_to edit_group_path(@group)
   end
 
   # mark inactive
   def remove_user
     user = @group.users.find params[:user_id]
-    if user.update(active: false)
-      redirect_to edit_group_path(@group)
-    else
-      user.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
-    end
+    user.update(active: false)
+    redirect_to edit_group_path(@group)
   end
 
   def enable_user
     user = @group.users.find params[:user_id]
-    if user.update(active: true)
-      redirect_to edit_group_path(@group)
-    else
-      user.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
-    end
+    user.update(active: true)
+    redirect_to edit_group_path(@group)
   end
 
   private
