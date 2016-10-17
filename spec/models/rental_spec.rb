@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Rental do
@@ -144,17 +145,17 @@ RSpec.describe Rental do
     it '.create_financial_transaction callback is triggered on create' do
       rental = build(:rental)
       # Critical section.
-      Mutex.new.synchronize{
-       expect(rental).to receive(:create_financial_transaction)
-       rental.save
-     }
+      Mutex.new.synchronize do
+        expect(rental).to receive(:create_financial_transaction)
+        rental.save
+      end
     end
-   it 'creates a finacial transaction based on the item_type' do
-    rental = build(:rental)
-    expect(rental.financial_transaction).to be(nil)
-    rental.save
-    expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
-   end
+    it 'creates a finacial transaction based on the item_type' do
+      rental = build(:rental)
+      expect(rental.financial_transaction).to be(nil)
+      rental.save
+      expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+    end
   end
 
   describe '#event_status_color' do
@@ -172,9 +173,9 @@ RSpec.describe Rental do
       @rental.rental_status = :checked_in
       expect(@rental.event_status_color).to eq('#09ff00')
     end
-    it 'returns #000000 when cancelled' do
+    it 'returns #ff0000 when cancelled' do
       @rental.rental_status = :canceled
-      expect(@rental.event_status_color).to eq('#000000')
+      expect(@rental.event_status_color).to eq('#ff0000')
     end
     it 'returns #000000 when approved' do
       @rental.rental_status = :inspected
@@ -215,11 +216,23 @@ RSpec.describe Rental do
     rent = create :mock_rental
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
   end
-  it 'creates a 3 day financial transcation with value: 120' do
+  it 'creates a 3 day financial transaction with value: 120' do
     rent = create :mock_rental, end_time: (Time.current + 2.days)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
   end
-  it 'creates a 2 day financial transcation with different fees with value: 220' do
+  it 'creates a 6 day financial transaction with value: 160' do
+    rent = create :mock_rental, end_time: (Time.current + 6.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
+  end
+  it 'creates a 7 day financial transaction with value: 160 (1 day free)' do
+    rent = create :mock_rental, end_time: (Time.current + 7.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
+  end
+  it 'creates a 14 day financial transaction with value: 300 (2 days free)' do
+    rent = create :mock_rental, end_time: (Time.current + 14.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
+  it 'creates a 2 day financial transaction with different fees with value: 220' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
   end

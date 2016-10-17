@@ -1,15 +1,23 @@
+# frozen_string_literal: true
 FactoryGirl.define do
-  factory :financial_transaction do
-    note_field "Property of Factory Girl"
-    created_at DateTime.now
-    updated_at DateTime.now
+  factory :financial_transaction do |f|
+    f.note_field 'Property of Factory Girl'
+    f.created_at DateTime.now
+    f.updated_at DateTime.now
+    f.adjustment 0
+    f.amount 1
+    rental
 
     trait :with_rental do
-      rental
+      after(:build) { |f| f.transactable = f.rental }
+    end
+
+    trait :with_payment do
+      association :transactable, factory: :payment
     end
 
     trait :with_incidental do
-      association :transactable, factory: :incidental_type
+      association :transactable, factory: :incurred_incidental
     end
 
     trait :with_fee do
@@ -25,4 +33,3 @@ FactoryGirl.define do
     end
   end
 end
-

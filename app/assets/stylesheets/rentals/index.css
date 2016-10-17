@@ -29,10 +29,10 @@
 	background-color: #09ff00;
 }
 
-form#rental_search {
-	width: 70%;
+.legend .canceled {
+	background-color: #ff0000;
 }
 
-.btn-group.bootstrap-select.form-control.col-xs-2 {
-	margin: 10px;
+form#rental_search {
+	width: 70%;
 }

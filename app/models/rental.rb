@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(checked_in_at: nil)
+        update(checked_in_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
       end
     end
   end
@@ -119,6 +119,8 @@ class Rental < ActiveRecord::Base
       return '#f7ff76'
     when 'checked_in'
       return '#09ff00'
+    when 'canceled'
+      return '#ff0000'
     else
       return '#000000' # black signifies a non event status
     end
@@ -137,14 +139,19 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_amount
-    financial_transactions.sum(:amount)
+    due = financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+    paid = financial_transactions.where(transactable_type: Payment.name).sum(:amount)
+    due - paid # costs - payments
   end
 
   # private
   attr_accessor :skip_reservation_validation
 
   def create_financial_transaction
-    rental_amount = ((end_time.to_date - start_time.to_date).to_i * item_type.fee_per_day) + item_type.base_fee
+    rental_duration = (end_time.to_date - start_time.to_date).to_i
+    # Do not charge for 1/7 days in a rental.
+    days_to_charge_for = rental_duration - (rental_duration / 7)
+    rental_amount = (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
 
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end

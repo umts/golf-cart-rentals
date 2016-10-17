@@ -6,7 +6,6 @@
     <th>Car Name</th>
     <th>Amount</th>
     <th>Responsible Person</th>
-    <th>Spire ID</th>
     <th>Department</th>
     <th>Rental Start Date</th>
     <th>Rental End Date</th>
@@ -16,7 +15,6 @@
     <td><%= rental.item.name%></td>
     <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.user.full_name %></td>
-    <td><%= rental.user.spire_id %></td>
     <td><%= rental.department.name %></td>
     <td><%= rental.start_time.to_date %></td>
     <td><%= rental.end_time.to_date %></td>
@@ -32,14 +30,28 @@
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="full_charge">Fully Charged?</label>
     <div class="col-xs-6">
-      <input type="checkbox" name="full_charge" data-on-text='Yes' data-off-text='No' required>
+      <input type="checkbox" name="full_charge" data-on-text='Yes' data-off-text='No' checked required>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="time_confirmed">Confirmed Return Time?</label>
     <div class="col-xs-6">
-      <input type="checkbox" name="time_confirmed" data-on-text='Yes' data-off-text='No' required>
+      <input type="checkbox" name="time_confirmed" data-on-text='Yes' data-off-text='No' checked required>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= f.label :pickup_name, 'Pickup Up By:', class: 'col-xs-2 control-label'%>
+    <div class="col-xs-6">
+      <%= f.text_field :pickup_name, placeholder: "Name", required: true %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label"></label>
+    <div class="col-xs-6">
+      <%= f.telephone_field :pickup_phone_number, placeholder: "Phone Number", required: true %>
     </div>
   </div>
 
