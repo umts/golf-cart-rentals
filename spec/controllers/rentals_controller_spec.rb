@@ -114,7 +114,7 @@ describe RentalsController do
     it 'refuses to cancel a rental in progress' do
       @rental.pickup
       delete :destroy, params: { id: @rental.id }
-      expect(@rental.reload.checked_out?).to be true
+      expect(@rental.reload.picked_up?).to be true
     end
 
     it 'remains canceled if already canceled' do
@@ -125,30 +125,30 @@ describe RentalsController do
   end
 
   describe 'GET #transform' do
-    it 'redirects to check in page if it was checked out' do
+    it 'redirects to drop_off page if it was checked out' do
       rental = mock_rental
       rental.pickup
       get :transform, params: { id: rental.id }
-      expect(response).to render_template :check_in
+      expect(response).to render_template :drop_off
     end
 
-    it 'redirects to check out page if it was reserved' do
+    it 'redirects to pickup page if it was reserved' do
       get :transform, params: { id: mock_rental.id }
-      expect(response).to render_template :check_out
+      expect(response).to render_template :pickup
     end
 
     it 'handles the no show flag correctly' do
       rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
       Timecop.freeze(DateTime.current + 23.hours)
       get :transform, params: { id: rental.id }
-      expect(response).to render_template :check_out
+      expect(response).to render_template :pickup
       Timecop.return
       Timecop.freeze(DateTime.current + 1.day)
       get :transform, params: { id: rental.id }
       expect(response).to render_template :no_show_form
     end
 
-    it 'redirects to rentals if passed a rental that is not reserved or checked out' do
+    it 'redirects to rentals if passed a rental that is not reserved or picked up' do
       rental = mock_rental
       rental.cancel!
       get :transform, params: { id: rental.id }
@@ -182,21 +182,21 @@ describe RentalsController do
   # end
 
   describe 'PUT #update' do
-    it 'properly checks out a rental' do
+    it 'properly picks up a rental' do
       expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check Out' }
+        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Pick Up' }
       end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.check_out?).to be true
-      expect(@rental.reload.checked_out?).to be true
+      expect(DigitalSignature.last.pickup?).to be true
+      expect(@rental.reload.picked_up?).to be true
     end
 
-    it 'properly checks in a rental' do
+    it 'properly drops off a rental' do
       @rental.pickup
       expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check In' }
+        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
       end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.check_in?).to be true
-      expect(@rental.reload.checked_in?).to be true
+      expect(DigitalSignature.last.drop_off?).to be true
+      expect(@rental.reload.dropped_off?).to be true
     end
 
     it 'properly processes a no show' do

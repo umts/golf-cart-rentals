@@ -16,7 +16,7 @@ class HomeController < ApplicationController
 
   def categorize_rentals
     @upcoming_rentals = @rentals.upcoming_rentals
-    @ongoing_rentals = @rentals.checked_out
+    @ongoing_rentals = @rentals.picked_up
     @no_show_rentals = @rentals.no_show_rentals
     @future_rentals = @rentals.all_future_rentals
     @q = Rental.inactive_rentals.search(params[:q])

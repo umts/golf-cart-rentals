@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 20160926165113) do
     t.integer  "department_id",        null: false
     t.string   "reservation_id",       null: false
     t.integer  "item_type_id",         null: false
-    t.datetime "checked_in_at"
-    t.datetime "checked_out_at"
+    t.datetime "dropped_off_at"
+    t.datetime "picked_up_at"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.datetime "start_time"
