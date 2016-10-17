@@ -98,13 +98,13 @@ class ApplicationController < ActionController::Base
   def user_from_shibboleth
     if request.env['fcIdNumber']
       spire_id = request.env['fcIdNumber'].split('@').first
-      @current_user = User.find_by(spire_id: spire_id)
+      @current_user = User.active.find_by(spire_id: spire_id)
       session[:user_id] = @current_user.id if @current_user
     end
   end
 
   def user_from_session
-    @current_user = User.find_by_id(session[:user_id]) if session[:user_id]
+    @current_user = User.active.find_by_id(session[:user_id]) if session[:user_id]
   end
 
   def has_global_permission?
