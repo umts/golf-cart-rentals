@@ -8,8 +8,8 @@ class Rental < ActiveRecord::Base
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  before_create :create_reservation
   before_destroy :delete_reservation
+  before_create :create_reservation
   after_create :create_financial_transaction
 
   belongs_to :user
@@ -19,7 +19,7 @@ class Rental < ActiveRecord::Base
 
   has_many :digital_signature
 
-  validates :reservation_id, presence: true, uniqueness: true
+  validates :reservation_id, uniqueness: true, presence: true
   validates :user_id, :start_time, :end_time, :item_type_id, :department_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
