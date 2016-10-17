@@ -82,9 +82,9 @@ module ApplicationHelper
   end
 
   def rental_status_css_class(rental)
-    if rental.rental_status == 'checked_out' && rental.end_time < Time.current
+    if rental.rental_status == 'picked_up' && rental.end_time < Time.current
       return 'danger'
-    elsif rental.rental_status == 'checked_out'
+    elsif rental.rental_status == 'picked_up'
       return 'info'
     elsif rental.rental_status == 'reserved' && rental.start_time < Time.current
       return 'warning'

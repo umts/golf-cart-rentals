@@ -30,12 +30,12 @@ class Rental < ActiveRecord::Base
   scope :upcoming_rentals, -> { reserved.where('start_time <= ? AND end_time >= ?', DateTime.current.next_day, DateTime.current) }
   scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
   scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
-  scope :inactive_rentals, -> { where(rental_status: %w(canceled checked_in)) }
+  scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
-    state :checked_out
-    state :checked_in
+    state :picked_up
+    state :dropped_off
     state :inspected
     state :available
     state :canceled
@@ -45,21 +45,21 @@ class Rental < ActiveRecord::Base
     end
 
     event :pickup do
-      transitions from: :reserved, to: :checked_out
+      transitions from: :reserved, to: :picked_up
       after do
-        update(checked_out_at: Time.zone.now)
+        update(picked_up_at: Time.zone.now)
       end
     end
 
-    event :return do
-      transitions from: :checked_out, to: :checked_in
+    event :drop_off do
+      transitions from: :picked_up, to: :dropped_off
       after do
-        update(checked_in_at: Time.zone.now)
+        update(dropped_off_at: Time.zone.now)
       end
     end
 
     event :approve do
-      transitions from: :checked_in, to: :inspected
+      transitions from: :dropped_off, to: :inspected
     end
 
     event :process do
@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(checked_in_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
+        update(dropped_off_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
       end
     end
   end
@@ -115,9 +115,9 @@ class Rental < ActiveRecord::Base
     case rental_status
     when 'reserved'
       return '#0092ff'
-    when 'checked_out'
+    when 'picked_up'
       return '#f7ff76'
-    when 'checked_in'
+    when 'dropped_off'
       return '#09ff00'
     when 'canceled'
       return '#ff0000'
