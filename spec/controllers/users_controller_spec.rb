@@ -108,7 +108,8 @@ describe UsersController do
     it 'deletes the user from the database' do
       expect do
         delete :destroy, params: { id: user }
-      end.to change(User, :count).by(-1)
+      end.not_to change(User, :count)
+      expect(user.reload.active).to be false
     end
     it 'redirects to the users index page' do
       delete :destroy, params: { id: user }

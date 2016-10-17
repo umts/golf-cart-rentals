@@ -7,6 +7,7 @@ FactoryGirl.define do
     phone 1_234_567_890
     sequence(:spire_id)
     association :department
+    #    active true
   end
 
   factory :admin_user, parent: :user do

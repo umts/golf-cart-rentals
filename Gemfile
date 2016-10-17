@@ -55,11 +55,9 @@ gem 'ransack'
 
 # date validations
 gem 'date_validator'
-
 # wicked pdf
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
@@ -70,7 +68,7 @@ gem 'wkhtmltopdf-binary'
 # permanent records
 gem 'permanent_records'
 
-gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -91,7 +89,7 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
-  gem 'capybara', '~> 2.5'
+  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil

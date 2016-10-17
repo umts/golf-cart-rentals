@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_from_session
-    @current_user = User.find_by_id(session[:user_id]) if session[:user_id]
+    @current_user = User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
   def has_global_permission?

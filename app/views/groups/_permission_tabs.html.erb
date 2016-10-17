@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+  <li><a data-toggle="tab" href="#perm-tab-all">All</a></li>
+  <li class="active"><a data-toggle="tab" href="#perm-tab-active">Active</a></li>
+  <li><a data-toggle="tab" href="#perm-tab-inactive">Inactive</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="perm-tab-all" class="tab-pane fade">
+    <%= render partial: 'permissions_table', locals: { perm_group: perm_group, permissions: perm_group.permissions } %>
+  </div>
+  <div id="perm-tab-active" class="tab-pane fade in active">
+    <%= render partial: 'permissions_table', locals: { perm_group: perm_group, permissions: perm_group.permissions.where(active: true) } %>
+  </div>
+  <div id="perm-tab-inactive" class="tab-pane fade">
+    <%= render partial: 'permissions_table', locals: { perm_group: perm_group, permissions: perm_group.permissions.where(active: false) } %>
+  </div>
+</div>
