@@ -236,4 +236,31 @@ RSpec.describe Rental do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
   end
+
+  describe '#delete_reservation' do
+    context 'error thrown' do
+      it 'logs the error and returns false' do
+        r = build(:rental)
+        r.create_reservation
+        allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.delete_reservation).to be false
+      end
+    end
+  end
+
+  describe '#create_reservation' do
+    context 'error thrown' do
+      it 'logs error and returns false for a series of errors' do
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.create_reservation).to be false
+      end
+    end
+  end
 end
