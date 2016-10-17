@@ -210,7 +210,7 @@ describe GroupsController do
       post :enable_user, params: { id: group, user_id: user }
 
       group.reload
-      expect(group.users).to include(user) 
+      expect(group.users).to include(user)
       expect(user.reload.active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
