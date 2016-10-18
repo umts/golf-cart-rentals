@@ -107,7 +107,7 @@ describe UsersController do
         it 'ignores the first_name and does what it can' do
           new_phone = '413-545-7257'
           expect do
-            post :update, params: { id: user, user: {first_name: 'fidel castro', phone: new_phone} }
+            post :update, params: { id: user, user: { first_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :first_name)
           expect(user.reload.phone).to eq(new_phone)
           expect(response).to redirect_to user
@@ -116,7 +116,7 @@ describe UsersController do
         it 'ignores the last_name and does what it can' do
           new_phone = '413-545-7257'
           expect do
-            post :update, params: { id: user, user: {last_name: 'fidel castro', phone: new_phone} }
+            post :update, params: { id: user, user: { last_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :last_name)
           expect(user.reload.phone).to eq(new_phone)
           expect(response).to redirect_to user
@@ -125,7 +125,7 @@ describe UsersController do
         it 'ignores the spire and does what it can' do
           new_phone = '413-545-7257'
           expect do
-            post :update, params: { id: user, user: {spire_id: '12345678', phone: new_phone} }
+            post :update, params: { id: user, user: { spire_id: '12345678', phone: new_phone } }
           end.not_to change(user, :spire_id)
           expect(user.reload.phone).to eq(new_phone)
           expect(response).to redirect_to user
@@ -147,7 +147,7 @@ describe UsersController do
       expect(response).to redirect_to users_url
     end
   end
-  
+
   describe 'POST #enable' do
     it 'deletes the user from the database' do
       user.active = false

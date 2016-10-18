@@ -5,7 +5,7 @@ FactoryGirl.define do
     last_name 'Doe'
     email 'jdoe@test.com'
     phone 1_234_567_890
-    sequence(:spire_id) { |n| (10000000+n).to_s }
+    sequence(:spire_id) { |n| (10_000_000 + n).to_s }
     association :department
     #    active true
   end
