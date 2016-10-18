@@ -184,7 +184,7 @@ describe GroupsController do
 
       group.reload
       expect(group.permissions).to include(old_permission)
-      expect(group.permissions.find(old_permission).active).to be true
+      expect(group.permissions.find(old_permission.id).active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end
