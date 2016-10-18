@@ -24,7 +24,7 @@ RSpec.describe IncurredIncidental, type: :model do
     end
 
     it 'doesnt build when amount is not a number' do
-      expect(build(:incurred_incidental, amount: "NaN")).not_to be_valid
+      expect(build(:incurred_incidental, amount: 'NaN')).not_to be_valid
     end
 
     it 'doesnt build without a note' do

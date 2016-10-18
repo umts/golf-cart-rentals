@@ -20,7 +20,7 @@ RSpec.describe Note, type: :model do
     end
 
     it 'is accessible in incurred_incidental' do
-      expect(@incident.notes.include? @note).to eq true
+      expect(@incident.notes.include?(@note)).to eq true
     end
   end
 end
