@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   belongs_to :department
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
-  validates :spire_id, uniqueness: true
+  validates :spire_id, length: { is: 8 }, uniqueness: true
 
   scope :active, -> { where(active: true) }
   scope :with_no_department, -> { where(active: true, department_id: nil) }

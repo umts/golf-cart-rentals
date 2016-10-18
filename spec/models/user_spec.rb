@@ -25,6 +25,10 @@ RSpec.describe User, type: :model do
     expect(build(:user, spire_id: user.spire_id)).not_to be_valid
   end
 
+  it 'requires spire id to be length 8' do
+    expect(build(:user, spire_id: '1234567')).not_to be_valid
+  end
+
   describe '#full_name' do
     let(:user) { create :user }
     it 'returns first name and last name with a space in between' do

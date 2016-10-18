@@ -78,14 +78,14 @@ describe UsersController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
-        new_name = user.first_name + 'new'
-        post :update, params: { id: user, user: { first_name: new_name } }
+        new_phone = '413-545-7257'
+        post :update, params: { id: user, user: { phone: new_phone } }
         user.reload
-        expect(user.first_name).to eq(new_name)
+        expect(user.phone).to eq(new_phone)
       end
       it 'redirects to the user page' do
-        new_name = user.first_name + 'new'
-        post :update, params: { id: user, user: { first_name: new_name } }
+        new_phone = '413-545-7257'
+        post :update, params: { id: user, user: { phone: new_phone } }
         expect(response).to redirect_to user
       end
     end
@@ -97,22 +97,65 @@ describe UsersController do
         user.reload
         expect(user.first_name).to eq(old_name)
       end
+
       it 're-renders the :edit template' do
         post :update, params: { id: user, user: attributes_for(:invalid_user) }
         expect(response).to render_template :edit
+      end
+
+      context 'unpermited params' do
+        it 'ignores the first_name and does what it can' do
+          new_phone = '413-545-7257'
+          expect do
+            post :update, params: { id: user, user: {first_name: 'fidel castro', phone: new_phone} }
+          end.not_to change(user, :first_name)
+          expect(user.reload.phone).to eq(new_phone)
+          expect(response).to redirect_to user
+        end
+
+        it 'ignores the last_name and does what it can' do
+          new_phone = '413-545-7257'
+          expect do
+            post :update, params: { id: user, user: {last_name: 'fidel castro', phone: new_phone} }
+          end.not_to change(user, :last_name)
+          expect(user.reload.phone).to eq(new_phone)
+          expect(response).to redirect_to user
+        end
+
+        it 'ignores the spire and does what it can' do
+          new_phone = '413-545-7257'
+          expect do
+            post :update, params: { id: user, user: {spire_id: '12345678', phone: new_phone} }
+          end.not_to change(user, :spire_id)
+          expect(user.reload.phone).to eq(new_phone)
+          expect(response).to redirect_to user
+        end
       end
     end
   end
 
   describe 'POST #destroy' do
-    it 'deletes the user from the database' do
+    it 'just disables the user' do
       expect do
         delete :destroy, params: { id: user }
       end.not_to change(User, :count)
       expect(user.reload.active).to be false
     end
+
     it 'redirects to the users index page' do
       delete :destroy, params: { id: user }
+      expect(response).to redirect_to users_url
+    end
+  end
+  
+  describe 'POST #enable' do
+    it 'deletes the user from the database' do
+      user.active = false
+      user.save
+      expect do
+        post :enable, params: { id: user }
+      end.not_to change(User, :count)
+      expect(user.reload.active).to be true
       expect(response).to redirect_to users_url
     end
   end

@@ -27,7 +27,9 @@ Rails.application.routes.draw do
     post :enable_user, on: :member
   end
 
-  resources :users
+  resources :users do
+    post :enable, on: :member
+  end
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
