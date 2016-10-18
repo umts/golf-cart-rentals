@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/tomecho/aggressive_inventory.git
-  revision: 088bf6b49aa7968c830ca216e3218c8427de6942
+  remote: https://github.com/umts/aggressive_inventory.git
+  revision: 2e922dab4221f2d112370116ba420292aba70135
   specs:
     aggressive_inventory (0.0.2)
       activesupport
@@ -334,9 +334,6 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
   wkhtmltopdf-binary
-
-RUBY VERSION
-   ruby 2.3.1p112
 
 BUNDLED WITH
    1.13.2
