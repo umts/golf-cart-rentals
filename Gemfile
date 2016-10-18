@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
-
+ruby '2.3.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0'
 # Use mariadb as the database for Active Record
@@ -91,7 +91,6 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
-  gem 'capybara', '~> 2.5'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
