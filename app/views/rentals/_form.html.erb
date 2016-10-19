@@ -15,7 +15,7 @@
       <div class="form-group col-xs-12">
         <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control cost-dependent" %>
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'single_item_type_id', class: "selectpicker form-control cost-dependent" %>
         </div>
       </div>
 
@@ -29,20 +29,16 @@
       <div class="form-group col-xs-12">
         <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control cost-dependent" %>
+          <%= f.date_field :start_time, value: @start_date, required: true, id: 'single_start_time', class: "form-control cost-dependent" %>
         </div>
       </div>
 
-      <div class="form-group col-xs-12">
-        <div class="col-xs-6">
-          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control cost-dependent" %>
-        </div>
-      </div>
+      <%= f.hidden_field :end_time, value: @start_date, required: true, id: 'single_end_time', class: "form-control cost-dependent" %>
 
       <div class="form-group col-xs-12">
         <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= number_field_tag :amount, nil, min: 0, required: true, class: 'form-control' %>
+          <%= number_field_tag :amount, nil, min: 0, required: true, id: 'single_amount', class: 'form-control' %>
         </div>
       </div>
 
@@ -83,7 +79,7 @@
       <div class="form-group col-xs-12">
         <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'multiple_item_type_id', class: "selectpicker form-control cost-dependent" %>
         </div>
       </div>
 
@@ -97,14 +93,21 @@
       <div class="form-group col-xs-12">
         <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
+          <%= f.date_field :start_time, value: @start_date, required: true, id: 'multiple_start_time', class: "form-control cost-dependent" %>
         </div>
       </div>
 
       <div class="form-group col-xs-12">
         <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.date_field :end_time, value: @start_date.next_day, required: true, class: "form-control" %>
+          <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'multiple_end_time', class: "form-control cost-dependent" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= number_field_tag :amount, nil, min: 0, required: true, id: 'multiple_amount', class: 'form-control' %>
         </div>
       </div>
 
