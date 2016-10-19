@@ -22,6 +22,15 @@ class RentalsController < ApplicationController
   def show
   end
 
+  # GET /rentals/cost?end_time=time&start_time=time&item_type=1
+  def cost
+    binding.pry
+    start_time = params[:start_time]
+    end_time = params[:end_time]
+    item_type = ItemType.find(params[:item_type]) if params[:item_type]
+    render json: Rental.rental_cost(start_time, end_time, item_type)
+  end
+
   # GET /rentals/new
   def new
     @rental = Rental.new

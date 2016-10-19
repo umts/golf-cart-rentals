@@ -15,7 +15,7 @@
       <div class="form-group col-xs-12">
         <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control" %>
+          <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control cost-dependent" %>
         </div>
       </div>
 
@@ -29,13 +29,20 @@
       <div class="form-group col-xs-12">
         <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
         <div class="col-xs-6">
-          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control" %>
+          <%= f.date_field :start_time, value: @start_date, required: true, class: "form-control cost-dependent" %>
         </div>
       </div>
 
       <div class="form-group col-xs-12">
         <div class="col-xs-6">
-          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control" %>
+          <%= f.hidden_field :end_time, value: @start_date, required: true, class: "form-control cost-dependent" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= number_field_tag :amount, nil, min: 0, required: true, class: 'form-control' %>
         </div>
       </div>
 
@@ -57,7 +64,7 @@
 
       <div class="form-group col-xs-12">
         <div class="col-xs-offset-2 col-xs-6">
-          <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)">I Agree To The Above Terms And Conditions</label>
+          <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)"> I Agree To The Above Terms And Conditions</label>
         </div>
       </div>
 

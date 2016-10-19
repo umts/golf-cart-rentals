@@ -60,6 +60,8 @@ gem 'date_validator'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+
+gem "js-routes"
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'

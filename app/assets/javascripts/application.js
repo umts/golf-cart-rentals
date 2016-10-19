@@ -16,6 +16,7 @@
 //= require 'jquery.backstretch'
 //= require bootstrap-sprockets
 //= require moment
+//= require js-routes
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require signature-pad
