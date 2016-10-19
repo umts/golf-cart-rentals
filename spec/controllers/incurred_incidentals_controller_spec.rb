@@ -37,7 +37,7 @@ describe IncurredIncidentalsController do
     end
 
     it 'renders the :new template' do
-      get :new, rental_id: incurred_incidental.rental_id
+      get :new, params: { rental_id: incurred_incidental.rental_id }
       expect(response).to render_template :new
     end
   end

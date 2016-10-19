@@ -83,30 +83,30 @@ module ApplicationHelper
 
   def rental_status_css_class(rental)
     if rental.rental_status == 'picked_up' && rental.end_time < Time.current
-      return 'danger'
+      'danger'
     elsif rental.rental_status == 'picked_up'
-      return 'info'
+      'info'
     elsif rental.rental_status == 'reserved' && rental.start_time < Time.current
-      return 'warning'
+      'warning'
     elsif rental.rental_status == 'reserved' && rental.start_time.to_date == Time.zone.today
-      return 'success'
+      'success'
     elsif rental.rental_status == 'reserved' && rental.start_time > Time.current
-      return 'active'
+      'active'
     end
   end
 
   def rental_status_english(status)
     case status
     when 'active'
-      return 'Reserved future'
+      'Reserved future'
     when 'success'
-      return 'Reserved pickup imminent'
+      'Reserved pickup imminent'
     when 'warning'
-      return 'Overdue for pickup'
+      'Overdue for pickup'
     when 'danger'
-      return 'Overdue return'
+      'Overdue return'
     when 'info'
-      return 'Ongoing rental'
+      'Ongoing rental'
     end
   end
 end

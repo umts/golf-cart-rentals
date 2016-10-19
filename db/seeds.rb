@@ -1,3 +1,5 @@
+include InventoryExceptions
+
 if Rails.env.development?
   puts '*****************************'
   puts 'Seeding development'
@@ -37,9 +39,13 @@ if Rails.env.development?
     end
 
     unless inv_item_types.keys.include?(item_type['name'])
-      Inventory.create_item_type(item_type['name'])
-      inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
-        memo[ i['name'] ] = i['uuid']
+      begin 
+        Inventory.create_item_type(item_type['name'])
+        inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+          memo[ i['name'] ] = i['uuid']
+        end
+      rescue Exception => e
+        next if e.message.include? "Name has already been taken" # we have already seeded
       end
     end
 

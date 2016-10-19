@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many   :groups_users, dependent: :destroy
+  has_many   :groups_users
   has_many   :groups, through: :groups_users
   has_many   :permissions, -> { distinct }, through: :groups
   has_many   :rentals
@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   belongs_to :department
 
   validates :first_name, :last_name, :spire_id, :phone, :email, presence: true
-  validates :spire_id, uniqueness: true
+  validates :spire_id, length: { is: 8 }, uniqueness: true
 
   scope :active, -> { where(active: true) }
   scope :with_no_department, -> { where(active: true, department_id: nil) }
@@ -20,8 +20,9 @@ class User < ActiveRecord::Base
   end
 
   def has_permission?(controller, action, id = nil)
+    return false unless active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
-    relevant_permissions = permissions.where(controller: controller, action: action)
+    relevant_permissions = permissions.where(controller: controller, action: action, active: true)
 
     # Deny if the list is empty
     return false if relevant_permissions.empty?

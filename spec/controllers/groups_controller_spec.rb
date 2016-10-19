@@ -162,27 +162,56 @@ describe GroupsController do
   end
 
   describe 'POST #remove_permission' do
-    it 'removes the permission from the group' do
+    it 'disables the permission from the group' do
       old_permission = create(:permission)
       group.permissions << old_permission
 
       post :remove_permission, params: { id: group, permission_id: old_permission }
 
       group.reload
-      expect(group.permissions).not_to include(old_permission)
+      expect(group.permissions).to include(old_permission)
+      expect(group.permissions.find(old_permission.id).active).to be false
+      expect(response).to redirect_to edit_group_url(group)
+    end
+  end
+
+  describe 'POST #enable_permission' do
+    it 'enables the permission in the group' do
+      old_permission = create(:permission, active: false)
+      group.permissions << old_permission
+
+      post :enable_permission, params: { id: group, permission_id: old_permission }
+
+      group.reload
+      expect(group.permissions).to include(old_permission)
+      expect(group.permissions.find(old_permission.id).active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end
 
   describe 'POST #remove_user' do
-    it 'removes the user from the group' do
+    it 'disables the user in the group' do
       old_user = create(:user)
       group.users << old_user
 
       post :remove_user, params: { id: group, user_id: old_user }
 
       group.reload
-      expect(group.users).not_to include(old_user)
+      expect(group.users).to include(old_user) # we dont delete users!
+      expect(old_user.reload.active).to be false
+      expect(response).to redirect_to edit_group_url(group)
+    end
+  end
+
+  describe 'POST #enable_user' do
+    it 'enables the user in the group' do
+      user = create(:user, active: false)
+      group.users << user
+      post :enable_user, params: { id: group, user_id: user }
+
+      group.reload
+      expect(group.users).to include(user)
+      expect(user.reload.active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end

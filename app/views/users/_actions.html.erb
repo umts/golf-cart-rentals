@@ -1,3 +1,7 @@
 <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), user, class: "btn btn-xs btn-success" %>
 <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_user_path(user), class: "btn btn-xs btn-primary" %>
-<%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Delete"), user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+<% if user.active %>
+  <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Mark Inactive"), user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+<% else %>
+  <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ok")+" Make Active"), enable_user_path(user), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-success" %>
+<% end %>

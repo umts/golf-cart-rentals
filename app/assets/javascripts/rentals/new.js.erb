@@ -1,0 +1,37 @@
+function isEmpty(str) {
+  return (!str || 0 === str.length);
+}
+
+function costCalculation(){
+  var raw_item_type = $('#rental_item_type_id').val();
+  var raw_start_time = $('#rental_start_time').val();
+  var raw_end_time = $('#rental_end_time').val();
+  if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
+    $.ajax({
+      url: Routes.rentals_cost_path(),
+      dataType: 'json',
+      data: {item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
+      success: function (){
+
+      },
+      error: function () {
+        alert('failed to retreive rental cost');
+      }
+    });
+  }
+}
+
+$(document).ready( function () {
+  costCalculation();
+  $('input.cost-dependent').on('change', function () {
+    costCalculation();
+  });
+
+  $('select.cost-dependent').on('change', function () {
+    costCalculation();
+  });
+
+  $('#amount').change(function () {
+    alert('You are overriding the system settings.');
+  });
+});

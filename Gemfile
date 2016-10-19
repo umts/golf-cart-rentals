@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.0'
+gem 'rails', '5.0.0.1'
 # Use mariadb as the database for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
@@ -55,7 +54,6 @@ gem 'ransack'
 
 # date validations
 gem 'date_validator'
-
 # wicked pdf
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
@@ -93,7 +91,7 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
-  gem 'capybara', '~> 2.5'
+  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
