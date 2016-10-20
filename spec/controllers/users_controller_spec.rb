@@ -146,6 +146,18 @@ describe UsersController do
       delete :destroy, params: { id: user }
       expect(response).to redirect_to users_url
     end
+
+    it 'denies permissions after inactive' do
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
+
+      group.permissions << permission
+      user.groups << group
+      expect(user).to have_permission permission.controller, permission.action, nil
+      delete :destroy, params: { id: user }
+      expect(user.reload.active).to be false
+      expect(user).not_to have_permission permission.controller, permission.action, nil
+    end
   end
 
   describe 'POST #enable' do

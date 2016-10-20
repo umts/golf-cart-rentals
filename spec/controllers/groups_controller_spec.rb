@@ -137,6 +137,7 @@ describe GroupsController do
         delete :destroy, params: { id: group }
       end.to change(Group, :count).by(-1)
     end
+
     it 'redirects to the groups index page' do
       delete :destroy, params: { id: group }
       expect(response).to redirect_to groups_url
@@ -198,20 +199,39 @@ describe GroupsController do
 
       group.reload
       expect(group.users).to include(old_user) # we dont delete users!
-      expect(old_user.reload.active).to be false
+      expect(old_user.reload.active).to be true
+      expect(group.groups_users.find_by_user_id(old_user.id).active).to be false
       expect(response).to redirect_to edit_group_url(group)
+    end
+
+    it 'denies permissions after inactive' do
+      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
+
+      group.permissions << permission
+      user = create(:user)
+      user.groups << group
+      expect(user).to have_permission permission.controller, permission.action, nil
+      post :remove_user, params: { id: group, user_id: user }
+      expect(user.reload.active).to be true # user itself is active
+      expect(group.groups_users.find_by_user_id(user.id).active).to be false
+      expect(user).not_to have_permission permission.controller, permission.action, nil
     end
   end
 
   describe 'POST #enable_user' do
     it 'enables the user in the group' do
-      user = create(:user, active: false)
+      user = create(:user)
       group.users << user
+      gu = group.groups_users.find_by_user_id(old_user.id)
+      gu.active = false
+      gu.save
+      expect(user.active).to be true
       post :enable_user, params: { id: group, user_id: user }
 
       group.reload
       expect(group.users).to include(user)
       expect(user.reload.active).to be true
+      expect(group.groups_users.find_by_user_id(old_user.id).active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end
