@@ -37,16 +37,17 @@ function costCalculation(){
 }
 
 $(document).ready( function () {
-  costCalculation();
-  $('input.cost-dependent').on('change', function () {
+  costCalculation(); //initial cost calculaton
+
+  $('input.cost-dependent,select.cost-dependent').on('change', function () {
     costCalculation();
   });
 
-  $('select.cost-dependent').on('change', function () {
+  $("a[href='#multiple_day']").on('shown.bs.tab', function () {
     costCalculation();
   });
 
-  $('#amount').change(function () {
+  $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
 });
