@@ -39,6 +39,12 @@ function costCalculation(){
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
+  $('.datepicker').datepicker({
+    onSelect: function () {
+      costCalculation();
+    }
+  });
+
   $('input.cost-dependent,select.cost-dependent').on('change', function () {
     costCalculation();
   });
