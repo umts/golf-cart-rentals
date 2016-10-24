@@ -200,17 +200,19 @@ describe GroupsController do
       group.reload
       expect(group.groups_users.map { |x| x.user_id }).to include(old_user.id) # we dont delete users!
       expect(old_user.reload.active).to be true
-      binding.pry
       expect(group.groups_users.find_by_user_id(old_user.id).active).to be false
       expect(response).to redirect_to edit_group_url(group)
     end
 
     it 'denies permissions after inactive' do
       permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
+      permission2 = create(:permission, controller: 'user', action: 'index', id_field: nil)
 
       group.permissions << permission
+      group2.permissions << permission2
       user = create(:user)
       user.groups << group
+      user.groups << group2
       expect(user).to have_permission permission.controller, permission.action, nil
       post :remove_user, params: { id: group, user_id: user }
       expect(user.reload.active).to be true # user itself is active
@@ -223,7 +225,7 @@ describe GroupsController do
     it 'enables the user in the group' do
       user = create(:user)
       group.users << user
-      gu = group.groups_users.find_by_user_id(old_user.id)
+      gu = group.groups_users.find_by_user_id(user.id)
       gu.active = false
       gu.save
       expect(user.active).to be true
@@ -232,7 +234,7 @@ describe GroupsController do
       group.reload
       expect(group.users).to include(user)
       expect(user.reload.active).to be true
-      expect(group.groups_users.find_by_user_id(old_user.id).active).to be true
+      expect(group.groups_users.find_by_user_id(user.id).active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end
