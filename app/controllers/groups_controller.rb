@@ -77,13 +77,13 @@ class GroupsController < ApplicationController
 
   # mark inactive
   def remove_user
-    user = @group.groups_users.find_by_user_id params[:user_id]
+    user = @group.groups_users.find_by user_id: params[:user_id]
     user.update(active: false)
     redirect_to edit_group_path(@group)
   end
 
   def enable_user
-    user = @group.groups_users.find_by_user_id params[:user_id]
+    user = @group.groups_users.find_by user_id: params[:user_id]
     user.update(active: true)
     redirect_to edit_group_path(@group)
   end

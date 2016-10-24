@@ -198,9 +198,9 @@ describe GroupsController do
       post :remove_user, params: { id: group, user_id: old_user }
 
       group.reload
-      expect(group.groups_users.map { |x| x.user_id }).to include(old_user.id) # we dont delete users!
+      expect(group.groups_users.map(&:user_id)).to include(old_user.id) # we dont delete users!
       expect(old_user.reload.active).to be true
-      expect(group.groups_users.find_by_user_id(old_user.id).active).to be false
+      expect(group.groups_users.find_by(user_id: old_user.id).active).to be false
       expect(response).to redirect_to edit_group_url(group)
     end
 
@@ -216,7 +216,7 @@ describe GroupsController do
       expect(user).to have_permission permission.controller, permission.action, nil
       post :remove_user, params: { id: group, user_id: user }
       expect(user.reload.active).to be true # user itself is active
-      expect(group.groups_users.find_by_user_id(user.id).active).to be false
+      expect(group.groups_users.find_by(user_id: user.id).active).to be false
       expect(user).not_to have_permission permission.controller, permission.action, nil
     end
   end
@@ -225,7 +225,7 @@ describe GroupsController do
     it 'enables the user in the group' do
       user = create(:user)
       group.users << user
-      gu = group.groups_users.find_by_user_id(user.id)
+      gu = group.groups_users.find_by(user_id: user.id)
       gu.active = false
       gu.save
       expect(user.active).to be true
@@ -234,7 +234,7 @@ describe GroupsController do
       group.reload
       expect(group.users).to include(user)
       expect(user.reload.active).to be true
-      expect(group.groups_users.find_by_user_id(user.id).active).to be true
+      expect(group.groups_users.find_by(user_id: user.id).active).to be true
       expect(response).to redirect_to edit_group_url(group)
     end
   end

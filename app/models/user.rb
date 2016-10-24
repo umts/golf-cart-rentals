@@ -21,14 +21,14 @@ class User < ActiveRecord::Base
   def has_permission?(controller, action, id = nil)
     return false unless active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
-    relevant_permissions = GroupsUser.where(user_id: self.id, active: true).map { |x| x.group.permissions.where(active: true) }.flatten 
+    relevant_permissions = GroupsUser.where(user_id: self.id, active: true).map { |x| x.group.permissions.where(active: true) }.flatten
     relevant_permissions.select! { |x| x.controller == controller && x.action == action }
 
     # Deny if the list is empty
     return false if relevant_permissions.empty?
 
     # Permit if list has a permission with no id_field
-    return true if relevant_permissions.select {|x| x.id_field.nil?}.present?
+    return true if relevant_permissions.select { |x| x.id_field.nil? }.present?
 
     # Permit if the list has a permission with an id field, and the model instance we want matches
     model = controller.classify.constantize
