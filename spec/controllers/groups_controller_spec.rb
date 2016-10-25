@@ -166,12 +166,17 @@ describe GroupsController do
     it 'disables the permission from the group' do
       old_permission = create(:permission)
       group.permissions << old_permission
+      user = create(:user)
+      group.users << user
 
       post :remove_permission, params: { id: group, permission_id: old_permission }
 
       group.reload
-      expect(group.permissions).to include(old_permission)
-      expect(group.permissions.find(old_permission.id).active).to be false
+      expect(group.permissions).to include(old_permission) # groups still has permission
+      expect(group.permissions.find(old_permission.id).active).to be false # but it isnt active
+      expect(user.reload.active).to be true # user is still active
+      expect(group.groups_users.find_by(user_id: user.id).active).to be true
+      expect(user).not_to have_permission old_permission.controller, old_permission.action, nil # but doesnt have permission now
       expect(response).to redirect_to edit_group_url(group)
     end
   end
