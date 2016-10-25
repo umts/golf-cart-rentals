@@ -21,8 +21,9 @@ class User < ActiveRecord::Base
   def has_permission?(controller, action, id = nil)
     return false unless active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
-    relevant_permissions = GroupsUser.where(user_id: self.id, active: true).map { |x| x.group.permissions.where(active: true) }.flatten
-    relevant_permissions.select! { |x| x.controller == controller && x.action == action }
+    relevant_permissions = GroupsUser.where(user_id: self.id, active: true).map do |x|
+      x.group.permissions.where(active: true, controller: controller, action: action)
+    end.flatten
 
     # Deny if the list is empty
     return false if relevant_permissions.empty?
