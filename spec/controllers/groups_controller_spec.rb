@@ -168,6 +168,7 @@ describe GroupsController do
       group.permissions << old_permission
       user = create(:user)
       group.users << user
+      expect(user).to have_permission old_permission.controller, old_permission.action, nil # should have permission to begin with
 
       post :remove_permission, params: { id: group, permission_id: old_permission }
 
