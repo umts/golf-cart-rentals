@@ -7,27 +7,28 @@
 </h5>
 
 <h3>Permissions</h3>
-<table class="table table-striped table-bordered table-hover">
-  <tbody>
+<%= render partial: 'permission_tabs', locals: { perm_group: @group } %>
+<%#<table class="table table-striped table-bordered table-hover">%>
+  <%#<tbody>%>
 
-    <th>Controller</th>
-    <th>Action</th>
-    <th>ID Field</th>
-    <% @group.permissions.order(controller: :asc, action: :asc).each do |permission| %>
-      <tr>
-        <td><%= permission.controller.humanize.titleize %></td>
-        <td><%= permission.action.humanize.titleize %></td>
-        <td>
-          <% if permission.id_field %>
-            <%= permission.id_field.humanize.titleize %>
-          <% else %>
-            Full Access
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <%#<th>Controller</th>%>
+    <%#<th>Action</th>%>
+    <%#<th>ID Field</th>%>
+    <%#<% @group.permissions.order(controller: :asc, action: :asc).each do |permission| %>
+      <%#<tr>%>
+        <%#<td><%= permission.controller.humanize.titleize %></td>
+        <%#<td><%= permission.action.humanize.titleize %></td>
+        <%#<td>%>
+          <%#<% if permission.id_field %>
+            <%#<%= permission.id_field.humanize.titleize %>
+          <%#<% else %>
+            <%#Full Access%>
+          <%#<% end %>
+        <%#</td>%>
+      <%#</tr>%>
+    <%#<% end %>
+  <%#</tbody>%>
+<%#</table>%>
 
 <h3>Users</h3>
-<%= render partial: 'users/tabs', locals: { users: @group.users.all } %>
+<%= render partial: 'user_tabs', locals: { users: @group.groups_users.all } %>

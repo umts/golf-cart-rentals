@@ -5,12 +5,12 @@
 </ul>
 <div class="tab-content">
   <div id="tab-all" class="tab-pane fade">
-    <%= render partial: 'users/table', locals: { users: users } %>
+    <%= render partial: 'users_table', locals: { users: users } %>
   </div>
   <div id="tab-active" class="tab-pane fade in active">
-    <%= render partial: 'users/table', locals: { users: users.where(active: true) } %>
+    <%= render partial: 'users_table', locals: { users: users.where(active: true) } %>
   </div>
   <div id="tab-inactive" class="tab-pane fade">
-    <%= render partial: 'users/table', locals: { users: users.where(active: false) } %>
+    <%= render partial: 'users_table', locals: { users: users.where(active: false) } %>
   </div>
 </div>

@@ -22,10 +22,14 @@ Rails.application.routes.draw do
   resources :groups do
     post :update_permission, on: :member
     post :remove_permission, on: :member
+    post :enable_permission, on: :member
     post :remove_user, on: :member
+    post :enable_user, on: :member
   end
 
-  resources :users
+  resources :users do
+    post :enable, on: :member
+  end
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
   resources :incidental_types

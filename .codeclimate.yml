@@ -33,11 +33,16 @@ engines:
   rubocop:
     enabled: true
     checks:
+      Rubocop/Rails/DynamicFindBy:
+        enabled: false
       Rubocop/Style/AndOr:
         enabled: false
       Rubocop/Metrics/BlockLength:
         enabled: false
     exclude_fingerprints:
+    - 9802e31ca14f0b9c6dce9ebabb6d1d21
+    - fbdc32a472d30e3edc45fc6e4042d9f8
+    - 2e796557124fc1e3127ee433626971a7
     - a3e1dbf8cb97a435038c8390306d8fdc
     - 5a391b75904ac294252a75cae95e977c
     - 67d765d44559fae66dcbfaf444e8929e
