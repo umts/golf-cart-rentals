@@ -95,7 +95,10 @@ describe RentalsController do
 
     context 'cost adjustment' do
       it 'adjusts the related financial transaction' do
-
+        expect do
+          post :create, params: { rental: rental_create, amount: 15 }
+        end.to change(FinancialTransaction,:count).by(1) and change(Rental,:count).by(1)
+        expect(FinancialTransaction.last.amount).to eq 15
       end
 
       it 'ignores if the user does not have permission' do
