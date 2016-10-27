@@ -92,6 +92,16 @@ describe RentalsController do
         expect(response).to render_template :new
       end
     end
+
+    context 'cost adjustment' do
+      it 'adjusts the related financial transaction' do
+
+      end
+
+      it 'ignores if the user does not have permission' do
+
+      end
+    end
   end
 
   describe 'GET #processing' do

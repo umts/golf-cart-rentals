@@ -86,9 +86,13 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] || Time.zone.today
+    @start_date = rental_params['start_date'] || Time.zone.today
 
     if @rental.save
+      if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
+        FinancialTransaction.create rental: @rental.id, amount: params[:amount], transactable_type: Rental.class, transactable_id: @rental.id
+      end # if they dont have permission ignore it and we will use default pricing
+
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here

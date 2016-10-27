@@ -92,6 +92,7 @@ puts '*****************************'
 puts 'Updating permissions'
 admin = Group.find_by name: 'admin'
 Permission.update_permissions_table
+Permission.create(controller: 'rentals', action: 'cost_adjustment')
 
 puts 'Giving all permissions to admin'
 Permission.all.each do |p|
