@@ -71,7 +71,7 @@ gem "js-routes"
 # permanent records
 gem 'permanent_records'
 
-gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'
