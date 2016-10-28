@@ -86,8 +86,6 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = rental_params['start_date'] || Time.zone.today
-
     if @rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
