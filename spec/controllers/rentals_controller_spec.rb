@@ -104,17 +104,17 @@ describe RentalsController do
         u.groups << g
         u.save
         current_user(u) # set current_user to u in teh controller
-        
+
         expect do
-          post :create, params: { rental: rental_create, amount: cost+1 }
-        end.to change(FinancialTransaction,:count).by(1) and change(Rental,:count).by(1)
-        expect(FinancialTransaction.last.amount).to eq cost+1
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        expect(FinancialTransaction.last.amount).to eq cost + 1
       end
 
       it 'ignores if the user does not have permission' do # by default does not have this permission
         expect do
-          post :create, params: { rental: rental_create, amount: cost+1 }
-        end.to change(FinancialTransaction,:count).by(1) and change(Rental,:count).by(1)
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
         expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
       end
     end
