@@ -23,6 +23,10 @@ $(document).ready(function() {
       showTodayButton: true,
       showClear: true,
       showClose: true
+    }).on('dp.change', function(ev) {
+      if(window.location.pathname == '/rentals/new') {
+        calculate_price();
+      }
     });
 
     $( ".timepicker" ).datetimepicker({
@@ -66,4 +70,38 @@ function accept_and_enable(box)
     {
         submit.disabled = true;
     }
+}
+
+function calculate_price()
+{
+  // Grab the Price of the item types
+  // TODO: Switch out index id for item type names
+  // TODO: json for item type pricing and rates
+  var item_type_prices = new Array();
+  item_type_prices[1] = 40;
+  item_type_prices[2] = 60;
+
+  var item_type_daily_rates = new Array();
+  item_type_daily_rates[1] = 35;
+  item_type_daily_rates[2] = 40;
+
+  var item_type_price = 0;
+  var rentalForm = document.forms["rental_reservation"];
+
+  var cart = rentalForm.elements["rental_item_type_id"];
+  item_type_price = item_type_prices[cart.value];
+
+  var start = new Date(rentalForm.elements["rental_start_time"].value);
+  var end = new Date(rentalForm.elements["rental_end_time"].value);
+
+  var date_range = Math.abs(end.getTime() - start.getTime());
+  date_range = Math.ceil(date_range / (1000 * 3600 * 24));
+
+  var item_type_daily_rate = item_type_daily_rates[cart.value];
+
+  var price = item_type_price + (Math.floor((date_range-((date_range+1)/7)))*item_type_daily_rate)
+  console.log(price);
+
+  document.getElementById('rental_date_range').innerHTML = date_range;
+  document.getElementById('rental_pricing').innerHTML = "$"+price;
 }
