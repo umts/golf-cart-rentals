@@ -102,7 +102,11 @@ describe RentalsController do
       end
 
       it 'ignores if the user does not have permission' do
-
+        skip('our test structure does not support permissions')
+        expect do
+          post :create, params: { rental: rental_create, amount: 15 }
+        end.to change(FinancialTransaction,:count).by(1) and change(Rental,:count).by(1)
+        expect(FinancialTransaction.last.amount).to eq Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type])
       end
     end
   end

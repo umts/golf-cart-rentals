@@ -47,7 +47,7 @@ $(document).ready( function () {
     costCalculation();
   });
 
-  $('input.cost-dependent,select.cost-dependent').on('input','input:text', function () {
+  $('select.cost-dependent').on('change', function () {
     costCalculation();
   });
 

@@ -156,8 +156,6 @@ class Rental < ActiveRecord::Base
   end
 
   def create_financial_transaction
-    # return if we already have a financial transaction (one created from the controller with custom pricing)
-    return if FinancialTransaction.where(rental: self, transactable_type: self.class, transactable_id: id).present?
     rental_amount = Rental.rental_cost(start_time.to_date, end_time.to_date, item_type)
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
