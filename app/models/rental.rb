@@ -152,7 +152,7 @@ class Rental < ActiveRecord::Base
     rental_duration = (end_time.to_date - start_time.to_date).to_i
     # Do not charge for 1/7 days in a rental.
     days_to_charge_for = rental_duration - (rental_duration / 7)
-    rental_amount = (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
+    (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
   end
 
   def create_financial_transaction
