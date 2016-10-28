@@ -147,7 +147,7 @@ class Rental < ActiveRecord::Base
   # private
   attr_accessor :skip_reservation_validation
 
-  def self.rental_cost(start_time, end_time, item_type)
+  def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
     rental_duration = (end_time.to_date - start_time.to_date).to_i
     # Do not charge for 1/7 days in a rental.
@@ -156,7 +156,7 @@ class Rental < ActiveRecord::Base
   end
 
   def create_financial_transaction
-    rental_amount = Rental.rental_cost(start_time.to_date, end_time.to_date, item_type)
+    rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
 end

@@ -89,7 +89,6 @@ class RentalsController < ApplicationController
     @start_date = rental_params['start_date'] || Time.zone.today
 
     if @rental.save
-      binding.pry
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
         @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
