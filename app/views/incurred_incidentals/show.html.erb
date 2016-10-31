@@ -85,6 +85,6 @@
     <%= link_to 'Edit', edit_incurred_incidental_path(@incurred_incidental), class: "btn btn-primary" %>
     <%= link_to 'View Rental', rental_path(@incurred_incidental.rental), class: "btn btn-success" %>
     <%= link_to 'View Incidental Type', incidental_type_path(@incurred_incidental.incidental_type), class: "btn btn-success" %>
-    <%= link_to 'Back', incurred_incidentals_path, class: "btn btn-default" %>
+    <%= link_to 'Back', :back, class: "btn btn-default" %>
   </div>
 </div>
