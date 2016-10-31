@@ -33,7 +33,6 @@ if Rails.env.development?
 
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
-  binding.pry
   item_types.each do |item_type|
     inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
       memo[ i['name'] ] = i['uuid']
