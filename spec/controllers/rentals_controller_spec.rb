@@ -35,6 +35,15 @@ describe RentalsController do
     Timecop.return
   end
 
+  describe 'GET #cost' do
+    it 'returns a cost based on item type' do
+      start_time = Date.today
+      end_time = Date.tomorrow
+      get :cost, params: { item_type: item_type, start_time: start_time, end_time: end_time }
+      expect(response.body).to eq(Rental.cost(start_time, end_time, item_type).to_s)
+    end
+  end
+
   describe 'GET #index' do
     it 'populates an array of rentals' do
       get :index
@@ -90,6 +99,32 @@ describe RentalsController do
       it 're-renders the :new template' do
         post :create, params: { rental: invalid_create }
         expect(response).to render_template :new
+      end
+    end
+
+    context 'cost adjustment' do
+      let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
+
+      it 'adjusts the related financial transaction' do
+        u = create(:user)
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'cost_adjustment')
+        g.save
+        u.groups << g
+        u.save
+        current_user(u) # set current_user to u in teh controller
+
+        expect do
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        expect(FinancialTransaction.last.amount).to eq cost + 1
+      end
+
+      it 'ignores if the user does not have permission' do # by default does not have this permission
+        expect do
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
       end
     end
   end

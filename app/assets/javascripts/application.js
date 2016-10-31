@@ -11,11 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require jquery-readyselector
 //= require 'jquery.backstretch'
 //= require bootstrap-sprockets
 //= require moment
+//= require js-routes
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require signature-pad

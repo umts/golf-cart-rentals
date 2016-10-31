@@ -22,6 +22,14 @@ class RentalsController < ApplicationController
   def show
   end
 
+  # GET /rentals/cost?end_time=time&start_time=time&item_type=1
+  def cost
+    start_time = params[:start_time]
+    end_time = params[:end_time]
+    item_type = ItemType.find(params[:item_type]) if params[:item_type]
+    render json: Rental.cost(start_time, end_time, item_type)
+  end
+
   # GET /rentals/new
   def new
     @rental = Rental.new
@@ -78,9 +86,14 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] || Time.zone.today
-
     if @rental.save
+      if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
+        # find existing financial_transaction and change it
+        @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
+        @financial_transaction.amount = params[:amount]
+        @financial_transaction.save
+      end # if they dont have permission ignore it and we will use default pricing
+
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here

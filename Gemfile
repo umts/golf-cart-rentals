@@ -19,6 +19,7 @@ gem 'fullcalendar-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'backstretch-rails'
 
 # Use signature pad
@@ -57,6 +58,8 @@ gem 'date_validator'
 # wicked pdf
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+
+gem 'js-routes'
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
