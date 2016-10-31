@@ -27,7 +27,7 @@ class RentalsController < ApplicationController
     start_time = params[:start_time]
     end_time = params[:end_time]
     item_type = ItemType.find(params[:item_type]) if params[:item_type]
-    render json: Rental.rental_cost(start_time, end_time, item_type)
+    render json: Rental.cost(start_time, end_time, item_type)
   end
 
   # GET /rentals/new

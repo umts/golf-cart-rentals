@@ -263,4 +263,10 @@ RSpec.describe Rental do
       end
     end
   end
+
+  describe '#cost' do
+    it 'gets cost' do
+      expect(Rental.cost(Date.today, Date.tomorrow, create(:item_type))).not_to be_nil
+    end
+  end
 end
