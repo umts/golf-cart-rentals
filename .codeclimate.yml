@@ -6,6 +6,9 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    checks:
+      Similar code:
+          enabled: false
     config:
       languages:
       - ruby
@@ -13,6 +16,7 @@ engines:
       - python
       - php
     exclude_fingerprints:
+    - f8728cae8f316da8d60cd9fe03f658fd
     - 5d92a0498369d22fd35db5cc3684f29c
     - 1b4c600e85265b79c1f7ee140ff5c800
     - c5f08d507e17e0aed6c7c2e902f0a3e6
@@ -29,9 +33,16 @@ engines:
   rubocop:
     enabled: true
     checks:
+      Rubocop/Rails/DynamicFindBy:
+        enabled: false
       Rubocop/Style/AndOr:
         enabled: false
+      Rubocop/Metrics/BlockLength:
+        enabled: false
     exclude_fingerprints:
+    - 9802e31ca14f0b9c6dce9ebabb6d1d21
+    - fbdc32a472d30e3edc45fc6e4042d9f8
+    - 2e796557124fc1e3127ee433626971a7
     - a3e1dbf8cb97a435038c8390306d8fdc
     - 5a391b75904ac294252a75cae95e977c
     - 67d765d44559fae66dcbfaf444e8929e

@@ -107,17 +107,17 @@ RSpec.describe Rental do
       expect(@rental).to be_canceled
     end
 
-    it 'is checked_out after pickup' do
+    it 'is picked_up after pickup' do
       @rental.pickup!
-      expect(@rental.checked_out_at).not_to be_nil
-      expect(@rental).to be_checked_out
+      expect(@rental.picked_up_at).not_to be_nil
+      expect(@rental).to be_picked_up
     end
 
-    it 'is checked_in after return' do
+    it 'is dropped_off after return' do
       @rental.pickup
-      @rental.return!
-      expect(@rental.checked_in_at).not_to be_nil
-      expect(@rental).to be_checked_in
+      @rental.drop_off!
+      expect(@rental.dropped_off_at).not_to be_nil
+      expect(@rental).to be_dropped_off
     end
 
     it 'is canceled after being processed as a no show' do
@@ -127,14 +127,14 @@ RSpec.describe Rental do
 
     it 'is inspected after approve' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve!
       expect(@rental).to be_inspected
     end
 
     it 'is available after process' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve
       @rental.process!
       expect(@rental).to be_available
@@ -165,17 +165,17 @@ RSpec.describe Rental do
     it 'returns #0092ff when reserved' do
       expect(@rental.event_status_color).to eq('#0092ff')
     end
-    it 'returns #f7ff76 when checked_out' do
-      @rental.rental_status = :checked_out
+    it 'returns #f7ff76 when picked_up' do
+      @rental.rental_status = :picked_up
       expect(@rental.event_status_color).to eq('#f7ff76')
     end
-    it 'returns #09ff00 when checked_in' do
-      @rental.rental_status = :checked_in
+    it 'returns #09ff00 when dropped_off' do
+      @rental.rental_status = :dropped_off
       expect(@rental.event_status_color).to eq('#09ff00')
     end
-    it 'returns #000000 when cancelled' do
+    it 'returns #ff0000 when cancelled' do
       @rental.rental_status = :canceled
-      expect(@rental.event_status_color).to eq('#000000')
+      expect(@rental.event_status_color).to eq('#ff0000')
     end
     it 'returns #000000 when approved' do
       @rental.rental_status = :inspected
@@ -235,5 +235,38 @@ RSpec.describe Rental do
   it 'creates a 2 day financial transaction with different fees with value: 220' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
+
+  describe '#delete_reservation' do
+    context 'error thrown' do
+      it 'logs the error and returns false' do
+        r = build(:rental)
+        r.create_reservation
+        allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.delete_reservation).to be false
+      end
+    end
+  end
+
+  describe '#create_reservation' do
+    context 'error thrown' do
+      it 'logs error and returns false for a series of errors' do
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.create_reservation).to be false
+      end
+    end
+  end
+
+  describe '#cost' do
+    it 'gets cost' do
+      expect(Rental.cost(Date.today, Date.tomorrow, create(:item_type))).not_to be_nil
+    end
   end
 end

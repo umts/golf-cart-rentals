@@ -43,7 +43,7 @@ FactoryGirl.define do
   end
 
   factory :past_rental, parent: :rental do
-    rental_status 'checked_in'
+    rental_status 'dropped_off'
   end
 
   factory :far_future_rental, parent: :rental do
@@ -52,6 +52,6 @@ FactoryGirl.define do
   end
 
   factory :ongoing_rental, parent: :rental do
-    rental_status 'checked_out'
+    rental_status 'picked_up'
   end
 end

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby "2.3.1"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0.1'
+# Use mariadb as the database for Active Record
+gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -18,6 +19,7 @@ gem 'fullcalendar-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'backstretch-rails'
 
 # Use signature pad
@@ -53,11 +55,11 @@ gem 'ransack'
 
 # date validations
 gem 'date_validator'
-
 # wicked pdf
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+gem 'js-routes'
 # deployment
 # gem 'savon'
 # gem 'capistrano', '~> 3.3.0'
@@ -73,7 +75,7 @@ end
 # permanent records
 gem 'permanent_records'
 
-gem 'aggressive_inventory', '0.0.2', git: 'https://github.com/umts/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -95,7 +97,7 @@ end
 group :test do
   gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
-  gem 'capybara', '~> 2.5'
+  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'rake'
   gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil

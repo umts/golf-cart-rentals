@@ -22,6 +22,14 @@ class RentalsController < ApplicationController
   def show
   end
 
+  # GET /rentals/cost?end_time=time&start_time=time&item_type=1
+  def cost
+    start_time = params[:start_time]
+    end_time = params[:end_time]
+    item_type = ItemType.find(params[:item_type]) if params[:item_type]
+    render json: Rental.cost(start_time, end_time, item_type)
+  end
+
   # GET /rentals/new
   def new
     @rental = Rental.new
@@ -41,9 +49,9 @@ class RentalsController < ApplicationController
     if @rental.reserved? && @rental.end_date < DateTime.current
       render :no_show_form, locals: { rental: @rental }
     elsif @rental.reserved?
-      render :check_out, locals: { rental: @rental }
-    elsif @rental.checked_out?
-      render :check_in, locals: { rental: @rental }
+      render :pickup, locals: { rental: @rental }
+    elsif @rental.picked_up?
+      render :drop_off, locals: { rental: @rental }
     else
       flash[:danger] = 'Error redirecting to processing form'
       render :index
@@ -52,12 +60,20 @@ class RentalsController < ApplicationController
 
   # PUT /rentals/1/
   def update
-    if params[:commit] == 'Check Out'
-      DigitalSignature.create(image: sig_image_params, intent: :check_out, rental: @rental, author: :customer)
-      @rental.pickup
-    elsif params[:commit] == 'Check In'
-      DigitalSignature.create(image: sig_image_params, intent: :check_in, rental: @rental, author: :customer)
-      @rental.return
+    if params[:commit] == 'Pick Up'
+      DigitalSignature.create(image: sig_image_params, intent: :pickup, rental: @rental, author: :customer)
+      if @rental.pickup
+        pickup_name = params[:rental][:pickup_name]
+        pickup_number = params[:rental][:pickup_phone_number]
+        @rental.update(pickup_name: pickup_name, pickup_phone_number: pickup_number)
+      end
+    elsif params[:commit] == 'Drop Off'
+      DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
+      if @rental.drop_off
+        dropoff_name = params[:rental][:dropoff_name]
+        dropoff_number = params[:rental][:dropoff_phone_number]
+        @rental.update(dropoff_name: dropoff_name, dropoff_phone_number: dropoff_number)
+      end
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
     else
@@ -70,9 +86,14 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    @start_date = params['start_date'] || Time.zone.today
-
     if @rental.save
+      if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
+        # find existing financial_transaction and change it
+        @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
+        @financial_transaction.amount = params[:amount]
+        @financial_transaction.save
+      end # if they dont have permission ignore it and we will use default pricing
+
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
@@ -130,7 +151,8 @@ class RentalsController < ApplicationController
   def rental_params
     user = User.find(params.require(:rental).permit(:user_id)[:user_id])
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :user_id).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :user_id, :pickup_name, :dropoff_name,
+                                   :pickup_phone_number, :dropoff_phone_number).merge(department_id: user.department_id, end_time: new_time)
   end
 
   def sig_image_params

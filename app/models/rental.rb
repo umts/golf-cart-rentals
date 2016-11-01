@@ -30,12 +30,12 @@ class Rental < ActiveRecord::Base
   scope :upcoming_rentals, -> { reserved.where('start_time <= ? AND end_time >= ?', DateTime.current.next_day, DateTime.current) }
   scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
   scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
-  scope :inactive_rentals, -> { where(rental_status: %w(canceled checked_in)) }
+  scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
-    state :checked_out
-    state :checked_in
+    state :picked_up
+    state :dropped_off
     state :inspected
     state :available
     state :canceled
@@ -45,21 +45,21 @@ class Rental < ActiveRecord::Base
     end
 
     event :pickup do
-      transitions from: :reserved, to: :checked_out
+      transitions from: :reserved, to: :picked_up
       after do
-        update(checked_out_at: Time.zone.now)
+        update(picked_up_at: Time.zone.now)
       end
     end
 
-    event :return do
-      transitions from: :checked_out, to: :checked_in
+    event :drop_off do
+      transitions from: :picked_up, to: :dropped_off
       after do
-        update(checked_in_at: Time.zone.now)
+        update(dropped_off_at: Time.zone.now)
       end
     end
 
     event :approve do
-      transitions from: :checked_in, to: :inspected
+      transitions from: :dropped_off, to: :inspected
     end
 
     event :process do
@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :process_no_show do
       transitions from: :reserved, to: :canceled
       after do
-        update(checked_in_at: nil)
+        update(dropped_off_at: nil, start_time: Time.zone.now.beginning_of_day, end_time: Time.zone.now.end_of_day)
       end
     end
   end
@@ -114,13 +114,15 @@ class Rental < ActiveRecord::Base
   def event_status_color
     case rental_status
     when 'reserved'
-      return '#0092ff'
-    when 'checked_out'
-      return '#f7ff76'
-    when 'checked_in'
-      return '#09ff00'
+      '#0092ff'
+    when 'picked_up'
+      '#f7ff76'
+    when 'dropped_off'
+      '#09ff00'
+    when 'canceled'
+      '#ff0000'
     else
-      return '#000000' # black signifies a non event status
+      '#000000' # black signifies a non event status
     end
   end
 
@@ -145,12 +147,16 @@ class Rental < ActiveRecord::Base
   # private
   attr_accessor :skip_reservation_validation
 
-  def create_financial_transaction
+  def self.cost(start_time, end_time, item_type)
+    return 0 if start_time > end_time
     rental_duration = (end_time.to_date - start_time.to_date).to_i
     # Do not charge for 1/7 days in a rental.
     days_to_charge_for = rental_duration - (rental_duration / 7)
-    rental_amount = (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
+    (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
+  end
 
+  def create_financial_transaction
+    rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
 end

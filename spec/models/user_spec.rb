@@ -25,6 +25,10 @@ RSpec.describe User, type: :model do
     expect(build(:user, spire_id: user.spire_id)).not_to be_valid
   end
 
+  it 'requires spire id to be length 8' do
+    expect(build(:user, spire_id: '1234567')).not_to be_valid
+  end
+
   describe '#full_name' do
     let(:user) { create :user }
     it 'returns first name and last name with a space in between' do
@@ -71,6 +75,20 @@ RSpec.describe User, type: :model do
       expect(user).not_to have_permission permission.controller,
                                           permission.action,
                                           nil
+    end
+
+    it 'returns false if the user has a permission with the requested controller, action, and an id_field,
+                        and their id matches the id of the requested instance but the user is inactive' do
+      user = create(:user, active: false)
+      group = create(:group)
+      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
+
+      group.permissions << permission
+      user.groups << group
+
+      expect(user).not_to have_permission permission.controller,
+                                          permission.action,
+                                          user.id
     end
 
     it 'returns false if the user has a permission with the requested controller, action and an id_field,

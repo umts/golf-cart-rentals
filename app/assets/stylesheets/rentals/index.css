@@ -29,6 +29,10 @@
 	background-color: #09ff00;
 }
 
+.legend .canceled {
+	background-color: #ff0000;
+}
+
 form#rental_search {
 	width: 70%;
 }

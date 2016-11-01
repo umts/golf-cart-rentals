@@ -1,35 +1,37 @@
-<%= form_for(@incurred_incidental) do |f| %>
+<%= form_for setup_incurred_incidental(@incurred_incidental) do |f| %>
+  <div>
+    <%= f.hidden_field :rental_id, value: params[:rental_id] || @incurred_incidental.rental.id, class: "selectpicker form-control" %>
+  </div>
+
   <div class="form-group col-xs-12">
     <%= f.label :incidental_type_id, 'Incidental Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'name', params[:incidental_type_id] || @incurred_incidental.incidental_type.try(:id)), {}, class: "selectpicker form-control" %>
-    </div>
-    <div class="col-xs-4">
-      <%= link_to 'New Incidental Type', new_incidental_type_path, class: "btn btn-info form-control" %>
+      <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'basic_info', params[:incidental_type_id] || @incurred_incidental.incidental_type.try(:id)), { include_blank: "-- Select One --" }, id: "select_incidental_type", class: "selectpicker form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :rental_id, 'Rental', class: 'control-label col-xs-2' %>
+    <%= f.label :amount, 'Amount', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :rental_id, options_from_collection_for_select(@rentals, 'id', 'basic_info', params[:rental_id] || @incurred_incidental.rental.try(:id)), {}, class: "selectpicker form-control" %>
-    </div>
-    <div class="col-xs-4">
-      <%= link_to 'New Rental',new_rental_path, class: "btn btn-info form-control" %>
+      <%= f.number_field :amount, min: 0, required: true, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :times_modified, 'Times Modifier', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.number_field :times_modified, class: 'form-control', min: 0, step: 0.01, required: true %>
-    </div>
+    <%= f.fields_for :notes do |notes_fields| %>
+      <% if notes_fields.index == 0 %>
+        <%= notes_fields.label :note, 'Note', class: 'control-label col-xs-2' %>
+        <div class="col-xs-6">
+          <%= notes_fields.text_field :note, placeholder: "Please make note of Incident", value: "", required: true, class: 'form-control' %>
+        </div>
+        <% end %>
+    <% end %>
   </div>
 
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit class: "btn btn-primary" %>
-      <%= link_to 'Back', incurred_incidentals_path, class: "btn btn-default" %>
+      <%= link_to 'Back', :back, class: "btn btn-default" %>
     </div>
   </div>
 <% end %>

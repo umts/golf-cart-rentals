@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :home, only: [:index]
 
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
+  get 'rentals/cost', to: 'rentals#cost', as: 'rentals_cost'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
   resources :rentals
@@ -22,9 +23,14 @@ Rails.application.routes.draw do
   resources :groups do
     post :update_permission, on: :member
     post :remove_permission, on: :member
+    post :enable_permission, on: :member
     post :remove_user, on: :member
+    post :enable_user, on: :member
   end
-  resources :users
+
+  resources :users do
+    post :enable, on: :member
+  end
   resources :item_types, only: [:index, :show, :edit, :update]
   resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
