@@ -2,8 +2,6 @@
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0.1'
-# Use mariadb as the database for Active Record
-gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -78,6 +76,8 @@ gem 'permanent_records'
 gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
 
 group :development, :test do
+  # Use mariadb as the database for Active Record in dev and test environments
+  gem 'mysql2'
   gem 'pry-byebug'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '3.5.0.beta2'
