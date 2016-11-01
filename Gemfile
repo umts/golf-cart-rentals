@@ -69,6 +69,7 @@ gem 'js-routes'
 group :production do
   gem 'pg' # got to use postgres for heroku
   gem 'thin'
+  gem 'rails_12factor'
 end
 
 # permanent records
