@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
+ruby '2.3.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0.1'
 # Use SCSS for stylesheets
@@ -82,7 +83,6 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails', '3.5.0.beta2'
   gem 'rubocop', require: false
-  gem 'mysql2'
 end
 
 group :development do
