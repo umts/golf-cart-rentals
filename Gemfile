@@ -70,7 +70,7 @@ group :production do
   gem 'pg' # got to use postgres for heroku
   gem 'thin'
   gem 'rails_12factor'
-  gem "non-stupid-digest-assets"
+  #gem "non-stupid-digest-assets"
 end
 
 # permanent records
