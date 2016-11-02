@@ -73,14 +73,17 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = Rental.new(rental_params)
-    @rental.reservation_id = -1;
 
     @start_date = params['start_date'] || Time.zone.today
-    if @rental.save
+    if @rental.create_reservation && @rental.save
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      if @rental.item_id.nil? && @rental.reservation_id.nil?
+        flash[:warning] = 'This item type is not available for the specified dates'
+      else
+        @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      end
       render :new
     end
   end
@@ -89,6 +92,7 @@ class RentalsController < ApplicationController
   def destroy
     if @rental.may_cancel?
       @rental.cancel!
+      @rental.delete_reservation
       flash[:success] = 'Rental canceled.'
     elsif @rental.canceled?
       flash[:warning] = 'This rental is already canceled'

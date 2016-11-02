@@ -51,7 +51,6 @@ RSpec.describe Rental do
   describe '#delete_rental' do
     before :each do
       @rent = create :mock_rental
-      expect_any_instance_of(Rental).to receive(:delete_reservation).and_return(true)
     end
 
     it 'deletes a rental properly' do
