@@ -1,6 +1,6 @@
-<% provide( :page_header, 'Item' ) %>
+<% provide( :page_header, 'Items' ) %>
 
-<%= link_to 'New Cart', new_item_items_path, class: 'btn btn-primary btn-md
+<%= link_to 'New Item', new_item_items_path, class: 'btn btn-primary btn-md
 reserve-4' %>
 <%= link_to 'Reload Items', { :controller => "items", :action => "refresh_items" }, class:'btn btn-primary btn-md reserve-4' %>
 <br>
@@ -11,13 +11,14 @@ reserve-4' %>
      <%= f.submit class: "btn btn-default" %>
     <% end %>
 <br>
+<%= will_paginate @items, renderer: BootstrapPagination::Rails %>
 <table class="table table-striped table-bordered table-hover">
   <tr>
-    <th>Item Type</th>
-    <th>Name</th>
-    <th>Base Fee</th>
-    <th>Fee Per Day</th>
-    <th>Disclaimer</th>
+    <th><%= sort_link(@q, :item_type_name, 'Item Type') %></th>
+    <th><%= sort_link(@q, :name, 'Name') %></th>
+    <th><%= sort_link(@q, :item_type_base_fee, 'Base Fee') %></th>
+    <th><%= sort_link(@q, :item_type_fee_per_day, 'Fee Per Day') %></th>
+    <th><%= sort_link(@q, :item_type_disclaimer, 'Disclaimer') %></th>
     <th class="min-width">Actions</th>
   </tr>
   <% @items.sort_by { |i| i.item_type_id }.each do |item| %>
@@ -34,3 +35,4 @@ reserve-4' %>
     </tr>
   <% end %>
 </table>
+<%= will_paginate @items, renderer: BootstrapPagination::Rails %>

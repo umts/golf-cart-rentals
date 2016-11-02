@@ -6,7 +6,6 @@
     <th>Car Name</th>
     <th>Amount</th>
     <th>Responsible Person</th>
-    <th>Spire ID</th>
     <th>Department</th>
     <th>Rental Start Date</th>
     <th>Rental End Date</th>
@@ -16,7 +15,6 @@
     <td><%= rental.item.name%></td>
     <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.user.full_name %></td>
-    <td><%= rental.user.spire_id %></td>
     <td><%= rental.department.name %></td>
     <td><%= rental.start_time.to_date %></td>
     <td><%= rental.end_time.to_date %></td>
@@ -35,7 +33,7 @@
   <div class="form-group col-xs-12">
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit 'Process No Show', class: "btn btn-primary" %>
-      <%= link_to 'Back', rentals_path, class: "btn btn-default" %>
+      <%= link_to 'Back', :back, class: "btn btn-default" %>
     </div>
   </div>
 <% end %>

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 RSpec.describe DigitalSignaturesController, type: :controller do
   let(:ds) { create :digital_signature }

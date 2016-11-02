@@ -9,6 +9,11 @@
 }
 /*end UMass*/
 
+.panel-primary {
+  border: 0;
+  border-top: 1px solid #337ab7;
+}
+
 .footer{
   color: #111;
   padding-top: 15px;
@@ -107,4 +112,14 @@ hr{
 
 .header-no-margin, .pagination{
   margin: 0px;
+}
+
+.tab-content-border {
+  border-left: 1px solid #ddd; 
+  border-right: 1px solid #ddd; 
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px 0px 5px 5px; 
+  overflow: auto;
+  margin-bottom: 20px;
 }

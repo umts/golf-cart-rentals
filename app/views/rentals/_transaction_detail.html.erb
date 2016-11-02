@@ -1,0 +1,29 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Create Date</th>
+      <th>Transaction Type</th>
+      <th>Transaction Amount</th>
+      <th>Transaction Adjustment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @financial_transactions.each do |ft| %>
+      <tr>
+        <td><%= ft.created_at %></td>
+        <td><%= ft.transactable_type %></td>
+        <td><%= number_to_currency (ft.amount || 0) %></td>
+        <td><%= number_to_currency (ft.adjustment || 0) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="text-right">
+      <h2><label>Total Amount Due:</label>
+      <%= number_to_currency @rental.sum_amount %></h2>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :enable]
   before_action :set_department
 
   def index
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    if @user.update(update_user_params)
       flash[:success] = 'User Was Successfully Updated'
       redirect_to @user
     else
@@ -40,8 +40,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    flash[:success] = 'User Was Successfully Deleted'
+    @user.update(active: false)
+    flash[:success] = 'User Was Successfully Disabled'
+    redirect_to users_url
+  end
+
+  def enable
+    @user.update(active: true)
+    flash[:success] = 'User Was Successfully Enabled'
     redirect_to users_url
   end
 
@@ -59,5 +65,9 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(:first_name, :last_name, :phone, :email, :spire_id, :department_id)
+  end
+
+  def update_user_params
+    params.require(:user).permit(:phone, :email, :department_id)
   end
 end
