@@ -20,7 +20,8 @@ class HoldsController < ApplicationController
       flash[:success] = 'Hold Was Successfully Created'
       redirect_to @hold
     else
-      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = 'Error creating Hold: '
+      flash_errors
       render :new
     end
   end
@@ -33,7 +34,8 @@ class HoldsController < ApplicationController
       flash[:success] = 'Hold Was Successfully Updated'
       redirect_to @hold
     else
-      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = 'Error updating Hold: '
+      flash_errors
       render :edit
     end
   end
@@ -46,12 +48,16 @@ class HoldsController < ApplicationController
 
   private
 
+  def hold_params
+    item_type_id = Item.find(params[:hold][:item_id]).item_type_id
+    params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
+  end
+
   def set_hold
     @hold = Hold.find(params[:id])
   end
 
-  def hold_params
-    item_type_id = Item.find(params[:hold][:item_id]).item_type_id
-    params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
+  def flash_errors
+    @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
   end
 end

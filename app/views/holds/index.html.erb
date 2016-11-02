@@ -11,23 +11,23 @@
       <th>Item Type</th>
       <th>Start Time</th>
       <th>End Time</th>
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
+  <tbody>
     <% @holds.each do |hold| %>
       <tr>
-        <td><%= hold.hold_reason %></td>
-        <td><%= hold.item.name %></td>
-        <td><%= hold.item_type.name %></td>
-        <td><%= hold.start_time.to_date %></td>
-        <td><%= hold.end_time.to_date %></td>
-        <td>
+        <td class='min-width'><%= hold.hold_reason %></td>
+        <td class='min-width'><%= hold.item.name %></td>
+        <td class='min-width'><%= hold.item_type.name %></td>
+        <td class='min-width'><%= hold.start_time.to_date %></td>
+        <td class='min-width'><%= hold.end_time.to_date %></td>
+        <td class='min-width'>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), hold, class: "btn btn-xs btn-success" %>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_hold_path(hold), class: "btn btn-xs btn-primary" %>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+"Delete"), hold, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
         </td>
       </tr>
     <% end %>
-  <tbody>
   </tbody>
 </table>
