@@ -1,1 +1,5 @@
-<%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Remove"), remove_user_group_path(group, user_id: user.id), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+<% if user.active %>
+  <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-trash")+" Make Inactive"), remove_user_group_path(group, user_id: user.user.id), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+<% else %>
+  <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ok")+" Make Active"), enable_user_group_path(group, user_id: user.user.id), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-success" %>
+<% end %>

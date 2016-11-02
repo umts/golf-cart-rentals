@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Rental do
@@ -105,17 +106,17 @@ RSpec.describe Rental do
       expect(@rental).to be_canceled
     end
 
-    it 'is checked_out after pickup' do
+    it 'is picked_up after pickup' do
       @rental.pickup!
-      expect(@rental.checked_out_at).not_to be_nil
-      expect(@rental).to be_checked_out
+      expect(@rental.picked_up_at).not_to be_nil
+      expect(@rental).to be_picked_up
     end
 
-    it 'is checked_in after return' do
+    it 'is dropped_off after return' do
       @rental.pickup
-      @rental.return!
-      expect(@rental.checked_in_at).not_to be_nil
-      expect(@rental).to be_checked_in
+      @rental.drop_off!
+      expect(@rental.dropped_off_at).not_to be_nil
+      expect(@rental).to be_dropped_off
     end
 
     it 'is canceled after being processed as a no show' do
@@ -125,14 +126,14 @@ RSpec.describe Rental do
 
     it 'is inspected after approve' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve!
       expect(@rental).to be_inspected
     end
 
     it 'is available after process' do
       @rental.pickup
-      @rental.return
+      @rental.drop_off
       @rental.approve
       @rental.process!
       expect(@rental).to be_available
@@ -143,17 +144,17 @@ RSpec.describe Rental do
     it '.create_financial_transaction callback is triggered on create' do
       rental = build(:rental)
       # Critical section.
-      Mutex.new.synchronize{
-       expect(rental).to receive(:create_financial_transaction)
-       rental.save
-     }
+      Mutex.new.synchronize do
+        expect(rental).to receive(:create_financial_transaction)
+        rental.save
+      end
     end
-   it 'creates a finacial transaction based on the item_type' do
-    rental = build(:rental)
-    expect(rental.financial_transaction).to be(nil)
-    rental.save
-    expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
-   end
+    it 'creates a finacial transaction based on the item_type' do
+      rental = build(:rental)
+      expect(rental.financial_transaction).to be(nil)
+      rental.save
+      expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+    end
   end
 
   describe '#event_status_color' do
@@ -163,17 +164,17 @@ RSpec.describe Rental do
     it 'returns #0092ff when reserved' do
       expect(@rental.event_status_color).to eq('#0092ff')
     end
-    it 'returns #f7ff76 when checked_out' do
-      @rental.rental_status = :checked_out
+    it 'returns #f7ff76 when picked_up' do
+      @rental.rental_status = :picked_up
       expect(@rental.event_status_color).to eq('#f7ff76')
     end
-    it 'returns #09ff00 when checked_in' do
-      @rental.rental_status = :checked_in
+    it 'returns #09ff00 when dropped_off' do
+      @rental.rental_status = :dropped_off
       expect(@rental.event_status_color).to eq('#09ff00')
     end
-    it 'returns #000000 when cancelled' do
+    it 'returns #ff0000 when cancelled' do
       @rental.rental_status = :canceled
-      expect(@rental.event_status_color).to eq('#000000')
+      expect(@rental.event_status_color).to eq('#ff0000')
     end
     it 'returns #000000 when approved' do
       @rental.rental_status = :inspected
@@ -214,12 +215,57 @@ RSpec.describe Rental do
     rent = create :mock_rental
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
   end
-  it 'creates a 3 day financial transcation with value: 120' do
+  it 'creates a 3 day financial transaction with value: 120' do
     rent = create :mock_rental, end_time: (Time.current + 2.days)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
   end
-  it 'creates a 2 day financial transcation with different fees with value: 220' do
+  it 'creates a 6 day financial transaction with value: 160' do
+    rent = create :mock_rental, end_time: (Time.current + 6.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
+  end
+  it 'creates a 7 day financial transaction with value: 160 (1 day free)' do
+    rent = create :mock_rental, end_time: (Time.current + 7.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
+  end
+  it 'creates a 14 day financial transaction with value: 300 (2 days free)' do
+    rent = create :mock_rental, end_time: (Time.current + 14.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
+  it 'creates a 2 day financial transaction with different fees with value: 220' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([220])
+  end
+
+  describe '#delete_reservation' do
+    context 'error thrown' do
+      it 'logs the error and returns false' do
+        r = build(:rental)
+        r.create_reservation
+        allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.delete_reservation).to be false
+      end
+    end
+  end
+
+  describe '#create_reservation' do
+    context 'error thrown' do
+      it 'logs error and returns false for a series of errors' do
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
+        expect(r.create_reservation).to be false
+        r = build(:rental)
+        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
+        expect(r.create_reservation).to be false
+      end
+    end
+  end
+
+  describe '#cost' do
+    it 'gets cost' do
+      expect(Rental.cost(Date.today, Date.tomorrow, create(:item_type))).not_to be_nil
+    end
   end
 end

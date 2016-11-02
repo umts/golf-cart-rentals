@@ -57,18 +57,20 @@ ActiveRecord::Schema.define(version: 20161102131612) do
   create_table "groups_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "group_id"
     t.integer  "permission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "active",        default: true
     t.index ["group_id", "permission_id"], name: "index_groups_permissions_on_group_id_and_permission_id", unique: true, using: :btree
     t.index ["group_id"], name: "index_groups_permissions_on_group_id", using: :btree
     t.index ["permission_id"], name: "index_groups_permissions_on_permission_id", using: :btree
   end
 
   create_table "groups_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "group_id",   null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "group_id",                  null: false
+    t.integer  "user_id",                   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true
     t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true, using: :btree
     t.index ["group_id"], name: "index_groups_users_on_group_id", using: :btree
     t.index ["user_id"], name: "index_groups_users_on_user_id", using: :btree
@@ -77,16 +79,14 @@ ActiveRecord::Schema.define(version: 20161102131612) do
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
-    t.decimal  "base",                 precision: 10
-    t.decimal  "modifier_amount",      precision: 10
-    t.string   "modifier_description"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.decimal  "base",        precision: 10
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "incidental_type_id"
-    t.decimal  "times_modified",     precision: 10
+    t.decimal  "amount",             precision: 10
     t.integer  "rental_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
@@ -136,27 +136,41 @@ ActiveRecord::Schema.define(version: 20161102131612) do
     t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id", using: :btree
   end
 
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "payment_type"
+    t.string   "contact_name"
+    t.string   "contact_phone"
+    t.string   "contact_email"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "controller", null: false
-    t.string   "action",     null: false
+    t.string   "controller",                null: false
+    t.string   "action",                    null: false
     t.string   "id_field"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true
   end
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "rental_status",  null: false
-    t.integer  "user_id",        null: false
-    t.integer  "department_id",  null: false
+    t.string   "rental_status",        null: false
+    t.integer  "user_id",              null: false
+    t.integer  "department_id",        null: false
     t.string   "reservation_id"
-    t.integer  "item_type_id",   null: false
-    t.datetime "checked_in_at"
-    t.datetime "checked_out_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "item_type_id",         null: false
+    t.datetime "dropped_off_at"
+    t.datetime "picked_up_at"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_id",        null: false
+    t.integer  "item_id",              null: false
+    t.string   "pickup_name"
+    t.string   "dropoff_name"
+    t.string   "pickup_phone_number"
+    t.string   "dropoff_phone_number"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end
@@ -176,7 +190,7 @@ ActiveRecord::Schema.define(version: 20161102131612) do
     t.string   "first_name",    limit: 30,                null: false
     t.string   "last_name",     limit: 30,                null: false
     t.string   "email",                                   null: false
-    t.bigint   "phone",                                   null: false
+    t.string   "phone",                                   null: false
     t.integer  "spire_id",                                null: false
     t.integer  "department_id"
     t.boolean  "active",                   default: true, null: false

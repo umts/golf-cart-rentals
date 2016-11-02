@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe HomeController do
@@ -73,7 +74,7 @@ describe HomeController do
 
       it 'filters out rentals not belonging to the current user' do
         get :index
-        expect(assigns[:rentals]).to include(create(:mock_rental, user_id: @user.id ), create(:ongoing_rental, user_id: @user.id))
+        expect(assigns[:rentals]).to include(create(:mock_rental, user_id: @user.id), create(:ongoing_rental, user_id: @user.id))
         expect(assigns[:rentals]).not_to include(create(:mock_rental, user_id: @other_user.id))
       end
     end

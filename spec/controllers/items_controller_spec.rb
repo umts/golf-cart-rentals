@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :controller do
-
   let!(:item) { create(:item) }
   let!(:item2) { create(:item) }
   let!(:item_type) { create(:item_type) }
@@ -43,13 +43,13 @@ RSpec.describe ItemsController, type: :controller do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the item in the database' do
-        new_name = "TestItem"
+        new_name = 'TestItem'
         post :update, params: { id: item, item: { name: new_name } }
         item.reload
         expect(item.name).to eq(new_name)
       end
       it 'redirects to the item page' do
-        new_name = "TestItem"
+        new_name = 'TestItem'
         post :update, params: { id: item, item: { name: new_name } }
         expect(response).to redirect_to item
       end
@@ -109,13 +109,13 @@ RSpec.describe ItemsController, type: :controller do
 
     context 'create item in api fails' do
       it 'redirects to new_item_items_path' do
-        allow(Inventory).to receive(:create_item).and_raise("boom")
-        post :create_item, params: { name: item.name, type:item_type.name }
+        allow(Inventory).to receive(:create_item).and_raise('boom')
+        post :create_item, params: { name: item.name, type: item_type.name }
         expect(response).to redirect_to new_item_items_path
       end
 
       it 'populates a danger flash message' do
-        allow(Inventory).to receive(:create_item).and_raise("boom")
+        allow(Inventory).to receive(:create_item).and_raise('boom')
         post :create_item, params: { name: item.name, type: item_type.name }
         expect(flash[:danger]).to be_present
         expect(flash[:danger]).to eq('Failed to create cart in API. #<RuntimeError: boom>')
@@ -135,7 +135,7 @@ RSpec.describe ItemsController, type: :controller do
 
     context 'called independent of #create_item with error' do
       it 'populates a flash danger message' do
-        allow(Inventory).to receive(:items_by_type).and_raise("boom")
+        allow(Inventory).to receive(:items_by_type).and_raise('boom')
         get :refresh_items
         expect(flash[:danger]).to be_present
         expect(flash[:danger]).to eq('Failed to refresh items from api. #<RuntimeError: boom>')
@@ -160,5 +160,4 @@ RSpec.describe ItemsController, type: :controller do
       expect(response).to redirect_to items_path
     end
   end
-
 end

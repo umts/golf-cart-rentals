@@ -1,3 +1,5 @@
+include InventoryExceptions
+
 if Rails.env.development?
   puts '*****************************'
   puts 'Seeding development'
@@ -37,9 +39,13 @@ if Rails.env.development?
     end
 
     unless inv_item_types.keys.include?(item_type['name'])
-      Inventory.create_item_type(item_type['name'])
-      inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
-        memo[ i['name'] ] = i['uuid']
+      begin 
+        Inventory.create_item_type(item_type['name'])
+        inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+          memo[ i['name'] ] = i['uuid']
+        end
+      rescue Exception => e
+        next if e.message.include? "Name has already been taken" # we have already seeded
       end
     end
 
@@ -71,10 +77,13 @@ if Rails.env.development?
 
   puts 'Create Incidental Types'
   incidentals = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'incidental_types.yml'))
-  incidentals.each do |incidental|
-    IncidentalType.where(name: incidental['name']).first_or_create incidental
+  incidentals.each do |i|
+    IncidentalType.where(name: i['name'],
+                         description: i['description'],
+                         base: i['base']).first_or_create
   end
 
+  puts " "
 end
 
 puts '*****************************'
@@ -83,6 +92,7 @@ puts '*****************************'
 puts 'Updating permissions'
 admin = Group.find_by name: 'admin'
 Permission.update_permissions_table
+Permission.create(controller: 'rentals', action: 'cost_adjustment')
 
 puts 'Giving all permissions to admin'
 Permission.all.each do |p|

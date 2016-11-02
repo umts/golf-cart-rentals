@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
-    rental[:item_id] = create(:item, name: "TEST_ITEM")
+    rental[:item_id] = create(:item, name: 'TEST_ITEM')
     rental[:user_id] = create(:user, first_name: 'Test2')
     rental
   end
@@ -19,7 +20,7 @@ describe RentalsController do
 
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
-  let(:item) { create(:item, name: "TEST_ITEM") }
+  let(:item) { create(:item, name: 'TEST_ITEM') }
 
   before(:each) { current_user }
 
@@ -32,6 +33,15 @@ describe RentalsController do
     @rental.destroy
     @rental2.destroy
     Timecop.return
+  end
+
+  describe 'GET #cost' do
+    it 'returns a cost based on item type' do
+      start_time = Date.today
+      end_time = Date.tomorrow
+      get :cost, params: { item_type: item_type, start_time: start_time, end_time: end_time }
+      expect(response.body).to eq(Rental.cost(start_time, end_time, item_type).to_s)
+    end
   end
 
   describe 'GET #index' do
@@ -91,6 +101,32 @@ describe RentalsController do
         expect(response).to render_template :new
       end
     end
+
+    context 'cost adjustment' do
+      let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
+
+      it 'adjusts the related financial transaction' do
+        u = create(:user)
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'cost_adjustment')
+        g.save
+        u.groups << g
+        u.save
+        current_user(u) # set current_user to u in teh controller
+
+        expect do
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        expect(FinancialTransaction.last.amount).to eq cost + 1
+      end
+
+      it 'ignores if the user does not have permission' do # by default does not have this permission
+        expect do
+          post :create, params: { rental: rental_create, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
+      end
+    end
   end
 
   describe 'GET #processing' do
@@ -113,7 +149,7 @@ describe RentalsController do
     it 'refuses to cancel a rental in progress' do
       @rental.pickup
       delete :destroy, params: { id: @rental.id }
-      expect(@rental.reload.checked_out?).to be true
+      expect(@rental.reload.picked_up?).to be true
     end
 
     it 'remains canceled if already canceled' do
@@ -124,31 +160,30 @@ describe RentalsController do
   end
 
   describe 'GET #transform' do
-
-    it 'redirects to check in page if it was checked out' do
+    it 'redirects to drop_off page if it was checked out' do
       rental = mock_rental
       rental.pickup
       get :transform, params: { id: rental.id }
-      expect(response).to render_template :check_in
+      expect(response).to render_template :drop_off
     end
 
-    it 'redirects to check out page if it was reserved' do
+    it 'redirects to pickup page if it was reserved' do
       get :transform, params: { id: mock_rental.id }
-      expect(response).to render_template :check_out
+      expect(response).to render_template :pickup
     end
 
     it 'handles the no show flag correctly' do
       rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
-      Timecop.freeze(DateTime.current + 23.hour)
+      Timecop.freeze(DateTime.current + 23.hours)
       get :transform, params: { id: rental.id }
-      expect(response).to render_template :check_out
+      expect(response).to render_template :pickup
       Timecop.return
       Timecop.freeze(DateTime.current + 1.day)
       get :transform, params: { id: rental.id }
       expect(response).to render_template :no_show_form
     end
 
-    it 'redirects to rentals if passed a rental that is not reserved or checked out' do
+    it 'redirects to rentals if passed a rental that is not reserved or picked up' do
       rental = mock_rental
       rental.cancel!
       get :transform, params: { id: rental.id }
@@ -156,34 +191,47 @@ describe RentalsController do
     end
   end
 
-  describe 'GET #transaction_detail' do
-    it 'assigns a requested rental to @rental'do
-      get :transaction_detail, params: { id: @rental }
+  describe 'GET #invoice' do
+    it 'assigns a requested rental to @rental' do
+      get :invoice, params: { id: @rental }
       expect(assigns[:rental]).to eq @rental
     end
 
     it 'all requested financial transactions should contain the same rental as @rental' do
-      get :transaction_detail, params: { id: @rental }
-      expect(assigns[:financial_transactions].all?{|ft| ft.rental.id == @rental.id}).to be true
+      get :show, params: { id: @rental }
+      expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
     end
   end
 
+  # unless i'm mistaken this is not an action anymore, just a partial
+  # describe 'GET #transaction_detail' do
+  # it 'assigns a requested rental to @rental' do
+  # get :transaction_detail, params: { id: @rental.id }
+  # expect(assigns[:rental]).to eq @rental
+  # end
+
+  # it 'all requested financial transactions should contain the same rental as @rental' do
+  # get :transaction_detail, params: { id: @rental }
+  # expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
+  # end
+  # end
+
   describe 'PUT #update' do
-    it 'properly checks out a rental' do
+    it 'properly picks up a rental' do
       expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check Out' }
+        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Pick Up' }
       end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.check_out?).to be true
-      expect(@rental.reload.checked_out?).to be true
+      expect(DigitalSignature.last.pickup?).to be true
+      expect(@rental.reload.picked_up?).to be true
     end
 
-    it 'properly checks in a rental' do
+    it 'properly drops off a rental' do
       @rental.pickup
       expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Check In' }
+        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
       end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.check_in?).to be true
-      expect(@rental.reload.checked_in?).to be true
+      expect(DigitalSignature.last.drop_off?).to be true
+      expect(@rental.reload.dropped_off?).to be true
     end
 
     it 'properly processes a no show' do

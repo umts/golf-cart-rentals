@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 class IncurredIncidentalsController < ApplicationController
-  before_action :set_incurred_incidental, only: [:edit, :update, :destroy, :show]
+  before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
+
+  def show
+    @incurred_incidental = IncurredIncidental.find(params[:id])
+  end
 
   def index
     @incurred_incidentals = IncurredIncidental.all
@@ -10,40 +14,44 @@ class IncurredIncidentalsController < ApplicationController
 
   def new
     @incurred_incidental = IncurredIncidental.new
-  end
-
-  def edit
-  end
-
-  def show
+    @rental = Rental.find(params[:rental_id])
   end
 
   def create
-    @incurred_incidental = IncurredIncidental.new(incurred_incidental_params)
-
-    if @incurred_incidental.save
-      flash[:success] = 'New Incurred Incidental Was Successfully Created'
-      redirect_to @incurred_incidental
-    else
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
+    @incurred_incidental = IncurredIncidental.new(incidental_params)
+    respond_to do |format|
+      if @incurred_incidental.save
+        format.html do
+          redirect_to incurred_incidental_path(@incurred_incidental)
+          flash[:success] = 'Incidental successfully created'
+        end
+      else
+        format.html do
+          render :new
+          flash[:error] = 'Failed to update Incidental'
+        end
+      end
     end
+  end
+
+  def edit
+    @rental = @incurred_incidental.rental
   end
 
   def update
-    if @incurred_incidental.update(incurred_incidental_params)
-      flash[:success] = 'Incurred Incidental Was Successfully Updated'
-      redirect_to @incurred_incidental
-    else
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :edit
+    respond_to do |format|
+      if @incurred_incidental.update(incidental_params)
+        format.html do
+          redirect_to incurred_incidental_path(@incurred_incidental)
+          flash[:success] = 'Incidental successfully updated'
+        end
+      else
+        format.html do
+          render :edit
+          flash[:error] = 'Failed to update Incidental'
+        end
+      end
     end
-  end
-
-  def destroy
-    @incurred_incidental.destroy
-    flash[:success] = 'Incurred Incidental Was Successfully Deleted'
-    redirect_to incurred_incidental_url
   end
 
   private
@@ -60,7 +68,7 @@ class IncurredIncidentalsController < ApplicationController
     @rentals = Rental.all
   end
 
-  def incurred_incidental_params
-    params.require(:incurred_incidental).permit(:incidental_type_id, :rental_id, :times_modified)
+  def incidental_params
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
   end
 end
