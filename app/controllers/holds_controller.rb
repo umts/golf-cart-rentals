@@ -40,21 +40,21 @@ class HoldsController < ApplicationController
     end
   end
 
-  def destroy
-    @hold.destroy
-    flash[:success] = 'Hold Was Successfully Deleted'
+  def end_hold
+    @hold.unreserve_hold
+    flash[:success] = 'Hold Was Successfully Resolved'
     redirect_to holds_url
   end
 
   private
 
+  def set_hold
+    @hold = Hold.find(params[:id])
+  end
+
   def hold_params
     item_type_id = Item.find(params[:hold][:item_id]).item_type_id
     params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
-  end
-
-  def set_hold
-    @hold = Hold.find(params[:id])
   end
 
   def flash_errors
