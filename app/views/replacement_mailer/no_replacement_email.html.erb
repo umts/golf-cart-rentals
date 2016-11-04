@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+    <p>
+      This is a notification that your rental <%= @rental.basic_info %> has been put on hold by Parking services for the following reason:
+    </p>
+    <p>
+      <%= @hold.hold_reason %>
+    </p>
+    <p>
+      Unfortunately, there is no other cart available for replacement. Please call Parking Services for more infor. %>
+    </p>
+  </body>
+</html>
