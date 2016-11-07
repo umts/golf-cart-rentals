@@ -40,9 +40,13 @@ class HoldsController < ApplicationController
     end
   end
 
-  def end_hold
-    @hold.unreserve_hold
-    flash[:success] = 'Hold Was Successfully Resolved'
+  def lift_hold
+    if @hold.unreserve_hold
+      flash[:success] = 'Hold Was Successfully Resolved'
+    else
+      flash[:warning] = 'Error lifting Hold: '
+      flash_errors
+    end
     redirect_to holds_url
   end
 

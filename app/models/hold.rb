@@ -30,9 +30,17 @@ class Hold < ActiveRecord::Base
 
   def reserve_hold
     Inventory.update_item(item.uuid, reservable: false)
+    return true
+  rescue
+    errors.add(:reservable, "error. Failed to create Hold")
+    return false
   end
 
   def unreserve_hold
     Inventory.update_item(item.uuid, reservable: true)
+    return true
+  rescue
+    errors.add(:reservable, "error. Failed to lift Hold")
+    return false
   end
 end
