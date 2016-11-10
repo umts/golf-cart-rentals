@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class HoldsController < ApplicationController
-  before_action :set_hold, only: [:show, :edit, :update, :destroy]
+  before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
   def show
   end
@@ -40,8 +40,8 @@ class HoldsController < ApplicationController
     end
   end
 
-  def lift_hold
-    if @hold.unreserve_hold
+  def lift
+    if @hold.lift_hold
       flash[:success] = 'Hold Was Successfully Resolved'
     else
       flash[:warning] = 'Error lifting Hold: '

@@ -9,11 +9,10 @@ class Hold < ActiveRecord::Base
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
   def check_conflicting_rentals
-    conflicting_rentals = Rental.where('start_time >= :start_date AND end_time <= :end_date',
-                                        start_date: start_time, end_date: end_time)
+    conflicting_rentals = Rental.where('start_time >= :hold_start_time AND end_time <= :hold_end_time',
+                                        hold_start_time: start_time, hold_end_time: end_time)
     conflicting_rentals.each { |r| replace_rental(r) } if conflicting_rentals.size > 0
-
-    reserve_hold
+    start_hold
   end
 
   def replace_rental(curr_rental)
@@ -22,13 +21,14 @@ class Hold < ActiveRecord::Base
                                start_time: curr_rental.start_time, end_time: curr_rental.end_time)
 
     curr_rental.cancel
-    ReplacementMailer.replacement_email(curr_rental.user, this, curr_rental, new_rental)
+    curr_rental.save
+    ReplacementMailer.replacement_email(curr_rental.user, self, curr_rental, new_rental).deliver_now
   rescue
     errors.add(:item_id, ": failed to replace existing reservations for this item")
-    ReplacementMailer.no_replacement_email(curr_rental.user, this, curr_rental)
+    ReplacementMailer.no_replacement_email(curr_rental.user, self, curr_rental).deliver_now
   end
 
-  def reserve_hold
+  def start_hold
     Inventory.update_item(item.uuid, reservable: false)
     return true
   rescue
@@ -36,7 +36,7 @@ class Hold < ActiveRecord::Base
     return false
   end
 
-  def unreserve_hold
+  def lift_hold
     Inventory.update_item(item.uuid, reservable: true)
     return true
   rescue

@@ -25,7 +25,7 @@
         <td class='min-width'>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), hold, class: "btn btn-xs btn-success" %>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_hold_path(hold), class: "btn btn-xs btn-primary" %>
-            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-ban-circle")+"Delete"), hold, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-check")+" Lift Hold"), lift_hold_path(hold), class: "btn btn-xs btn-warning" %>
         </td>
       </tr>
     <% end %>
