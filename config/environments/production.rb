@@ -92,7 +92,7 @@ Rails.application.configure do
     :exception_recipients => %w{parking-it@umass.edu}
   },
   :slack => {
-    :webhook_url => "[Your webhook url]",
+    :webhook_url => "https://hooks.slack.com/services/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",
     :channel => "#probably-exceptions",
     :additional_parameters => {
       :icon_url => "http://image.jpg",
