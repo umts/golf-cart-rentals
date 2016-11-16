@@ -59,5 +59,10 @@ $(document).ready( function () {
     alert('Warning! You are overriding the system defaults.');
   });
 
+  $("#userName").keypress(function (key) {
+    if(key.which === 13) {
+      $("#user_search").click();
+    }
+  });
 
 });
