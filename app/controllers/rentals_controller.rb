@@ -22,6 +22,12 @@ class RentalsController < ApplicationController
   def show
   end
 
+  # GET /rentals/search_users?q
+  def search_users
+    @users = User.ransack(params[:user_search_query])
+    render partial: "search_users_table", locals: { users: @users.result }
+  end
+
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
   def cost
     start_time = params[:start_time]

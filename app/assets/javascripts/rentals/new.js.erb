@@ -40,6 +40,17 @@ function costCalculation(){
   }
 }
 
+function userResultHandleClick(e) {
+  var userId = e.currentTarget.id.substr(10); //select the user id
+  $("#user_id").val(userId); //set user id
+  
+  var row = $(e.currentTarget.parentNode.parentNode); //select the row
+  var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
+  $("#userSearchQuery").val(name); //set the user to the full name
+
+  $("#modalSearchResults").modal('toggle'); //close modal
+}
+
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
@@ -58,11 +69,29 @@ $(document).ready( function () {
   $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
-
-  $("#userName").keypress(function (key) {
+  
+  //enter key performs click on search
+  $("#userSearchQuery").keypress(function (key) {
     if(key.which === 13) {
-      $("#user_search").click();
+      $("#userSearchAction").click();
     }
+  });
+
+  $("#userSearchAction").click( function () {
+    $.ajax({
+      url: Routes.rentals_search_users_path(),
+      dataType: "html",
+      data: { user_search_query: $("#userSearchQuery").val() },
+      success: function (data) {
+        $("#userResults").html(data); //put content in the modal
+        
+        //attach event listeners
+        $(".userResult").click(userResultHandleClick);
+      },
+      error: function () {
+        alert("Failed to retreive users.");
+      }
+    });
   });
 
 });
