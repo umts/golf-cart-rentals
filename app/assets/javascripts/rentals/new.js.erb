@@ -3,7 +3,7 @@ function isEmpty(str) {
 }
 
 function getActiveTab() {
-  return $("div.tap-pane.active").attr('id');
+  return $("div.tab-pane.active").attr('id');
 }
 
 function costCalculation(){
@@ -46,11 +46,11 @@ function costCalculation(){
 
 function userResultHandleClick(e) {
   var userId = e.currentTarget.id.substr(10); //select the user id
-  $("#user_id").val(userId); //set user id
+  getActiveTab() == "single_day" ? $("#single_user_id").val(userId) : $("#multiple_user_id").val(userId); //set user id
   
   var row = $(e.currentTarget.parentNode.parentNode); //select the row
   var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
-  $("#userSearchQuery").val(name); //set the user to the full name
+  getActiveTab() == "single_day" ? $("#single_userSearchQuery").val(name) ? $("#multiple_userSearchQuery").val(name); //set the user to the full name
 
   $("#modalSearchResults").modal('toggle'); //close modal
 }
