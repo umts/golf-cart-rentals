@@ -20,8 +20,11 @@ class User < ActiveRecord::Base
 
   ransacker :full_name do |parent|
     Arel::Nodes::InfixOperation.new('||',
-                                    Arel::Nodes::InfixOperation.new('||', parent.table[:first_name], ' '),
-                                    parent.table[:last_name])
+      Arel::Nodes::InfixOperation.new('||',
+        parent.table[:first_name], ' '
+      ),
+      parent.table[:last_name]
+    )
   end
 
   def has_permission?(controller, action, id = nil)
