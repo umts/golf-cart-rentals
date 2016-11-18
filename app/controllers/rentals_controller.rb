@@ -24,9 +24,17 @@ class RentalsController < ApplicationController
 
   # GET /rentals/search_users?q
   def search_users
-    @users = User.ransack(first_name_or_last_name_or_email_cont: params[:user_search_query])
+    # prioritiezed by order queries
+    query_priority = %i( email_cont spire_id_cont first_or_last_name_cont ) 
 
-    render partial: "search_users_table", locals: { users: @users.result }
+    query_priority.each do |q|
+      @users = User.ransack(q => params[:user_search_query]).result
+      break if @users.present?
+    end
+    
+    @users = User.all if @users.blank? # pass them everything
+
+    render partial: "search_users_table", locals: { users: @users }
   end
 
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
