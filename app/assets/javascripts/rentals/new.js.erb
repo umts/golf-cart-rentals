@@ -2,8 +2,12 @@ function isEmpty(str) {
   return (!str || 0 === str.length);
 }
 
+function getActiveTab() {
+  return $("div.tap-pane.active").attr('id');
+}
+
 function costCalculation(){
-  var activeTab = $("div.active").attr('id');
+  var activeTab = getActiveTab();
   var raw_item_type = null;
   var raw_start_time = null;
   var raw_end_time = null;
@@ -51,9 +55,30 @@ function userResultHandleClick(e) {
   $("#modalSearchResults").modal('toggle'); //close modal
 }
 
+function modalSearchResultsHandleOpen() {
+  //select query based on tab
+  var query = getActiveTab() == "single_day" ? $("#single_userSearchQuery").val() : $("#multiple_userSearchQuery").val(); 
+    
+  $.ajax({
+    url: Routes.rentals_search_users_path(),
+    dataType: "html",
+    data: { user_search_query: query },
+    success: function (data) {
+      $("#userResults").html(data); //put content in the modal
+      
+      //attach event listeners to results
+      $(".userResult").click(userResultHandleClick);
+    },
+    error: function () {
+      alert("Failed to retreive users.");
+    }
+  });
+}
+
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
+  // ~ cost calcultion hooks
   $('input.cost-dependent').on('blur', function () {
     costCalculation();
   });
@@ -69,29 +94,16 @@ $(document).ready( function () {
   $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
-  
-  //enter key performs click on search
-  $("#userSearchQuery").keypress(function (key) {
+
+  // ~ user searching
+
+  //enter key performs click on search for ease of use
+  $(".userSearchQuery").keypress(function (key) {
     if(key.which === 13) {
-      $("#userSearchAction").click();
+      $("#modalSearchResults").modal('toggle'); //open modal
     }
   });
 
-  $("#userSearchAction").click( function () {
-    $.ajax({
-      url: Routes.rentals_search_users_path(),
-      dataType: "html",
-      data: { user_search_query: $("#userSearchQuery").val() },
-      success: function (data) {
-        $("#userResults").html(data); //put content in the modal
-        
-        //attach event listeners
-        $(".userResult").click(userResultHandleClick);
-      },
-      error: function () {
-        alert("Failed to retreive users.");
-      }
-    });
-  });
-
+  //bind search to modal open
+  $("#modalSearchResults").on("shown.bs.modal", modalSearchResultsHandleOpen);
 });
