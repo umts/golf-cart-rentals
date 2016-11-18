@@ -24,7 +24,8 @@ class RentalsController < ApplicationController
 
   # GET /rentals/search_users?q
   def search_users
-    @users = User.ransack(params[:user_search_query])
+    @users = User.ransack(first_name_or_last_name_or_email_cont: params[:user_search_query])
+
     render partial: "search_users_table", locals: { users: @users.result }
   end
 

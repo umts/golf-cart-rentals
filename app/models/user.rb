@@ -18,6 +18,12 @@ class User < ActiveRecord::Base
     [first_name, last_name].join ' '
   end
 
+  ransacker :full_name do |parent|
+    Arel::Nodes::InfixOperation.new('||',
+                                    Arel::Nodes::InfixOperation.new('||', parent.table[:first_name], ' '),
+                                    parent.table[:last_name])
+  end
+
   def has_permission?(controller, action, id = nil)
     return false unless active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
