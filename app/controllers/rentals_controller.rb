@@ -25,9 +25,8 @@ class RentalsController < ApplicationController
   # GET /rentals/search_users?q
   def search_users
     # prioritiezed by order queries
-    query_priority = %i( email_cont spire_id_eq first_name_or_last_name_cont ) 
+    query_priority = %i( email_cont spire_id_eq full_name_cont first_name_or_last_name_cont ) 
 
-    binding.pry
     query_priority.each do |q|
       @users = User.ransack(q => params[:user_search_query]).result
       break if @users.present?
