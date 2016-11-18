@@ -50,7 +50,7 @@ function userResultHandleClick(e) {
   
   var row = $(e.currentTarget.parentNode.parentNode); //select the row
   var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
-  getActiveTab() == "single_day" ? $("#single_userSearchQuery").val(name) ? $("#multiple_userSearchQuery").val(name); //set the user to the full name
+  getActiveTab() == "single_day" ? $("#single_userSearchQuery").val(name) : $("#multiple_userSearchQuery").val(name); //set the user to the full name
 
   $("#modalSearchResults").modal('toggle'); //close modal
 }
