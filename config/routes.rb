@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
   resources :incurred_incidentals
+  reousrces :damage_reports
   resources :reservations
   resources :financial_transaction, except: %i(destroy update)
   resources :items do
