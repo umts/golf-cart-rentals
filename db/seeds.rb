@@ -20,7 +20,7 @@ if Rails.env.development?
   puts 'Creating users'
   users = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'users.yml'))
   users.each do |user|
-    u = User.where(spire_id: user['spire_id']).first_or_create user
+    User.where(spire_id: user['spire_id']).first_or_create user
   end
 
   puts 'Putting users in admin group'
@@ -50,7 +50,7 @@ if Rails.env.development?
     end
 
     item_type[:uuid] = inv_item_types[item_type['name']]
-    type = ItemType.where(item_type).first_or_create
+    ItemType.where(item_type).first_or_create
   end
 
   # Could have done in the above loop, but that was getting a bit messy
@@ -92,7 +92,7 @@ puts '*****************************'
 puts 'Updating permissions'
 admin = Group.find_by name: 'admin'
 Permission.update_permissions_table
-Permission.create(controller: 'rentals', action: 'cost_adjustment')
+Permission.create(controller: 'rentals', action: 'cost_adjustment') # this is a special permission that isnt really a controller action
 
 puts 'Giving all permissions to admin'
 Permission.all.each do |p|

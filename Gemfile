@@ -66,6 +66,7 @@ gem 'js-routes'
 # gem 'capistrano-rails', '~> 1.1'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
+gem 'unicode_utils', '~> 1.4'
 
 # permanent records
 gem 'permanent_records'

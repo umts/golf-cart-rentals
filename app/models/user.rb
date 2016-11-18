@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+include UnicodeUtils
 class User < ActiveRecord::Base
   has_paper_trail
 
@@ -17,14 +18,11 @@ class User < ActiveRecord::Base
   def full_name
     [first_name, last_name].join ' '
   end
-
-  ransacker :full_name do |parent|
-    Arel::Nodes::InfixOperation.new('||',
-      Arel::Nodes::InfixOperation.new('||',
-        parent.table[:first_name], ' '
-      ),
-      parent.table[:last_name]
-    )
+  
+  ransacker :full_name, formatter: proc { |v| UnicodeUtils.downcase(v) } do |parent|
+    Arel::Nodes::NamedFunction.new('LOWER',
+      [Arel::Nodes::NamedFunction.new('concat_ws',
+        [Arel::Nodes.build_quoted(' '), parent.table[:first_name], parent.table[:last_name]])])
   end
 
   def has_permission?(controller, action, id = nil)
