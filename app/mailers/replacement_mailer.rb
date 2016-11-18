@@ -1,5 +1,4 @@
 class ReplacementMailer < ActionMailer::Base
-
   def replacement_email(user, hold, old_rental, new_rental)
     @user = user
     @hold = hold

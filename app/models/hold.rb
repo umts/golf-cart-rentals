@@ -10,8 +10,9 @@ class Hold < ActiveRecord::Base
 
   def check_conflicting_rentals
     conflicting_rentals = Rental.where('start_time >= :hold_start_time AND end_time <= :hold_end_time',
-                                        hold_start_time: start_time, hold_end_time: end_time)
-    conflicting_rentals.each { |r| replace_rental(r) } if conflicting_rentals.size > 0
+                                        hold_start_time: start_time,
+                                        hold_end_time: end_time)
+    conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
 
@@ -24,7 +25,7 @@ class Hold < ActiveRecord::Base
     curr_rental.save
     ReplacementMailer.replacement_email(curr_rental.user, self, curr_rental, new_rental).deliver_now
   rescue
-    errors.add(:item_id, ": failed to replace existing reservations for this item")
+    errors.add(:item_id, ': failed to replace existing reservations for this item')
     ReplacementMailer.no_replacement_email(curr_rental.user, self, curr_rental).deliver_now
   end
 
@@ -32,7 +33,7 @@ class Hold < ActiveRecord::Base
     Inventory.update_item(item.uuid, reservable: false)
     return true
   rescue
-    errors.add(:reservable, "error. Failed to create Hold")
+    errors.add(:reservable, 'error. Failed to create Hold')
     return false
   end
 
@@ -40,7 +41,7 @@ class Hold < ActiveRecord::Base
     Inventory.update_item(item.uuid, reservable: true)
     return true
   rescue
-    errors.add(:reservable, "error. Failed to lift Hold")
+    errors.add(:reservable, 'error. Failed to lift Hold')
     return false
   end
 end
