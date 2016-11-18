@@ -25,7 +25,7 @@ class Hold < ActiveRecord::Base
     curr_rental.save
     ReplacementMailer.replacement_email(curr_rental.user, self, curr_rental, new_rental).deliver_now
   rescue
-    errors.add(:item_id, ': failed to replace existing reservations for this item')
+    errors.add(:item_id, ': failed to replace existing rentals for this item')
     ReplacementMailer.no_replacement_email(curr_rental.user, self, curr_rental).deliver_now
   end
 
