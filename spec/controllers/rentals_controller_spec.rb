@@ -251,7 +251,7 @@ describe RentalsController do
     end
 
     it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
-      create_list :user, 20
+      create_list :user, 8
       get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
       expect(assigns[:users]).to eq(User.all)
     end
@@ -267,6 +267,10 @@ describe RentalsController do
       two = create :user, first_name: 'billy' # email will not be related to billy
       get :search_users, params: { user_search_query: 'billy' }
       expect(assigns[:users]).to eq([one, two]) # will be exact match
+    end
+
+    it 'searches by department' do
+      skip('remember to implement this')
     end
   end
 end
