@@ -246,7 +246,7 @@ describe RentalsController do
   end
 
   describe 'GET #search_users' do
-    before(:each) do 
+    before(:each) do
       User.destroy_all
     end
 
@@ -257,16 +257,16 @@ describe RentalsController do
     end
 
     it 'finds by spire' do
-      this_one = create :user, spire_id: 86753091
-      get :search_users, params: { user_search_query: "86753091" } # should be unique enough
+      this_one = create :user, spire_id: 86_753_091
+      get :search_users, params: { user_search_query: '86753091' } # should be unique enough
       expect(assigns[:users]).to eq([this_one]) # will be exact match
     end
 
     it 'finds from multiple catagories' do
       one = create :user, email: 'billy@example.com' # name will not be related to billy
       two = create :user, first_name: 'billy' # email will not be related to billy
-      get :search_users, params: { user_search_query: "billy" } 
-      expect(assigns[:users]).to eq([one,two]) # will be exact match
+      get :search_users, params: { user_search_query: 'billy' }
+      expect(assigns[:users]).to eq([one, two]) # will be exact match
     end
   end
 end
