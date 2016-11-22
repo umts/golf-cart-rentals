@@ -27,10 +27,11 @@ class RentalsController < ApplicationController
   def search_users
     # prioritiezed by order queries
     query_priority = %i(email_cont spire_id_eq full_name_cont)
+    @users = []
 
     query_priority.each do |q|
-      @users = User.ransack(q => params[:user_search_query]).result
-      break if @users.present?
+      @users += User.ransack(q => params[:user_search_query]).result
+      # break if @users.present? # maybe just join all the lists
     end
 
     # could be a department too

@@ -246,9 +246,20 @@ describe RentalsController do
   end
 
   describe 'GET #search_users' do
-    it 'searches users by query' do # dynamically searches by email, spire, fullname and department (in that order)
-      get :search_users, params: { user_search_query: 'stuff' }
-      expect(response)
+    before(:each) do 
+      User.destroy_all
+    end
+
+    it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
+      create_list :user, 20
+      get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
+      expect(assigns[:users]).to eq(User.all)
+    end
+
+    it 'finds by spire' do
+      this_one = create :user, spire_id: 86753091
+      get :search_users, params: { user_search_query: "86753091" } # should be unique enough
+      expect(assigns[:users]).to eq([this_one])
     end
   end
 end
