@@ -41,7 +41,8 @@ class RentalsController < ApplicationController
 
     @users = User.all if @users.blank? # if we couldnt find anything pass them everything
 
-    render partial: 'search_users_table', locals: { users: @users.paginate(page: params[:page], per_page: 8) }
+    @users = @users.paginate(page: params[:page], per_page: 8)
+    render partial: 'search_users_table'
   end
 
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
