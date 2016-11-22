@@ -79,7 +79,7 @@ function ajaxUserSearch(pageNo) {
 
 function modalSearchResultsFormatPaginationLinks(undefined, link) {
   link = $(link); //jquery that
-  var pageNo = link.attr("href").split("&")[0].split("?")[1].split("=")[1]; //works universially
+  var pageNo = link.attr("href").split("&")[0].split("?")[1].split("=")[1]; //works universially to pull pageNo out of link
   link.attr("href", "#"); //remove navigation
   link.click(function () { ajaxUserSearch(pageNo); } ); 
 }
@@ -103,6 +103,7 @@ $(document).ready( function () {
   $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
+
 
   // ~ user searching
 
