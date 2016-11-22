@@ -5,7 +5,7 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
-  before_action :set_users, only: [:index, :new, :processing, :transform]
+  before_action :set_users, only: [:index, :new, :processing, :transform, :create]
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
@@ -86,18 +86,22 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params)
 
-    if @rental.save
+    @start_date = params['start_date'] || Time.zone.today
+    if @rental.create_reservation && @rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
         @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
         @financial_transaction.amount = params[:amount]
         @financial_transaction.save
       end # if they dont have permission ignore it and we will use default pricing
-
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      if @rental.item_id.nil? && @rental.reservation_id.nil?
+        flash[:warning] = 'This item type is not available for the specified dates'
+      else
+        @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      end
       render :new
     end
   end
@@ -106,6 +110,7 @@ class RentalsController < ApplicationController
   def destroy
     if @rental.may_cancel?
       @rental.cancel!
+      @rental.delete_reservation
       flash[:success] = 'Rental canceled.'
     elsif @rental.canceled?
       flash[:warning] = 'This rental is already canceled'

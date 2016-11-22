@@ -1,11 +1,8 @@
 # frozen_string_literal: true
-require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
 
 SimpleCov.start
-
-CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!

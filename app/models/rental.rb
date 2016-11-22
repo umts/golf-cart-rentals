@@ -8,8 +8,6 @@ class Rental < ActiveRecord::Base
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  before_create :create_reservation
-  before_destroy :delete_reservation
   after_create :create_financial_transaction
 
   belongs_to :user
