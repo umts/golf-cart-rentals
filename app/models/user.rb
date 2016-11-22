@@ -18,11 +18,11 @@ class User < ActiveRecord::Base
   def full_name
     [first_name, last_name].join ' '
   end
-  
+
   ransacker :full_name, formatter: proc { |v| UnicodeUtils.downcase(v) } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',
-      [Arel::Nodes::NamedFunction.new('concat_ws',
-        [Arel::Nodes.build_quoted(' '), parent.table[:first_name], parent.table[:last_name]])])
+                                   [Arel::Nodes::NamedFunction.new('concat_ws',
+                                                                   [Arel::Nodes.build_quoted(' '), parent.table[:first_name], parent.table[:last_name]])])
   end
 
   def has_permission?(controller, action, id = nil)

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'will_paginate/array' 
+require 'will_paginate/array'
 class RentalsController < ApplicationController
   @per_page = 10
 
@@ -26,21 +26,21 @@ class RentalsController < ApplicationController
   # GET /rentals/search_users?q
   def search_users
     # prioritiezed by order queries
-    query_priority = %i( email_cont spire_id_eq full_name_cont) 
+    query_priority = %i(email_cont spire_id_eq full_name_cont)
 
     query_priority.each do |q|
       @users = User.ransack(q => params[:user_search_query]).result
       break if @users.present?
     end
-    
+
     # could be a department too
-    @departments = Department.ransack(name_cont: params[:user_search_query]).result.map { |d| d.users }.flatten
+    @departments = Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
     @users += @departments # join users with departments
     @users.uniq! # remove duplicates
 
     @users = User.all if @users.blank? # if we couldnt find anything pass them everything
 
-    render partial: "search_users_table", locals: { users: @users.paginate(page: params[:page], per_page: 8) }
+    render partial: 'search_users_table', locals: { users: @users.paginate(page: params[:page], per_page: 8) }
   end
 
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1

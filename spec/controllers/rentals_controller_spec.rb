@@ -244,4 +244,11 @@ describe RentalsController do
       put :update, params: { id: @rental.id, rental: { start_time: @rental.start_time + 1.hour } }
     end
   end
+
+  describe 'GET #search_users' do
+    it 'searches users by query' do # dynamically searches by email, spire, fullname and department (in that order)
+      get :search_users, params: { user_search_query: 'stuff' }
+      expect(response)
+    end
+  end
 end
