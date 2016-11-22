@@ -251,13 +251,13 @@ describe RentalsController do
     end
 
     it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
-      create_list :user, 8
+      create_list :user, 8 # can only do 8 because of pagination
       get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
-      expect(assigns[:users]).to eq(User.all)
+      expect(assigns[:users]).to eq(User.all.to_a)
     end
 
     it 'finds by spire' do
-      this_one = create :user, spire_id: 86_753_091
+      this_one = create :user, spire_id: 86_753_091 # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
       get :search_users, params: { user_search_query: '86753091' } # should be unique enough
       expect(assigns[:users]).to eq([this_one]) # will be exact match
     end
@@ -270,7 +270,9 @@ describe RentalsController do
     end
 
     it 'searches by department' do
-      skip('remember to implement this')
+      u = create :user, department: create(:department, name: 'transit') 
+      get :search_users, params: { user_search_query: 'transit' }
+      expect(assigns[:users]).to eq([u]) # will be exact match
     end
   end
 end
