@@ -55,24 +55,33 @@ function userResultHandleClick(e) {
   $("#modalSearchResults").modal('toggle'); //close modal
 }
 
-function modalSearchResultsHandleOpen() {
-  //select query based on tab
-  var query = getActiveTab() == "single_day" ? $("#single_userSearchQuery").val() : $("#multiple_userSearchQuery").val(); 
-    
+function ajaxUserSearch(pageNo) {
+  var query = getActiveTab() == "single_day" ? $("#single_userSearchQuery").val() : $("#multiple_userSearchQuery").val();
+  var params = $.extend({user_search_query: query}, pageNo ? {page: pageNo} : {page: "1"} );
   $.ajax({
     url: Routes.rentals_search_users_path(),
     dataType: "html",
-    data: { user_search_query: query },
+    data: params,
     success: function (data) {
       $("#userResults").html(data); //put content in the modal
       
       //attach event listeners to results
       $(".userResult").click(userResultHandleClick);
+
+      //need to reformat links
+      $("#userResults .pagination a").each(modalSearchResultsFormatPaginationLinks);
     },
     error: function () {
       alert("Failed to retreive users.");
     }
   });
+}
+
+function modalSearchResultsFormatPaginationLinks(undefined, link) {
+  link = $(link); //jquery that
+  var pageNo = link.attr("href").split("&")[0].split("?")[1].split("=")[1]; //works universially
+  link.attr("href", "#"); //remove navigation
+  link.click(function () { ajaxUserSearch(pageNo); } ); 
 }
 
 $(document).ready( function () {
@@ -105,5 +114,5 @@ $(document).ready( function () {
   });
 
   //bind search to modal open
-  $("#modalSearchResults").on("shown.bs.modal", modalSearchResultsHandleOpen);
+  $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 });
