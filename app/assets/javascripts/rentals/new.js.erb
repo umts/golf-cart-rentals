@@ -18,9 +18,11 @@ function costCalculation(){
   var raw_start_time = null;
   var raw_end_time = null;
   var amount = null;
+  var prev_day = null;
 
   raw_item_type = $('#multiple_item_type_id').val();
   raw_start_time = $('#multiple_start_time').val();
+  raw_start_time_l = $('#multiple_start_time');
   raw_end_time = $('#multiple_end_time').val();
   amount = $('#multiple_amount');
   date_range = $('#date_range');
@@ -28,21 +30,26 @@ function costCalculation(){
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
     if(new Date(raw_start_time) > new Date(raw_end_time)) {
       alert('Pickup Date must occur before Dropoff date');
-    } else {
-      $.ajax({
-        url: Routes.rentals_cost_path(),
-        dataType: 'json',
-        data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
-        success: function (data) {
-          amount.val(data);
-          date_range.val(days_between(raw_start_time, raw_end_time));
-        },
-        error: function () {
-          alert('failed to retreive rental cost');
-        }
-      });
+      prev_day = new Date(raw_end_time);
+      prev_day.setDate(prev_day.getDate());
+      prev_day = prev_day.getFullYear() + '-' + (prev_day.getMonth() + 1) + '-' + prev_day.getDate();
+      raw_start_time_l.val(prev_day);
+      raw_start_time = raw_start_time_l.val();
     }
-  }
+
+    $.ajax({
+      url: Routes.rentals_cost_path(),
+      dataType: 'json',
+      data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
+      success: function (data) {
+        amount.val(data);
+        date_range.val(days_between(raw_start_time, raw_end_time));
+      },
+      error: function () {
+        alert('failed to retreive rental cost');
+      }
+    });
+   }
 }
 
 $(document).ready( function () {
