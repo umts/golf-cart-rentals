@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class HoldsController < ApplicationController
   before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
@@ -14,10 +13,10 @@ class HoldsController < ApplicationController
   end
 
   def create
-    @hold = Hold.new(hold_params)
+    @hold = Hold.new(hold_params.merge(active?: true))
 
     if @hold.save
-      flash[:success] = 'Hold Was Successfully Created'
+      flash[:success] = 'Hold Successfully Created'
       redirect_to @hold
     else
       flash[:warning] = 'Error creating Hold: '
@@ -31,7 +30,7 @@ class HoldsController < ApplicationController
 
   def update
     if @hold.update(hold_params)
-      flash[:success] = 'Hold Was Successfully Updated'
+      flash[:success] = 'Hold Successfully Updated'
       redirect_to @hold
     else
       flash[:warning] = 'Error updating Hold: '
@@ -42,7 +41,7 @@ class HoldsController < ApplicationController
 
   def lift
     if @hold.lift_hold
-      flash[:success] = 'Hold Was Successfully Resolved'
+      flash[:success] = 'Hold Successfully Resolved'
     else
       flash[:warning] = 'Error lifting Hold: '
       flash_errors
