@@ -35,13 +35,12 @@ class RentalsController < ApplicationController
     end
 
     # could be a department too
-    @departments = Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
-    @users += @departments # join users with departments
-    @users.uniq! # remove duplicates
+    ## join users with departments
+    @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
 
     @users = User.all if @users.blank? # if we couldnt find anything pass them everything
 
-    @users = @users.paginate(page: params[:page], per_page: 8)
+    @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
     render partial: 'search_users_table'
   end
 
