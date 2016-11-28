@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     @rentals = if @current_user.groups.where(name: 'admin').present?
                  Rental.all
                else
-                 @current_user.rentals
+                 Rental.where(renter: @current_user)
                end
     @item_types = ItemType.all
     categorize_rentals

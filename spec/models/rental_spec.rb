@@ -9,8 +9,11 @@ RSpec.describe Rental do
     it 'has a can build with alias date designations' do
       expect(build(:rental, start_date: Time.current, end_date: (Time.current + 1.day))).to be_valid
     end
-    it 'is invalid without a user_id' do
-      expect(build(:rental, user_id: nil)).not_to be_valid
+    it 'is invalid without a renter_id' do
+      expect(build(:rental, renter_id: nil)).not_to be_valid
+    end
+    it 'is invalid without a creator_id' do
+      expect(build(:rental, creator_id: nil)).not_to be_valid
     end
     it 'is invalid without an item_type_id' do
       expect(build(:rental, item_type_id: nil)).not_to be_valid

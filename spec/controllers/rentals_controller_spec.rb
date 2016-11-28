@@ -6,13 +6,13 @@ describe RentalsController do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
     rental[:item_id] = create(:item, name: 'TEST_ITEM')
-    rental[:user_id] = create(:user, first_name: 'Test2')
+    rental[:renter_id] = create(:user, first_name: 'Test2')
     rental
   end
 
   let(:invalid_create) do
     rental = attributes_for(:invalid_rental)
-    rental[:user_id] = create(:user, first_name: 'Test_User')
+    rental[:renter_id] = create(:user, first_name: 'Test_User')
     rental
   end
 
