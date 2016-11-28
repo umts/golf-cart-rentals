@@ -5,7 +5,8 @@ class Hold < ActiveRecord::Base
 
   after_save :check_conflicting_rentals
 
-  validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
+  validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, :active?, presence: true
+  validates :start_time, :end_time, date: { after: Date.current, message: 'must be after current date. ' }
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
   def check_conflicting_rentals
@@ -39,6 +40,7 @@ class Hold < ActiveRecord::Base
 
   def lift_hold
     Inventory.update_item(item.uuid, reservable: true)
+    update(active?: false)
     return true
   rescue
     errors.add(:reservable, 'error. Failed to lift Hold')
