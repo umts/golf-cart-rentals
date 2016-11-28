@@ -2,6 +2,16 @@ function isEmpty(str) {
   return (!str || 0 === str.length);
 }
 
+function days_between(sd, ed) {
+  var one_day=1000*60*60*24;
+  var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+  var startD = new Date(sd.replace(pattern,'$3-$2-$1')).getTime();
+  var endD = new Date(ed.replace(pattern,'$3-$2-$1')).getTime();
+  var diff_ms = endD - startD;
+
+  return Math.round(diff_ms/one_day)
+}
+
 function costCalculation(){
   var activeTab = $("div.active").attr('id');
   var raw_item_type = null;
@@ -9,17 +19,11 @@ function costCalculation(){
   var raw_end_time = null;
   var amount = null;
 
-  if(activeTab == "single_day") {
-    raw_item_type = $('#single_item_type_id').val();
-    raw_start_time = $('#single_start_time').val();
-    raw_end_time = $('#single_start_time').val(); <% #force it to be one day %>
-    amount = $('#single_amount');
-  } else { //must be on multiple tab
-    raw_item_type = $('#multiple_item_type_id').val();
-    raw_start_time = $('#multiple_start_time').val();
-    raw_end_time = $('#multiple_end_time').val();
-    amount = $('#multiple_amount');
-  }
+  raw_item_type = $('#multiple_item_type_id').val();
+  raw_start_time = $('#multiple_start_time').val();
+  raw_end_time = $('#multiple_end_time').val();
+  amount = $('#multiple_amount');
+  date_range = $('#date_range');
 
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
     if(new Date(raw_start_time) > new Date(raw_end_time)) {
@@ -31,6 +35,7 @@ function costCalculation(){
         data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
         success: function (data) {
           amount.val(data);
+          date_range.val(days_between(raw_start_time, raw_end_time));
         },
         error: function () {
           alert('failed to retreive rental cost');
@@ -58,4 +63,6 @@ $(document).ready( function () {
   $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
+
+  $("")
 });
