@@ -13,7 +13,6 @@ class Rental < ActiveRecord::Base
   belongs_to :creator, class_name: User 
   belongs_to :renter, class_name: User 
 
-
   belongs_to :department
   belongs_to :item_type
   belongs_to :item
@@ -21,7 +20,7 @@ class Rental < ActiveRecord::Base
   has_many :digital_signature
 
   validates :reservation_id, uniqueness: true
-  validates :user_id, :start_time, :end_time, :item_type_id, :department_id, presence: true
+  validates :renter_id, :creator_id, :start_time, :end_time, :item_type_id, :department_id, presence: true
   validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
 
