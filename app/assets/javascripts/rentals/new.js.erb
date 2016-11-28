@@ -48,21 +48,11 @@ function costCalculation(){
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
-  $('input.cost-dependent').on('blur', function () {
-    costCalculation();
-  });
-
-  $('select.cost-dependent').on('change', function () {
-    costCalculation();
-  });
-
-  $("a[href='#multiple_day']").on('shown.bs.tab', function () {
-    costCalculation();
-  });
-
   $("input[id$='amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
 
-  $("")
+  $( ".datepicker" ).datetimepicker().on('dp.change', function(ev) {
+       costCalculation();
+    });
 });
