@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 FactoryGirl.define do
   factory :rental do
-    association :user
+    association :creator, factory: :user
+    association :renter, factory: :user
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
     association :item, name: 'TEST_ITEM'
@@ -10,7 +11,8 @@ FactoryGirl.define do
   end
 
   factory :invalid_rental, parent: :rental do
-    association :user
+    association :creator, factory: :user
+    association :renter, factory: :user
     association :department
     association :item_type
     association :item
@@ -19,7 +21,8 @@ FactoryGirl.define do
   end
 
   factory :new_rental, parent: :rental do
-    user_id nil
+    creator_id nil
+    renter_id nil
     department_id nil
     item_type_id { create(:item_type).id }
     item_id { create(:item).id }
@@ -28,7 +31,8 @@ FactoryGirl.define do
   end
 
   factory :mock_rental, parent: :rental do
-    association :user
+    association :creator, factory: :user
+    association :renter, factory: :user
     department_id 0
     association :item_type
     association :item
