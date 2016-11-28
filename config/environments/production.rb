@@ -77,9 +77,27 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     address: 'mailhub.oit.umass.edu',
     port: 25
+  }
+
+  config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[ERROR] ",
+    :sender_address => %{"notifier" <parking@umass.edu>},
+    :exception_recipients => %w{parking-it@umass.edu}
+  },
+  :slack => {
+    :webhook_url => "https://hooks.slack.com/services/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",
+    :channel => "#probably-exceptions",
+    :additional_parameters => {
+      :icon_url => "http://image.jpg",
+      :mrkdwn => true
+    }
   }
 
   # Inventory api url

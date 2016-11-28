@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 20161128151244) do
     t.string   "rental_status",        null: false
     t.integer  "user_id",              null: false
     t.integer  "department_id",        null: false
-    t.string   "reservation_id",       null: false
+    t.string   "reservation_id"
     t.integer  "item_type_id",         null: false
     t.datetime "dropped_off_at"
     t.datetime "picked_up_at"
