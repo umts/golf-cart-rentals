@@ -270,7 +270,7 @@ describe RentalsController do
     end
 
     it 'searches by department' do
-      u = create :user, department: create(:department, name: 'transit') 
+      u = create :user, department: create(:department, name: 'transit')
       get :search_users, params: { user_search_query: 'transit' }
       expect(assigns[:users]).to eq([u]) # will be exact match
     end

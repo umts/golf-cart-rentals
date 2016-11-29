@@ -10,8 +10,8 @@ class Rental < ActiveRecord::Base
 
   after_create :create_financial_transaction
 
-  belongs_to :creator, class_name: User 
-  belongs_to :renter, class_name: User 
+  belongs_to :creator, class_name: User
+  belongs_to :renter, class_name: User
 
   belongs_to :department
   belongs_to :item_type
