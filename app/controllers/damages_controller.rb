@@ -5,17 +5,17 @@ class DamagesController < ApplicationController
   end
 
   def index
-    @damage_reports = DamageReport.all
+    @damages = Damage.all
   end
 
   def new
-    @damage_report = DamageReport.new
+    @damage = Damage.new
   end
 
   def create
-    @damage_report = DamageReport.create(damage_params)
+    @damage = Damage.create(damage_params)
 
-    if @damage_report.save
+    if @damage.save
 
     else
 
@@ -26,17 +26,17 @@ class DamagesController < ApplicationController
   end
 
   def update
-    
+
   end
 
   private
 
   def set_damage
-    @damage_report = DamageReport.find(params[:id])
+    @damage = Damage.find(params[:id])
   end
 
   def damage_params
-    require(:damage_report).permit(:type, :location, :repaired_by, :description,
+    require(:damage).permit(:type, :location, :repaired_by, :description,
                             :comments, :occurred_on, :repaired_on,
                             :estimated_cost, :actual_cost, :item, :rental)
   end
