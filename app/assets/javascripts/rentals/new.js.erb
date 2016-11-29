@@ -19,6 +19,7 @@ function costCalculation(){
   var raw_end_time = null;
   var amount = null;
   var prev_day = null;
+  var range = null;
 
   raw_item_type = $('#multiple_item_type_id').val();
   raw_start_time = $('#multiple_start_time').val();
@@ -37,13 +38,15 @@ function costCalculation(){
       raw_start_time = raw_start_time_l.val();
     }
 
+    range = days_between(raw_start_time, raw_end_time);
+
     $.ajax({
       url: Routes.rentals_cost_path(),
       dataType: 'json',
       data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
       success: function (data) {
         amount.val(data);
-        date_range.val(days_between(raw_start_time, raw_end_time));
+        date_range.val(range);
       },
       error: function () {
         alert('failed to retreive rental cost');
