@@ -13,12 +13,12 @@ function costCalculation(){
     raw_item_type = $('#single_item_type_id').val();
     raw_start_time = $('#single_start_time').val();
     raw_end_time = $('#single_start_time').val(); <% #force it to be one day %>
-    amount = $('#single_amount');
+    amount = $('#single_rental_amount');
   } else { //must be on multiple tab
     raw_item_type = $('#multiple_item_type_id').val();
     raw_start_time = $('#multiple_start_time').val();
     raw_end_time = $('#multiple_end_time').val();
-    amount = $('#multiple_amount');
+    amount = $('#multiple_rental_amount');
   }
 
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
@@ -55,7 +55,7 @@ $(document).ready( function () {
     costCalculation();
   });
 
-  $("input[id$='amount']").change(function () {
+  $("input[id$='rental_amount']").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
 });
