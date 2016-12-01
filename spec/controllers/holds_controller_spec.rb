@@ -46,12 +46,12 @@ describe HoldsController do
     context 'with valid attributes' do
       it 'saves the new hold in the database' do
         expect do
-          put :create, params: { hold: attributes_for(:hold, item_id: Item.first, item_type_id: ItemType.first) }
+          put :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
         end.to change(Hold, :count).by(1)
       end
 
       it 'redirects to the hold show page' do
-        post :create, params: { hold: attributes_for(:hold, item_id: Item.first, item_type_id: ItemType.first) }
+        post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
         expect(response).to redirect_to Hold.last
       end
     end
@@ -64,7 +64,7 @@ describe HoldsController do
       end
 
       it 're-renders the :new template' do
-        post :create, params: { hold: attributes_for(:invalid_date_time_hold, item_id: Item.first, item_type_id: ItemType.first) }
+        post :create, params: { hold: attributes_for(:invalid_date_time_hold, item_id: Item.first) }
         expect(response).to render_template :new
       end
     end
@@ -82,8 +82,6 @@ describe HoldsController do
     end
   end
 
-=begin
-# Commenting out. Update not working in specs for unknown reason.
   describe 'POST #update' do
     before(:each) do
       @hold = create(:hold)
@@ -92,9 +90,8 @@ describe HoldsController do
     it 'change hold with valid data' do
       new_hold_reason = 'NEW_TEST_HOLD_REASON'
       new_start_time = @hold.start_time + 1.day
-      new_end_time = @hold.end_time + 1.day
-      put :update, params: { id: @hold, hold: { hold_reason: new_hold_reason, start_time: new_start_time, end_time: new_end_time } }
-      binding.pry
+      new_end_time = @hold.end_time + 2.days
+      post :update, params: { id: @hold.id, hold: { hold_reason: new_hold_reason, start_time: new_start_time, end_time: new_end_time, item_id: Item.first } }
       @hold.reload
       expect(@hold.hold_reason).to eq(new_hold_reason)
       expect(@hold.start_time).to eq(new_start_time)
@@ -102,18 +99,22 @@ describe HoldsController do
     end
 
     it 'no change for hold with non valid data' do
-      old_start_time = @hold.end_time
-      old_end_time = @hold.start_time
-      put :update, params: { id: @hold, hold: { start_time: @hold.start_time + 10.days, end_time: @hold.end_time + 10.days } }
+      old_start_time = @hold.start_time
+      old_end_time = @hold.end_time
+      post :update, params: { id: @hold.id, hold: { start_time: @hold.start_time + 5.days, end_time: @hold.end_time + 1.day, item_id: Item.first } }
       @hold.reload
       expect(@hold.start_time).to eq(old_start_time)
       expect(@hold.end_time).to eq(old_end_time)
     end
 
-    it 're-renders the :edit template' do
-      put :update, params: { id: @hold, hold: { start_time: @hold.start_time + 10.days, end_time: @hold.end_time + 10.days } }
+    it 'redirects to :show page if updated Successfully' do
+      post :update, params: { id: @hold.id, hold: { start_time: @hold.start_time + 5.days, end_time: @hold.end_time + 10.days, item_id: Item.first } }
+      expect(response).to redirect_to Hold.last
+    end
+
+    it 'redirects to :edit template if update fails' do
+      post :update, params: { id: @hold.id, hold: { start_time: @hold.start_time + 5.days, end_time: @hold.end_time + 1.day, item_id: Item.first } }
       expect(response).to render_template :edit
     end
   end
-=end
 end
