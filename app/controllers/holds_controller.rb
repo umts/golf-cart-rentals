@@ -23,6 +23,7 @@ class HoldsController < ApplicationController
       flash_errors
       render :new
     end
+    @hold.check_conflicting_rentals
   end
 
   def edit
@@ -37,10 +38,11 @@ class HoldsController < ApplicationController
       flash_errors
       render :edit
     end
+    @hold.check_conflicting_rentals
   end
 
   def lift
-    if @hold.lift_hold
+    if @hold.update(active?: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
       flash[:warning] = 'Error lifting Hold: '
