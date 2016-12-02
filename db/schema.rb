@@ -34,14 +34,6 @@ ActiveRecord::Schema.define(version: 20161128151244) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "fee_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "base_amount",    limit: 24
-    t.float    "amount_per_day", limit: 24
-    t.integer  "item_type_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
   create_table "financial_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "rental_id"
     t.integer  "transactable_id"
@@ -92,7 +84,7 @@ ActiveRecord::Schema.define(version: 20161128151244) do
     t.integer  "item_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.boolean  "active?"
+    t.boolean  "active"
   end
 
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -114,12 +106,10 @@ ActiveRecord::Schema.define(version: 20161128151244) do
   end
 
   create_table "incurred_incidentals_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "incurred_incidental_id",               null: false
-    t.integer  "document_id",                          null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "filename"
-    t.binary   "file",                   limit: 65535
+    t.integer  "incurred_incidental_id", null: false
+    t.integer  "document_id",            null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.index ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
     t.index ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
     t.index ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
@@ -223,8 +213,6 @@ ActiveRecord::Schema.define(version: 20161128151244) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals", "incidental_types"
-  add_foreign_key "incurred_incidentals", "rentals"
   add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
   add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

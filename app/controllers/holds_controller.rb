@@ -13,7 +13,7 @@ class HoldsController < ApplicationController
   end
 
   def create
-    @hold = Hold.new(hold_params.merge(active?: true))
+    @hold = Hold.new(hold_params.merge(active: true))
 
     if @hold.save
       flash[:success] = 'Hold Successfully Created'
@@ -42,7 +42,7 @@ class HoldsController < ApplicationController
   end
 
   def lift
-    if @hold.update(active?: false) && @hold.lift_hold
+    if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
       flash[:warning] = 'Error lifting Hold: '

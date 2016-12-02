@@ -19,7 +19,7 @@ RSpec.describe Hold, type: :model do
     end
 
     it 'does not build without active' do
-      expect(build(:hold, active?: nil)).not_to be_valid
+      expect(build(:hold, active: nil)).not_to be_valid
     end
 
     it 'does not build without a start time' do
