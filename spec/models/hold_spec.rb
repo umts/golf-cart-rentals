@@ -18,10 +18,6 @@ RSpec.describe Hold, type: :model do
       expect(build(:hold, item_type: nil)).not_to be_valid
     end
 
-    it 'does not build without active' do
-      expect(build(:hold, active: nil)).not_to be_valid
-    end
-
     it 'does not build without a start time' do
       expect(build(:hold, start_time: nil)).not_to be_valid
     end
