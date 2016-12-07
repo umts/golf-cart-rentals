@@ -21,7 +21,8 @@ class IncurredIncidentalsController < ApplicationController
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     respond_to do |format|
       if @incurred_incidental.save
-        Document.new(uploaded_file: params[:picture], documentable: @incurred_incidental)
+        binding.pry
+        Document.create(uploaded_file: params[:picture], documentable: @incurred_incidental)
         format.html do
           redirect_to incurred_incidental_path(@incurred_incidental)
           flash[:success] = 'Incidental successfully created'

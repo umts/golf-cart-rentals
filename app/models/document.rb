@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 include SecureRandom
 class Document < ActiveRecord::Base
-  validates :filename, presence: true
   belongs_to :documentable, polymorphic: true
   
   before_create :write_file
