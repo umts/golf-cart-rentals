@@ -2,7 +2,7 @@
 include SecureRandom
 class Document < ActiveRecord::Base
   belongs_to :documentable, polymorphic: true
-  
+  enum filetype: %i(picture other)
   before_create :write_file
 
   attr_readonly :filename # this will be set in the before action
