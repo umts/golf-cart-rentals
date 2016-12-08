@@ -33,8 +33,8 @@
     <div class="col-xs-6">
       <div id="multiImageUploadContainer">
         <div class="multi-upload-group">
-          <input placeholder="Image Description" class="form-control multi-upload-desc input-sm" id="multiUploadDesc1"> 
-          <%= file_field_tag :picture1, id: "multiUploadImage1", class: "multi-upload-file" %>
+          <input placeholder="Document Description" name="desc[1]" class="form-control multi-upload-desc input-sm"> 
+          <%= file_field_tag "picture[1]", class: "multi-upload-file" %>
         </div>
       </div>
       <a href="#" id="multiImageMoreFields">More Images</a>

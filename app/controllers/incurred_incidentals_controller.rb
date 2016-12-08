@@ -3,6 +3,7 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
+  after_action :upload_documents, only: [:create, :update]
 
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
@@ -21,8 +22,6 @@ class IncurredIncidentalsController < ApplicationController
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     respond_to do |format|
       if @incurred_incidental.save
-        binding.pry
-        Document.create(uploaded_file: params[:picture], documentable: @incurred_incidental)
         format.html do
           redirect_to incurred_incidental_path(@incurred_incidental)
           flash[:success] = 'Incidental successfully created'
@@ -57,6 +56,15 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
+
+    def upload_pictures
+      if @incurred_incidental.errors.empty?
+        params[:picture].map(&:itself).each do |id,uploaded_file|
+          desc = params[:desc][id]
+          Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
+        end
+      end
+    end
 
     def set_incurred_incidental
       @incurred_incidental = IncurredIncidental.find(params[:id])

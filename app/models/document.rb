@@ -10,6 +10,7 @@ class Document < ActiveRecord::Base
 
   private 
     def write_file
+      return unless uploaded_file
       begin 
         self.filename = SecureRandom.uuid
         File.open(Rails.root.join('storage', Rails.env.to_s, self.filename), 'wb') do |file|
