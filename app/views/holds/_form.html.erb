@@ -1,15 +1,20 @@
-<%= form_for @reservation do |f| %>
+<%= form_for @hold do |f| %>
   <div class="form-group col-xs-12">
-    <%= f.label :reservation_type, 'Reservation Type', class: 'control-label col-xs-2'%>
+    <%= f.label :item, 'Choose Cart', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.text_field :reservation_type, class: 'form-control', required: true %>
+      <% if @hold.persisted? %>
+        <input class="selectpicker form-control" value=<%= "#{@hold.item.basic_info}" %> readonly/>
+        <%= f.hidden_field :item_id, value: @hold.item.try(:id) %>
+      <% else %>
+        <%= f.select :item_id, options_from_collection_for_select(Item.all_reservable_items, 'id', 'basic_info'), {}, required: true, class: "selectpicker form-control" %>
+      <% end %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :item_type, 'Item Type', class: 'control-label col-xs-2' %>
+    <%= f.label :hold_reason, 'Reason for Hold', class: 'control-label col-xs-2'%>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)"%>
+      <%= f.text_field :hold_reason, required: true, class: 'form-control' %>
     </div>
   </div>
 
