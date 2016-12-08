@@ -8,8 +8,10 @@ $(document).ready(function () {
 
     var fileInput = group.find('.multi-upload-file'); //find file input in the group
     fileInput.attr("id",fileInput.attr("id").replace(/\d/,num)); //change the number in the id
+    fileInput.attr("name",fileInput.attr("name").replace(/\d/,num)); //change the number in the id
 
     var descInput = group.find('.multi-upload-desc'); //find file desc in the group
     descInput.attr("id",descInput.attr("id").replace(/\d/,num)); //change the number in the id
+    descInput.attr("name",descInput.attr("name").replace(/\d/,num)); //change the number in the id
   });
 });
