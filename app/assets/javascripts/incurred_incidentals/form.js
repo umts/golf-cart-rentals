@@ -1,0 +1,15 @@
+$(document).ready(function () {
+  $("#multiImageMoreFields").click(function () {
+    $(".multi-upload-group").first().clone().appendTo("#multiImageUploadContainer"); //add new group
+
+    //reset id's
+    var num = $(".multi-upload-group").length;
+    var group = $(".multi-upload-group").last(); //the grouping we just created
+
+    var fileInput = group.find('.multi-upload-file'); //find file input in the group
+    fileInput.attr("id",fileInput.attr("id").replace(/\d/,num)); //change the number in the id
+
+    var descInput = group.find('.multi-upload-desc'); //find file desc in the group
+    descInput.attr("id",descInput.attr("id").replace(/\d/,num)); //change the number in the id
+  });
+});

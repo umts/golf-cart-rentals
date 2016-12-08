@@ -27,11 +27,17 @@
         <% end %>
     <% end %>
   </div>
-
+  
   <div class="form-group col-xs-12">
-    <%= label_tag :picture, 'Picture', class: 'control-label col-xs-2' %>
+    <%= label_tag :pictures, 'Picture', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= file_field_tag :picture %>
+      <div id="multiImageUploadContainer">
+        <div class="multi-upload-group">
+          <input placeholder="Image Description" class="form-control multi-upload-desc input-sm" id="multiUploadDesc1"> 
+          <%= file_field_tag :picture, id: "multiUploadImage1", class: "multi-upload-file" %>
+        </div>
+      </div>
+      <a href="#" id="multiImageMoreFields">More Images</a>
     </div>
   </div>
 

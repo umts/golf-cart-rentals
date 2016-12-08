@@ -29,6 +29,7 @@
 # Ignore storage files
 storage/development/*
 storage/production/*
+storage/test/*
 
 # Ignore a portion of simplecov
 coverage/assets/*

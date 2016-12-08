@@ -1,0 +1,13 @@
+.multi-upload-desc {
+  width: inherit !important;
+  display: inline !important;
+  width: 60%;
+}
+
+.multi-upload-file {
+  display: inline !important;
+}
+
+.multi-upload-group {
+  padding-bottom: 5px;
+}
