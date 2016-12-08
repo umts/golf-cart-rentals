@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class HoldsController < ApplicationController
   before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
@@ -19,8 +20,7 @@ class HoldsController < ApplicationController
       flash[:success] = 'Hold Successfully Created'
       redirect_to @hold
     else
-      flash[:warning] = 'Error creating Hold: '
-      flash_errors
+      flash[:warning] = 'Error creating Hold'
       render :new
     end
     @hold.check_conflicting_rentals
@@ -34,8 +34,7 @@ class HoldsController < ApplicationController
       flash[:success] = 'Hold Successfully Updated'
       redirect_to @hold
     else
-      flash[:warning] = 'Error updating Hold: '
-      flash_errors
+      flash[:warning] = 'Error updating Hold'
       render :edit
     end
     @hold.check_conflicting_rentals
@@ -45,8 +44,7 @@ class HoldsController < ApplicationController
     if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
-      flash[:warning] = 'Error lifting Hold: '
-      flash_errors
+      flash[:warning] = 'Error lifting Hold'
     end
     redirect_to holds_url
   end
@@ -60,9 +58,5 @@ class HoldsController < ApplicationController
   def hold_params
     item_type_id = Item.find(params[:hold][:item_id]).item_type_id
     params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
-  end
-
-  def flash_errors
-    @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
   end
 end

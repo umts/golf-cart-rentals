@@ -9,8 +9,8 @@ class Hold < ActiveRecord::Base
 
   def check_conflicting_rentals
     conflicting_rentals = Rental.where('start_time >= :hold_start_time AND end_time <= :hold_end_time',
-                                        hold_start_time: start_time,
-                                        hold_end_time: end_time)
+                                       hold_start_time: start_time,
+                                       hold_end_time: end_time)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
