@@ -1,11 +1,78 @@
-<div>
+<%= form_for @damage do |f| %>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">Name</label>
+    <div class="col-xs-6">
+      <%= f.text_field :type, placeholder: "Type", class:"form-control" %>
+    </div>
+  </div>
 
-</div>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">location</label>
+    <div class="col-xs-6">
+      <%= text_field :location, :location, placeholder: "location", class:"form-control" %>
+    </div>
+  </div>
 
-<div>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">repaired_by</label>
+    <div class="col-xs-6">
+      <%= text_field :repaired_by, :repaired_by, placeholder: "repaired_by", class:"form-control" %>
+    </div>
+  </div>
 
-</div>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">description</label>
+    <div class="col-xs-6">
+      <%= text_field :description, :description, placeholder: "description", class:"form-control" %>
+    </div>
+  </div>
 
-<div>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">comments</label>
+    <div class="col-xs-6">
+      <%= text_field :comments, :comments, placeholder: "comments", class:"form-control" %>
+    </div>
+  </div>
 
-</div>
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">occurred_on</label>
+    <div class="col-xs-6">
+      <%= text_field :occurred_on, :occurred_on, placeholder: "occurred_on", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">repaired_on</label>
+    <div class="col-xs-6">
+      <%= text_field :repaired_on, :repaired_on, placeholder: "repaired_on", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">estimated_cost</label>
+    <div class="col-xs-6">
+      <%= text_field :estimated_cost, :estimated_cost, placeholder: "estimated_cost", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">actual_cost</label>
+    <div class="col-xs-6">
+      <%= text_field :actual_cost, :actual_cost, placeholder: "actual_cost", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">item</label>
+    <div class="col-xs-6">
+      <%= text_field :item, :item, placeholder: "item", class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <label class="col-xs-2 control-label">rental</label>
+    <div class="col-xs-6">
+      <%= text_field :rental, :rental, placeholder: "rental", class:"form-control" %>
+    </div>
+  </div>
+<% end %>
