@@ -1,0 +1,36 @@
+<%= link_to 'Create Damage', new_damage_path, class: "btn btn-primary" %>
+
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th>Type</th>
+    <th>Location</th>
+    <th>Repaired By</th>
+    <th>Description</th>
+    <th>Comments</th>
+    <th>Occurred On</th>
+    <th>Repaired On</th>
+    <th>Estimated Cost</th>
+    <th>Actual Cost</th>
+    <th>Item</th>
+    <th>Rental</th>
+  </tr>
+  <% @damages.reverse_each do |d| %>
+    <tr>
+      <td><%= d.type %></td>
+      <td><%= d.location %></td>
+      <td><%= d.repaired_by %></td>
+      <td><%= d.description %></td>
+      <td><%= d.comments %></td>
+      <td><%= d.occurred_on %></td>
+      <td><%= d.repaired_on %></td>
+      <td><%= d.estimated_cost %></td>
+      <td><%= d.actual_cost %></td>
+      <td><%= d.item %></td>
+      <td><%= d.rental %></td>
+      <td class="min-width">
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), d, class: "btn btn-xs btn-success" %>
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_damage_path(d), class: "btn btn-xs btn-primary" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
