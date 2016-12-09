@@ -1,5 +1,5 @@
 class DamagesController < ApplicationController
-  before_action :set_damage, [:show, :edit]
+  before_action :set_damage, only: [:show, :edit]
 
   def show
   end
@@ -16,9 +16,11 @@ class DamagesController < ApplicationController
     @damage = Damage.create(damage_params)
 
     if @damage.save
-
+      flash[:success] = 'Damage successfully created'
+      redirect_to @damage
     else
-
+      flash[:warning] = 'Error creating Damage'
+      render 'new'
     end
   end
 
@@ -26,7 +28,13 @@ class DamagesController < ApplicationController
   end
 
   def update
-
+    if @damage.update(damage_params)
+      flash[:success] = 'Damage successfully updated'
+      redirect_to @damage
+    else
+      flash[:warning] = 'Error updating Damage'
+      render 'edit'
+    end
   end
 
   private
