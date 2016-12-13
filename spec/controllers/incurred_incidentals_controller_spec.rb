@@ -68,6 +68,16 @@ describe IncurredIncidentalsController do
         expect(response).to render_template :new
       end
     end
+
+    context 'with optional document' do
+      it 'takes a document and saves it' do
+        skip('add this before upload')
+      end
+
+      it 'handles multiple documents' do
+        skip('add this before upload')
+      end
+    end
   end
 
   describe 'GET #show' do
