@@ -58,10 +58,9 @@ class IncurredIncidentalsController < ApplicationController
   private
 
     def upload_documents
-      # only do this on sucess
+      # only do this on sucess and with a file
       if @incurred_incidental.errors.empty? && params[:file]
         params[:file].map(&:itself).each do |id,uploaded_file|
-          binding.pry
           desc = params[:desc][id] # this is not a required field
           Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
         end
