@@ -23,6 +23,7 @@ class Document < ActiveRecord::Base
       return unless uploaded_file # this is a temp variable in this class, it wont be written to the database
       begin 
         self.filename = SecureRandom.uuid
+        self.original_filename = uploaded_file.original_filename
         if uploaded_file.content_type.starts_with? "image/"
           self.filetype = :picture
         else

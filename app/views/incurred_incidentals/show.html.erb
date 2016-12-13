@@ -76,7 +76,7 @@
                 <% if document.picture? %>
                   <td><%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}" %></td>
                 <% else %>
-                  <td><%= link_to 'Download Document', show_document_path(document.filename) %></td>
+                  <td><%= link_to 'Download Document', document_path %></td>
                 <% end %>
               </tr>
             <% end %>
