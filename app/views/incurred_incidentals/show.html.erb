@@ -73,7 +73,7 @@
             <% @incurred_incidental.documents.each do |document| %>
               <tr>
                 <td><%= document.description %></td>
-                <% if document.filetype == :picture %>
+                <% if document.picture? %>
                   <td><%= document.filename %></td>
                 <% else %>
                   <td><%= document.filename %></td>
