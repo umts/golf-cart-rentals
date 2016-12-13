@@ -1,6 +1,5 @@
 class CombinedDocuments < ActiveRecord::Migration[5.0]
   def change
-    drop_table :incurred_incidentals_documents
     create_table "documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
       t.string   "filename",          null: false
       t.datetime "created_at",        null: false
