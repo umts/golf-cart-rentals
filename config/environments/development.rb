@@ -45,7 +45,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # inventory api uri
-  config.inventory_api_uri = 'https://aggressive-epsilon.herokuapp.com/v1/' #'http://localhost:4000/v1/'#
+  config.inventory_api_uri = 'http://localhost:4000/v1/' #'https://aggressive-epsilon.herokuapp.com/v1/'
 
   config.after_initialize do
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
