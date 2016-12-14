@@ -2,6 +2,7 @@
 include SecureRandom
 include Base64
 class Document < ActiveRecord::Base
+  has_paper_trail
   belongs_to :documentable, polymorphic: true
   enum filetype: %i(picture other)
   validates :filename, :filetype, presence: true
