@@ -3,6 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Document, type: :model do
   it 'has a valid factory' do
+    binding.pry
     expect(build(:document)).to be_valid
   end
   it 'is invalid without a filename' do
