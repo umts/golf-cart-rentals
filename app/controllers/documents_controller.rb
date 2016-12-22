@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DocumentsController < ApplicationController
   before_action :set_document
 
@@ -5,8 +6,9 @@ class DocumentsController < ApplicationController
     send_data @document.fetch_file, filename: @document.original_filename
   end
 
-  private 
-    def set_document
-      @document = Document.find params[:id]
-    end
+  private
+
+  def set_document
+    @document = Document.find params[:id]
+  end
 end

@@ -71,11 +71,11 @@ describe IncurredIncidentalsController do
 
     context 'with optional document' do
       it 'takes a document and saves it' do
-        desc = "some desc"
+        desc = 'some desc'
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create, 
-                                  file: { "1" => fixture_file_upload('file.png', 'image/png') }, desc: { "1" => desc } }
-        end.to change(Document,:count).by(1)
+          post :create, params: { incurred_incidental: incurred_incidental_create,
+                                  file: { '1' => fixture_file_upload('file.png', 'image/png') }, desc: { '1' => desc } }
+        end.to change(Document, :count).by(1)
         expect(IncurredIncidental.last.documents).to be_present
         expect(Document.last.description).to eq(desc)
         expect(Document.last.original_filename).to eq('file.png')
@@ -83,13 +83,11 @@ describe IncurredIncidentalsController do
 
       it 'handles multiple documents' do
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create, 
-                                  file: { "1" => fixture_file_upload('file.png', 'image/png'), 
-                                          "2" => fixture_file_upload('file.txt', 'text/plain') }, 
-                                  desc: { "1" => "some desc", "2" => "another desc" }
-                                }
-        end.to change(Document,:count).by(2)
-        
+          post :create, params: { incurred_incidental: incurred_incidental_create,
+                                  file: { '1' => fixture_file_upload('file.png', 'image/png'),
+                                          '2' => fixture_file_upload('file.txt', 'text/plain') },
+                                  desc: { '1' => 'some desc', '2' => 'another desc' } }
+        end.to change(Document, :count).by(2)
       end
     end
   end

@@ -94,7 +94,7 @@ RSpec.describe Rental do
     it 'returns the cost-payments' do
       sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
       create(:financial_transaction, transactable: create(:payment), amount: sum_amount, rental: @rental)
-      
+
       expect(@rental.balance).to be_zero # fully payed
     end
   end

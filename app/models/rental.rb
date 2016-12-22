@@ -145,7 +145,7 @@ class Rental < ActiveRecord::Base
   end
 
   def balance
-    sum_charges-sum_payments
+    sum_charges - sum_payments
   end
 
   # private
