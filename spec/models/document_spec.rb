@@ -40,7 +40,7 @@ RSpec.describe Document, type: :model do
 
   context 'refusing to write files' do
     it 'can refuse and throw exception' do
-      expect { create(:document, :with_invalid_file) }.to raise_error
+      expect { create(:document, :with_invalid_file) }.to raise_error Exception
     end
   end
 
