@@ -35,8 +35,8 @@ class Document < ActiveRecord::Base
       File.open(Rails.root.join('storage', Rails.env.to_s, filename), 'wb') do |file|
         file.write(uploaded_file.read)
       end
-    rescue Exception
-      raise Exception, 'Failed to properly write file'
+    rescue StandardError
+      raise StandardError, 'Failed to properly write file'
     end
   end
 end
