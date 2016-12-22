@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102131612) do
+ActiveRecord::Schema.define(version: 20161128151244) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 20161102131612) do
     t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true, using: :btree
     t.index ["group_id"], name: "index_groups_users_on_group_id", using: :btree
     t.index ["user_id"], name: "index_groups_users_on_user_id", using: :btree
+  end
+
+  create_table "holds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "hold_reason"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "item_type_id"
+    t.integer  "item_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.boolean  "active"
   end
 
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -173,17 +184,6 @@ ActiveRecord::Schema.define(version: 20161102131612) do
     t.string   "dropoff_phone_number"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
-  end
-
-  create_table "reservations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "reservation_type"
-    t.string   "reservation_id"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer  "item_type_id"
-    t.integer  "item_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

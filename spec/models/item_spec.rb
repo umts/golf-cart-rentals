@@ -12,6 +12,12 @@ RSpec.describe Item, type: :model do
     expect(build(:item, item_type_id: nil)).not_to be_valid
   end
 
+  describe 'class methods' do
+    it 'correctly returns all reservable items' do
+      expect(Item.all_reservable_items).to eq(Item.all)
+    end
+  end
+
   describe '.deleted' do
     it 'returns an empty collection when no records are present' do
       expect(Item.deleted).to be_empty
