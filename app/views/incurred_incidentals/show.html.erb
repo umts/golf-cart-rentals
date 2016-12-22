@@ -71,7 +71,9 @@
         <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
           <% @incurred_incidental.documents.each do |document| %>
             <div class="row">
-              <div class="col-xs-3"><%= document.description %></div>
+              <div class="col-xs-3">
+                <%= document.description %>
+              </div>
               <div class="col-xs-9 pull-right">
                 <% if document.picture? %>
                   <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document' %>

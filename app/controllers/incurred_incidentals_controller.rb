@@ -65,6 +65,7 @@ class IncurredIncidentalsController < ApplicationController
 
       params.require(:file).to_unsafe_h.map(&:itself).each do |id, uploaded_file|
         if uploaded_file && id
+          binding.pry
           desc = params[:desc][id] # this is not a required field
           Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
         end

@@ -22,13 +22,14 @@
 //= require bootstrap-datetimepicker
 //= require signature-pad
 //= require_tree .
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
 
 // Helper method for incurred_incidentals _form.html
 // Populate incurred_incidental amount textbox with base amount shown for incidental_type dropdown menu
 $(document).ready(function() {
+  $(".fancybox").fancybox(); //init fancy boxes
+
+  $('[data-toggle="tooltip"]').tooltip(); //init tooltips
+  
   $("#select_incidental_type").change(function() {
     $("#select_incidental_type option:selected").map(function() {
       var price = $(this).text().split('$')[1].split(')')[0]; // Parsing for extract price, regardless of number of digits
