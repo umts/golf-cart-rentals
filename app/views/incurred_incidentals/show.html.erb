@@ -76,7 +76,9 @@
               </div>
               <div class="col-xs-9 pull-right">
                 <% if document.picture? %>
-                  <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document' %>
+                  <a href=<%= document_path(document) %>>
+                    <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document' %>
+                  </a>
                 <% else %>
                   <%= link_to 'Download Document', document_path(document) %>
                 <% end %>
