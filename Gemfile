@@ -25,9 +25,6 @@ gem 'backstretch-rails'
 # Use signature pad
 gem 'signature-pad-rails', '~> 0.5'
 
-# Peek images
-gem 'fancybox-rails'
-
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 5.0.1'
 # bundle exec rake doc:rails generates the API under doc/api.

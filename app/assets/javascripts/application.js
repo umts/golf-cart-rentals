@@ -26,8 +26,6 @@
 // Helper method for incurred_incidentals _form.html
 // Populate incurred_incidental amount textbox with base amount shown for incidental_type dropdown menu
 $(document).ready(function() {
-  $(".fancybox").fancybox(); //init fancy boxes
-
   $('[data-toggle="tooltip"]').tooltip(); //init tooltips
   
   $("#select_incidental_type").change(function() {
