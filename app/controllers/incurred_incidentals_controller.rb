@@ -57,29 +57,34 @@ class IncurredIncidentalsController < ApplicationController
 
   private
 
-  def upload_documents
-    # only do this on sucess and with a file
-    if @incurred_incidental.errors.empty? && params[:file]
-      params[:file].map(&:itself).each do |id, uploaded_file|
-        desc = params[:desc][id] # this is not a required field
-        Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
+    def upload_documents
+      # only do this on sucess and with a file
+      if @incurred_incidental.errors.empty? && params[:file]
+        # only allow types of uploaded file
+        params.require(:file).transform_values! { |uf| uf if uf.class == ActionDispatch::Http::UploadedFile} 
+        
+        params.require(:file).to_unsafe_h.map(&:itself).each do |id, uploaded_file|
+          if uploaded_file && id
+            desc = params[:desc][id] # this is not a required field
+            Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
+          end
+        end
       end
     end
-  end
 
-  def set_incurred_incidental
-    @incurred_incidental = IncurredIncidental.find(params[:id])
-  end
+    def set_incurred_incidental
+      @incurred_incidental = IncurredIncidental.find(params[:id])
+    end
 
-  def set_incidental_types
-    @incidental_types = IncidentalType.all
-  end
+    def set_incidental_types
+      @incidental_types = IncidentalType.all
+    end
 
-  def set_rentals
-    @rentals = Rental.all
-  end
+    def set_rentals
+      @rentals = Rental.all
+    end
 
-  def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
-  end
+    def incidental_params
+      params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
+    end
 end
