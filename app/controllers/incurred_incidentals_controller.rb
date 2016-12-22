@@ -64,11 +64,9 @@ class IncurredIncidentalsController < ApplicationController
       params.require(:file).transform_values! { |uf| uf if uf.class == ActionDispatch::Http::UploadedFile }
 
       params.require(:file).to_unsafe_h.map(&:itself).each do |id, uploaded_file|
-        if uploaded_file && id
-          binding.pry
-          desc = params[:desc][id] # this is not a required field
-          Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
-        end
+        next unless uploaded_file && id
+        desc = params[:desc][id] # this is not a required field
+        Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
       end
     end
   end
