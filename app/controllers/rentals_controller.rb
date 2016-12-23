@@ -46,8 +46,8 @@ class RentalsController < ApplicationController
 
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
   def cost
-    start_time = params[:start_time]
-    end_time = params[:end_time]
+    start_time = Time.zone.parse(params[:start_time]).to_date.to_s
+    end_time = Time.zone.parse(params[:end_time]).to_date.to_s
     item_type = ItemType.find(params[:item_type]) if params[:item_type]
     render json: Rental.cost(start_time, end_time, item_type)
   end

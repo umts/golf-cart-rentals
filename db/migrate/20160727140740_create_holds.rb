@@ -1,8 +1,7 @@
-class CreateReservations < ActiveRecord::Migration
+class CreateHolds < ActiveRecord::Migration
   def change
-    create_table :reservations do |t|
-      t.string :reservation_type
-      t.string :reservation_id
+    create_table :holds do |t|
+      t.string :hold_reason
       t.datetime :start_time
       t.datetime :end_time
       t.references :item_type
