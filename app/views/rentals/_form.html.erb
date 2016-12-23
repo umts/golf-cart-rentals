@@ -20,16 +20,16 @@
   <div class="form-group col-xs-12">
     <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'single_item_type_id', class: "selectpicker form-control cost-dependent" %>
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'rental_item_type_id', class: "selectpicker form-control cost-dependent" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.hidden_field :renter_id, id: 'multiple_user_id' %>
+      <%= f.hidden_field :renter_id, id: 'rental_user_id' %>
       <div class="input-group">
-        <input type="text" id="multiple_userSearchQuery" required="required" class="form-control userSearchQuery" placeholder="Customer Spire/Email/Name/Department" aria-describedby="User">
+        <input type="text" id="userSearchQuery" required="required" class="form-control userSearchQuery" placeholder="Customer Spire/Email/Name/Department" aria-describedby="User">
         <a class="input-group-addon" data-toggle="modal" data-target="#modalSearchResults"><span class="glyphicon glyphicon-search"></span></a>
       </div>
     </div>
@@ -38,14 +38,14 @@
   <div class="form-group col-xs-12">
     <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_date, required: true, id: 'single_start_time', class: "form-control cost-dependent" %>
+      <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'multiple_end_time', class: "form-control cost-dependent" %>
+      <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
     </div>
   </div>
 
@@ -53,7 +53,7 @@
   <div class="form-group col-xs-12">
     <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'single_amount', class: 'form-control' %>
+      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
     </div>
   </div>
 
