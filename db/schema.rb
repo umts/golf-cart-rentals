@@ -10,22 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128151244) do
+ActiveRecord::Schema.define(version: 20161227181628) do
 
-  create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string  "type"
+  create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf10" do |t|
     t.string  "location"
     t.string  "repaired_by"
-    t.text    "description",    limit: 65535
-    t.text    "comments",       limit: 65535
+    t.text    "description",            limit: 65535
     t.date    "occurred_on"
     t.date    "repaired_on"
-    t.decimal "estimated_cost",               precision: 10
-    t.decimal "actual_cost",                  precision: 10
-    t.integer "item_id"
-    t.integer "rental_id"
-    t.index ["item_id"], name: "index_damages_on_item_id", using: :btree
-    t.index ["rental_id"], name: "index_damages_on_rental_id", using: :btree
+    t.decimal "estimated_cost",                       precision: 10
+    t.decimal "actual_cost",                          precision: 10
+    t.integer "incurred_incidental_id"
+    t.integer "hold_id"
   end
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

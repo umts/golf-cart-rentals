@@ -1,8 +1,6 @@
 class Damage < ApplicationRecord
-  validate
-#:type, :location, :repaired_by, :description,
-#:comments, :occurred_on, :repaired_on,
-#:estimated_cost, :actual_cost, :item, :rental
+  # validate presence of initial data
+  validates :location, :description, :occured_on, :estimated_cost, presence: true
   belongs_to :incurred_incidental, dependent: :destroy
-  belongs_to :rental, through: :incurred_incidental
+  belongs_to :hold, dependent: :destroy
 end
