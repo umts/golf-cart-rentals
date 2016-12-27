@@ -66,8 +66,11 @@ function userResultHandleClick(e) {
 }
 
 function ajaxUserSearch(pageNo) {
-  var query = $("#userSearchQuery").val();
+  var query = $("#rental_userSearchQuery").val();
+
+  //inject page into request
   var params = $.extend({user_search_query: query}, pageNo ? {page: pageNo} : {page: "1"} );
+
   $.ajax({
     url: Routes.rentals_search_users_path(),
     dataType: "html",
