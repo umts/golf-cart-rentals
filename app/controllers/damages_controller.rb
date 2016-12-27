@@ -39,13 +39,13 @@ class DamagesController < ApplicationController
 
   private
 
-  def set_damage
-    @damage = Damage.find(params[:id])
-  end
+    def set_damage
+      @damage = Damage.find(params[:id])
+    end
 
-  def damage_params
-    require(:damage).permit(:type, :location, :repaired_by, :description,
-                            :comments, :occurred_on, :repaired_on,
-                            :estimated_cost, :actual_cost, :item, :rental)
-  end
+    def damage_params
+      require(:damage).permit(:type, :location, :repaired_by, :description,
+                              :comments, :occurred_on, :repaired_on,
+                              :estimated_cost, :actual_cost, :item, :rental)
+    end
 end

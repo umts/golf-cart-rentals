@@ -6,9 +6,9 @@
   description: 'Washing, Trash removal, etc'
   base: 0
 
-- name: 'Minor Damage'
-  description: 'Minor damages caused by customer'
-  base: 20
+- name: 'Damage'
+  description: 'Damages caused by customer'
+  base: 0
 
 - name: 'Towing'
   description: 'Because customer did not monitor the charge on the vehicle or it got stuck somehere'

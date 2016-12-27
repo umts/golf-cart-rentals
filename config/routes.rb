@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   resources :incurred_incidentals
   resources :damages
   resources :reservations
+  resources :holds do
+    post :lift, on: :member
+  end
   resources :financial_transaction, except: %i(destroy update)
   resources :items do
     collection do

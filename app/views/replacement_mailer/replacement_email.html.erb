@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+    <p>
+      This is a notification that your reserved Gold Cart (<%= @old_rental.basic_info %>) has been put on hold by Parking services for the following reason:
+    </p>
+    <p>
+      <%= @hold.hold_reason %>
+    </p>
+    <p>
+      A new golf cart has been reserved for you: <%= @new_rental.basic_info %>
+    </p>
+  </body>
+</html>

@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Damage, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:damage) { create :damage }
+  context 'validations' do
+    it 'has a valid factory' do
+      expect(damage).to be_valid
+    end
+  end
 end
