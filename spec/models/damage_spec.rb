@@ -13,13 +13,20 @@ RSpec.describe Damage, type: :model do
   end
 
   context 'dependent destruction' do
-    it 'destroys the hold with it (if there is one)' do
-      damage.hold = create :hold # item doesnt really matter
-
+    # wont test hold because it reaches out to api
+    
+    it 'on damage destroy, it destroys the incurred incidental with it' do 
+      damage # need to create before we can test destroying it
+      expect do
+        damage.destroy
+      end.to change(IncurredIncidental, :count).by(-1) and change(Damage,:count).by(-1)
     end
 
-    it 'destroys the incurred incidental with it' do 
-    
+    it 'on incurred incidental destroy, it destroys the damage with it' do
+      damage # need to create before we can test destroying it
+      expect do
+        damage.incurred_incidental.destroy
+      end.to change(IncurredIncidental, :count).by(-1) and change(Damage,:count).by(-1)
     end
   end
 end
