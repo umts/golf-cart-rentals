@@ -26,6 +26,8 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+$( ".datepicker" ).datetimepicker(); //datepicker initialization
+
 // Helper method for incurred_incidentals _form.html
 // Populate incurred_incidental amount textbox with base amount shown for incidental_type dropdown menu
 $(document).ready(function() {
