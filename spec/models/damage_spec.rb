@@ -13,7 +13,7 @@ RSpec.describe Damage, type: :model do
   end
 
   context 'dependent destruction' do
-    # wont test hold because it reaches out to api
+    # also depends on hold, but wont test because it reaches out to api
     
     it 'on damage destroy, it destroys the incurred incidental with it' do 
       damage # need to create before we can test destroying it
