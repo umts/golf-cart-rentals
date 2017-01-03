@@ -22,7 +22,7 @@ class IncurredIncidentalsController < ApplicationController
     if @incurred_incidental.save
       flash[:success] = 'Incidental successfully created'
       if @incurred_incidental.incidental_type.damage_tracked 
-        flash[:notice] = 'Please Create Associated Damage Tracking'
+        flash[:warning] = 'Please Create Associated Damage Tracking'
         redirect_to new_damage_path(incurred_incidental: @incurred_incidental)
       else
         redirect_to incurred_incidental_path(@incurred_incidental)
