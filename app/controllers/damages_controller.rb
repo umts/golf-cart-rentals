@@ -13,6 +13,7 @@ class DamagesController < ApplicationController
   end
 
   def create
+    binding.pry
     @damage = Damage.create(damage_params)
 
     if @damage.save
@@ -44,8 +45,7 @@ class DamagesController < ApplicationController
     end
 
     def damage_params
-      require(:damage).permit(:type, :location, :repaired_by, :description,
-                              :comments, :occurred_on, :repaired_on,
-                              :estimated_cost, :actual_cost, :item, :rental)
+      require(:damage).permit(:location, :repaired_by, :description,
+                              :occurred_on, :repaired_on, :estimated_cost, :actual_cost)
     end
 end
