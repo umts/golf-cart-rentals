@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103152050) do
+ActiveRecord::Schema.define(version: 20170103161426) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -102,9 +102,10 @@ ActiveRecord::Schema.define(version: 20170103152050) do
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
-    t.decimal  "base",        precision: 10
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.decimal  "base",           precision: 10
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "damage_tracked"
   end
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

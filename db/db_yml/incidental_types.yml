@@ -1,15 +1,19 @@
 - name: 'Late'
   description: 'Cart was checked in late'
   base: 10
+  damage_tracked: false
 
 - name: 'Cleaning'
   description: 'Washing, Trash removal, etc'
   base: 0
+  damage_tracked: true
 
 - name: 'Damage'
   description: 'Damages caused by customer'
   base: 0
+  damage_tracked: true
 
 - name: 'Towing'
   description: 'Because customer did not monitor the charge on the vehicle or it got stuck somehere'
   base: 35
+  damage_tracked: false

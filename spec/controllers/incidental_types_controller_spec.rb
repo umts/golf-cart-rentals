@@ -8,7 +8,7 @@ describe IncidentalTypesController do
   end
 
   let(:invalid_incidental) do
-    inc_type = attributes_for(:invalid_type)
+    attributes_for(:invalid_type)
   end
 
   let!(:incidental_type) { create(:incidental_type) }
