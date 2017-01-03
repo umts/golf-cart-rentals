@@ -57,9 +57,10 @@ describe IncurredIncidentalsController do
         end
 
         it 'redirects to the show page for created incurred incidental with damage tracking' do
-          ii = attributes_for(:incurred_incidental, incidental_type: create(:incidental_type, damage_tracking: true))
+          ii = incurred_incidental_create.merge({ incidental_type_id: create(:incidental_type, damage_tracked: true)})
           post :create, params: { incurred_incidental: ii }
-          expect(response).to redirect_to '/damages/new' # to create the damage tracking
+                                  
+          expect(response).to redirect_to new_damage_path(incurred_incidental: IncurredIncidental.last) # to create the damage tracking
         end
       end
     end
