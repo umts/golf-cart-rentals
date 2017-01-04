@@ -1,4 +1,7 @@
 <%= form_for @damage do |f| %>
+
+  <%= f.hidden_field :incurred_incidental_id %>
+
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label">Location</label>
     <div class="col-xs-6">
@@ -30,7 +33,7 @@
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label">Repaired On (optional)</label>
     <div class="col-xs-6">
-      <%= f.date_field :repaired_on, value: Date.today, required: false, class:"form-control datepicker" %>
+      <%= f.date_field :repaired_on, required: false, class:"form-control datepicker" %>
     </div>
   </div>
 

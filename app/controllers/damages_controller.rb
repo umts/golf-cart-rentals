@@ -9,7 +9,10 @@ class DamagesController < ApplicationController
   end
 
   def new
-    @damage = Damage.new
+    @damage = Damage.new(new_params)
+    if !@damage.incurred_incidental
+      flash[:danger] = 'You Are Creating A Damage Without An Attached Incurred Incidental'
+    end
   end
 
   def create
@@ -44,8 +47,12 @@ class DamagesController < ApplicationController
       @damage = Damage.find(params[:id])
     end
 
+    def new_params
+      params.permit(:incurred_incidental_id)
+    end
+
     def damage_params
-      require(:damage).permit(:location, :repaired_by, :description,
+      params.require(:damage).permit(:location, :repaired_by, :description, :incurred_incidental_id,
                               :occurred_on, :repaired_on, :estimated_cost, :actual_cost)
     end
 end
