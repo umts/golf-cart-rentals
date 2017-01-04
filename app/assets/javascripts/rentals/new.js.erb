@@ -47,18 +47,17 @@ function costCalculation(){
         amount.val(data);
         date_range.val(range);
       },
-      error: function () {
-        alert('failed to retreive rental cost');
-      }
+      error: function () { alert('failed to retreive rental cost'); }
     });
    }
 }
 
+
 function userResultHandleClick(e) {
-  var userId = e.currentTarget.id.substr(10); //select the user id
-  $("#rental_user_id").val(userId); 
-  
-  var row = $(e.currentTarget.parentNode.parentNode); //select the row
+  var userId = $(this).attr("id").substr(10); //select the user id
+  $("#rental_user_id").val(userId);
+
+  var row = $(this).parent().parent(); //select the row
   var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
   $("#rental_userSearchQuery").val(name); //set the user to the full name
 
@@ -77,24 +76,30 @@ function ajaxUserSearch(pageNo) {
     data: params,
     success: function (data) {
       $("#userResults").html(data); //put content in the modal
-      
+
       //attach event listeners to results
       $(".userResult").click(userResultHandleClick);
 
       //need to reformat links
       $("#userResults .pagination a").each(modalSearchResultsFormatPaginationLinks);
     },
-    error: function () {
-      alert("Failed to retreive users.");
-    }
+    error: function () { alert("Failed to retreive users."); }
   });
+}
+
+function getQueryString( field, url ) {
+  var href = url ? url : window.location.href;
+  var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+  var string = reg.exec(href);
+  return string ? string[1] : null;
 }
 
 function modalSearchResultsFormatPaginationLinks(undefined, link) {
   link = $(link); //jquery that
-  var pageNo = link.attr("href").split("&")[0].split("?")[1].split("=")[1]; //works universially to pull pageNo out of link
+  //works universially to pull pageNo out of link
+  var pageNo = getQueryString("page", link.attr("href"));
   link.attr("href", "#"); //remove navigation
-  link.click(function () { ajaxUserSearch(pageNo); } ); 
+  link.click(function () { ajaxUserSearch(pageNo); } );
 }
 
 $(document).ready( function () {
