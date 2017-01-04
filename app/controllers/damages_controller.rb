@@ -2,8 +2,7 @@
 class DamagesController < ApplicationController
   before_action :set_damage, only: [:show, :edit]
 
-  def show
-  end
+  def show; end
 
   def index
     @damages = Damage.all
@@ -11,9 +10,7 @@ class DamagesController < ApplicationController
 
   def new
     @damage = Damage.new(new_params)
-    unless @damage.incurred_incidental
-      flash[:danger] = 'You Are Creating A Damage Without An Attached Incurred Incidental'
-    end
+    flash[:danger] = 'You Are Creating A Damage Without An Attached Incurred Incidental' unless @damage.incurred_incidental
   end
 
   def create
@@ -28,8 +25,7 @@ class DamagesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @damage.update(damage_params)
