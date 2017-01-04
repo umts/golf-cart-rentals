@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DamagesController < ApplicationController
   before_action :set_damage, only: [:show, :edit]
 
@@ -10,7 +11,7 @@ class DamagesController < ApplicationController
 
   def new
     @damage = Damage.new(new_params)
-    if !@damage.incurred_incidental
+    unless @damage.incurred_incidental
       flash[:danger] = 'You Are Creating A Damage Without An Attached Incurred Incidental'
     end
   end
@@ -42,16 +43,16 @@ class DamagesController < ApplicationController
 
   private
 
-    def set_damage
-      @damage = Damage.find(params[:id])
-    end
+  def set_damage
+    @damage = Damage.find(params[:id])
+  end
 
-    def new_params
-      params.permit(:incurred_incidental_id)
-    end
+  def new_params
+    params.permit(:incurred_incidental_id)
+  end
 
-    def damage_params
-      params.require(:damage).permit(:location, :repaired_by, :description, :incurred_incidental_id,
-                              :occurred_on, :repaired_on, :estimated_cost, :actual_cost)
-    end
+  def damage_params
+    params.require(:damage).permit(:location, :repaired_by, :description, :incurred_incidental_id,
+                                   :occurred_on, :repaired_on, :estimated_cost, :actual_cost)
+  end
 end

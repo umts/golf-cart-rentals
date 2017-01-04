@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Damage < ApplicationRecord
   # validate presence of initial data
   validates :location, :description, :occurred_on, :estimated_cost, :incurred_incidental_id, presence: true
