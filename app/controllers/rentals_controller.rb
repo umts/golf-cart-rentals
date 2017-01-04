@@ -25,22 +25,23 @@ class RentalsController < ApplicationController
 
   # GET /rentals/search_users?q
   def search_users
-    # prioritiezed by order queries
-    query_priority = %i(email_cont spire_id_eq full_name_cont)
     @users = []
 
-    query_priority.each do |q|
-      @users += User.ransack(q => params[:user_search_query]).result
-      # break if @users.present? # maybe just join all the lists
+    if params[:user_search_query].present?
+      # prioritiezed by order queries
+      query_priority = %i(email_cont spire_id_eq full_name_cont)
+
+      query_priority.each do |q|
+        @users += User.ransack(q => params[:user_search_query]).result
+      end
+
+      # could be a department too
+      # join users with departments
+      @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
+
+      @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
     end
 
-    # could be a department too
-    ## join users with departments
-    @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
-
-    @users = User.all if @users.blank? # if we couldnt find anything pass them everything
-
-    @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
     render partial: 'search_users_table'
   end
 
