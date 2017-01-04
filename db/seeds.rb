@@ -29,10 +29,9 @@ if Rails.env.development?
 
   puts 'Putting users in Parking department'
   parking = Department.find_by name: 'Parking'
-  parking.users << User.all[0...((User.count/2).floor)]
   transit = Department.find_by name: 'Transit'
-  transit.users <<  User.all[(User.count/2).ceil...User.count]
-  
+  parking.users, transit.users = User.all.each_slice(User.count / 2).to_a # leaves one behind
+
   puts 'Creating Model Item Type'
   item_types = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'item_types.yml'))
   item_types.each do |item_type|

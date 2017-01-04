@@ -259,7 +259,7 @@ describe RentalsController do
     it 'finds by spire' do
       this_one = create :user, spire_id: 86_753_091 # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
       get :search_users, params: { user_search_query: '86753091' } # should be unique enough
-      expect(assigns[:users]).to eq([this_one]) # will be exact match
+      expect(assigns[:users]).to contain_exactly(this_one) 
     end
 
     it 'finds from multiple catagories' do
