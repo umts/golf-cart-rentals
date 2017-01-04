@@ -86,9 +86,9 @@
     <%= link_to 'View Rental', rental_path(@incurred_incidental.rental), class: "btn btn-success" %>
     <% if @incurred_incidental.incidental_type.damage_tracked %>
       <% if @incurred_incidental.damage %>
-        <%= link_to 'Damage Tracking', damage_path(@incurred_incidental.damage), class: "btn btn-success" %>
+        <%= link_to 'View Damage Tracking', damage_path(@incurred_incidental.damage), class: "btn btn-success" %>
       <% else %>
-        <%= link_to 'Create Damage Tracking', new_damage_path(incurred_incidental_id: @incurred_incidental), class: "btn btn-success" %>
+        <%= link_to 'Create Damage Tracking', new_damage_path(incurred_incidental_id: @incurred_incidental), class: "btn btn-primary" %>
       <% end %>
     <% end %>
     <%= link_to 'View Incidental Type', incidental_type_path(@incurred_incidental.incidental_type), class: "btn btn-success" %>

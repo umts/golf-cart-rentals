@@ -40,6 +40,12 @@ describe HoldsController do
       get :new
       expect(response).to render_template :new
     end
+
+    it 'assigns damage if given' do
+      damage = create :damage
+      get :new, params: { damage_id: damage }
+      expect(assigns[:hold].damage).to be damage
+    end
   end
 
   describe 'POST #create' do

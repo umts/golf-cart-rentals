@@ -1,7 +1,4 @@
-<div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Type</label>
-  <div class="form-control-information col-xs-10"><%= @damage.type %></div>
-</div>
+<% provide(:page_header, "Damage Tracker") %>
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Location</label>
@@ -19,11 +16,6 @@
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Comments</label>
-  <div class="form-control-information col-xs-10"><%= @damage.comments %></div>
-</div>
-
-<div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Occurred On</label>
   <div class="form-control-information col-xs-10"><%= @damage.occurred_on %></div>
 </div>
@@ -35,25 +27,23 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Estimated Cost</label>
-  <div class="form-control-information col-xs-10"><%= @damage.estimated_cost %></div>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @damage.estimated_cost %></div>
 </div>
 
 <div class="form-group col-xs-12">
   <label class="col-xs-2 control-label">Actual Cost</label>
-  <div class="form-control-information col-xs-10"><%= @damage.actual_cost %></div>
+  <div class="form-control-information col-xs-10"><%= number_to_currency @damage.actual_cost %></div>
 </div>
 
 <div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Item</label>
-  <div class="form-control-information col-xs-10"><%= @damage.item %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Rental</label>
-  <div class="form-control-information col-xs-10"><%= @damage.rental %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <%= link_to 'Back', damages_path %>
-  <%= link_to 'Edit', edit_damage_path(@damage) %>
+  <div class="col-xs-offset-2 col-xs-10">
+    <%= link_to 'Edit', edit_damage_path(@damage), class: "btn btn-primary" %>
+    <% if @damage.hold.active %>
+      <%= link_to 'View Hold', @damage.hold, class: "btn btn-success"%>
+    <% else %>
+      <%= link_to 'Create Hold', new_hold_path(damage_id: @damage), class: "btn btn-primary"%>
+    <% end %>
+    <%= link_to 'View Incurred Incidental', @damage.incurred_incidental, class: "btn btn-success"%>
+    <%= link_to 'Back', :back, class: "btn btn-default" %>
+  </div>
 </div>

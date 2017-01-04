@@ -3,7 +3,8 @@ class Hold < ActiveRecord::Base
   belongs_to :item_type
   belongs_to :item
 
-  has_one :damage, dependent: :destroy
+  # maybe destroy the damage, maybe not, that will destroy the incurred_incidental as well
+  has_one :damage #, dependent: :destroy
 
   validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
   validates :start_time, :end_time, date: { after: Date.current, message: 'must be after current date. ' }

@@ -1,4 +1,7 @@
 <%= form_for @hold do |f| %>
+
+  <%= f.hidden_field :damage %>
+
   <div class="form-group col-xs-12">
     <%= f.label :item, 'Choose Cart', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
