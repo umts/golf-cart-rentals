@@ -11,7 +11,7 @@ describe HomeController do
   let(:future) { create :far_future_rental, reservation_id: 7777 }
   let(:ongoing) { create :ongoing_rental, reservation_id: 8888 }
   let(:ongoing2) { create :ongoing_rental, reservation_id: 9999 }
-  let(:canceled) { create :mock_rental, rental_status: 'canceled', reservation_id: 0o000 }
+  let(:canceled) { create :mock_rental, rental_status: 'canceled', reservation_id: 00_00 }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
