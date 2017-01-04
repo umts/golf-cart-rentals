@@ -33,18 +33,14 @@ describe HoldsController do
   describe 'GET #new' do
     it 'assigns a new hold to @hold' do
       get :new
-      expect(assigns[:hold]).to be_a_new(Hold)
-    end
-
-    it 'renders the :new view' do
-      get :new
+      expect(assigns[:hold]).to be_a(Hold)
       expect(response).to render_template :new
     end
 
     it 'assigns damage if given' do
       damage = create :damage
       get :new, params: { damage_id: damage }
-      expect(assigns[:hold].damage).to be damage
+      expect(assigns[:hold].damage).to eq damage
     end
   end
 
@@ -59,6 +55,11 @@ describe HoldsController do
       it 'redirects to the hold show page' do
         post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
         expect(response).to redirect_to Hold.last
+      end
+
+      it 'sets the damage given the params for damage' do
+        damage = create :damage
+        post :create, params: { hold: attributes_for(:hold, item_id: Item.first).merge(damage: damage) }
       end
     end
 

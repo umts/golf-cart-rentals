@@ -4,4 +4,5 @@ class Damage < ApplicationRecord
   validates :incurred_incidental_id, uniqueness: true
   belongs_to :incurred_incidental, dependent: :destroy
   belongs_to :hold, dependent: :destroy
+  has_one :item, through: :incurred_incidental
 end

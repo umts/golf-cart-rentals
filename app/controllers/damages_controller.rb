@@ -16,7 +16,6 @@ class DamagesController < ApplicationController
   end
 
   def create
-    binding.pry
     @damage = Damage.create(damage_params)
 
     if @damage.save
