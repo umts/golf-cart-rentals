@@ -253,7 +253,7 @@ describe RentalsController do
     it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
       create_list :user, 8 # can only do 8 because of pagination
       get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
-      expect(assigns[:users]).to eq(User.all.to_a)
+      expect(assigns[:users]).to be_empty
     end
 
     it 'finds by spire' do

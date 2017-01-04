@@ -33,7 +33,7 @@ FactoryGirl.define do
   factory :mock_rental, parent: :rental do
     association :creator, factory: :user
     association :renter, factory: :user
-    department_id 0
+    association :department
     association :item_type
     association :item
     sequence :reservation_id
