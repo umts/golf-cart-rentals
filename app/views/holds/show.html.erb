@@ -1,0 +1,38 @@
+<% provide(:page_header, "Hold ID: #{@hold.id}") %>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Active</label>
+  <div class="form-control-information col-xs-10"><%= @hold.active %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Reason for Hold</label>
+  <div class="form-control-information col-xs-10"><%= @hold.hold_reason %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Item</label>
+  <div class="form-control-information col-xs-10"><%= @hold.item.name %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Item Type</label>
+  <div class="form-control-information col-xs-10"><%= @hold.item_type.name %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">Start Time</label>
+  <div class="form-control-information col-xs-10"><%= @hold.start_time.to_date %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <label class="col-xs-2 control-label">End Time</label>
+  <div class="form-control-information col-xs-10"><%= @hold.end_time.to_date %></div>
+</div>
+
+<div class="form-group col-xs-12">
+  <div class="col-xs-offset-2 col-xs-10">
+    <%= link_to 'Edit Hold', edit_hold_path(@hold), class: "btn btn-primary" %>
+    <%= link_to 'Back', holds_path, class: "btn btn-default" %>
+  </div>
+</div>
