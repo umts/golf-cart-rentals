@@ -41,6 +41,19 @@ RSpec.describe Rental do
     end
   end
 
+  describe 'scope' do
+    it 'finds rented by and created by' do
+      creator = create :user
+      renter = create :user
+      rentals_one = create_list :mock_rental, 4, creator: creator
+      rentals_two = create_list :mock_rental, 4, renter: renter
+      expect(Rental.created_by creator).to eq rentals_one
+      expect(Rental.created_by renter).to be_empty
+      expect(Rental.rented_by renter).to eq rentals_two
+      expect(Rental.rented_by creator).to be_empty
+    end
+  end
+
   describe '#create_rental' do
     before(:each) do
       @rent = create :mock_rental
