@@ -1,2 +1,7 @@
-<% provide(:page_header, "New Incidental for #{@rental.basic_info}") %>
+<% if @rental %>
+  <% provide(:page_header, "New Incidental for #{@rental.basic_info}") %>
+<% else %>
+  <% provide(:page_header, "New Incidental") %>
+<% end %> 
+
 <%= render 'form' %>

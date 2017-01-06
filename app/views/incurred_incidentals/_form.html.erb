@@ -1,4 +1,4 @@
-<%= form_for setup_incurred_incidental(@incurred_incidental) do |f| %>
+<%= form_for setup_incurred_incidental(@incurred_incidental), html: { multipart: true } do |f| %>
   <div>
     <%= f.hidden_field :rental_id, value: params[:rental_id] || @incurred_incidental.rental.id, class: "selectpicker form-control" %>
   </div>
@@ -26,6 +26,13 @@
         </div>
         <% end %>
     <% end %>
+  </div>
+
+  <div class="form-group col-xs-12">
+    <%= label_tag :pictures, 'Documents', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= render partial: 'documents/upload' %>
+    </div>
   </div>
 
   <div class="form-group col-xs-12">

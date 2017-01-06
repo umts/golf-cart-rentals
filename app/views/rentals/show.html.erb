@@ -7,7 +7,7 @@
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label">Amount Charged</label>
-    <div class="form-control-information col-xs-10">$</div>
+    <div class="form-control-information col-xs-10"><%= number_to_currency @rental.sum_charges %> </div>
   </div>
 
   <div class="form-group col-xs-12">
@@ -17,7 +17,7 @@
 
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label">Total Amount Due</label>
-    <div class="form-control-information col-xs-1"><%= number_to_currency @rental.sum_amount%></div>
+    <div class="form-control-information col-xs-1"><%= number_to_currency @rental.balance %></div>
   </div>
   <!--
   <div class="form-group col-xs-12">
@@ -75,7 +75,7 @@
 <% end %>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#incidental">Incidental Type</a></li>
+  <li class="active"><a data-toggle="tab" href="#incidental">Incurred Incidentals</a></li>
   <li><a data-toggle="tab" href="#payment" >Financial Transactions</a></li>
 </ul>
 
@@ -124,7 +124,7 @@
     <%#= link_to 'Edit Rental', edit_rental_path(@rental), class: "btn btn-primary" %>
     <%= link_to 'Print Rental', @rental, :onclick => 'window.print();return false;', class: "btn btn-success"%>
     <%= link_to 'View Invoice', rental_invoice_path(@rental), class: "btn btn-success"%>
-    <% if @rental.sum_amount != 0 %>
+    <% if @rental.balance != 0 %>
       <%= link_to 'New Payment', new_financial_transaction_path(rental_id: @rental.id, transactable_type: Payment.name), class: "btn btn-primary"%>
     <% end %>
     <%= link_to 'Back', :back, class: "btn btn-default" %>

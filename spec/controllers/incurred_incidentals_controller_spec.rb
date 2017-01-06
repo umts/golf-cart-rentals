@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require 'rails_helper'
-
+include ActionDispatch::TestProcess
 describe IncurredIncidentalsController do
   let(:incurred_incidental_create) do
     inc = attributes_for(:incurred_incidental)
-    inc[:rental_id] = create(:rental)
-    inc[:incidental_type_id] = create(:incidental_type)
+    inc[:rental_id] = create(:rental).id
+    inc[:incidental_type_id] = create(:incidental_type).id
     inc[:amount] = 0
     inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
     inc
@@ -75,6 +75,28 @@ describe IncurredIncidentalsController do
       it 'redirects to the :new template' do
         post :create, params: { incurred_incidental: invalid_create }
         expect(response).to render_template :new
+      end
+    end
+
+    context 'with optional document' do
+      it 'takes a document and saves it' do
+        desc = 'some desc'
+        expect do
+          post :create, params: { incurred_incidental: incurred_incidental_create,
+                                  file: { '1' => fixture_file_upload('file.png', 'image/png') }, desc: { '1' => desc } }
+        end.to change(Document, :count).by(1)
+        expect(IncurredIncidental.last.documents).to be_present
+        expect(Document.last.description).to eq(desc)
+        expect(Document.last.original_filename).to eq('file.png')
+      end
+
+      it 'handles multiple documents' do
+        expect do
+          post :create, params: { incurred_incidental: incurred_incidental_create,
+                                  file: { '1' => fixture_file_upload('file.png', 'image/png'),
+                                          '2' => fixture_file_upload('file.txt', 'text/plain') },
+                                  desc: { '1' => 'some desc', '2' => 'another desc' } }
+        end.to change(Document, :count).by(2)
       end
     end
   end

@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   resources :incidental_types
   resources :incurred_incidentals
   resources :damages
-  resources :reservations
+  resources :documents, only: [:show]
   resources :holds do
     post :lift, on: :member
   end
