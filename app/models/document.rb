@@ -24,6 +24,11 @@ class Document < ActiveRecord::Base
   def write_file
     return unless uploaded_file # this is a temp variable in this class, it wont be written to the database
     begin
+      # this method can take multiple uploaded_file types but they need to have these methods.
+      raise ArgumentError unless uploaded_file.respond_to? :original_filename
+      raise ArgumentError unless uploaded_file.respond_to? :content_type
+      raise ArgumentError unless uploaded_file.respond_to? :read
+
       self.filename = SecureRandom.uuid
       self.original_filename = uploaded_file.original_filename
       self.filetype = if uploaded_file.content_type.starts_with? 'image/'
@@ -35,7 +40,7 @@ class Document < ActiveRecord::Base
       File.open(Rails.root.join('storage', Rails.env.to_s, filename), 'wb') do |file|
         file.write(uploaded_file.read)
       end
-    rescue e
+    rescue => e
       raise e, 'Failed to properly write file'
     end
   end
