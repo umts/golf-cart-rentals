@@ -28,7 +28,7 @@ class RentalsController < ApplicationController
     @users = []
 
     if params[:user_search_query].present?
-      # prioritiezed by order queries
+      # prioritized by order queries
       query_priority = %i(email_cont spire_id_eq full_name_cont)
 
       query_priority.each do |q|
