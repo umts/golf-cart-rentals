@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class PaymentTracking < ApplicationController
+class PaymentTrackingController < ApplicationController
 
   def index
     # collect unpaid rentals
-    #@rentals = Rentals.
+    @rentals = Rental
   end
 
 end
