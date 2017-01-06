@@ -1,37 +1,59 @@
-<%= form_for @rental, method: :post do |f| %>
+<div class="modal fade" id="modalSearchResults" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Matching Users</h4>
+      </div>
+      <div class="modal-body" id="userResults">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
 
+  </div>
+</div>
+
+<%= form_for @rental, method: :post do |f| %>
   <div class="form-group col-xs-12">
     <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'multiple_item_type_id', class: "selectpicker form-control cost-dependent" %>
+      <%= f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'rental_item_type_id', class: "selectpicker form-control cost-dependent" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :user, 'User', class: 'control-label col-xs-2' %>
+    <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.select :user_id, options_from_collection_for_select(@users.order(last_name: :asc), "id", "full_name"), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+      <%= f.hidden_field :renter_id, id: 'rental_user_id' %>
+      <div class="input-group">
+        <input type="text" id="rental_userSearchQuery" required="required" class="form-control userSearchQuery" placeholder="Customer Spire/Email/Name/Department" aria-describedby="User">
+        <a class="input-group-addon" data-toggle="modal" data-target="#modalSearchResults"><span class="glyphicon glyphicon-search"></span></a>
+      </div>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_date, required: true, id: 'multiple_start_time', class: "form-control cost-dependent" %>
+      <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
     <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'multiple_end_time', class: "form-control cost-dependent" %>
+      <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
     </div>
   </div>
+
 
   <div class="form-group col-xs-12">
     <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'multiple_amount', class: 'form-control' %>
+      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
     </div>
   </div>
 

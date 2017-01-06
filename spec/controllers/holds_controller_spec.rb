@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe HoldsController do
   let!(:hold) { create :hold }
 
-  let(:item) { create(:item, name: "TEST_ITEM") }
+  let(:item) { create(:item, name: 'TEST_ITEM') }
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
   describe 'GET #show' do
