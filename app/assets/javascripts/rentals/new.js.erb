@@ -54,7 +54,7 @@ function costCalculation(){
 
 
 function userResultHandleClick(e) {
-  var userId = $(this).attr("id").substr(10); //select the user id
+  var userId = $(this).attr("id").match(/\d+/).shift(); //select the user id
   $("#rental_user_id").val(userId);
 
   var row = $(this).parent().parent(); //select the row
