@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-#require 'will_paginate/array'
 class RentalsController < ApplicationController
   @per_page = 10
 
