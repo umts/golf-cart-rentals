@@ -2,16 +2,16 @@
 require 'rails_helper'
 
 describe HomeController do
-  let(:rental) { create :mock_rental, reservation_id: 1111 }
-  let(:rental2) { create :mock_rental, reservation_id: 2222 }
-  let(:upcoming) { create :upcoming_rental, reservation_id: 3333 }
-  let(:upcoming2) { create :upcoming_rental, start_time: DateTime.current, reservation_id: 4444 }
-  let(:past) { create :past_rental, reservation_id: 5555 }
-  let(:past2) { create :past_rental, reservation_id: 6666 }
-  let(:future) { create :far_future_rental, reservation_id: 7777 }
-  let(:ongoing) { create :ongoing_rental, reservation_id: 8888 }
-  let(:ongoing2) { create :ongoing_rental, reservation_id: 9999 }
-  let(:canceled) { create :mock_rental, rental_status: 'canceled', reservation_id: 0o000 }
+  let(:rental) { create :mock_rental }
+  let(:rental2) { create :mock_rental }
+  let(:upcoming) { create :upcoming_rental }
+  let(:upcoming2) { create :upcoming_rental, start_time: DateTime.current }
+  let(:past) { create :past_rental }
+  let(:past2) { create :past_rental }
+  let(:future) { create :far_future_rental }
+  let(:ongoing) { create :ongoing_rental }
+  let(:ongoing2) { create :ongoing_rental }
+  let(:canceled) { create :mock_rental, rental_status: 'canceled' }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -74,8 +74,8 @@ describe HomeController do
 
       it 'filters out rentals not belonging to the current user' do
         get :index
-        expect(assigns[:rentals]).to include(create(:mock_rental, user_id: @user.id), create(:ongoing_rental, user_id: @user.id))
-        expect(assigns[:rentals]).not_to include(create(:mock_rental, user_id: @other_user.id))
+        expect(assigns[:rentals]).to include(create(:mock_rental, renter_id: @user.id), create(:ongoing_rental, renter_id: @user.id))
+        expect(assigns[:rentals]).not_to include(create(:mock_rental, renter_id: @other_user.id))
       end
     end
   end

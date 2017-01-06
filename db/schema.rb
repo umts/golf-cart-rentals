@@ -181,7 +181,6 @@ ActiveRecord::Schema.define(version: 20170103161426) do
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "rental_status",        null: false
-    t.integer  "user_id",              null: false
     t.integer  "department_id",        null: false
     t.string   "reservation_id"
     t.integer  "item_type_id",         null: false
@@ -196,6 +195,8 @@ ActiveRecord::Schema.define(version: 20170103161426) do
     t.string   "dropoff_name"
     t.string   "pickup_phone_number"
     t.string   "dropoff_phone_number"
+    t.integer  "creator_id"
+    t.integer  "renter_id"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end

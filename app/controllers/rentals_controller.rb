@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'will_paginate/array'
 class RentalsController < ApplicationController
   @per_page = 10
 
@@ -20,6 +21,28 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1
   def show
+  end
+
+  # GET /rentals/search_users?q
+  def search_users
+    @users = []
+
+    if params[:user_search_query].present?
+      # prioritized by order queries
+      query_priority = %i(email_cont spire_id_eq full_name_cont)
+
+      query_priority.each do |q|
+        @users += User.ransack(q => params[:user_search_query]).result
+      end
+
+      # could be a department too
+      # join users with departments
+      @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
+
+      @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
+    end
+
+    render partial: 'search_users_table'
   end
 
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
@@ -84,7 +107,7 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
-    @rental = Rental.new(rental_params)
+    @rental = Rental.new(rental_params.merge(creator: @current_user))
 
     @start_date = params['start_date'] || Time.zone.today
     if @rental.create_reservation && @rental.save
@@ -154,9 +177,9 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    user = User.find(params.require(:rental).permit(:user_id)[:user_id])
+    user = User.find(params.require(:rental).require(:renter_id))
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :user_id, :pickup_name, :dropoff_name,
+    params.require(:rental).permit(:start_time, :item_type_id, :renter_id, :pickup_name, :dropoff_name,
                                    :pickup_phone_number, :dropoff_phone_number).merge(department_id: user.department_id, end_time: new_time)
   end
 
