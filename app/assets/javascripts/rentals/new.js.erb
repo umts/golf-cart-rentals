@@ -13,7 +13,6 @@ function days_between(sd, ed) {
 }
 
 function costCalculation(){
-  var activeTab = $("div.active").attr('id');
   var raw_item_type = null;
   var raw_start_time = null;
   var raw_end_time = null;
@@ -21,11 +20,11 @@ function costCalculation(){
   var prev_day = null;
   var range = null;
 
-  raw_item_type = $('#multiple_item_type_id').val();
-  raw_start_time = $('#multiple_start_time').val();
-  raw_start_time_l = $('#multiple_start_time');
-  raw_end_time = $('#multiple_end_time').val();
-  amount = $('#multiple_amount');
+  raw_item_type = $('#rental_item_type_id').val();
+  raw_start_time = $('#rental_start_time').val();
+  raw_start_time_l = $('#rental_start_time');
+  raw_end_time = $('#rental_end_time').val();
+  amount = $('#rental_amount');
   date_range = $('#date_range');
 
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
@@ -48,17 +47,65 @@ function costCalculation(){
         amount.val(data);
         date_range.val(range);
       },
-      error: function () {
-        alert('failed to retreive rental cost');
-      }
+      error: function () { alert('failed to retreive rental cost'); }
     });
    }
+}
+
+
+function userResultHandleClick(e) {
+  var userId = $(this).attr("id").match(/\d+/).shift(); //select the user id
+  $("#rental_user_id").val(userId);
+
+  var row = $(this).parent().parent(); //select the row
+  var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
+  $("#rental_userSearchQuery").val(name); //set the user to the full name
+
+  $("#modalSearchResults").modal('toggle'); //close modal
+}
+
+function ajaxUserSearch(pageNo) {
+  var query = $("#rental_userSearchQuery").val();
+
+  //inject page into request
+  var params = $.extend({user_search_query: query}, pageNo ? {page: pageNo} : {page: "1"} );
+
+  $.ajax({
+    url: Routes.rentals_search_users_path(),
+    dataType: "html",
+    data: params,
+    success: function (data) {
+      $("#userResults").html(data); //put content in the modal
+
+      //attach event listeners to results
+      $(".userResult").click(userResultHandleClick);
+
+      //need to reformat links
+      $("#userResults .pagination a").each(modalSearchResultsFormatPaginationLinks);
+    },
+    error: function () { alert("Failed to retreive users."); }
+  });
+}
+
+function getQueryString( field, url ) {
+  var href = url ? url : window.location.href;
+  var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+  var string = reg.exec(href);
+  return string ? string[1] : null;
+}
+
+function modalSearchResultsFormatPaginationLinks(undefined, link) {
+  link = $(link); //jquery that
+  //works universially to pull pageNo out of link
+  var pageNo = getQueryString("page", link.attr("href"));
+  link.attr("href", "#"); //remove navigation
+  link.click(function () { ajaxUserSearch(pageNo); } );
 }
 
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
-  $("input[id$='amount']").change(function () {
+  $("#rental_amount").change(function () {
     alert('Warning! You are overriding the system defaults.');
   });
 
@@ -70,7 +117,15 @@ $(document).ready( function () {
     costCalculation();
   });
 
-  $("input[id$='rental_amount']").change(function () {
-    alert('Warning! You are overriding the system defaults.');
+  // ~ user searching
+
+  //enter key performs click on search for ease of use
+  $(".userSearchQuery").keypress(function (key) {
+    if(key.which === 13) {
+      $("#modalSearchResults").modal('toggle'); //open modal
+    }
   });
+
+  //bind search to modal open
+  $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 });

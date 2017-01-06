@@ -45,10 +45,10 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'bootstrap-switch-rails'
-gem 'will_paginate-bootstrap'
 
 # pagination
 gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # searchable pages
 gem 'ransack'
@@ -66,6 +66,7 @@ gem 'js-routes'
 # gem 'capistrano-rails', '~> 1.1'
 # gem 'capistrano-rvm'
 # gem 'capistrano-passenger'
+gem 'unicode_utils', '~> 1.4'
 
 # permanent records
 gem 'permanent_records'

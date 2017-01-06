@@ -1,2 +1,6 @@
 - name: 'Parking'
   description: 'The Parking department for Parking users'
+- name: 'Transit'
+  description: 'The Transit department for Transit users'
+- name: 'Hotel'
+  description: 'The Hotel department for Hotel users'
