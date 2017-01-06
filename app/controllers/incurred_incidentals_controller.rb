@@ -60,11 +60,13 @@ class IncurredIncidentalsController < ApplicationController
   def upload_documents
     # only do this on sucess and with a file
     if @incurred_incidental.errors.empty? && params[:file]
-      # only allow types of uploaded file
-      params.require(:file).transform_values! { |uf| uf if uf.is_a? ActionDispatch::Http::UploadedFile }
+      params.require(:file).permit!
 
-      params.require(:file).to_unsafe_h.map(&:itself).each do |id, uploaded_file|
+      params[:file].each_pair do |id, uploaded_file|
         next unless uploaded_file && id
+        # only allow types of uploaded file
+        next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
+
         desc = params[:desc][id] # this is not a required field
         Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
       end
