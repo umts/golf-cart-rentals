@@ -9,6 +9,6 @@ class DocumentsController < ApplicationController
   private
 
   def set_document
-    @document = Document.find params[:id]
+    @document = Document.find params.require(:id)
   end
 end

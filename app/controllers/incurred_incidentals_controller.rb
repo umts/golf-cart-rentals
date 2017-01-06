@@ -61,7 +61,7 @@ class IncurredIncidentalsController < ApplicationController
     # only do this on sucess and with a file
     if @incurred_incidental.errors.empty? && params[:file]
       # only allow types of uploaded file
-      params.require(:file).transform_values! { |uf| uf if uf.class == ActionDispatch::Http::UploadedFile }
+      params.require(:file).transform_values! { |uf| uf if uf.is_a? ActionDispatch::Http::UploadedFile }
 
       params.require(:file).to_unsafe_h.map(&:itself).each do |id, uploaded_file|
         next unless uploaded_file && id

@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#multiUploadMoreFields").click(function () {
-    if($(".multi-upload-group:visible").length == 1) {
+    if($(".multi-upload-group:visible").length == 0) {
       $(".multi-upload-group").show(); //we never deleted it, just hid it
     } else {
       $(".multi-upload-group").first().clone().appendTo("#multiUploadContainer"); //add new group
