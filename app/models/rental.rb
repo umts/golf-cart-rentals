@@ -31,8 +31,8 @@ class Rental < ActiveRecord::Base
   scope :all_future_rentals, -> { reserved.where('end_time >= ?', DateTime.current) }
   scope :no_show_rentals, -> { reserved.where('end_time < ?', DateTime.current) }
   scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
-  scope :rented_by, ->(id) { where(renter_id: id) }
-  scope :created_by, ->(id) { where(creator_id: id) }
+  scope :rented_by, ->(user) { where(renter_id: user) }
+  scope :created_by, ->(user) { where(creator_id: user) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
