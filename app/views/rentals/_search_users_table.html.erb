@@ -1,0 +1,30 @@
+<% if @users.any? %>
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Spire</th>
+        <th>Department</th>
+        <th class="min-width">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.spire_id %></td>
+          <td><%= user.department.try(:name) %></td>
+          <td><a class="btn btn-xs btn-success userResult" id=<%= "userResult#{user.id}" %> class="userSelected"><span class="glyphicon glyphicon-check"> Select</span></a></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+<% else %>
+  <h4 class="text-warning">Your Search Returned No Results.</h4>
+<% end %>

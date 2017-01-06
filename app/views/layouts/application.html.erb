@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ProbableEngine</title>
-	<%= Gon::Base.render_data({}) %>
+  <head>
+    <title>ProbableEngine</title>
+    <%= Gon::Base.render_data({}) %>
 
-	<%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= stylesheet_link_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/stylesheets/#{params[:controller]}/#{params[:action]}.css") %>
-  <%= javascript_include_tag 'application' %>
-  <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{params[:controller]}/#{params[:action]}.js") %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
 
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <%= render partial: 'layouts/shared/header' %>
-  <!-- <%= render partial: 'layouts/shared/loading' %> -->
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render partial: 'layouts/shared/header' %>
+    <!-- <%= render partial: 'layouts/shared/loading' %> -->
 
-  <%= render partial: 'layouts/shared/navbar' %>
+    <%= render partial: 'layouts/shared/navbar' %>
 
-  <div class="container main-content <%= controller_name %> <%= action_name %> ">
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, nil, class: "alert alert-#{name} container-fluid" do %>
-        <% glyph = "glyphicon glyphicon-alert flash-icon" if name == 'warning' %>
-        <% glyph = "glyphicon glyphicon-remove flash-icon" if name == 'danger' %>
-        <% glyph = "glyphicon glyphicon-ok flash-icon" if name == 'success' %>
+    <div class="container main-content <%= controller_name %> <%= action_name %> ">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, nil, class: "alert alert-#{name} container-fluid" do %>
+          <% glyph = "glyphicon glyphicon-alert flash-icon" if name == 'warning' %>
+          <% glyph = "glyphicon glyphicon-remove flash-icon" if name == 'danger' %>
+          <% glyph = "glyphicon glyphicon-ok flash-icon" if name == 'success' %>
 
-        <table class="flash-message"><tr>
-          <td><%= content_tag :span, nil, class: glyph %></td>
-          <!-- If there is an array of messages, print them all -->
-          <td>
-            <% if msg.is_a? Array %>
-              <% msg.each do |m| %>
-                <div>
-                  <%= m %>
-                </div>
-              <% end %>
-            <!-- Otherwise, print the one -->
-            <% else %>
-              <div><%= msg  %></div>
-            <% end %>
-          </td>
-        </tr></table>
+          <table class="flash-message"><tr>
+              <td><%= content_tag :span, nil, class: glyph %></td>
+              <!-- If there is an array of messages, print them all -->
+              <td>
+                <% if msg.is_a? Array %>
+                  <% msg.each do |m| %>
+                    <div>
+                      <%= m %>
+                    </div>
+                  <% end %>
+                  <!-- Otherwise, print the one -->
+                <% else %>
+                  <div><%= msg  %></div>
+                <% end %>
+              </td>
+            </tr></table>
 
-      <% end %>
-    <% end %>
+          <% end %>
+        <% end %>
 
-    <h2 class='page-title'>
-      <%= yield :page_header %>
-    </h2>
+        <h2 class='page-title'>
+          <%= yield :page_header %>
+        </h2>
 
-    <hr>
+        <hr>
 
-    <%= yield %>
+        <%= yield %>
 
-    <% if !yield( :pagination ).blank? %>
-      <span id='pagination-info'>
-        Displaying <%= yield( :pagination ) %> <strong id='pagination-number'></strong> of <strong id='pagination-total'></strong>
-      </span>
-      <nav id='pagination'><ul></ul></nav>
-    <% end %>
-  </div>
+        <% if !yield( :pagination ).blank? %>
+          <span id='pagination-info'>
+            Displaying <%= yield( :pagination ) %> <strong id='pagination-number'></strong> of <strong id='pagination-total'></strong>
+          </span>
+          <nav id='pagination'><ul></ul></nav>
+        <% end %>
+    </div>
 
-  <%= render partial: 'layouts/shared/footer' %>
+    <%= render partial: 'layouts/shared/footer' %>
 
-</body>
+  </body>
 </html>

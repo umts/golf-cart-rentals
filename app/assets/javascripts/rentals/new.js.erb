@@ -2,48 +2,114 @@ function isEmpty(str) {
   return (!str || 0 === str.length);
 }
 
+function days_between(sd, ed) {
+  var one_day=1000*60*60*24;
+  var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+  var startD = new Date(sd.replace(pattern,'$3-$2-$1')).getTime();
+  var endD = new Date(ed.replace(pattern,'$3-$2-$1')).getTime();
+  var diff_ms = endD - startD;
+
+  return Math.round(diff_ms/one_day)
+}
+
 function costCalculation(){
-  var activeTab = $("div.active").attr('id');
   var raw_item_type = null;
   var raw_start_time = null;
   var raw_end_time = null;
   var amount = null;
+  var prev_day = null;
+  var range = null;
 
-  if(activeTab == "single_day") {
-    raw_item_type = $('#single_item_type_id').val();
-    raw_start_time = $('#single_start_time').val();
-    raw_end_time = $('#single_start_time').val(); <% #force it to be one day %>
-    amount = $('#single_amount');
-  } else { //must be on multiple tab
-    raw_item_type = $('#multiple_item_type_id').val();
-    raw_start_time = $('#multiple_start_time').val();
-    raw_end_time = $('#multiple_end_time').val();
-    amount = $('#multiple_amount');
-  }
+  raw_item_type = $('#rental_item_type_id').val();
+  raw_start_time = $('#rental_start_time').val();
+  raw_start_time_l = $('#rental_start_time');
+  raw_end_time = $('#rental_end_time').val();
+  amount = $('#rental_amount');
+  date_range = $('#date_range');
 
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
     if(new Date(raw_start_time) > new Date(raw_end_time)) {
       alert('Pickup Date must occur before Dropoff date');
-    } else {
-      $.ajax({
-        url: Routes.rentals_cost_path(),
-        dataType: 'json',
-        data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
-        success: function (data) {
-          amount.val(data);
-        },
-        error: function () {
-          alert('failed to retreive rental cost');
-        }
-      });
+      prev_day = new Date(raw_end_time);
+      prev_day.setDate(prev_day.getDate());
+      prev_day = prev_day.getFullYear() + '-' + (prev_day.getMonth() + 1) + '-' + prev_day.getDate();
+      raw_start_time_l.val(prev_day);
+      raw_start_time = raw_start_time_l.val();
     }
-  }
+
+    range = days_between(raw_start_time, raw_end_time);
+
+    $.ajax({
+      url: Routes.rentals_cost_path(),
+      dataType: 'json',
+      data: { item_type: raw_item_type, start_time: raw_start_time, end_time: raw_end_time },
+      success: function (data) {
+        amount.val(data);
+        date_range.val(range);
+      },
+      error: function () { alert('failed to retreive rental cost'); }
+    });
+   }
+}
+
+
+function userResultHandleClick(e) {
+  var userId = $(this).attr("id").match(/\d+/).shift(); //select the user id
+  $("#rental_user_id").val(userId);
+
+  var row = $(this).parent().parent(); //select the row
+  var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
+  $("#rental_userSearchQuery").val(name); //set the user to the full name
+
+  $("#modalSearchResults").modal('toggle'); //close modal
+}
+
+function ajaxUserSearch(pageNo) {
+  var query = $("#rental_userSearchQuery").val();
+
+  //inject page into request
+  var params = $.extend({user_search_query: query}, pageNo ? {page: pageNo} : {page: "1"} );
+
+  $.ajax({
+    url: Routes.rentals_search_users_path(),
+    dataType: "html",
+    data: params,
+    success: function (data) {
+      $("#userResults").html(data); //put content in the modal
+
+      //attach event listeners to results
+      $(".userResult").click(userResultHandleClick);
+
+      //need to reformat links
+      $("#userResults .pagination a").each(modalSearchResultsFormatPaginationLinks);
+    },
+    error: function () { alert("Failed to retreive users."); }
+  });
+}
+
+function getQueryString( field, url ) {
+  var href = url ? url : window.location.href;
+  var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+  var string = reg.exec(href);
+  return string ? string[1] : null;
+}
+
+function modalSearchResultsFormatPaginationLinks(undefined, link) {
+  link = $(link); //jquery that
+  //works universially to pull pageNo out of link
+  var pageNo = getQueryString("page", link.attr("href"));
+  link.attr("href", "#"); //remove navigation
+  link.click(function () { ajaxUserSearch(pageNo); } );
 }
 
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
-  $('input.cost-dependent').on('blur', function () {
+  $("#rental_amount").change(function () {
+    alert('Warning! You are overriding the system defaults.');
+  });
+
+  $( ".datepicker" ).datetimepicker().on('dp.change', function(ev) {
     costCalculation();
   });
 
@@ -51,11 +117,15 @@ $(document).ready( function () {
     costCalculation();
   });
 
-  $("a[href='#multiple_day']").on('shown.bs.tab', function () {
-    costCalculation();
+  // ~ user searching
+
+  //enter key performs click on search for ease of use
+  $(".userSearchQuery").keypress(function (key) {
+    if(key.which === 13) {
+      $("#modalSearchResults").modal('toggle'); //open modal
+    }
   });
 
-  $("input[id$='amount']").change(function () {
-    alert('Warning! You are overriding the system defaults.');
-  });
+  //bind search to modal open
+  $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 });
