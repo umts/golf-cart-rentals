@@ -47,10 +47,10 @@ RSpec.describe Rental do
       renter = create :user
       rentals_one = create_list :mock_rental, 4, creator: creator
       rentals_two = create_list :mock_rental, 4, renter: renter
-      expect(Rental.created_by creator).to eq rentals_one
-      expect(Rental.created_by renter).to be_empty
-      expect(Rental.rented_by renter).to eq rentals_two
-      expect(Rental.rented_by creator).to be_empty
+      expect(Rental.created_by(creator)).to eq rentals_one
+      expect(Rental.created_by(renter)).to be_empty
+      expect(Rental.rented_by(renter)).to eq rentals_two
+      expect(Rental.rented_by(creator)).to be_empty
     end
   end
 
@@ -97,14 +97,21 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#sum_amount' do
+  describe '#balance' do
     before :each do
       @rental = create :mock_rental
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
       sum_amount = FinancialTransaction.where(rental: @rental).map(&:amount).inject(:+)
-      expect(@rental.sum_amount).to eq(sum_amount)
+      expect(@rental.balance).to eq(sum_amount)
+    end
+
+    it 'returns the cost-payments' do
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+      create(:financial_transaction, transactable: create(:payment), amount: sum_amount, rental: @rental)
+
+      expect(@rental.balance).to be_zero # fully paid
     end
   end
 

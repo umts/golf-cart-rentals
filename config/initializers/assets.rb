@@ -13,6 +13,7 @@ Rails.application.config.assets.precompile += %w( rentals/index.js )
 Rails.application.config.assets.precompile += %w( rentals/invoice.css )
 Rails.application.config.assets.precompile += %w( rentals/rental_schedule.css )
 Rails.application.config.assets.precompile += %w( financial_transactions/new.js )
+Rails.application.config.assets.precompile += %w( incurred_incidentals/show.css )
 Rails.application.config.assets.precompile += %w( incurred_incidentals/new.js )
 Rails.application.config.assets.precompile += %w( rentals/new.js )
 #Rails.application.config.assets.precompile += ['**/*']
