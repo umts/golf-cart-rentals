@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128151244) do
+ActiveRecord::Schema.define(version: 20161213203847) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
@@ -29,9 +29,14 @@ ActiveRecord::Schema.define(version: 20161128151244) do
   end
 
   create_table "documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "filename",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "filename",          null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "documentable_id"
+    t.string   "documentable_type"
+    t.string   "description"
+    t.integer  "filetype"
+    t.string   "original_filename"
   end
 
   create_table "financial_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -105,16 +110,6 @@ ActiveRecord::Schema.define(version: 20161128151244) do
     t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
   end
 
-  create_table "incurred_incidentals_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "incurred_incidental_id", null: false
-    t.integer  "document_id",            null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.index ["document_id"], name: "index_incurred_incidentals_documents_on_document_id", using: :btree
-    t.index ["incurred_incidental_id", "document_id"], name: "index_on_incidentals_documents_id", unique: true, using: :btree
-    t.index ["incurred_incidental_id"], name: "index_incurred_incidentals_documents_on_incurred_incidental_id", using: :btree
-  end
-
   create_table "item_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
     t.text     "disclaimer",  limit: 65535
@@ -167,7 +162,6 @@ ActiveRecord::Schema.define(version: 20161128151244) do
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "rental_status",        null: false
-    t.integer  "user_id",              null: false
     t.integer  "department_id",        null: false
     t.string   "reservation_id"
     t.integer  "item_type_id",         null: false
@@ -182,6 +176,8 @@ ActiveRecord::Schema.define(version: 20161128151244) do
     t.string   "dropoff_name"
     t.string   "pickup_phone_number"
     t.string   "dropoff_phone_number"
+    t.integer  "creator_id"
+    t.integer  "renter_id"
     t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
   end
@@ -213,6 +209,4 @@ ActiveRecord::Schema.define(version: 20161128151244) do
   add_foreign_key "groups_permissions", "permissions", name: "fk_groups_permissions_permissions"
   add_foreign_key "groups_users", "groups", name: "fk_groups_users_groups"
   add_foreign_key "groups_users", "users", name: "fk_groups_users_users"
-  add_foreign_key "incurred_incidentals_documents", "documents", name: "fk_incurred_incidentals_documents_documents"
-  add_foreign_key "incurred_incidentals_documents", "incurred_incidentals", name: "fk_incurred_incidentals_documents_incurred_incidentals"
 end

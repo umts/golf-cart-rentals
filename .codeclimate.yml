@@ -49,6 +49,8 @@ engines:
     - 312994113044146162fe57121c45a99e
     - 5fbe6043484b5fe2ff5491f75ff66581
     - 1064d189916e56f6eaabf8de6bfd429a
+    - e7409fe862b7f518f0a7677620fb695f
+    - c1dca0ed877540b488d0ba218778a893
 ratings:
   paths:
   - Gemfile.lock

@@ -3,6 +3,7 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
+  after_action :upload_documents, only: [:create, :update]
 
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
@@ -55,6 +56,22 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
+
+  def upload_documents
+    # only do this on sucess and with a file
+    if @incurred_incidental.errors.empty? && params[:file]
+      params.require(:file).permit!
+
+      params[:file].each_pair do |id, uploaded_file|
+        next unless uploaded_file && id
+        # only allow types of uploaded file
+        next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
+
+        desc = params[:desc][id] # this is not a required field
+        Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
+      end
+    end
+  end
 
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])

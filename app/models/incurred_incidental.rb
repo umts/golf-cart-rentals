@@ -6,8 +6,7 @@ class IncurredIncidental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
   has_many :notes, as: :noteable
 
-  has_many :incurred_incidentals_documents, dependent: :destroy
-  has_many :documents, through: :incurred_incidentals_documents
+  has_many :documents, as: :documentable, dependent: :destroy
 
   accepts_nested_attributes_for :notes, reject_if: proc { |attributes| attributes.all? { |_, v| v.blank? } }
 

@@ -9,8 +9,11 @@ RSpec.describe Rental do
     it 'has a can build with alias date designations' do
       expect(build(:rental, start_date: Time.current, end_date: (Time.current + 1.day))).to be_valid
     end
-    it 'is invalid without a user_id' do
-      expect(build(:rental, user_id: nil)).not_to be_valid
+    it 'is invalid without a renter_id' do
+      expect(build(:rental, renter_id: nil)).not_to be_valid
+    end
+    it 'is invalid without a creator_id' do
+      expect(build(:rental, creator_id: nil)).not_to be_valid
     end
     it 'is invalid without an item_type_id' do
       expect(build(:rental, item_type_id: nil)).not_to be_valid
@@ -35,6 +38,19 @@ RSpec.describe Rental do
         rental = create :mock_rental
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
+    end
+  end
+
+  describe 'scope' do
+    it 'finds rented by and created by' do
+      creator = create :user
+      renter = create :user
+      rentals_one = create_list :mock_rental, 4, creator: creator
+      rentals_two = create_list :mock_rental, 4, renter: renter
+      expect(Rental.created_by(creator)).to eq rentals_one
+      expect(Rental.created_by(renter)).to be_empty
+      expect(Rental.rented_by(renter)).to eq rentals_two
+      expect(Rental.rented_by(creator)).to be_empty
     end
   end
 
@@ -81,14 +97,21 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#sum_amount' do
+  describe '#balance' do
     before :each do
       @rental = create :mock_rental
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
       sum_amount = FinancialTransaction.where(rental: @rental).map(&:amount).inject(:+)
-      expect(@rental.sum_amount).to eq(sum_amount)
+      expect(@rental.balance).to eq(sum_amount)
+    end
+
+    it 'returns the cost-payments' do
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+      create(:financial_transaction, transactable: create(:payment), amount: sum_amount, rental: @rental)
+
+      expect(@rental.balance).to be_zero # fully paid
     end
   end
 

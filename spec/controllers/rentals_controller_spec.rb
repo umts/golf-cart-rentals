@@ -6,13 +6,13 @@ describe RentalsController do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
     rental[:item_id] = create(:item, name: 'TEST_ITEM')
-    rental[:user_id] = create(:user, first_name: 'Test2')
+    rental[:renter_id] = create(:user, first_name: 'Test2')
     rental
   end
 
   let(:invalid_create) do
     rental = attributes_for(:invalid_rental)
-    rental[:user_id] = create(:user, first_name: 'Test_User')
+    rental[:renter_id] = create(:user, first_name: 'Test_User')
     rental
   end
 
@@ -242,6 +242,37 @@ describe RentalsController do
 
     it 'change a rental' do
       put :update, params: { id: @rental.id, rental: { start_time: @rental.start_time + 1.hour } }
+    end
+  end
+
+  describe 'GET #search_users' do
+    before(:each) do
+      User.destroy_all
+    end
+
+    it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
+      create_list :user, 8 # can only do 8 because of pagination
+      get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
+      expect(assigns[:users]).to be_empty
+    end
+
+    it 'finds by spire' do
+      this_one = create :user, spire_id: 86_753_091 # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
+      get :search_users, params: { user_search_query: '86753091' } # should be unique enough
+      expect(assigns[:users]).to contain_exactly(this_one)
+    end
+
+    it 'finds from multiple catagories' do
+      one = create :user, email: 'billy@example.com' # name will not be related to billy
+      two = create :user, first_name: 'billy' # email will not be related to billy
+      get :search_users, params: { user_search_query: 'billy' }
+      expect(assigns.fetch(:users)).to contain_exactly one, two # will be exact match
+    end
+
+    it 'searches by department' do
+      u = create :user, department: create(:department, name: 'transit')
+      get :search_users, params: { user_search_query: 'transit' }
+      expect(assigns[:users]).to eq([u]) # will be exact match
     end
   end
 end
