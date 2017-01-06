@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#multiUploadMoreFields").click(function () {
-    if($(".multi-upload-group:visible").length < 1) {
+    if($(".multi-upload-group:visible").length == 1) {
       $(".multi-upload-group").show(); //we never deleted it, just hid it
     } else {
       $(".multi-upload-group").first().clone().appendTo("#multiUploadContainer"); //add new group
@@ -17,11 +17,11 @@ $(document).ready(function () {
     }
   });
 
-  $(".multiUploadDeleteField").click(function (e) {
+  $(".multiUploadDeleteField").click(function () {
     if($(".multi-upload-group").length > 1) {
-      e.currentTarget.parentElement.remove();
+      $(this).parent().remove();
     } else {
-      $(e.currentTarget.parentElement).hide(); //dont remove it, just hide it
+      $(this).parent().hide(); //dont remove it, just hide it
     }
   });
 });
