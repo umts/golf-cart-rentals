@@ -152,6 +152,11 @@ class Rental < ActiveRecord::Base
     sum_charges - sum_payments
   end
 
+  # this method seems really inefficient
+  def self.with_balance_due
+    Rental.select { |x| x.balance > 0 }
+  end
+
   # private
   attr_accessor :skip_reservation_validation
 
