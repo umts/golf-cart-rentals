@@ -6,4 +6,9 @@ class PaymentTrackingController < ApplicationController
     @rentals = Rental.with_balance_due.paginate(page: params[:page], per_page: 15)
   end
 
+  def send_invoice
+    binding.pry
+    params.require(:rental_id)
+  end
+
 end

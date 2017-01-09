@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     end
   end
   get 'payment_tracking', to: 'payment_tracking#index'
+  post 'payment_tracking/:rental_id/sendinvoice', to: 'payment_tracking#send_invoice',
+    as: 'payment_tracking_send_invoice'
 
   get 'file_not_found' => 'application#render_404', as: 'file_not_found'
   match '/:anything', to: 'application#render_404', constraints: { anything: /.*/ }, via: [:get, :post]
