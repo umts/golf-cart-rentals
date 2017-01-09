@@ -33,6 +33,7 @@ class Rental < ActiveRecord::Base
   scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
+  scope :with_balance_due, -> { select { |rental| rental.balance > 0 } }
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -153,9 +154,9 @@ class Rental < ActiveRecord::Base
   end
 
   # this method seems really inefficient
-  def self.with_balance_due
-    Rental.select { |x| x.balance > 0 }
-  end
+  #def self.with_balance_due
+    #Rental.select { |x| x.balance > 0 }
+  #end
 
   # private
   attr_accessor :skip_reservation_validation
