@@ -33,7 +33,7 @@ class Rental < ActiveRecord::Base
   scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
-  scope :with_balance_due, -> { select { |rental| rental.balance > 0 } }
+  scope :with_balance_due, -> { Rental.where id: (Rental.select { |rental| rental.balance > 0 }.collect { |rental| rental.id }) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
