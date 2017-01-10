@@ -23,7 +23,7 @@
           <td><%= rental.balance %></td>
           <td class="min-width">
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
-            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-envelope")+" Send Invoice"), payment_tracking_send_invoice_path(rental.id), class: "btn btn-xs btn-primary" %>
+            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-envelope")+" Send Invoice"), payment_tracking_send_invoice_path(rental.id), method: :post, class: "btn btn-xs btn-primary" %>
           </td>
         </tr>
       <% end %>

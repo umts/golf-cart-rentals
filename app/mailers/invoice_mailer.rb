@@ -1,6 +1,6 @@
-class ReplacementMailer < ActionMailer::Base
-  def send_invoice(user, rental)
+class InvoiceMailer < ActionMailer::Base
+  def send_invoice(rental)
     @rental = rental
-    mail(to: user.email, subject: "Invoice for Rental #{rental.basic_info}", template_name: 'rentals/invoice')
+    mail(to: rental.renter.email, subject: "Invoice for Rental #{rental.basic_info}", template_name: 'invoice')
   end
 end

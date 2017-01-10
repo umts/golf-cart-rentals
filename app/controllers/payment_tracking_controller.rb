@@ -7,8 +7,8 @@ class PaymentTrackingController < ApplicationController
   end
 
   def send_invoice
-    binding.pry
-    params.require(:rental_id)
+    rental = Rental.find params.require(:rental_id)
+    InvoiceMailer.send_invoice(rental).deliver_later # async delivery
   end
 
 end
