@@ -2,15 +2,10 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-xs-3">
-          <%= image_tag 'umass_logo', size: 130 %>
-        </div>
         <div class="col-xs-6">
           <p>
             Parking Services <br>
@@ -26,101 +21,113 @@
     </div>
 
     <div class="form-group col-xs-12">
-      <h3><label class="col-xs-2 control-label">Status</label>
-      <span class="label label-info auto"><%= @rental.rental_status.upcase %></span></h3>
+      <h3><label class="col-xs-2 control-label">Status:</label>&nbsp;<span class="label label-info auto"><%= @rental.rental_status.upcase %></span></h3>
     </div>
-    <!--
     <div class="form-group col-xs-12">
-      <label class="col-xs-2 control-label">Start Date/Time</label>
-      <div class="form-control-information col-xs-10"><%= @rental.start_date.strftime("%a %D %I:%M %p") %></div>
+      <label class="col-xs-2 control-label">Start Date/Time:</label>&nbsp;<%= @rental.start_date.strftime("%a %D %I:%M %p") %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-2 control-label">End Date/Time</label>
-      <div class="form-control-information col-xs-10"><%= @rental.end_date.strftime("%a %D %I:%M %p") %></div>
+      <label class="col-xs-2 control-label">End Date/Time:</label>&nbsp;<%= @rental.end_date.strftime("%a %D %I:%M %p") %>
     </div>
-    -->
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Item Type</label>
-      <div class="form-control-information col-xs-9"><%= @rental.item_type.name %></div>
+      <label class="col-xs-3 control-label">Item Type:</label>&nbsp;<%= @rental.item_type.name %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Item Name</label>
-      <div class="form-control-information col-xs-9"><%= @rental.item.name %></div>
+      <label class="col-xs-3 control-label">Item Name:</label>&nbsp;<%= @rental.item.name %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Reserved By</label>
-      <div class="form-control-information col-xs-9"><%= @rental.creator.full_name %></div>
+      <label class="col-xs-3 control-label">Reserved By:</label>&nbsp;<%= @rental.creator.full_name %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Customer</label>
-      <div class="form-control-information col-xs-9"><%= @rental.renter.full_name %></div>
+      <label class="col-xs-3 control-label">Customer:</label>&nbsp;<%= @rental.renter.full_name %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Reservation ID</label>
-      <div class="form-control-information col-xs-9"><%= @rental.reservation_id %></div>
+      <label class="col-xs-3 control-label">Reservation ID:</label>&nbsp;<%= @rental.reservation_id %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Department</label>
-      <div class="form-control-informaton col-xs-9"><%= @rental.department.name %></div>
+      <label class="col-xs-3 control-label">Department:</label>&nbsp;<div class="form-control-informaton col-xs-9"><%= @rental.department.name %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Amount Charged</label>
-      <div class="form-control-information col-xs-9"><%= number_to_currency @rental.sum_charges %></div>
+      <label class="col-xs-3 control-label">Amount Charged:</label>&nbsp;<%= number_to_currency @rental.sum_charges %>
     </div>
 
     <div class="form-group col-xs-12">
-       <label class="col-xs-3 control-label">Rental Amount</label>
-       <div class="form-control-information col-xs-9"><%= number_to_currency @rental.financial_transaction.amount %></div>
+       <label class="col-xs-3 control-label">Rental Amount:</label>&nbsp;<%= number_to_currency @rental.financial_transaction.amount %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Total Amount Due</label>
-      <div class="form-control-information col-xs-9"><%= number_to_currency @rental.balance %></div>
+      <label class="col-xs-3 control-label">Total Amount Due:</label>&nbsp;<%= number_to_currency @rental.balance %>
     </div>
 
-    <%#<ul class="nav nav-tabs hidden-print">%>
-      <%#<li class="active"><a data-toggle="tab" href="#incidental">Incidentals</a></li>%>
-      <%#<li><a data-toggle="tab" href="#payment" >Payment Summary</a></li>%>
-      <%#</ul>%>
-    <div class="container">
-      <div id="incidental" class="">
-        <div class="form-group col-xs-12">
-          <h2 class="">Incidentals</h2>
-          <table class="table table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Base Fee</th>
-                <th>Modifier Amount</th>
-                <th>Modifier Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+    <% if @rental.incurred_incidentals.any? %>
+      <div class="container">
+        <div id="incidental" class="">
+          <div class="form-group col-xs-12">
+            <h2 class="">Incidentals</h2>
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
                 <tr>
-                  <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
-                  <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
-                  <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
-                  <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
-                  <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Base Fee</th>
+                  <th>Modifier Amount</th>
+                  <th>Modifier Description</th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+                  <tr>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
+                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <div id="payment" class="form-group col-xs-12">
         <h2 class="">Payment Summary</h2>
-        <%= render partial: "transaction_detail" %>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Create Date</th>
+            <th>Transaction Type</th>
+            <th>Transaction Amount</th>
+            <th>Transaction Adjustment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rental.financial_transactions.each do |ft| %>
+            <tr>
+              <td><%= ft.created_at %></td>
+              <td><%= ft.transactable_type %></td>
+              <td><%= number_to_currency (ft.amount || 0) %></td>
+              <td><%= number_to_currency (ft.adjustment || 0) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="text-right">
+            <h2><label>Total Amount Due:</label>
+            <%= number_to_currency @rental.balance %></h2>
+          </div>
+        </div>
       </div>
     </div>
 

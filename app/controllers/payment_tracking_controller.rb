@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'will_paginate/array'
 class PaymentTrackingController < ApplicationController
 
   def index
