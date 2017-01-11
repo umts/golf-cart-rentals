@@ -4,8 +4,8 @@ class PaymentTrackingController < ApplicationController
 
   def index
     # collect unpaid rentals
-    @rentals = Rental.with_balance_due.ransack(params[:q]).
-      result.paginate(page: params[:page], per_page: 15)
+    @q = Rental.with_balance_due.ransack(params[:q])
+    @rentals = @q.result.paginate(page: params[:page], per_page: 15)
   end
 
   # returns 204 by default and will not cause navigation in browser
