@@ -52,6 +52,21 @@ RSpec.describe Rental do
       expect(Rental.rented_by(renter)).to eq rentals_two
       expect(Rental.rented_by(creator)).to be_empty
     end
+
+    it 'with_balance_due' do
+      # create our mock rentals
+      rental_paid = create :mock_rental
+      rental_unpaid = create :mock_rental # unpaid
+
+      # get amount from the transaction created by rental
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+
+      # pay for rental
+      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+      # now rental_paid has no balance due
+
+      expect(Rental.with_balance_due).to contain_exactly rental_unpaid
+    end
   end
 
   describe '#create_rental' do
