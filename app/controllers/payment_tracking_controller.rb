@@ -2,8 +2,11 @@
 class PaymentTrackingController < ApplicationController
 
   def index
-    # collect unpaid rentals
-    @q = Rental.with_balance_due.ransack(params[:q])
+    search_q = params[:q].permit(:days_since)
+
+
+    # collect unpaid rentals matching query
+    @q = Rental.with_balance_due.ransack(search_q)
     @rentals = @q.result
   end
 
