@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 describe PaymentTrackingController do
+  include ActiveJob::TestHelper
   let(:unpaid_rental) { create :mock_rental } # unpaid by default
   let(:paid_rental) do
     rental_paid = create :mock_rental
@@ -29,15 +30,21 @@ describe PaymentTrackingController do
     context 'sends and email' do
       # will send invoice even if there is no balance due
       it 'for a paid rental' do
-        expect do
-          post :send_invoice, params: { rental_id: paid_rental.id }
-        end.to change { ActionMailer::Base.deliveries.count }.by(1)
+        # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
+        perform_enqueued_jobs do
+          expect do
+            post :send_invoice, params: { rental_id: paid_rental.id }
+          end.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
       end
 
       it 'for an unpaid rental' do
-        expect do
-          post :send_invoice, params: { rental_id: unpaid_rental.id }
-        end.to change { ActionMailer::Base.deliveries.count }.by(1)
+        # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
+        perform_enqueued_jobs do
+          expect do
+            post :send_invoice, params: { rental_id: unpaid_rental.id }
+          end.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
       end
     end
   end
