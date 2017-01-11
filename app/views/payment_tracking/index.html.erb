@@ -1,11 +1,14 @@
 <% provide(:page_header, 'Payment Tracking') %>
 <% if @rentals.any? %>
 
-  <%= search_form_for @q do |f| %>
+  <%= search_form_for @q, class: 'form-inline' do |f| %>
+    <%= f.label :created_at_lteq, 'Created Start Date:', class: 'col-form-label' %>
+    <%= f.date_field :created_at_lteq, class: 'datepicker form-control'  %>
 
-    <%= f.label :created_at_lteq %>
-    <%= f.search_field :created_at_lteq %>
+    <%= f.label :created_at_gteq, 'Created End Date:', class: 'col-form-label'  %>
+    <%= f.date_field :created_at_gteq, class: 'datepicker form-control'  %>
 
+    <%= f.submit 'Search', class: 'btn btn-default form-control' %>
   <% end %>
 
   <table class="table table-striped table-bordered table-hover payment-tracking-datatable">
