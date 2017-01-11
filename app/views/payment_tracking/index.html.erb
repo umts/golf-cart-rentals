@@ -1,7 +1,6 @@
 <% provide(:page_header, 'Payment Tracking') %>
 <% if @rentals.any? %>
-  <%= will_paginate @rentals, renderer: BootstrapPagination::Rails %>
-  <table class="table table-striped table-bordered table-hover">
+  <table class="table table-striped table-bordered table-hover payment-tracking-datatable">
     <thead>
       <tr>
         <th>Rental Id</th>
@@ -9,7 +8,7 @@
         <th>Renter Department/Name</th>
         <th>Days Since Reservation</th>
         <th>Balance Due</th>
-        <th class="min-width">Actions</th>
+        <th class="min-width actions">Actions</th>
       </tr>
     </thead>
 
@@ -24,13 +23,12 @@
           <td class="min-width">
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-envelope")+" Send Invoice"), 
-              payment_tracking_send_invoice_path(rental.id), method: :post, id: 'payment_tracking_send_invoice', class: "btn btn-xs btn-primary" %>
+              payment_tracking_send_invoice_path(rental.id), method: :post, class: "btn btn-xs btn-primary payment_tracking_send_invoice" %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= will_paginate @rentals, renderer: BootstrapPagination::Rails %>
 <% else %>
   <h3>No Rentals To Track</h3>
 <% end %>
