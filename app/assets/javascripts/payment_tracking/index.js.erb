@@ -1,0 +1,35 @@
+$(document).ready(function () {
+  $(".payment-tracking-datatable").DataTable({
+    columnDefs: [
+      { "orderable": false, "targets": "nosortcol" }
+    ]
+  });
+
+  $(".payment_tracking_send_invoice").click(function () {
+    var rentalId = $(this).attr("id").match(/\d+/).shift();
+    $.ajax({
+      method: 'post',
+      url: Routes.payment_tracking_send_invoice_path(rentalId),
+      success: function () { alert("Email Sent"); },
+      error: function () { alert("failed to send email"); }
+    });
+  });
+
+  $("#payment_tracking_select_all").change(function () {
+    if($(this).is(":checked")) {
+      $("input[type='checkbox']").prop("checked",true);
+    } else {
+      $("input[type='checkbox']").prop("checked",false);
+    }
+  });
+
+  $("#payment_tracking_invoice_all").click(function () {
+    //gon uses the value we set in the controller
+    var rentalIds = gon.rentals.map(function (rental) { return rental.id })
+    $.post(Route.payment_tracking_send_many_invoices, { rentals: rentalIds}, function () { alert("email sent"); }, "json");
+  });
+
+  $("#payment_tracking_invoice_selected").click(function () {
+
+  });
+});

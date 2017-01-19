@@ -14,12 +14,17 @@ class PaymentTrackingController < ApplicationController
     # collect unpaid rentals matching query
     @q = Rental.with_balance_due.ransack(search_q)
     @rentals = @q.result
+    gon.push({ rentals: @rentals }) # send to the js
   end
 
   # returns 204 by default and will not cause navigation in browser
   def send_invoice
     rental = Rental.find params.require(:rental_id)
     InvoiceMailer.send_invoice(rental).deliver_later # async delivery
+  end
+
+  def send_many_invoices
+    JSON.parse(request.body)
   end
 
 end
