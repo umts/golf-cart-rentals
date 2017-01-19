@@ -4,7 +4,7 @@ class PaymentTrackingController < ApplicationController
   def index
     params[:q] ||= {}
 
-    search_q = params[:q].permit(:days_since)
+    search_q = params[:q].permit(:created_at_gteq,:created_at_lteq)
     # move these to end or beginning of day but only if they are present
     search_q[:created_at_gteq] =
       Date.parse(search_q[:created_at_gteq]).beginning_of_day if search_q[:created_at_gteq].present?
