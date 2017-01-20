@@ -18,11 +18,18 @@ describe PaymentTrackingController do
 
 
   describe 'get #index' do
-    it 'only returns upaid rentals' do
+    it 'only returns unpaid rentals' do
+      unpaid_rental
+      paid_rental
+      get :index, params: { balance_gteq: 1 }
+      expect(assigns[:rentals]).to contain_exactly unpaid_rental
+    end
+
+    it 'default returns all rentals' do
       unpaid_rental
       paid_rental
       get :index
-      expect(assigns[:rentals]).to contain_exactly unpaid_rental
+      expect(assigns[:rentals]).to contain_exactly unpaid_rental, paid_rental
     end
   end
 
