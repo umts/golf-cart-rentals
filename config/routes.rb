@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     end
   end
   get 'payment_tracking', to: 'payment_tracking#index'
+  post 'payment_tracking/send_many_invoices', to: 'payment_tracking#send_many_invoices',
+    as: 'payment_tracking_send_many_invoices'
   post 'payment_tracking/:rental_id/sendinvoice', to: 'payment_tracking#send_invoice',
     as: 'payment_tracking_send_invoice'
 
