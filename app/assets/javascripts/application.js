@@ -28,3 +28,5 @@
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip(); //init tooltips
 });
+
+$( ".datepicker" ).datetimepicker(); //datepicker initialization

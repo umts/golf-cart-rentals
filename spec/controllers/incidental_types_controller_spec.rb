@@ -3,12 +3,11 @@ require 'rails_helper'
 
 describe IncidentalTypesController do
   let(:incidental_type_create) do
-    inc_type = attributes_for(:incidental_type)
-    inc_type
+    attributes_for(:incidental_type)
   end
 
   let(:invalid_incidental) do
-    inc_type = attributes_for(:invalid_type)
+    attributes_for(:invalid_type)
   end
 
   let!(:incidental_type) { create(:incidental_type) }

@@ -20,18 +20,17 @@ class IncurredIncidentalsController < ApplicationController
 
   def create
     @incurred_incidental = IncurredIncidental.new(incidental_params)
-    respond_to do |format|
-      if @incurred_incidental.save
-        format.html do
-          redirect_to incurred_incidental_path(@incurred_incidental)
-          flash[:success] = 'Incidental successfully created'
-        end
+    if @incurred_incidental.save
+      flash[:success] = 'Incidental successfully created'
+      if @incurred_incidental.incidental_type.damage_tracked
+        flash[:warning] = 'Please Create Associated Damage Tracking'
+        redirect_to new_damage_path(incurred_incidental_id: @incurred_incidental)
       else
-        format.html do
-          render :new
-          flash[:error] = 'Failed to update Incidental'
-        end
+        redirect_to incurred_incidental_path(@incurred_incidental)
       end
+    else
+      render :new
+      flash[:error] = 'Failed to update Incidental'
     end
   end
 

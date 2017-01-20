@@ -10,7 +10,7 @@ class HoldsController < ApplicationController
   end
 
   def new
-    @hold = Hold.new
+    @hold = Hold.new(new_hold_params)
   end
 
   def create
@@ -55,8 +55,17 @@ class HoldsController < ApplicationController
     @hold = Hold.find(params[:id])
   end
 
+  def new_hold_params
+    # find_by returns 1 or nil
+    { damage: Damage.find_by(id: params.fetch(:damage_id, nil)), item_id: params.fetch(:item_id, nil) }
+  end
+
   def hold_params
     item_type_id = Item.find(params[:hold][:item_id]).item_type_id
-    params.require(:hold).permit(:hold_reason, :item_id, :start_time, :end_time).merge(item_type_id: item_type_id)
+
+    # will evaluate to nil or an instance of damage
+    damage = Damage.find_by id: params.fetch(:damage_id, nil)
+    params.require(:hold).permit(:hold_reason, :item_id,
+                                 :start_time, :end_time).merge(item_type_id: item_type_id, damage: damage)
   end
 end
