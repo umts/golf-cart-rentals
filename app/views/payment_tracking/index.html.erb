@@ -36,7 +36,7 @@
     <tbody>
       <% @rentals.each do |rental| %>
         <tr>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" id=<%= "paymentTrackingCheck#{rental.id}" %> ></td>
           <td><%= rental.id %></td>
           <td><%= rental.reservation_id %></td>
           <td><%= if rental.renter.department then rental.renter.department.name else rental.renter.full_name end %></td>

@@ -48,4 +48,28 @@ describe PaymentTrackingController do
       end
     end
   end
+
+  describe 'post #send_many_invoices' do
+    it 'sends multiple invoices by email' do
+      # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
+      perform_enqueued_jobs do
+        expect do
+          post :send_many_invoices, params: { rentals: [unpaid_rental, paid_rental] }
+        end.to change { ActionMailer::Base.deliveries.count }.by(2)
+      end
+      expect(response).to be_ok
+      expect(JSON.parse(response.body)["errors"]).to be_empty
+    end
+
+    it 'handles errors' do
+      # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
+      perform_enqueued_jobs do
+        expect do
+          post :send_many_invoices, params: { rentals: [-1, -2] } # these id's couldnt possibly exist
+        end.to change { ActionMailer::Base.deliveries.count }.by(0)
+      end
+      expect(response.code).to eq "207"
+      expect(JSON.parse(response.body)["errors"]).to contain_exactly('-1', '-2')
+    end
+  end
 end

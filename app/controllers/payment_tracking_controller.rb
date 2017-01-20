@@ -24,20 +24,17 @@ class PaymentTrackingController < ApplicationController
   end
 
   def send_many_invoices
-    binding.pry
-    rentals = JSON.parse(request.body)["rentals"]
+    rentals = params.require :rentals
     errors = []
-    if rentals && rentals.any?
-      rentals.each do |id|
-        rental = Rental.find_by(id: id)
-        if rental
-          InvoiceMailer.send_invoice(rental).deliver_later
-        else
-          errors.push id
-        end
+    rentals.each do |id|
+      rental = Rental.find_by(id: id)
+      if rental
+        InvoiceMailer.send_invoice(rental).deliver_later
+      else
+        errors.push id
       end
     end
-    render json: errors, status: (errors.any? ? 207 : 200)
+    render json: { errors: errors }, status: (errors.any? ? 207 : 200)
   end
 
 end

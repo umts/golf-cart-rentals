@@ -1,3 +1,26 @@
+function sendManyInvoices(rentalIds) {
+  if (rentalIds.length > 0) {
+    $.ajax({
+      method: "post",
+      url: Routes.payment_tracking_send_many_invoices_path(),
+      contentType: "application/json",
+      data: JSON.stringify({ rentals: rentalIds }),
+      success: function (body, undefined,xhr) {
+        if(xhr.status === 207) { //partial success
+          alert("Partial success\nfailed sending to rental id's " + body["errors"].join(", "));
+        } else {
+          alert("email(s) sent");
+        }
+      },
+      error: function (e,undefined,errorString) {
+        alert(errorString);
+      }
+    });
+  } else {
+    alert("No rentals selected");
+  }
+}
+
 $(document).ready(function () {
   $(".payment-tracking-datatable").DataTable({
     columnDefs: [
@@ -23,25 +46,20 @@ $(document).ready(function () {
     }
   });
 
-  $("#payment_tracking_invoice_all").click(function () {
+  $("#payment_tracking_invoice_all").click(function (e) {
+    e.preventDefault();
     //gon uses the value we set in the controller
     var rentalIds = gon.rentals.map(function (rental) { return rental.id })
-    $.post(
-      Route.payment_tracking_send_many_invoices,
-      { rentals: rentalIds },
-      function (body, code) {
-        if(code === "207") { //partial success
-          var errors = JSON.parse(body);
-          alert("Partial success\nfailed sending to rental id's " + errors.join(", "));
-        } else {
-          alert("email sent");
-        }
-      },
-      "json"
-    );
+
+    sendManyInvoices(rentalIds);
   });
 
-  $("#payment_tracking_invoice_selected").click(function () {
+  $("#payment_tracking_invoice_selected").click(function (e) {
+    e.preventDefault();
+    var rentalIds= $("input[type='checkbox'][id^='paymentTrackingCheck']:checked").toArray().map(function (checkbox) {
+      return checkbox.id.match(/\d+/).shift();
+    });
 
+    sendManyInvoices(rentalIds);
   });
 });
