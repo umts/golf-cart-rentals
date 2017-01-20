@@ -16,7 +16,6 @@ describe PaymentTrackingController do
     rental_paid
   end
 
-
   describe 'get #index' do
     it 'only returns unpaid rentals' do
       unpaid_rental
@@ -65,7 +64,7 @@ describe PaymentTrackingController do
         end.to change { ActionMailer::Base.deliveries.count }.by(2)
       end
       expect(response).to be_ok
-      expect(JSON.parse(response.body)["errors"]).to be_empty
+      expect(JSON.parse(response.body)['errors']).to be_empty
     end
 
     it 'handles errors' do
@@ -75,8 +74,8 @@ describe PaymentTrackingController do
           post :send_many_invoices, params: { rentals: [-1, -2] } # these id's couldnt possibly exist
         end.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
-      expect(response.code).to eq "207"
-      expect(JSON.parse(response.body)["errors"]).to contain_exactly('-1', '-2')
+      expect(response.code).to eq '207'
+      expect(JSON.parse(response.body)['errors']).to contain_exactly('-1', '-2')
     end
   end
 end

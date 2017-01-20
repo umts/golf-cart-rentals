@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class PaymentTrackingController < ApplicationController
-
   def index
     params[:q] ||= {}
 
@@ -8,17 +7,21 @@ class PaymentTrackingController < ApplicationController
     min = params.permit(:balance_gteq)[:balance_gteq].to_f || 0
     search_area = Rental.with_balance_over(min)
 
-    search_q = params[:q].permit(:created_at_gteq,:created_at_lteq)
+    search_q = params[:q].permit(:created_at_gteq, :created_at_lteq)
     # move these to end or beginning of day but only if they are present
-    search_q[:created_at_gteq] =
-      Date.parse(search_q[:created_at_gteq]).beginning_of_day if search_q[:created_at_gteq].present?
-    search_q[:created_at_lteq] =
-      Date.parse(search_q[:created_at_lteq]).end_of_day if search_q[:created_at_lteq].present?
+    if search_q[:created_at_gteq].present?
+      search_q[:created_at_gteq] =
+        Date.parse(search_q[:created_at_gteq]).beginning_of_day
+    end
+    if search_q[:created_at_lteq].present?
+      search_q[:created_at_lteq] =
+        Date.parse(search_q[:created_at_lteq]).end_of_day
+    end
 
     # collect rentals matching query
     @q = search_area.ransack(search_q)
     @rentals = @q.result
-    gon.push({ rentals: @rentals }) # send to the js
+    gon.push(rentals: @rentals) # send to the js
   end
 
   # returns 204 by default and will not cause navigation in browser
@@ -40,5 +43,4 @@ class PaymentTrackingController < ApplicationController
     end
     render json: { errors: errors }, status: (errors.any? ? 207 : 200)
   end
-
 end

@@ -82,7 +82,7 @@ RSpec.describe Rental do
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
-      expect(Rental.with_balance_over 900).to contain_exactly rental_expensive, rental_expensive_exact
+      expect(Rental.with_balance_over(900)).to contain_exactly rental_expensive, rental_expensive_exact
     end
   end
 

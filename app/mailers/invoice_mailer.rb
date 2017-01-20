@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class InvoiceMailer < ActionMailer::Base
   def send_invoice(rental)
     @rental = rental
