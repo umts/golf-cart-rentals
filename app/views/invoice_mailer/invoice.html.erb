@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <p>
+            Parking Services <br>
+            University of Massachusetts Amherst<br>
+            51 Forestry Way Amherst, MA 01003-9262<br>
+            phone: (413) 577-PARK <br>
+            fax: (413) 545-4440<br>
+            web: http://parking.umass.edu<br>
+            email: parking@admin.umass.edu<br>
+          </p>
+        <div>
+      </div>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <h3><label class="col-xs-2 control-label">Status:</label>&nbsp;<span class="label label-info auto"><%= @rental.rental_status.upcase %></span></h3>
+    </div>
+    <div class="form-group col-xs-12">
+      <label class="col-xs-2 control-label">Start Date/Time:</label>&nbsp;<%= @rental.start_date.strftime("%a %D %I:%M %p") %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-2 control-label">End Date/Time:</label>&nbsp;<%= @rental.end_date.strftime("%a %D %I:%M %p") %>
+    </div>
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Item Type:</label>&nbsp;<%= @rental.item_type.name %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Item Name:</label>&nbsp;<%= @rental.item.name %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Reserved By:</label>&nbsp;<%= @rental.creator.full_name %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Customer:</label>&nbsp;<%= @rental.renter.full_name %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Reservation ID:</label>&nbsp;<%= @rental.reservation_id %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Department:</label>&nbsp;<div class="form-control-informaton col-xs-9"><%= @rental.department.name %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Amount Charged:</label>&nbsp;<%= number_to_currency @rental.sum_charges %>
+    </div>
+
+    <div class="form-group col-xs-12">
+       <label class="col-xs-3 control-label">Rental Amount:</label>&nbsp;<%= number_to_currency @rental.financial_transaction.amount %>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <label class="col-xs-3 control-label">Total Amount Due:</label>&nbsp;<%= number_to_currency @rental.balance %>
+    </div>
+
+    <% if @rental.incurred_incidentals.any? %>
+      <div class="container">
+        <div id="incidental" class="">
+          <div class="form-group col-xs-12">
+            <h2 class="">Incidentals</h2>
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Base Fee</th>
+                  <th>Modifier Amount</th>
+                  <th>Modifier Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+                  <tr>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
+                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
+                    <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+
+      <div id="payment" class="form-group col-xs-12">
+        <h2 class="">Payment Summary</h2>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Create Date</th>
+            <th>Transaction Type</th>
+            <th>Transaction Amount</th>
+            <th>Transaction Adjustment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rental.financial_transactions.each do |ft| %>
+            <tr>
+              <td><%= ft.created_at %></td>
+              <td><%= ft.transactable_type %></td>
+              <td><%= number_to_currency (ft.amount || 0) %></td>
+              <td><%= number_to_currency (ft.adjustment || 0) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="text-right">
+            <h2><label>Total Amount Due:</label>
+            <%= number_to_currency @rental.balance %></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="legal-blurb">This invoice may be paid by Procard on-line or at our office or by recharge form. <br>
+
+    Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
+
+    Please send payment to Parking Services, Attention Sharon Kennedy. <br>
+
+    If you have any questions, please contact Sharon Kennedy at 413-545-6588 or srkenned@admin.umass.edu </p>
+  </body>
+</html>

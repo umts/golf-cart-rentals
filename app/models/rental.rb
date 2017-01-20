@@ -33,6 +33,8 @@ class Rental < ActiveRecord::Base
   scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
+  scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
+  scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -151,6 +153,11 @@ class Rental < ActiveRecord::Base
   def balance
     sum_charges - sum_payments
   end
+
+  # this method seems really inefficient
+  # def self.with_balance_due
+  # Rental.select { |x| x.balance > 0 }
+  # end
 
   # private
   attr_accessor :skip_reservation_validation

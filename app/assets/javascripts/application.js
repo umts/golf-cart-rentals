@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require jquery-readyselector
 //= require 'jquery.backstretch'
 //= require bootstrap-sprockets
@@ -27,6 +29,7 @@
 // Populate incurred_incidental amount textbox with base amount shown for incidental_type dropdown menu
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip(); //init tooltips
+  $('.datatable').DataTable({});
 });
 
 $( ".datepicker" ).datetimepicker(); //datepicker initialization

@@ -30,10 +30,10 @@
   </div>
 
   <div class="col-xs-2">
-    <%= f.label :user_id_eq, 'Customer' %>
+    <%= f.label :renter_id_eq, 'Customer' %>
   </div>
   <div class="col-xs-2">
-    <%= f.select :user_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :user_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+    <%= f.select :renter_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :renter_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
   </div>
 </div>
 

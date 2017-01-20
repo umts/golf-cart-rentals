@@ -22,6 +22,9 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'backstretch-rails'
 
+# sorts tables ui side, very useful when columns are not columns in the database
+gem 'jquery-datatables-rails', '~> 3.4.0'
+
 # Use signature pad
 gem 'signature-pad-rails', '~> 0.5'
 
