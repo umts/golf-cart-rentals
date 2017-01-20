@@ -14,6 +14,6 @@ class FinancialTransaction < ActiveRecord::Base
   end
 
   def send_updated_invoice
-    InvoiceMailer.send_invoice(rental)
+    InvoiceMailer.send_invoice(rental).deliver_later
   end
 end

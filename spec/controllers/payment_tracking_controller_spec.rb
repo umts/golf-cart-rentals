@@ -36,6 +36,7 @@ describe PaymentTrackingController do
     context 'sends and email' do
       # will send invoice even if there is no balance due
       it 'for a paid rental' do
+        paid_rental
         # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
         perform_enqueued_jobs do
           expect do
@@ -45,6 +46,7 @@ describe PaymentTrackingController do
       end
 
       it 'for an unpaid rental' do
+        unpaid_rental
         # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
         perform_enqueued_jobs do
           expect do
@@ -57,6 +59,8 @@ describe PaymentTrackingController do
 
   describe 'post #send_many_invoices' do
     it 'sends multiple invoices by email' do
+      unpaid_rental
+      paid_rental
       # this block ensures all async ActiveJob's will be performed synchronously so they can be tested
       perform_enqueued_jobs do
         expect do
