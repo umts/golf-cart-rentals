@@ -28,7 +28,9 @@ $(document).ready(function () {
     ]
   });
 
-  $(".payment_tracking_send_invoice").click(function () {
+  $(".payment_tracking_send_invoice").click(function (e) {
+    e.preventDefault();
+    if(!confirm("Send an email?")) { return; }
     var rentalId = $(this).attr("id").match(/\d+/).shift();
     $.ajax({
       method: 'post',
@@ -48,6 +50,7 @@ $(document).ready(function () {
 
   $("#payment_tracking_invoice_all").click(function (e) {
     e.preventDefault();
+    if(!confirm("Send an email(s)?")) { return; }
     //gon uses the value we set in the controller
     var rentalIds = gon.rentals.map(function (rental) { return rental.id })
 
@@ -56,6 +59,7 @@ $(document).ready(function () {
 
   $("#payment_tracking_invoice_selected").click(function (e) {
     e.preventDefault();
+    if(!confirm("Send an email(s)?")) { return; }
     var rentalIds= $("input[type='checkbox'][id^='paymentTrackingCheck']:checked").toArray().map(function (checkbox) {
       return checkbox.id.match(/\d+/).shift();
     });
