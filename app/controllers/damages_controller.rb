@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class DamagesController < ApplicationController
-  before_action :set_damage, only: [:show, :edit]
+  before_action :find_damage, only: [:show, :edit]
 
   def show; end
 
@@ -39,7 +39,7 @@ class DamagesController < ApplicationController
 
   private
 
-  def set_damage
+  def find_damage
     @damage = Damage.find(params[:id])
   end
 
