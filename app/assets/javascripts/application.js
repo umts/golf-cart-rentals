@@ -31,3 +31,5 @@ $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip(); //init tooltips
   $('.datatable').DataTable({});
 });
+
+$( ".datepicker" ).datetimepicker(); //datepicker initialization

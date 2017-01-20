@@ -55,6 +55,6 @@ class IncidentalTypesController < ApplicationController
   end
 
   def incidental_type_params
-    params.require(:incidental_type).permit(:name, :description, :base)
+    params.require(:incidental_type).permit(:name, :description, :base, :damage_tracked)
   end
 end

@@ -100,6 +100,13 @@
   <div class="col-xs-offset-2 col-xs-10">
     <%= link_to 'Edit', edit_incurred_incidental_path(@incurred_incidental), class: "btn btn-primary" %>
     <%= link_to 'View Rental', rental_path(@incurred_incidental.rental), class: "btn btn-success" %>
+    <% if @incurred_incidental.incidental_type.damage_tracked %>
+      <% if @incurred_incidental.damage %>
+        <%= link_to 'View Damage Tracking', damage_path(@incurred_incidental.damage), class: "btn btn-success" %>
+      <% else %>
+        <%= link_to 'Create Damage Tracking', new_damage_path(incurred_incidental_id: @incurred_incidental), class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
     <%= link_to 'View Incidental Type', incidental_type_path(@incurred_incidental.incidental_type), class: "btn btn-success" %>
     <%= link_to 'Back', :back, class: "btn btn-default" %>
   </div>

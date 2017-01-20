@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
   resources :incurred_incidentals
+  resources :damages
   resources :documents, only: [:show]
   resources :holds do
     post :lift, on: :member

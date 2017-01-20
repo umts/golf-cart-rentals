@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213203847) do
+ActiveRecord::Schema.define(version: 20170103161426) do
+
+  create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "location"
+    t.string  "repaired_by"
+    t.text    "description",            limit: 65535
+    t.date    "occurred_on"
+    t.date    "repaired_on"
+    t.decimal "estimated_cost",                       precision: 10
+    t.decimal "actual_cost",                          precision: 10
+    t.integer "incurred_incidental_id"
+    t.integer "hold_id"
+  end
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                      null: false
@@ -95,9 +107,10 @@ ActiveRecord::Schema.define(version: 20161213203847) do
   create_table "incidental_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
-    t.decimal  "base",        precision: 10
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.decimal  "base",           precision: 10
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "damage_tracked"
   end
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -106,6 +119,7 @@ ActiveRecord::Schema.define(version: 20161213203847) do
     t.integer  "rental_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.datetime "deleted_at"
     t.index ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
     t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
   end

@@ -1,4 +1,7 @@
 <%= form_for @hold do |f| %>
+
+  <%= hidden_field_tag :damage_id, @hold.damage.try(:id) %>
+
   <div class="form-group col-xs-12">
     <%= f.label :item, 'Choose Cart', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
@@ -6,7 +9,7 @@
         <input class="selectpicker form-control" value=<%= "#{@hold.item.basic_info}" %> readonly/>
         <%= f.hidden_field :item_id, value: @hold.item.try(:id) %>
       <% else %>
-        <%= f.select :item_id, options_from_collection_for_select(Item.all_reservable_items, 'id', 'basic_info'), {}, required: true, class: "selectpicker form-control" %>
+        <%= f.select :item_id, options_from_collection_for_select(Item.all_reservable_items, 'id', 'basic_info', @hold.item_id), {}, required: true, class: "selectpicker form-control" %>
       <% end %>
     </div>
   </div>

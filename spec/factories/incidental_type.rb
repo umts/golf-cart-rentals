@@ -4,6 +4,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "name #{n}" }
     description 'description'
     base 1
+    damage_tracked false
   end
 
   factory :invalid_type, parent: :incidental_type do
