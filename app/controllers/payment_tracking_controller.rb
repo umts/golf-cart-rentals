@@ -4,6 +4,10 @@ class PaymentTrackingController < ApplicationController
   def index
     params[:q] ||= {}
 
+    # collect rentals with balance over or eq to
+    min = params.permit(:balance_gteq)[:balance_gteq].to_f || 0
+    search_area = Rental.with_balance_over(min)
+
     search_q = params[:q].permit(:created_at_gteq,:created_at_lteq)
     # move these to end or beginning of day but only if they are present
     search_q[:created_at_gteq] =
@@ -11,8 +15,8 @@ class PaymentTrackingController < ApplicationController
     search_q[:created_at_lteq] =
       Date.parse(search_q[:created_at_lteq]).end_of_day if search_q[:created_at_lteq].present?
 
-    # collect unpaid rentals matching query
-    @q = Rental.with_balance_due.ransack(search_q)
+    # collect rentals matching query
+    @q = search_area.ransack(search_q)
     @rentals = @q.result
     gon.push({ rentals: @rentals }) # send to the js
   end

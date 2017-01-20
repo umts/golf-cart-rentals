@@ -70,6 +70,7 @@ RSpec.describe Rental do
 
     it 'with_balance_over' do
       rental_expensive = create :mock_rental, item_type: (create :item_type, base_fee: 1000)
+      rental_expensive_exact = create :mock_rental, item_type: (create :item_type, base_fee: 900)
       rental_paid = create :mock_rental
       create :mock_rental # unpaid
 
@@ -81,7 +82,7 @@ RSpec.describe Rental do
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
-      expect(Rental.with_balance_over amount).to contain_exactly rental_expensive
+      expect(Rental.with_balance_over 900).to contain_exactly rental_expensive, rental_expensive_exact
     end
   end
 

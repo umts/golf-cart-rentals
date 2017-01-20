@@ -34,7 +34,7 @@ class Rental < ActiveRecord::Base
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
   scope :with_balance_due, -> { Rental.where id: (Rental.select { |rental| rental.balance > 0 }.collect(&:id)) }
-  scope :with_balance_over, ->(min) { Rental.where id: (Rental.select { |rental| rental.balance > min }.collect(&:id)) }
+  scope :with_balance_over, ->(min) { Rental.where id: (Rental.select { |rental| rental.balance >= min }.collect(&:id)) }
 
   aasm column: :rental_status do
     state :reserved, initial: true
