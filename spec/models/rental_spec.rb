@@ -67,6 +67,22 @@ RSpec.describe Rental do
 
       expect(Rental.with_balance_due).to contain_exactly rental_unpaid
     end
+
+    it 'with_balance_over' do
+      rental_expensive = create :mock_rental, item_type: (create :item_type, base_fee: 1000)
+      rental_paid = create :mock_rental
+      create :mock_rental # unpaid
+
+      # get amount from the transaction created by rental
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+
+      # pay for rental
+      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+      # now rental_paid has no balance due
+
+      # that unpaid rental doesnt meet the minimum balance over
+      expect(Rental.with_balance_over amount).to contain_exactly rental_expensive
+    end
   end
 
   describe '#create_rental' do
