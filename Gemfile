@@ -63,12 +63,13 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
 gem 'js-routes'
+
 # deployment
-# gem 'savon'
-# gem 'capistrano', '~> 3.3.0'
-# gem 'capistrano-rails', '~> 1.1'
-# gem 'capistrano-rvm'
-# gem 'capistrano-passenger'
+gem 'capistrano', '~> 3.3.0'
+gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rvm'
+gem 'capistrano-passenger'
+
 gem 'unicode_utils', '~> 1.4'
 
 # permanent records
