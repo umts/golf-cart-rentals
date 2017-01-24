@@ -20,8 +20,7 @@ class RentalsController < ApplicationController
   end
 
   # GET /rentals/1
-  def show
-  end
+  def show; end
 
   # GET /rentals/search_users?q
   def search_users
@@ -144,8 +143,7 @@ class RentalsController < ApplicationController
   end
 
   # GET /rentals/1/invoice
-  def invoice
-  end
+  def invoice; end
 
   private
 

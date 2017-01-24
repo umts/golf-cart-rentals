@@ -37,8 +37,7 @@ RSpec.describe Permission, type: :model do
       expect(Permission.find_by(controller: 'test')).to be_nil
 
       class TestController < ApplicationController
-        def index
-        end
+        def index; end
       end
 
       Permission.update_permissions_table
