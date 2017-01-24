@@ -14,13 +14,13 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'therubyracer', platform: :ruby
 
 # Interaction with jquery and controller without refreshing page
-gem 'gon'
 gem 'fullcalendar-rails'
+gem 'gon'
 
 # Use jquery as the JavaScript library
+gem 'backstretch-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'backstretch-rails'
 
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'
@@ -43,11 +43,11 @@ gem 'aasm'
 gem 'httparty', '~> 0.13.7'
 
 # bootstrap!
-gem 'twitter-bootstrap-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
-gem 'momentjs-rails', '>= 2.8.1'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'bootstrap-switch-rails'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'twitter-bootstrap-rails'
 
 # pagination
 gem 'will_paginate'
@@ -66,9 +66,9 @@ gem 'js-routes'
 
 # deployment
 gem 'capistrano', '~> 3.3.0'
+gem 'capistrano-passenger'
 gem 'capistrano-rails', '~> 1.1'
 gem 'capistrano-rvm'
-gem 'capistrano-passenger'
 
 gem 'unicode_utils', '~> 1.4'
 
@@ -90,21 +90,21 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
   gem 'better_errors'
+  gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :test do
-  gem 'vcr', '2.4.0'
   gem 'factory_girl_rails'
+  gem 'vcr', '2.4.0'
   # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
-  gem 'rake'
-  gem 'timecop'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'rake'
   gem 'simplecov'
+  gem 'timecop'
 end
 
 gem 'sqlite3'

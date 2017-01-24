@@ -11,11 +11,9 @@ class IncidentalTypesController < ApplicationController
     @incidental_type = IncidentalType.new
   end
 
-  def edit
-  end
+  def edit; end
 
-  def show
-  end
+  def show; end
 
   def create
     @incidental_type = IncidentalType.new(incidental_type_params)

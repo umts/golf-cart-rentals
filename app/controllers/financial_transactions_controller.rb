@@ -10,8 +10,7 @@ class FinancialTransactionsController < ApplicationController
   end
 
   # GET /financial_transactions/1
-  def show
-  end
+  def show; end
 
   def new
     @financial_transaction = FinancialTransaction.new
@@ -23,8 +22,7 @@ class FinancialTransactionsController < ApplicationController
   end
 
   # GET /financial_transactions/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /financial_transactions
   def create
