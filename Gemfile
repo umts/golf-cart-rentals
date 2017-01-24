@@ -106,3 +106,5 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'simplecov'
 end
+
+gem 'sqlite'
