@@ -107,4 +107,4 @@ group :test do
   gem 'simplecov'
 end
 
-gem 'sqlite'
+gem 'sqlite3'
