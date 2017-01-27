@@ -247,19 +247,31 @@ describe RentalsController do
 
   describe 'GET #search_users' do
     before(:each) do
-      User.destroy_all
+      create_list :user, 20
     end
 
-    it 'returns everything if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
+    it 'returns nothing if cant find a user' do # dynamically searches by email, spire, fullname and department (in that order)
       create_list :user, 8 # can only do 8 because of pagination
       get :search_users, params: { user_search_query: '$%%!$#' } # this query should return no users
       expect(assigns[:users]).to be_empty
     end
 
-    it 'finds by spire' do
-      this_one = create :user, spire_id: 86_753_091 # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
-      get :search_users, params: { user_search_query: '86753091' } # should be unique enough
-      expect(assigns[:users]).to contain_exactly(this_one)
+    context 'finds by spire' do
+      before(:each) do
+        # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
+        @this_one = create :user, spire_id: 86_753_091
+        @other_one = create :user, spire_id: 86_753_092
+      end
+
+      it 'finds exactly' do
+        get :search_users, params: { user_search_query: @this_one.spire_id }
+        expect(assigns[:users]).to contain_exactly(@this_one)
+      end
+
+      it 'finds partial matches' do
+        get :search_users, params: { user_search_query: @this_one.spire_id.to_s[0..3].to_i }
+        expect(assigns[:users]).to contain_exactly(@this_one, @other_one)
+      end
     end
 
     it 'finds from multiple catagories' do
