@@ -8,8 +8,7 @@ class DigitalSignaturesController < ApplicationController
   end
 
   # GET /digital_signatures/1
-  def show
-  end
+  def show; end
 
   private
 

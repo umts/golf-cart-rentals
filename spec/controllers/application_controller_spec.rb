@@ -18,8 +18,7 @@ describe ApplicationController do
           raise ActiveRecord::RecordNotFound
         end
 
-        def test_no_permission
-        end
+        def test_no_permission; end
       end
 
       before do

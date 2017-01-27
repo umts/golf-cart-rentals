@@ -2,8 +2,7 @@
 class HoldsController < ApplicationController
   before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
-  def show
-  end
+  def show; end
 
   def index
     @holds = Hold.all
@@ -26,8 +25,7 @@ class HoldsController < ApplicationController
     @hold.check_conflicting_rentals
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @hold.update(hold_params)
