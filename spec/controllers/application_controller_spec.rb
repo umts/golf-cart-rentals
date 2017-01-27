@@ -132,7 +132,7 @@ describe ApplicationController do
 
       it 'raises an error if no user with shibboleth id exists' do
         user = create(:user)
-        request.env['fcIdNumber'] = (user.spire_id + 1).to_s
+        request.env['fcIdNumber'] = user.spire_id + '1'
         expect { subject.current_user }.to raise_error MissingUserError
       end
 
