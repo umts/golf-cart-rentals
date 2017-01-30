@@ -22,11 +22,6 @@ gem 'backstretch-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-# sorts tables ui side, very useful when columns are not columns in the database
-gem 'jquery-datatables-rails', '~> 3.4.0'
-
-# Use signature pad
-gem 'signature-pad-rails', '~> 0.5'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 5.0.1'
@@ -46,8 +41,16 @@ gem 'httparty', '~> 0.13.7'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'bootstrap-switch-rails'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
-gem 'momentjs-rails', '>= 2.8.1'
 gem 'twitter-bootstrap-rails'
+# javascript libaries
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'date_validator'
+gem 'fancybox-rails'
+gem 'js-routes'
+# sorts tables ui side, very useful when columns are not columns in the database
+gem 'jquery-datatables-rails', '~> 3.4.0'
+# Use signature pad
+gem 'signature-pad-rails', '~> 0.5'
 
 # pagination
 gem 'will_paginate'
@@ -56,13 +59,6 @@ gem 'will_paginate-bootstrap'
 # searchable pages
 gem 'ransack'
 
-# date validations
-gem 'date_validator'
-# wicked pdf
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
-
-gem 'js-routes'
 
 # deployment
 gem 'capistrano', '~> 3.3.0'
