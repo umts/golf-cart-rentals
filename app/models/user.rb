@@ -23,10 +23,6 @@ class User < ActiveRecord::Base
                                                                    [Arel::Nodes.build_quoted(' '), parent.table[:first_name], parent.table[:last_name]])])
   end
 
-  ransacker :spire_id do
-    Arel.sql("CONVERT(#{table_name}.spire_id, CHAR(8))")
-  end
-
   def has_permission?(controller, action, id = nil)
     return false unless active # inactive users shouldnt be able to do anything
     # Get a list of permissions associated with this controller and action
