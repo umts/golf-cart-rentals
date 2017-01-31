@@ -45,7 +45,6 @@ gem 'twitter-bootstrap-rails'
 # javascript libaries
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'date_validator'
-gem 'fancybox-rails'
 gem 'js-routes'
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'

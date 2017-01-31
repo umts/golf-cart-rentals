@@ -112,8 +112,6 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    fancybox-rails (0.3.1)
-      railties (>= 3.1.0)
     fullcalendar-rails (3.1.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
       jquery-ui-rails (>= 5.0.2)
@@ -344,7 +342,6 @@ DEPENDENCIES
   date_validator
   exception_notification
   factory_girl_rails
-  fancybox-rails
   fullcalendar-rails
   gon
   httparty (~> 0.13.7)
