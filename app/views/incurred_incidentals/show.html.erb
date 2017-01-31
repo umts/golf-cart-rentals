@@ -76,7 +76,7 @@
               </div>
               <div class="col-xs-9 pull-right">
                 <% if document.picture? %>
-                  <a class="fancybox">
+                  <a class="">
                     <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document document-picture' %>
                   </a>
                 <% else %>
