@@ -27,7 +27,6 @@ class RentalsController < ApplicationController
     @users = []
 
     if params[:user_search_query].present?
-      # spire_id uses a special arel string conversion
       @users = User.ransack(email_or_spire_id_or_full_name_cont: params[:user_search_query]).result
 
       # could be a department too
