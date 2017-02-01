@@ -4,6 +4,7 @@ $(document).ready(function () {
     var modal = $("#modalIncurredIncidentalDocument");
     modal.modal("toggle");
     var image = $(this).find("img").clone(); //get the image
+    var desc = 
     image.css(""); //strip the css which would make it a small image
     modal.find();
   });
