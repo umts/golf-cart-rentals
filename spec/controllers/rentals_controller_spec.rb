@@ -258,7 +258,6 @@ describe RentalsController do
 
     context 'finds by spire' do
       before(:each) do
-        # rubocop demanded i separate this huggeeee number with underscores (which are ignored)
         @this_one = create :user, spire_id: '86753091'
         @other_one = create :user, spire_id: '86753092'
       end
