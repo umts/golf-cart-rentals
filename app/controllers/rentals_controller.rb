@@ -27,12 +27,7 @@ class RentalsController < ApplicationController
     @users = []
 
     if params[:user_search_query].present?
-      # prioritized by order queries
-      query_priority = %i(email_cont spire_id_eq full_name_cont)
-
-      query_priority.each do |q|
-        @users += User.ransack(q => params[:user_search_query]).result
-      end
+      @users = User.ransack(email_or_spire_id_or_full_name_cont: params[:user_search_query]).result
 
       # could be a department too
       # join users with departments
