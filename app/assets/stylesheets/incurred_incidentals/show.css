@@ -8,6 +8,6 @@ img.document-picture {
 img.large-picture {
   height: auto;
   width: auto;
-  max-width: 450px;
-  max-height: 450px;
+  max-width: 100%;
+  max-height: 100%;
 }
