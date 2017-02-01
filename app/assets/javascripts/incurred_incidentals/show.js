@@ -10,5 +10,6 @@ $(document).ready(function () {
     var desc = doc.find(".document-description").html().trim(); //get description from document
 
     modal.find(".modal-title").html(desc); //write the desc into the modal title
+    modal.find(".modal-body").html(image); //over write body placing image into it
   });
 });
