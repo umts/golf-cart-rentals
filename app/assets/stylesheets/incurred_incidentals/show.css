@@ -1,6 +1,6 @@
-img.document {
-  height: auto; 
-  width: auto; 
-  max-width: 450px; 
+img.document-picture {
+  height: auto;
+  width: auto;
+  max-width: 450px;
   max-height: 450px;
 }
