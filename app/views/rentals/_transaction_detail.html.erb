@@ -10,7 +10,7 @@
   <tbody>
     <% @financial_transactions.each do |ft| %>
       <tr>
-        <td><%= ft.created_at.to_date %></td>
+        <td><%= ft.created_at %></td>
         <td><%= ft.transactable_type %></td>
         <td><%= number_to_currency (ft.amount || 0) %></td>
         <td><%= number_to_currency (ft.adjustment || 0) %></td>

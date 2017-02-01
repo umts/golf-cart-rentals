@@ -10,10 +10,10 @@
   </tr>
   <% @incurred_incidentals.each do |incurred_incidental| %>
     <tr>
-      <td><%= incurred_incidental.rental.item_type.name %></td>
-      <td><%= incurred_incidental.rental.start_date.to_date %></td>
-      <td><%= incurred_incidental.rental.end_date.to_date %></td>
-      <td><%= incurred_incidental.incidental_type.name %></td>
+      <td><%= incurred_incidental.rental.try(:item_type).try(:name) %></td>
+      <td><%= incurred_incidental.rental.try(:start_date) %></td>
+      <td><%= incurred_incidental.rental.try(:end_date) %></td>
+      <td><%= incurred_incidental.incidental_type.try(:name) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), incurred_incidental, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-primary" %>
