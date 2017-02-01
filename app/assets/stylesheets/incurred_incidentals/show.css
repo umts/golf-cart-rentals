@@ -4,3 +4,10 @@ img.document-picture {
   max-width: 450px;
   max-height: 450px;
 }
+
+img.large-picture {
+  height: auto;
+  width: auto;
+  max-width: 450px;
+  max-height: 450px;
+}
