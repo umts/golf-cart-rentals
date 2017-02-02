@@ -19,12 +19,12 @@ class Hold < ActiveRecord::Base
   end
 
   def replace_rental(curr_rental)
-    new_rental = Rental.create(item_type_id: curr_rental.item_type_id,
-                               user_id: curr_rental.renter_id, department_id: curr_rental.department_id,
-                               start_time: curr_rental.start_time, end_time: curr_rental.end_time)
-
-    curr_rental.cancel
-    curr_rental.save
+    new_rental = Rental.new(item_type_id: curr_rental.item_type_id, creator_id: curr_rental.creator_id,
+                            renter_id: curr_rental.renter_id, department_id: curr_rental.department_id,
+                            start_time: curr_rental.start_time, end_time: curr_rental.end_time)
+    new_rental.create_reservation
+    new_rental.save
+    curr_rental.cancel!
     ReplacementMailer.replacement_email(curr_rental.renter, self, curr_rental, new_rental).deliver_now
   rescue
     errors.add(:item_id, ': failed to replace existing rentals for this item')
