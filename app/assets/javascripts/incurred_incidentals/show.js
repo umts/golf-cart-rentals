@@ -5,7 +5,8 @@ $(document).ready(function () {
     modal.modal("toggle"); //open modal
 
     var image = $(this).find("img").clone(); //get the image
-    image.css("large-picture"); //strip the css which would make it a small image
+    image.removeClass(); //strip the old classes off, they will format the image to be very small
+    image.addClass("large-picture"); //change the css class
     var doc = $(this).parent().parent(); //find entire document element
     var desc = doc.find(".document-description").html().trim(); //get description from document
 
