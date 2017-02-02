@@ -10,7 +10,7 @@ class Hold < ActiveRecord::Base
   validates :start_time, :end_time, date: { after: Date.current, message: 'must be after current date. ' }
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
-  def check_conflicting_rentals
+  def handle_conflicting_rentals
     conflicting_rentals = Rental.where('start_time >= :hold_start_time AND end_time <= :hold_end_time',
                                        hold_start_time: start_time,
                                        hold_end_time: end_time)
@@ -23,7 +23,7 @@ class Hold < ActiveRecord::Base
                             renter_id: curr_rental.renter_id, department_id: curr_rental.department_id,
                             start_time: curr_rental.start_time, end_time: curr_rental.end_time)
     new_rental.create_reservation
-    new_rental.save
+    new_rental.save!
     curr_rental.cancel!
     ReplacementMailer.replacement_email(curr_rental.renter, self, curr_rental, new_rental).deliver_now
   rescue
