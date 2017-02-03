@@ -318,11 +318,9 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    wicked_pdf (1.1.0)
     will_paginate (3.1.5)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
-    wkhtmltopdf-binary (0.12.3.1)
 
 PLATFORMS
   ruby
@@ -377,10 +375,8 @@ DEPENDENCIES
   unicode_utils (~> 1.4)
   vcr (= 2.4.0)
   web-console (~> 2.0)
-  wicked_pdf
   will_paginate
   will_paginate-bootstrap
-  wkhtmltopdf-binary
 
 BUNDLED WITH
    1.13.6
