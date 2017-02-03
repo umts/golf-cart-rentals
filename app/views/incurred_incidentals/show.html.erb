@@ -68,16 +68,16 @@
         <div class="panel-heading">
           Documents
         </div>
-        <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
+        <div class="panel-body no-gutter documents">
           <% @incurred_incidental.documents.each do |document| %>
-            <div class="row">
-              <div class="col-xs-3">
+            <div class="row document">
+              <div class="col-xs-3 document-description">
                 <%= document.description %>
               </div>
               <div class="col-xs-9 pull-right">
                 <% if document.picture? %>
-                  <a href=<%= document_path(document) %>>
-                    <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document' %>
+                  <a class="image-expand-action">
+                    <%= image_tag "data:image/jpeg;base64,#{document.fetch_file_as_base64}", class: 'document-picture' %>
                   </a>
                 <% else %>
                   <%= link_to 'Download Document', document_path(document) %>
@@ -90,6 +90,19 @@
     </div>
   </div>
 <% end %>
+
+<div id="modalIncurredIncidentalDocument" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="form-group col-xs-12">
   <label class="col-xs-offset-2 col-xs-2 control-label">Amount</label>
