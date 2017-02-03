@@ -114,8 +114,9 @@ class RentalsController < ApplicationController
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
+      binding.pry
       if @rental.item_id.nil? && @rental.reservation_id.nil?
-        flash[:warning] = 'This item type is not available for the specified dates'
+        flash[:warning] = (@rental.item_type.try(:name) ||  'Item type') + ' is not available for the specified dates'
       else
         @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       end
