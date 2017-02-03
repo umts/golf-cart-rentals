@@ -7,10 +7,10 @@
         Rental Information
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
-        <p>Rental Status:   <%= @incurred_incidental.rental.try(:rental_status) %></p>
-        <p>Item Type:       <%= @incurred_incidental.rental.try(:item_type).try(:name)%></p>
-        <p>Start Date:      <%= @incurred_incidental.rental.try(:start_date) %></p>
-        <p>End Date:        <%= @incurred_incidental.rental.try(:end_date) %></p>
+        <p>Rental Status:   <%= @incurred_incidental.rental.rental_status %></p>
+        <p>Item Type:       <%= @incurred_incidental.rental.item_type.name %></p>
+        <p>Start Date:      <%= @incurred_incidental.rental.start_date.to_date %></p>
+        <p>End Date:        <%= @incurred_incidental.rental.end_date.to_date %></p>
       </div>
     </div>
   </div>
@@ -23,9 +23,9 @@
         Incidental Type Information
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
-        <p>Name:                 <%= @incurred_incidental.incidental_type.try(:name) %></p>
-        <p>Description:          <%= @incurred_incidental.incidental_type.try(:description)%></p>
-        <p>Base Fee:             <%= @incurred_incidental.incidental_type.try(:base) %></p>
+        <p>Name:                 <%= @incurred_incidental.incidental_type.name %></p>
+        <p>Description:          <%= @incurred_incidental.incidental_type.description %></p>
+        <p>Base Fee:             <%= number_to_currency @incurred_incidental.incidental_type.base %></p>
       </div>
     </div>
   </div>
@@ -38,9 +38,9 @@
         Financial Transaction Information
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
-        <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.try(:rental).try(:basic_info) %></p>
-        <p>Amount:               <%= @incurred_incidental.financial_transaction.try(:amount)%></p>
-        <p>Adjustment:           <%= @incurred_incidental.financial_transaction.try(:adjustment) %></p>
+        <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.rental.basic_info %></p>
+        <p>Amount:               <%= number_to_currency @incurred_incidental.financial_transaction.amount %></p>
+        <p>Adjustment:           <%= number_to_currency @incurred_incidental.financial_transaction.adjustment %></p>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
         <% @incurred_incidental.notes.reverse_each do |n| %>
-          <div class="form-control-information col-xs-8"><%= "#{n.created_at.strftime("%b %e, %l:%M %p")} - #{n.note}" %></div>
+          <div class="form-control-information col-xs-8"><%= "#{n.created_at.to_date}: #{n.note}" %></div>
         <% end %>
       </div>
     </div>
@@ -93,7 +93,7 @@
 
 <div class="form-group col-xs-12">
   <label class="col-xs-offset-2 col-xs-2 control-label">Amount</label>
-  <div class="form-control-information col-xs-8"><%= @incurred_incidental.amount%></div>
+  <div class="form-control-information col-xs-8"><%= number_to_currency @incurred_incidental.amount %></div>
 </div>
 
 <div class="form-group col-xs-12">
