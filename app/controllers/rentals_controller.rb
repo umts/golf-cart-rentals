@@ -22,23 +22,6 @@ class RentalsController < ApplicationController
   # GET /rentals/1
   def show; end
 
-  # GET /rentals/search_users?q
-  def search_users
-    @users = []
-
-    if params[:user_search_query].present?
-      @users = User.ransack(email_or_spire_id_or_full_name_cont: params[:user_search_query]).result
-
-      # could be a department too
-      # join users with departments
-      @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
-
-      @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
-    end
-
-    render partial: 'search_users_table'
-  end
-
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
   def cost
     start_time = Time.zone.parse(params[:start_time]).to_date.to_s
