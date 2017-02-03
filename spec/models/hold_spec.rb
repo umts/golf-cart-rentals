@@ -39,4 +39,44 @@ RSpec.describe Hold, type: :model do
       expect(build(:invalid_date_time_hold)).not_to be_valid
     end
   end
+
+  describe 'handle_conflicting_rentals' do
+    let(:hold) { create(:hold) }
+    let(:conflicting_rental) { create(:hold_conflicting_rental) }
+    let(:future_rental) { create(:far_future_rental) }
+
+    it 'should cancel a conflicting rental' do
+      conflicting_rental
+      hold.handle_conflicting_rentals
+      expect(conflicting_rental.reload).to be_canceled
+    end
+
+    it 'should not affect a future rental' do
+      future_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.not_to change(future_rental, :rental_status)
+    end
+
+    it 'should create a new rental when there is a conflicting rental' do
+      conflicting_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change(Rental, :count).by(1)
+    end
+
+    it 'should not create a new rental when there is not a conflicting rental' do
+      future_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change(Rental, :count).by(0)
+    end
+
+    it 'should send an email when there is a conflicting rental' do
+      conflicting_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change { ActionMailer::Base.deliveries.size }.by(1)
+    end
+  end
 end
