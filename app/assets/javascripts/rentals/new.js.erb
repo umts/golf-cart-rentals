@@ -117,15 +117,6 @@ $(document).ready( function () {
     costCalculation();
   });
 
-  // ~ user searching
-
-  //enter key performs click on search for ease of use
-  $(".userSearchQuery").keypress(function (key) {
-    if(key.which === 13) {
-      $("#modalSearchResults").modal('toggle'); //open modal
-    }
-  });
-
   //bind search to modal open
   $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 
