@@ -22,7 +22,6 @@ gem 'backstretch-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 5.0.1'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -43,9 +42,9 @@ gem 'bootstrap-switch-rails'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'twitter-bootstrap-rails'
 # javascript libaries
-gem 'momentjs-rails', '>= 2.8.1'
 gem 'date_validator'
 gem 'js-routes'
+gem 'momentjs-rails', '>= 2.8.1'
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
@@ -57,7 +56,6 @@ gem 'will_paginate-bootstrap'
 
 # searchable pages
 gem 'ransack'
-
 
 # deployment
 gem 'capistrano', '~> 3.3.0'
