@@ -27,11 +27,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.text_field :renter_id,
-        data: { tokeninput:
-          { collection: @users,
-            options: {tokenLimit: 1, tokenValue: :tag}}},
-            required: true, class: 'form-control' %>
+      <%= f.text_field :renter_id, 'data-tokeninput' => { collection: @users, options: { tokenLimit: 1 } }, required: true, class: 'form-control' %>
     </div>
   </div>
 
