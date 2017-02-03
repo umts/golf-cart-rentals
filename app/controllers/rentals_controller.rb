@@ -52,6 +52,9 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
+    @users = User.all.map do |user|
+      { id: user.id, tag: "#{user.full_name} #{user.spire_id}" }
+    end
   end
 
   # GET /rentals/processing
@@ -114,7 +117,6 @@ class RentalsController < ApplicationController
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      binding.pry
       if @rental.item_id.nil? && @rental.reservation_id.nil?
         flash[:warning] = (@rental.item_type.try(:name) ||  'Item type') + ' is not available for the specified dates'
       else

@@ -27,11 +27,11 @@
   <div class="form-group col-xs-12">
     <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.hidden_field :renter_id, id: 'rental_user_id', required: true %>
-      <div class="input-group">
-        <input type="text" id="rental_userSearchQuery" required="required" class="form-control userSearchQuery" placeholder="Customer Spire/Email/Name/Department" aria-describedby="User">
-        <a class="input-group-addon" data-toggle="modal" data-target="#modalSearchResults"><span class="glyphicon glyphicon-search"></span></a>
-      </div>
+      <%= f.text_field :renter_id,
+        data: { tokeninput:
+          { collection: @users,
+            options: {tokenLimit: 1, tokenValue: :tag}}},
+            required: true, class: 'form-control' %>
     </div>
   </div>
 
