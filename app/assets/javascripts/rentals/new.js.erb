@@ -69,11 +69,4 @@ $(document).ready( function () {
 
   //bind search to modal open
   $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
-
-  $("#rentalSubmit").click(function () {
-    if(isEmpty($("#rental_user_id").val())) {
-      alert("Please fill out the renter field, click search and then select a user from the pop up.");
-      return false; //dont submit the form
-    } else return true; //do submit form
-  });
 });

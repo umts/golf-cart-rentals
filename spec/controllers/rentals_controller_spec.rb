@@ -75,6 +75,28 @@ describe RentalsController do
       get :new
       expect(response).to render_template :new
     end
+
+    context 'assiging users for search' do
+      before do
+        create_list :user
+      end
+
+      it 'assigns all users if in admin group' do
+
+      end
+
+      it 'assigns all users if in csr group' do
+
+      end
+
+      it 'assigns only current_user if user is without department' do
+
+      end
+
+      it 'assigns users in same department if user has department' do
+
+      end
+    end
   end
 
   describe 'POST #create' do

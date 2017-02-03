@@ -34,9 +34,22 @@ class RentalsController < ApplicationController
   def new
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
-    @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    @users = User.all.map do |user|
-      { id: user.id, tag: "#{user.full_name} #{user.spire_id}" }
+
+    admin_status = @current_user.has_group? Group.where(name: 'admin')
+    # assign users for token input field rentals
+    if admin_status || csr_status # todo: define csr group
+      # admins can search for anyone
+      @users = User.all.map do |user|
+        { id: user.id, tag: "#{user.full_name} #{user.spire_id}" }
+      end
+    else
+      @users = if @current_user.department
+        @current_user.department.users.map do |user|
+          { id: user.id, tag: "#{user.full_name} #{user.spire_id}" }
+        end
+      else
+
+      end
     end
   end
 
