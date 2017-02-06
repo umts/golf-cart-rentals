@@ -84,7 +84,8 @@ RSpec.describe User, type: :model do
 
     it 'returns false if the user has a permission with the requested controller, action, and an id_field,
                         and their id matches the id of the requested instance but the user is inactive' do
-      user = create(:user, active: false)
+      user.active = false
+      user.save!
       group = create(:group)
       permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
 
