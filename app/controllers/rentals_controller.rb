@@ -36,7 +36,7 @@ class RentalsController < ApplicationController
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
     @users = User.all.map do |user|
-      { id: user.id, tag: "#{user.full_name} #{user.spire_id}" }
+      { id: user.id, tag: user.tag }
     end
   end
 
@@ -87,6 +87,7 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
+    binding.pry
     @rental = Rental.new(rental_params.merge(creator: @current_user))
 
     @start_date = params['start_date'] || Time.zone.today
