@@ -88,6 +88,14 @@ describe RentalsController do
         post :create, params: { rental: rental_create }
         expect(response).to redirect_to Rental.last
       end
+
+      it 'can handle a renter_id passed as an array or not' do
+        rental_create[:renter_id] = rental_create[:renter_id].first
+        expect do
+          post :create, params: { rental: rental_create }
+        end.to change(Rental, :count).by(1)
+        expect(response).to redirect_to Rental.last
+      end
     end
 
     context 'with invalid attributes' do

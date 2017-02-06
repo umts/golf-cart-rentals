@@ -156,7 +156,8 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    user = User.find_by id: (params.require(:rental).require(:renter_id)) # tokeninput gives us an array
+    # tokeninput gives us an array, but find_by doesnt care it just gives us the first one
+    user = User.find_by id: (params.require(:rental).require(:renter_id))
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
                                    :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
