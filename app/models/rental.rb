@@ -21,7 +21,8 @@ class Rental < ActiveRecord::Base
 
   validates :reservation_id, uniqueness: true
   validates :renter, :creator, :start_time, :end_time, :item_type, :department, presence: true
-  validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
+  # the condition on this validation is for changing a rental after its start date and when the rental has been saved already
+  validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }, if: lambda { !persisted? }
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
 
   alias_attribute :start_date, :start_time

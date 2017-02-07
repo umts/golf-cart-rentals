@@ -49,6 +49,18 @@ describe IncurredIncidentalsController do
           post :create, params: { incurred_incidental: incurred_incidental_create }
         end.to change(IncurredIncidental, :count).by(1)
       end
+      context 'time travel' do
+        it 'can create a incurred incidental past rental start date' do
+          Timecop.travel(Rental.find(incurred_incidental_create[:rental_id]).start_date+1.days)
+          expect do
+            post :create, params: { incurred_incidental: incurred_incidental_create }
+          end.to change(IncurredIncidental, :count).by(1)
+        end
+
+        after do
+          Timecop.return
+        end
+      end
 
       context 'redirection' do
         it 'redirects to the show page for created incurred incidental without damage tracking' do
