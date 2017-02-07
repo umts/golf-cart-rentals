@@ -106,5 +106,3 @@ group :test do
   gem 'simplecov'
   gem 'timecop'
 end
-
-gem 'sqlite3'
