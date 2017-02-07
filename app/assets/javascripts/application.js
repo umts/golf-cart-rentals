@@ -23,6 +23,7 @@
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require signature-pad
+//= require rails-jquery-tokeninput
 //= require_tree .
 
 // Helper method for incurred_incidentals _form.html
