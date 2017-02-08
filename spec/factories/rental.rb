@@ -46,6 +46,11 @@ FactoryGirl.define do
     end_time (Time.current + 5.days).to_s
   end
 
+  factory :hold_conflicting_rental, parent: :mock_rental do
+    start_time Time.current + 1.day
+    end_time Time.current + 2.days
+  end
+
   factory :past_rental, parent: :mock_rental do
     rental_status 'dropped_off'
   end
