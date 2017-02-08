@@ -22,23 +22,6 @@ class RentalsController < ApplicationController
   # GET /rentals/1
   def show; end
 
-  # GET /rentals/search_users?q
-  def search_users
-    @users = []
-
-    if params[:user_search_query].present?
-      @users = User.ransack(email_or_spire_id_or_full_name_cont: params[:user_search_query]).result
-
-      # could be a department too
-      # join users with departments
-      @users += Department.ransack(name_cont: params[:user_search_query]).result.map(&:users).flatten
-
-      @users = @users.uniq.paginate(page: params[:page], per_page: 8) # remove duplicates and split into pages
-    end
-
-    render partial: 'search_users_table'
-  end
-
   # GET /rentals/cost?end_time=time&start_time=time&item_type=1
   def cost
     start_time = Time.zone.parse(params[:start_time]).to_date.to_s
@@ -52,6 +35,9 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
+    @users = User.all.map do |user|
+      { id: user.id, tag: user.tag }
+    end
   end
 
   # GET /rentals/processing
@@ -115,7 +101,7 @@ class RentalsController < ApplicationController
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
       if @rental.item_id.nil? && @rental.reservation_id.nil?
-        flash[:warning] = 'This item type is not available for the specified dates'
+        flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' is not available for the specified dates'
       else
         @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       end
@@ -170,10 +156,11 @@ class RentalsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def rental_params
-    user = User.find(params.require(:rental).require(:renter_id))
+    # tokeninput gives us an array, but find_by doesnt care it just gives us the first one
+    user = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :renter_id, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number).merge(department_id: user.department_id, end_time: new_time)
+    params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
+                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
   end
 
   def sig_image_params
