@@ -52,56 +52,6 @@ function costCalculation(){
    }
 }
 
-
-function userResultHandleClick(e) {
-  var userId = $(this).attr("id").match(/\d+/).shift(); //select the user id
-  $("#rental_user_id").val(userId);
-
-  var row = $(this).parent().parent(); //select the row
-  var name = row.find("td:nth-child(1)").text() + " " + row.find("td:nth-child(2)").text(); //first two td's joined by space
-  $("#rental_userSearchQuery").val(name); //set the user to the full name
-
-  $("#modalSearchResults").modal('toggle'); //close modal
-}
-
-function ajaxUserSearch(pageNo) {
-  var query = $("#rental_userSearchQuery").val();
-
-  //inject page into request
-  var params = $.extend({user_search_query: query}, pageNo ? {page: pageNo} : {page: "1"} );
-
-  $.ajax({
-    url: Routes.rentals_search_users_path(),
-    dataType: "html",
-    data: params,
-    success: function (data) {
-      $("#userResults").html(data); //put content in the modal
-
-      //attach event listeners to results
-      $(".userResult").click(userResultHandleClick);
-
-      //need to reformat links
-      $("#userResults .pagination a").each(modalSearchResultsFormatPaginationLinks);
-    },
-    error: function () { alert("Failed to retreive users."); }
-  });
-}
-
-function getQueryString( field, url ) {
-  var href = url ? url : window.location.href;
-  var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
-  var string = reg.exec(href);
-  return string ? string[1] : null;
-}
-
-function modalSearchResultsFormatPaginationLinks(undefined, link) {
-  link = $(link); //jquery that
-  //works universially to pull pageNo out of link
-  var pageNo = getQueryString("page", link.attr("href"));
-  link.attr("href", "#"); //remove navigation
-  link.click(function () { ajaxUserSearch(pageNo); } );
-}
-
 $(document).ready( function () {
   costCalculation(); //initial cost calculaton
 
@@ -116,16 +66,4 @@ $(document).ready( function () {
   $('select.cost-dependent').on('change', function () {
     costCalculation();
   });
-
-  // ~ user searching
-
-  //enter key performs click on search for ease of use
-  $(".userSearchQuery").keypress(function (key) {
-    if(key.which === 13) {
-      $("#modalSearchResults").modal('toggle'); //open modal
-    }
-  });
-
-  //bind search to modal open
-  $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 });

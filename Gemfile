@@ -45,6 +45,7 @@ gem 'twitter-bootstrap-rails'
 gem 'date_validator'
 gem 'js-routes'
 gem 'momentjs-rails', '>= 2.8.1'
+gem 'rails-jquery-tokeninput'
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
