@@ -6,7 +6,7 @@ class ErrorMailer < ActionMailer::Base
     @user = user
     @type = serializable_error.class
     @message = serializable_error.message
-    @trace = serializable_error.backtrace
+    @trace = serializable_error.trace
 
     @host = Rails.env.production? ? 'hub.parking.umass.edu' : 'localhost:3000'
 
