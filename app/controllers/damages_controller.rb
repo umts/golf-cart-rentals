@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class DamagesController < ApplicationController
-  before_action :find_damage, only: [:show, :edit]
+  before_action :find_damage, only: [:show, :edit, :update]
 
   def show; end
 
