@@ -36,7 +36,6 @@ class IncurredIncidentalsController < ApplicationController
 
   def edit
     @rental = @incurred_incidental.rental
-    binding.pry
   end
 
   def update

@@ -1,9 +1,10 @@
-<%= fields_for parent do |doc_field| %>
+<% binding.pry %>
+<%= parent.fields_for :documents do |doc_field| %>
   <div id="multiUploadContainer">
     <div class="multi-upload-group">
       <a href="#" class="multiUploadDeleteField"><span class="glyphicon glyphicon-remove text-danger"></a>
-      <input placeholder="Document Description" name="desc[1]" class="form-control multi-upload-desc input-sm"> 
-      <%= file_field_tag "file[1]", class: "multi-upload-file" %>
+      <%= doc_field.input :desc, placeholder: 'Document Description', class: 'form-control multi-upload-desc input-sm' %>
+      <%= doc_field.file_field :uploaded_file, class: "multi-upload-file" %>
     </div>
   </div>
   <a href="#" id="multiUploadMoreFields">+ More Files</a>
