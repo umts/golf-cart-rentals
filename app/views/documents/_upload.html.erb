@@ -1,8 +1,10 @@
-<div id="multiUploadContainer">
-  <div class="multi-upload-group">
-    <a href="#" class="multiUploadDeleteField"><span class="glyphicon glyphicon-remove text-danger"></a>
-    <input placeholder="Document Description" name="desc[1]" class="form-control multi-upload-desc input-sm"> 
-    <%= file_field_tag "file[1]", class: "multi-upload-file" %>
+<%= fields_for parent do |doc_field| %>
+  <div id="multiUploadContainer">
+    <div class="multi-upload-group">
+      <a href="#" class="multiUploadDeleteField"><span class="glyphicon glyphicon-remove text-danger"></a>
+      <input placeholder="Document Description" name="desc[1]" class="form-control multi-upload-desc input-sm"> 
+      <%= file_field_tag "file[1]", class: "multi-upload-file" %>
+    </div>
   </div>
-</div>
-<a href="#" id="multiUploadMoreFields">+ More Files</a>
+  <a href="#" id="multiUploadMoreFields">+ More Files</a>
+<% end %>
