@@ -66,7 +66,7 @@ class IncurredIncidentalsController < ApplicationController
         # only allow types of uploaded file
         next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
 
-        desc = params[:desc][id] # this is not a required field
+        desc = params[:description][id] # this is not a required field
         Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
       end
     end

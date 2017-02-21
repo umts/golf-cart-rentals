@@ -7,7 +7,8 @@ $(document).ready(function () {
     }
   }
 
-  $("#multiUploadMoreFields").click(function () {
+  $("#multiUploadMoreFields").click(function (e) {
+    e.preventDefault();
     if($(".multi-upload-group:visible").length === 0) {
       $(".multi-upload-group").show(); //we never deleted it, just hid it
     } else {
