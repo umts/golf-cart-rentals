@@ -19,6 +19,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def create
+    binding.pry
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     if @incurred_incidental.save
       flash[:success] = 'Incidental successfully created'
@@ -57,6 +58,7 @@ class IncurredIncidentalsController < ApplicationController
   private
 
   def upload_documents
+    binding.pry
     # only do this on sucess and with a file
     if @incurred_incidental.errors.empty? && params[:file]
       params.require(:file).permit!
