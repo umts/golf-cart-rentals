@@ -3,7 +3,6 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
-  after_action :upload_documents, only: [:create, :update]
 
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
