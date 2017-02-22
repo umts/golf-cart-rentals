@@ -18,7 +18,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def create
-    binding.pry
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     if @incurred_incidental.save
       flash[:success] = 'Incidental successfully created'
@@ -55,23 +54,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   private
-
-  #def upload_documents
-    #binding.pry
-    ## only do this on sucess and with a file
-    #if @incurred_incidental.errors.empty? && params[:file]
-      #params.require(:file).permit!
-
-      #params[:file].each_pair do |id, uploaded_file|
-        #next unless uploaded_file && id
-        ## only allow types of uploaded file
-        #next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
-
-        #desc = params[:description][id] # this is not a required field
-        #Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
-      #end
-    #end
-  #end
 
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])
