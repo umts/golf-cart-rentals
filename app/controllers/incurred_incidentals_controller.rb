@@ -57,22 +57,22 @@ class IncurredIncidentalsController < ApplicationController
 
   private
 
-  def upload_documents
-    binding.pry
-    # only do this on sucess and with a file
-    if @incurred_incidental.errors.empty? && params[:file]
-      params.require(:file).permit!
+  #def upload_documents
+    #binding.pry
+    ## only do this on sucess and with a file
+    #if @incurred_incidental.errors.empty? && params[:file]
+      #params.require(:file).permit!
 
-      params[:file].each_pair do |id, uploaded_file|
-        next unless uploaded_file && id
-        # only allow types of uploaded file
-        next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
+      #params[:file].each_pair do |id, uploaded_file|
+        #next unless uploaded_file && id
+        ## only allow types of uploaded file
+        #next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
 
-        desc = params[:description][id] # this is not a required field
-        Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
-      end
-    end
-  end
+        #desc = params[:description][id] # this is not a required field
+        #Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
+      #end
+    #end
+  #end
 
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])
@@ -87,6 +87,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file])
   end
 end
