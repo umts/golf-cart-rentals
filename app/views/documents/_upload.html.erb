@@ -1,10 +1,12 @@
-<%= parent.fields_for :documents do |doc_field| %>
-  <div id="multiUploadContainer">
+<div id="multiUploadContainer">
+  <%= parent.fields_for :documents do |doc_field| %>
     <div class="multi-upload-group">
       <a href="#" class="multiUploadDeleteField"><span class="glyphicon glyphicon-remove text-danger"></a>
-      <%= doc_field.text_field :description, placeholder: 'Document Description', class: 'form-control multi-upload-desc input-sm' %>
-      <%= doc_field.file_field :uploaded_file, class: "multi-upload-file" %>
+      <div class="input-group">
+        <%= doc_field.text_field :description, placeholder: 'Document Description', class: 'multi-upload-desc input-sm' %>
+        <%= doc_field.file_field :uploaded_file, class: "multi-upload-file" %>
+      </div>
     </div>
-  </div>
-  <a href="#" id="multiUploadMoreFields">+ More Files</a>
-<% end %>
+  <% end %>
+</div>
+<a href="#" id="multiUploadMoreFields">+ More Files</a>
