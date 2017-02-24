@@ -7,9 +7,5 @@ set :deploy_to, '/var/www/probable-engine'
 set :rvm_type, :system
 set :linked_files, %w{config/database.yml config/config.yml config/secrets.yml}
 SSHKit.config.umask = '002'
-
-after :deploy, :finished do
-  on roles(:web) do
-    execute :rm, "-r /tmp/probable-engine/"
-  end
-end
+remote_user = Net::SSH::Config.for('umaps-web2.oit.umass.edu')[:user] || ENV['USER']
+set :tmp_dir, "/tmp/#{remote_user}"
