@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'httparty'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -37,5 +38,6 @@ module ProbableEngine
     config.time_zone = 'Eastern Time (US & Canada)'
 
     ActiveSupport.halt_callback_chains_on_return_false = false
+    HTTParty::Basement.default_options.update(verify: false) # do not verify certs
   end
 end
