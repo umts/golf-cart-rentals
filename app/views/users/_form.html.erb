@@ -25,7 +25,7 @@
   <div class="form-group col-xs-12">
     <label class="col-xs-2 control-label" for="department_id">Department</label>
     <div class="input-group col-xs-6">
-      <%= f.select :department_id, options_from_collection_for_select(@departments, "id", "name", @user.department_id), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)" %>
+      <%= f.select :department_id, options_from_collection_for_select(@departments, "id", "name", @user.department_id), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", required: true %>
       <span class="input-group-btn">
         <%= link_to 'Add New Department', new_department_path, class: "btn btn-primary" %>
       </span>
