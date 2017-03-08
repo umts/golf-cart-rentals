@@ -83,7 +83,7 @@ class Rental < ActiveRecord::Base
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       self.reservation_id = reservation[:uuid]
-      self.item = Item.find_by(name: reservation[:item])
+      self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
       errors.add :base, error.inspect
       return false

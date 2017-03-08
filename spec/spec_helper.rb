@@ -25,7 +25,7 @@ RSpec.configure do |config|
     # Loganote: using .and_return({uuid:...} is not lazily evaluated
     allow(Inventory).to receive(:create_reservation) {
                           { uuid: SecureRandom.uuid,
-                            item: create(:item).name }
+                            item: { name: create(:item).name } }
                         }
     allow(Inventory).to receive(:update_reservation_start_time) {
       { start_time: Time.current }
