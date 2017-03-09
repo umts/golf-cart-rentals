@@ -35,6 +35,18 @@ RSpec.describe Hold, type: :model do
       expect(build(:hold, end_time: Time.current - 1.day)).not_to be_valid
     end
 
+    context 'time sensative' do
+      after :each do
+        Timecop.return # always return
+      end
+
+      it 'allows the item to be updated even if start time is after current date if the item is saved' do
+        hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
+        Timecop.travel Time.current+1.day
+        expect(hold).to be_valid
+      end
+    end
+
     it 'does not allow end time to be earlier than start time' do
       expect(build(:invalid_date_time_hold)).not_to be_valid
     end
