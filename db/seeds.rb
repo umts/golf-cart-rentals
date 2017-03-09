@@ -94,7 +94,7 @@ puts '*****************************'
 puts 'Updating permissions'
 admin = Group.find_by name: 'admin'
 Permission.update_permissions_table
-Permission.create(controller: 'rentals', action: 'cost_adjustment') # this is a special permission that isnt really a controller action
+Permission.where(controller: 'rentals', action: 'cost_adjustment').first_or_create # this is a special permission that isnt really a controller action
 
 puts 'Giving all permissions to admin'
 Permission.all.each do |p|
