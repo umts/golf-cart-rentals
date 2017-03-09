@@ -13,6 +13,7 @@ set :tmp_dir, "/tmp/#{remote_user}"
 namespace :deploy do
   task :restart do
     on roles(:web), in: :sequence, wait: 5 do
+      # this is magic which lets passenger know it is supposed to restart when it can
       execute :touch, release_path.join("tmp/restart.txt")
       within current_path do
         execute :bundle, :exec, "rake permissions:update RAILS_ENV=production"
