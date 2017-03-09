@@ -4,6 +4,9 @@ require 'rails_helper'
 describe UsersController do
   let!(:user) { create(:user) }
   let!(:user2) { create(:user) }
+  let :user_attributes do
+    attributes_for(:user).merge(department_id: create(:department).id)
+  end
 
   describe 'GET #index' do
     it 'populates an array of users' do
@@ -42,11 +45,11 @@ describe UsersController do
     context 'with valid attributes' do
       it 'saves the new user in the database' do
         expect do
-          post :create, params: { user: attributes_for(:user) }
+          post :create, params: { user: user_attributes }
         end.to change(User, :count).by(1)
       end
       it 'redirects to the user page' do
-        post :create, params: { user: attributes_for(:user) }
+        post :create, params: { user: user_attributes }
         expect(response).to redirect_to User.last
       end
     end
