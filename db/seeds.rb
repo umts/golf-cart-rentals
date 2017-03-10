@@ -20,7 +20,7 @@ if Rails.env.development?
   puts 'Creating users'
   users = YAML::load_file(File.join(Rails.root, 'db/db_yml', 'users.yml'))
   users.each do |user|
-    User.where(spire_id: user['spire_id']).first_or_create user
+    User.where(user.merge(department: Department.first)).first_or_create
   end
 
   puts 'Putting users in admin group'
@@ -40,7 +40,7 @@ if Rails.env.development?
     end
 
     unless inv_item_types.keys.include?(item_type['name'])
-      begin 
+      begin
         Inventory.create_item_type(item_type['name'])
         inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
           memo[ i['name'] ] = i['uuid']
