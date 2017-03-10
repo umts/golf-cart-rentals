@@ -78,13 +78,14 @@ describe RentalsController do
 
     context 'assiging users for search' do
       before do
+        User.destroy_all
         @dept_one = create :department
         @dept_one_users = create_list :user, 10, department: @dept_one
         @other_users = create_list :user, 10 # not in @dept_one
       end
 
       it 'assigns all users if that user has the permission' do
-        u = create(:user)
+        u = @other_users.first
         g = create(:group)
         g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
         g.save
@@ -133,6 +134,7 @@ describe RentalsController do
       it 're-renders the :new template' do
         post :create, params: { rental: invalid_create }
         expect(response).to render_template :new
+        expect(assigns[:users]).not_to be_empty
       end
     end
 
