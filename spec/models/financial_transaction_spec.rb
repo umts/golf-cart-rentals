@@ -45,6 +45,22 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(fc.amount).to eq(1)
     end
 
+    it 'sums up the values correctly' do
+      fc = build(:financial_transaction, :with_rental)
+      expect(fc.value).to eq(fc.amount + fc.adjustment)
+    end
+
+    it 'zeros the balance correctly' do
+      fc = build(:financial_transaction, :with_rental)
+      fc.update amount: 999, adjustment: 333
+
+      expect(fc.value).not_to eq(0)
+
+      fc.zero_balance
+
+      expect(fc.value).to eq(0)
+    end
+
     it 'defaults to 0 when adjustment is not specified' do
       fc = build(:financial_transaction, :with_rental)
       expect(fc.adjustment).to eq(0)
