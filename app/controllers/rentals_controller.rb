@@ -6,7 +6,7 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
-  before_action :set_users, only: [:index, :new, :processing, :transform, :create]
+  before_action :set_all_users, only: [:index, :processing]
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
@@ -14,7 +14,6 @@ class RentalsController < ApplicationController
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
 
     gon.reservations = Rental.to_json_reservations
   end
@@ -35,7 +34,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    set_users
+    set_users_to_assign
   end
 
   # GET /rentals/processing
@@ -103,7 +102,7 @@ class RentalsController < ApplicationController
       else
         @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       end
-      set_users
+      set_users_to_assign
       render :new
     end
   end
@@ -127,7 +126,7 @@ class RentalsController < ApplicationController
 
   private
 
-  def set_users
+  def set_users_to_assign
     if @current_user.has_permission?('rentals', 'assign_anyone')
       @users = User.all.map do |user|
         { id: user.id, tag: user.tag }
@@ -137,6 +136,10 @@ class RentalsController < ApplicationController
         { id: user.id, tag: user.tag }
       end
     end
+  end
+
+  def set_all_users
+    @users = User.all
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -155,10 +158,6 @@ class RentalsController < ApplicationController
 
   def set_items
     @items = Item.all
-  end
-
-  def set_users
-    @users = User.all
   end
 
   def set_incidental_types
