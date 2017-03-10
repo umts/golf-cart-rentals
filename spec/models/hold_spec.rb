@@ -36,20 +36,20 @@ RSpec.describe Hold, type: :model do
     end
 
     # does not work, for some reason validations are different in test than they are in dev
-    #context 'time sensative' do
-      #after :each do
-        #Timecop.return # always return
-      #end
+    # context 'time sensative' do
+    # after :each do
+    # Timecop.return # always return
+    # end
 
-      #it 'allows the item to be updated even if start time is after current date if the item is saved' do
-        #hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
-        #Timecop.travel Time.current+1.day
-        #hold.reload
-        #expect(hold.start_time).to be < Time.current
-        #hold.update(active: false)
-        #expect(hold).to be_valid
-      #end
-    #end
+    # it 'allows the item to be updated even if start time is after current date if the item is saved' do
+    # hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
+    # Timecop.travel Time.current+1.day
+    # hold.reload
+    # expect(hold.start_time).to be < Time.current
+    # hold.update(active: false)
+    # expect(hold).to be_valid
+    # end
+    # end
 
     it 'does not allow end time to be earlier than start time' do
       expect(build(:invalid_date_time_hold)).not_to be_valid
