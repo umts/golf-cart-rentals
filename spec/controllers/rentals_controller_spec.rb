@@ -78,22 +78,24 @@ describe RentalsController do
 
     context 'assiging users for search' do
       before do
-        create_list :user
+        @dept_one = create :department
+        @dept_one_users = create_list :user, 10, department: @dept_one
+        @other_users = create_list :user, 10 # not in @dept_one
       end
 
-      it 'assigns all users if in admin group' do
-
+      it 'assigns all users if that user has the permission' do
+        u = create(:user)
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+        g.save
+        u.groups << g
+        u.save
+        current_user(u) # set current_user to u in teh controller
+        get :new
+        expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
       end
 
-      it 'assigns all users if in csr group' do
-
-      end
-
-      it 'assigns only current_user if user is without department' do
-
-      end
-
-      it 'assigns users in same department if user has department' do
+      it 'it only assigns users in the same dept if they do not have the special permission' do
 
       end
     end
