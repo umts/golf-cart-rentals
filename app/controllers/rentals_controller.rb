@@ -35,9 +35,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    @users = User.all.map do |user|
-      { id: user.id, tag: user.tag }
-    end
+    set_users
   end
 
   # GET /rentals/processing
@@ -105,6 +103,7 @@ class RentalsController < ApplicationController
       else
         @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       end
+      set_users
       render :new
     end
   end
@@ -127,6 +126,18 @@ class RentalsController < ApplicationController
   def invoice; end
 
   private
+
+  def set_users
+    if @current_user.has_permission?('rentals', 'assign_anyone')
+      @users = User.all.map do |user|
+        { id: user.id, tag: user.tag }
+      end
+    else
+      @users = @current_user.department.users.map do |user|
+        { id: user.id, tag: user.tag }
+      end
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
