@@ -6,17 +6,17 @@ class FinancialTransaction < ActiveRecord::Base
   belongs_to :rental
   belongs_to :transactable, polymorphic: true
 
-  validates :adjustment, :rental_id, :amount, presence: true
-  validates :amount, numericality: { greater_than: 0 }
+  validates :adjustment, :rental_id, :initial_amount, presence: true
+  validates :initial_amount, numericality: { greater_than: 0 }
 
   def default
     self.adjustment ||= 0
-    self.amount ||= 0
+    self.initial_amount ||= 0
   end
 
   def send_updated_invoice; InvoiceMailer.send_invoice(rental).deliver_later end
 
-  def zero_balance note = "Zeroed Balance"; update adjustment: -(amount), note_field: note end
+  def zero_balance note = "Zeroed Balance"; update adjustment: -(initial_amount), note_field: note end
 
-  def value; (amount + adjustment) end
+  def value; (initial_amount + adjustment) end
 end
