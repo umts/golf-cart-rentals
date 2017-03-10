@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
+  rescue_from MissingUserError, with: :render_401
 
   def root
     redirect_to home_index_path
@@ -40,6 +41,10 @@ class ApplicationController < ActionController::Base
       format.html { render template: 'errors/500.html.erb', status: 500 }
       format.all { render body: nil, status: 500 }
     end
+  end
+
+  def render_401
+    render template: 'errors/401.html.erb', layout: false, status: 401
   end
 
   def self.get_actions(controller)
