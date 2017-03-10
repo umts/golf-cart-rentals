@@ -46,6 +46,9 @@ class Rental < ActiveRecord::Base
 
     event :cancel do
       transitions from: :reserved, to: :canceled
+      after do
+        financial_transaction.zero_balance 'Canceling a reservation and zero-ing balance'
+      end
     end
 
     event :pickup do
