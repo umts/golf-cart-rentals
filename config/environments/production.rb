@@ -101,5 +101,5 @@ Rails.application.configure do
   }
 
   # Inventory api url
-  config.inventory_api_uri = 'http://pvta.com/apis/aggressive/v1/' # not sure what this is yet
+  config.inventory_api_uri = 'https://rentalapi.parking.umass.edu/v1/' # not sure what this is yet
 end

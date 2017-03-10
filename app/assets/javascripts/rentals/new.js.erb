@@ -66,7 +66,4 @@ $(document).ready( function () {
   $('select.cost-dependent').on('change', function () {
     costCalculation();
   });
-
-  //bind search to modal open
-  $("#modalSearchResults").on("shown.bs.modal", function () { ajaxUserSearch() });
 });

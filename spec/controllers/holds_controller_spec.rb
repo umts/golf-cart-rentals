@@ -45,6 +45,25 @@ describe HoldsController do
     end
   end
 
+  # this test does not work, for some reason validations are done differently in test than they are in dev
+  #describe 'POST #lift' do
+    #context 'allows the item to be updated even if start time is after current date if the item is saved' do
+      #after :each do
+        #Timecop.return # always return
+      #end
+
+      #it 'allows the item to be updated even if start time is after current date if the item is saved' do
+        #hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
+        #Timecop.travel Time.current+1.day
+        #expect(hold.start_time).to be < Time.current
+        #post :lift, params: { id: hold.id }
+        #hold.reload
+        #expect(hold).to be_valid
+        #expect(hold.active).to be false
+      #end
+    #end
+  #end
+
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new hold in the database' do

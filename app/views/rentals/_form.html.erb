@@ -30,7 +30,7 @@
           <%= f.text_field :renter_id,
             data: { tokeninput:
               { collection: @users,
-                options: {tokenLimit: 1, propertyToSearch: :tag}}},
+                options: {tokenLimit: 1, propertyToSearch: :tag, tokenDelimiter: '', prePopulate: [{id: @current_user.id, tag: @current_user.tag}]}}},
                 required: true, class: "form-control" %>
     </div>
   </div>

@@ -9,7 +9,9 @@
     <table style="margin-left:10px" border="1">
       <tr>
         <td><b>User:</b></td>
-        <td><%= "#{@user.id} #{@user.full_name} #{@user.email}" %></td>
+        <% if @user %>
+          <td><%= "#{@user.id} #{@user.full_name} #{@user.email}" %></td>
+        <%end%>
       </tr>
       <tr>
         <td><b>Time:</b></td>
