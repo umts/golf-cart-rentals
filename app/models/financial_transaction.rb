@@ -7,7 +7,7 @@ class FinancialTransaction < ActiveRecord::Base
   belongs_to :transactable, polymorphic: true
 
   validates :adjustment, :rental_id, :amount, presence: true
-  validates :amount, numericality: { greater_than: 0 }, presence: true
+  validates :amount, numericality: { greater_than: 0 }
 
   def default
     self.adjustment ||= 0
