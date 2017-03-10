@@ -96,7 +96,9 @@ describe RentalsController do
       end
 
       it 'it only assigns users in the same dept if they do not have the special permission' do
-
+        current_user(@dept_one_users.first) # set current_user to some user from dept one in teh controller
+        get :new
+        expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users).collect(&:id)
       end
     end
   end
