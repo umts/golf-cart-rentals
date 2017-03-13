@@ -72,7 +72,6 @@ class RentalsController < ApplicationController
       end
     elsif params[:commit] == 'Drop Off'
       DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
-      binding.pry
       if @rental.drop_off
         dropoff_name = params[:rental][:dropoff_name]
         dropoff_number = params[:rental][:dropoff_phone_number]
