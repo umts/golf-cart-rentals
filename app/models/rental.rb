@@ -154,6 +154,10 @@ class Rental < ActiveRecord::Base
     sum_charges - sum_payments
   end
 
+  def duration
+    (end_time.to_date - start_time.to_date).to_i + 1
+  end
+
   # this method seems really inefficient
   # def self.with_balance_due
   # Rental.select { |x| x.balance > 0 }
