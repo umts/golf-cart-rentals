@@ -17,26 +17,19 @@ function costCalculation(){
   var raw_start_time = null;
   var raw_end_time = null;
   var amount = null;
-  var prev_day = null;
   var range = null;
 
   raw_item_type = $('#rental_item_type_id').val();
   raw_start_time = $('#rental_start_time').val();
-  raw_start_time_l = $('#rental_start_time');
   raw_end_time = $('#rental_end_time').val();
   amount = $('#rental_amount');
   date_range = $('#date_range');
 
   if(!isEmpty(raw_item_type) && !isEmpty(raw_end_time) && !isEmpty(raw_start_time)) {
     if(new Date(raw_start_time) > new Date(raw_end_time)) {
-      alert('Pickup Date must occur before Dropoff date');
-      prev_day = new Date(raw_end_time);
-      prev_day.setDate(prev_day.getDate());
-      prev_day = prev_day.getFullYear() + '-' + (prev_day.getMonth() + 1) + '-' + prev_day.getDate();
-      raw_start_time_l.val(prev_day);
-      raw_start_time = raw_start_time_l.val();
+      return; //do not perform a cost calculation
+      //the end_date changed to start_date + previous range then call this method once again
     }
-
     range = days_between(raw_start_time, raw_end_time);
 
     $.ajax({
@@ -59,7 +52,18 @@ $(document).ready( function () {
     alert('Warning! You are overriding the system defaults.');
   });
 
-  $( ".datepicker" ).datetimepicker().on('dp.change', function(ev) {
+  $(".datepicker").datetimepicker().on('dp.change', function(ev) {
+    var field = $(this).find("input");
+    var raw_start_time = $('#rental_start_time').val();
+    var raw_end_time = $('#rental_end_time').val();
+    //if this is the start time, and the start is greater than the end, we should adjust the end date
+    if(field.attr("id") === "rental_start_time" && new Date(raw_start_time) > new Date(raw_end_time)) {
+      //date range hasnt changed yet, we can use it to update end date
+      //set end date to start date + whatever range we had before
+      var new_end_date = moment(raw_start_time).add($("#date_range").val(), 'days').format("YYYY-MM-DD");
+      $("#rental_end_time").val(new_end_date); //update end_time
+    }
+
     costCalculation();
   });
 

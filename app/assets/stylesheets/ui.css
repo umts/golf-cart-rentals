@@ -17,7 +17,7 @@
 .footer{
   color: #111;
   padding-top: 15px;
-  background-color: #1963EB;
+  background-color: #a2a2a4;
 }
 
 .footer a {
@@ -32,12 +32,12 @@
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
   border-width: 0px;
   border-radius: 0px;
-  background-color: #218FD4;
+  background-color: #b2b2b3;
   margin: 0;
 }
 .navbar.main,
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu > li > a:hover{
-  background-color: #19D1EB;
+  background-color: #a2a2a4;
 }
 
 .navbar-default .navbar-brand,
@@ -50,7 +50,7 @@
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-collapse > .nav.main > .open > a{
   color: initial;
-  background-color: #218FD4;
+  background-color: #b2b2b3;
 }
 
 .navbar-collapse > .nav.main > .dropdown > .dropdown-menu{
