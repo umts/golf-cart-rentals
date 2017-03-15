@@ -80,6 +80,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails', '3.5.0.beta2'
   gem 'rubocop', require: false
+  gem 'timecop'
 end
 
 group :development do
@@ -98,5 +99,4 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'rake'
   gem 'simplecov'
-  gem 'timecop'
 end
