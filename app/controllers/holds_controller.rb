@@ -20,7 +20,7 @@ class HoldsController < ApplicationController
       @hold.handle_conflicting_rentals
       redirect_to @hold
     else
-      flash[:warning] = 'Error creating Hold'
+      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end
@@ -30,12 +30,12 @@ class HoldsController < ApplicationController
   def update
     if @hold.update(hold_params)
       flash[:success] = 'Hold Successfully Updated'
+      @hold.handle_conflicting_rentals
       redirect_to @hold
     else
-      flash[:warning] = 'Error updating Hold'
+      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
-    @hold.handle_conflicting_rentals
   end
 
   def lift
