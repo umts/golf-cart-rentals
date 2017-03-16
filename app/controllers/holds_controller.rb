@@ -17,12 +17,12 @@ class HoldsController < ApplicationController
 
     if @hold.save
       flash[:success] = 'Hold Successfully Created'
+      @hold.handle_conflicting_rentals
       redirect_to @hold
     else
       flash[:warning] = 'Error creating Hold'
       render :new
     end
-    @hold.handle_conflicting_rentals
   end
 
   def edit; end
