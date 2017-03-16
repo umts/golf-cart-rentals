@@ -42,7 +42,7 @@ class HoldsController < ApplicationController
     if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
-      flash[:warning] = 'Error lifting Hold'
+      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
     end
     redirect_to holds_url
   end
