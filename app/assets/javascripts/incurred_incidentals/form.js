@@ -32,4 +32,5 @@ $(document).ready(function () {
   });
 
   $(".multiUploadDeleteField").click(handleRemoveField); //append the event to the first field
+  $(".multiUploadDeletePersistedField").click(handleRemoveField); //append the event to the existing fields
 });
