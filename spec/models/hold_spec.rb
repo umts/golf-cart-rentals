@@ -35,21 +35,28 @@ RSpec.describe Hold, type: :model do
       expect(build(:hold, end_time: Time.current - 1.day)).not_to be_valid
     end
 
-    # does not work, for some reason validations are different in test than they are in dev
-    #context 'time sensative' do
-      #after :each do
-        #Timecop.return # always return
-      #end
+    context 'time sensitive' do
+      after :each do
+        Timecop.return # always return
+      end
 
-      #it 'allows the item to be updated even if start time is after current date if the item is saved' do
-        #hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
-        #Timecop.travel Time.current+1.day
-        #hold.reload
-        #expect(hold.start_time).to be < Time.current
-        #hold.update(active: false)
-        #expect(hold).to be_valid
-      #end
-    #end
+      it 'moves datetimes to end_of_day and beginning_of_day' do
+        Timecop.freeze
+        hold = create :hold, start_time: Date.current.end_of_day, end_time: Date.tomorrow.beginning_of_day
+        expect(hold.start_time).to eq(Date.current.beginning_of_day)
+        # for some reasone it was loosint accuracy if i compared equality
+        expect(hold.end_time).to be > Date.tomorrow.beginning_of_day
+      end
+
+      it 'allows the item to be updated even if start time is after current date if the item is saved' do
+        hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
+        Timecop.travel Time.current+1.day
+        hold.reload
+        expect(hold.start_time).to be < Time.current
+        hold.update(active: false)
+        expect(hold).to be_valid
+      end
+    end
 
     it 'does not allow end time to be earlier than start time' do
       expect(build(:invalid_date_time_hold)).not_to be_valid
@@ -76,6 +83,16 @@ RSpec.describe Hold, type: :model do
 
     it 'should create a new rental when there is a conflicting rental' do
       conflicting_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change(Rental, :count).by(1)
+    end
+
+    it 'should handle when a rental falls within the hold but not exactly on it' do
+      hold = create :hold, start_time: 1.days.from_now, end_time: 3.days.from_now
+
+      # conflicting rental starts in range but ends out side of it
+      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now)
       expect do
         hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)
