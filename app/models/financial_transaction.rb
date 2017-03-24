@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class FinancialTransaction < ActiveRecord::Base
-  after_initialize :default
   after_save :send_updated_invoice
 
   belongs_to :rental
@@ -9,7 +8,9 @@ class FinancialTransaction < ActiveRecord::Base
   validates :adjustment, :rental_id, :initial_amount, presence: true
   validates :initial_amount, numericality: { greater_than: 0 }
 
-  def default
+  alias_attribute :base_amount, :initial_amount
+
+  def initialize
     self.adjustment ||= 0
     self.initial_amount ||= 0
   end
@@ -19,4 +20,6 @@ class FinancialTransaction < ActiveRecord::Base
   def zero_balance note = "Zeroed Balance"; update adjustment: -(initial_amount), note_field: note end
 
   def value; (initial_amount + adjustment) end
+
+  alias :balance, :value
 end

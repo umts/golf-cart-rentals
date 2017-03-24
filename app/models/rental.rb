@@ -146,11 +146,11 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+    financial_transactions.where.not(transactable_type: Payment.name).inject(0) {|total, transaction| total + transaction.balance}
   end
 
   def sum_payments
-    financial_transactions.where(transactable_type: Payment.name).sum(:amount)
+    financial_transactions.where(transactable_type: Payment.name).inject(0) {|total, transaction| total + transaction.balance}
   end
 
   def balance
@@ -175,6 +175,6 @@ class Rental < ActiveRecord::Base
 
   def create_financial_transaction
     rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
-    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+    FinancialTransaction.create rental: self, initial_amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
 end
