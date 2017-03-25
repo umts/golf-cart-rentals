@@ -20,6 +20,8 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = 'User Was Successfully Created'
+      flash[:warning] = 'User currently has no permissions and will need to be added to a group'
+
       redirect_to @user
     else
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
