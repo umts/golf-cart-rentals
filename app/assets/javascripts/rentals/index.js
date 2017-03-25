@@ -6,6 +6,7 @@ $(document).ready(function() {
 		eventClick: function(calEvent, jsEvent, view) {
 			var win = window.open(calEvent.url, '_blank');
 			win.focus();
+			return false;
 		}
 	})
 });
