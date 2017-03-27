@@ -28,5 +28,5 @@ class FinancialTransaction < ActiveRecord::Base
     initial_amount + adjustment
   end
 
-  alias :balance :value
+  alias balance value
 end
