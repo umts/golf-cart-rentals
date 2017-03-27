@@ -78,7 +78,7 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(incidental).to eq(incidental_trans.transactable)
       expect(rental).to eq(incidental_trans.rental)
 
-      expect(incidental_trans.initial_amount).to eq(incidental.initial_amount)
+      expect(incidental_trans.initial_amount).to eq(incidental.amount)
     end
   end
 end
