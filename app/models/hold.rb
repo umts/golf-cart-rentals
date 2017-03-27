@@ -7,11 +7,18 @@ class Hold < ActiveRecord::Base
   has_one :damage # , dependent: :destroy
 
   validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
-  validates :start_time, :end_time, date: { after: Date.current, message: 'must be after current date. ' }, unless: :persisted?
+  validates :start_time, :end_time, date: { after: proc { Date.current }, message: 'must be after current date. ' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
+  # hold lasts between dates inclusive
+  before_save do |hold|
+    hold.start_time = hold.start_time.beginning_of_day
+    hold.end_time = hold.end_time.end_of_day
+  end
+
   def handle_conflicting_rentals
-    conflicting_rentals = Rental.where('start_time >= :hold_start_time AND end_time <= :hold_end_time',
+    # if rental falls between data range of our hold
+    conflicting_rentals = Rental.where('start_time <= :hold_end_time AND end_time >= :hold_start_time',
                                        hold_start_time: start_time,
                                        hold_end_time: end_time)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
