@@ -68,14 +68,14 @@ class RentalsController < ApplicationController
       if @rental.pickup
         pickup_name = params[:rental][:pickup_name]
         pickup_number = params[:rental][:pickup_phone_number]
-        @rental.update(pickup_name: pickup_name, pickup_phone_number: pickup_number)
+        @rental.update!(pickup_name: pickup_name, pickup_phone_number: pickup_number)
       end
     elsif params[:commit] == 'Drop Off'
       DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
       if @rental.drop_off
         dropoff_name = params[:rental][:dropoff_name]
         dropoff_number = params[:rental][:dropoff_phone_number]
-        @rental.update(dropoff_name: dropoff_name, dropoff_phone_number: dropoff_number)
+        @rental.update!(dropoff_name: dropoff_name, dropoff_phone_number: dropoff_number)
       end
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
@@ -100,11 +100,8 @@ class RentalsController < ApplicationController
       flash[:success] = 'You have succesfully reserved your Rental!'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      if @rental.item_id.nil? && @rental.reservation_id.nil?
-        flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' is not available for the specified dates'
-      else
-        @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      end
+      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' is not available for the specified dates'
+      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end
