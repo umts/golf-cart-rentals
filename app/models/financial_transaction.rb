@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class FinancialTransaction < ActiveRecord::Base
-  before_save :default
+  after_initialize :default
   after_save :send_updated_invoice
 
   belongs_to :rental
