@@ -16,10 +16,17 @@ class FinancialTransaction < ActiveRecord::Base
     self.initial_amount ||= 0
   end
 
-  def send_updated_invoice; InvoiceMailer.send_invoice(rental).deliver_later end
+  def send_updated_invoice
+    InvoiceMailer.send_invoice(rental).deliver_later
+  end
 
-  def zero_balance note = "Zeroed Balance"; update adjustment: -(initial_amount), note_field: note end
+  def zero_balance(note = 'Zeroed Balance')
+    update adjustment: -initial_amount, note_field: note
+  end
 
-  def value; (initial_amount + adjustment) end
-  alias_method :balance, :value
+  def value
+    initial_amount + adjustment
+  end
+
+  alias :balance :value
 end
