@@ -19,13 +19,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-<<<<<<< HEAD
       flash[:success] = 'User Successfully Created'
       flash[:warning] = 'User Has No Permissions'
 
-=======
-      flash[:success] = 'User Successfully Created'
->>>>>>> 49c2f2b... first pass at consistent flash messages
       redirect_to @user
     else
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
