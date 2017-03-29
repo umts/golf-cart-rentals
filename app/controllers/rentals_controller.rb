@@ -56,7 +56,7 @@ class RentalsController < ApplicationController
     elsif @rental.picked_up?
       render :drop_off, locals: { rental: @rental }
     else
-      flash[:danger] = 'Error redirecting to processing form'
+      flash[:danger] = 'Error Redirecting To Processing Form'
       render :index
     end
   end
@@ -97,10 +97,10 @@ class RentalsController < ApplicationController
         @financial_transaction.initial_amount = params[:amount]
         @financial_transaction.save
       end # if they dont have permission ignore it and we will use default pricing
-      flash[:success] = 'You have succesfully reserved your Rental!'
+      flash[:success] = 'Rental Successfully Reserved'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
-      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' is not available for the specified dates'
+      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -111,11 +111,11 @@ class RentalsController < ApplicationController
     if @rental.may_cancel?
       @rental.cancel!
       @rental.delete_reservation
-      flash[:success] = 'Rental canceled.'
+      flash[:success] = 'Rental Canceled.'
     elsif @rental.canceled?
-      flash[:warning] = 'This rental is already canceled'
+      flash[:warning] = 'Rental Has Already Been Canceled'
     else
-      flash[:warning] = 'This rental may not be canceled'
+      flash[:warning] = 'Rental Cannot Be Canceled'
     end
     redirect_back(fallback_location: rentals_path)
   end
