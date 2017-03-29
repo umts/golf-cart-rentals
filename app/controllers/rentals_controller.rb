@@ -94,7 +94,7 @@ class RentalsController < ApplicationController
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
         @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
-        @financial_transaction.amount = params[:amount]
+        @financial_transaction.initial_amount = params[:amount]
         @financial_transaction.save
       end # if they dont have permission ignore it and we will use default pricing
       flash[:success] = 'You have succesfully reserved your Rental!'
