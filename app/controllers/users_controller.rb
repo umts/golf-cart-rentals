@@ -19,7 +19,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:success] = 'User Was Successfully Created'
+      flash[:success] = 'User Successfully Created'
+      flash[:warning] = 'User Has No Permissions'
+
       redirect_to @user
     else
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -29,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(update_user_params)
-      flash[:success] = 'User Was Successfully Updated'
+      flash[:success] = 'User Successfully Updated'
       redirect_to @user
     else
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -39,13 +41,13 @@ class UsersController < ApplicationController
 
   def destroy
     @user.update(active: false)
-    flash[:success] = 'User Was Successfully Disabled'
+    flash[:success] = 'User Successfully Disabled'
     redirect_to users_url
   end
 
   def enable
     @user.update(active: true)
-    flash[:success] = 'User Was Successfully Enabled'
+    flash[:success] = 'User Successfully Enabled'
     redirect_to users_url
   end
 

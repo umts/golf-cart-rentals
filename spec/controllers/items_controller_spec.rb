@@ -94,7 +94,7 @@ RSpec.describe ItemsController, type: :controller do
           allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
           post :create_item, params: { name: item.name, type: item_type.name }
           expect(flash[:success]).to be_present
-          expect(flash[:success]).to eq('Your cart has been successfully created. ')
+          expect(flash[:success]).to eq('Cart Successfully Created')
         end.to change { Item.count }.by(1)
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe ItemsController, type: :controller do
       it 'populates a danger flash message' do
         post :create_item, params: { name: nil, type: item_type.name }
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Enter a name for the cart')
+        expect(flash[:danger]).to eq('Invalid Cart Name')
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:create_item).and_raise('boom')
         post :create_item, params: { name: item.name, type: item_type.name }
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Failed to create cart in API. #<RuntimeError: boom>')
+        expect(flash[:danger]).to eq('Failed To Create Cart In API. #<RuntimeError: boom>')
       end
     end
   end
@@ -129,7 +129,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
         get :refresh_items
         expect(flash[:success]).to be_present
-        expect(flash[:success]).to eq('Items have been updated.')
+        expect(flash[:success]).to eq('Items Successfully Updated')
       end
     end
 
@@ -138,7 +138,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:items_by_type).and_raise('boom')
         get :refresh_items
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Failed to refresh items from api. #<RuntimeError: boom>')
+        expect(flash[:danger]).to eq('Failed To Refresh Items From API. #<RuntimeError: boom>')
       end
     end
 
