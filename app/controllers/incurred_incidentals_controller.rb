@@ -46,6 +46,7 @@ class IncurredIncidentalsController < ApplicationController
     else
       flash[:error] = 'Failed To Update Incidental'
       @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      @rental = @incurred_incidental.rental
       render :edit
     end
   end
