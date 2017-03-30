@@ -28,8 +28,9 @@ class IncurredIncidentalsController < ApplicationController
         redirect_to incurred_incidental_path(@incurred_incidental)
       end
     else
-      render :new
       flash[:error] = 'Failed To Update Incidental'
+      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :new
     end
   end
 
@@ -38,18 +39,14 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @incurred_incidental.update(incidental_params)
-        format.html do
-          redirect_to incurred_incidental_path(@incurred_incidental)
-          flash[:success] = 'Incidental Successfully Updated'
-        end
-      else
-        format.html do
-          render :edit
-          flash[:error] = 'Failed To Update Incidental'
-        end
-      end
+    binding.pry
+    if @incurred_incidental.update(incidental_update_params)
+      flash[:success] = 'Incidental Successfully Updated'
+      redirect_to incurred_incidental_path(@incurred_incidental)
+    else
+      flash[:error] = 'Failed To Update Incidental'
+      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :edit
     end
   end
 
@@ -69,5 +66,10 @@ class IncurredIncidentalsController < ApplicationController
 
   def incidental_params
     params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file])
+  end
+
+  def incidental_update_params
+    # we can allow id here for the notes
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file, :id])
   end
 end
