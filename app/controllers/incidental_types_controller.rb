@@ -18,7 +18,7 @@ class IncidentalTypesController < ApplicationController
   def create
     @incidental_type = IncidentalType.new(incidental_type_params)
     if @incidental_type.save
-      flash[:success] = 'Incidental Type Was Successfully Created'
+      flash[:success] = 'Incidental Type Successfully Created'
       redirect_to @incidental_type
     else
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -28,7 +28,7 @@ class IncidentalTypesController < ApplicationController
 
   def update
     if @incidental_type.update(incidental_type_params)
-      flash[:success] = 'Incidental Type Was Successfully Updated'
+      flash[:success] = 'Incidental Type Successfully Updated'
       redirect_to @incidental_type
     else
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -38,7 +38,7 @@ class IncidentalTypesController < ApplicationController
 
   def destroy
     @incidental_type.destroy
-    flash[:success] = 'Incidental Type Was Successfully Deleted'
+    flash[:success] = 'Incidental Type Successfully Deleted'
     redirect_to incidental_types_url
   end
 
