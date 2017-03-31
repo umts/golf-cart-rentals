@@ -1,7 +1,8 @@
 $(document).ready(function () {
   function handleRemoveField(e) {
     e.preventDefault();
-    if($(".multi-upload-group").length > 1) {
+    //will hide or remove, depending on class and upload group
+    if($(".multi-upload-group").length > 1 || $(this).hasClass("multiUploadDeletePersistedField")) {
       $(this).parent().remove();
     } else {
       $(this).parent().hide(); //dont remove it, just hide it
