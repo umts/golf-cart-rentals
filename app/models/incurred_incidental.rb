@@ -10,7 +10,7 @@ class IncurredIncidental < ActiveRecord::Base
   has_many :documents, as: :documentable, dependent: :destroy
 
   accepts_nested_attributes_for :notes, reject_if: proc { |attributes| attributes.all? { |_, v| v.blank? } }
-  accepts_nested_attributes_for :documents
+  accepts_nested_attributes_for :documents, reject_if: proc { |attr| attr.all? { |_,v| v.blank? } }
 
   validates_associated :rental, :incidental_type, :notes
 

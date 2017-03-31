@@ -5,7 +5,7 @@ class Document < ActiveRecord::Base
   has_paper_trail
   belongs_to :documentable, polymorphic: true
   enum filetype: %i(picture other)
-  validates :filename, :filetype, :original_filename, presence: true # all set during write_file
+  validates :filename, :filetype, :original_filename, :description, presence: true # all set during write_file, except desc
   before_validation :write_file
 
   attr_readonly :filename # this will be set in the before action

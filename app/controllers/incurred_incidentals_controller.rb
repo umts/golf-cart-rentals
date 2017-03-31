@@ -66,11 +66,22 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file])
+    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file])
+    filter_empty_docs(incidental)
   end
 
   def incidental_update_params
     # we can allow id here for the notes
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file, :id])
+    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file, :id])
+    filter_empty_docs(incidental)
+  end
+
+  def filter_empty_docs(incidental)
+    # documents attributes w/o description or an id do not exist yet
+    # documents w/o description but has an idea exist, should fail to update
+    incidental[:documents_attributes] = incidental[:documents_attributes].reject { |key,value|
+      value[:description].blank? && value[:id].nil? # reject if blank desc and no id
+    }
+    incidental
   end
 end

@@ -110,6 +110,7 @@ describe IncurredIncidentalsController do
                                   desc: { '1' => 'some desc', '2' => 'another desc' } }
         end.to change(Document, :count).by(2)
       end
+
     end
   end
 
@@ -160,6 +161,23 @@ describe IncurredIncidentalsController do
       it 'renders the :edit template' do
         post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         expect(response).to render_template :edit
+      end
+    end
+
+    context 'updating documents' do
+      it 'refuses to update given empty desc of existing doc' do
+        ii = create :incurred_incidental
+        ii.documents << create(:document, description: 'not_test')
+        ii.documents << create(:document, description: 'other_desc')
+        post :update, params: { incurred_incidental: ii, documents_attributes: {
+                                '0' => {'description' => '', id: ii.documents.first},
+                                '1' => {'description' => 'test', id: ii.documents.last}
+                                }
+                              }
+        expect(response).to render_template :edit
+        expect(ii.documents.reload.first.description).not_to be blank?
+        expect(ii.documents.first.description).to eq 'not_test'
+        expect(ii.documents.last.description).to eq 'other_desc'
       end
     end
   end

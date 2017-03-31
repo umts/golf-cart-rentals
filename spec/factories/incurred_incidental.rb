@@ -8,6 +8,12 @@ FactoryGirl.define do
     after(:build) do |incidental|
       incidental.notes = FactoryGirl.build_list(:note, 1)
     end
+
+    trait :with_documents do
+      after(:build) do |incidental|
+        incidental.documents = FactoryGirl.build_list(:document, 2)
+      end
+    end
   end
 
   factory :invalid_incidental, parent: :incurred_incidental do
