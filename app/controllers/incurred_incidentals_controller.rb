@@ -39,7 +39,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def update
-    binding.pry
     if @incurred_incidental.update(incidental_update_params)
       # find docs that just have an id, this means those were removed
       removables = incidental_update_params[:documents_attributes].select { |k,v|
