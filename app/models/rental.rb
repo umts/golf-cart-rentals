@@ -157,6 +157,10 @@ class Rental < ActiveRecord::Base
     sum_charges - sum_payments
   end
 
+  def duration
+    (end_time.to_date - start_time.to_date).to_i + 1
+  end
+
   # this method seems really inefficient
   # def self.with_balance_due
   # Rental.select { |x| x.balance > 0 }
@@ -167,7 +171,9 @@ class Rental < ActiveRecord::Base
 
   def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
-    rental_duration = (end_time.to_date - start_time.to_date).to_i
+
+    # have to add one day at the end 12th to 13th is 2 days, pick up on 12 drop of on 13 is two full days
+    rental_duration = (end_time.to_date - start_time.to_date).to_i + 1
     # Do not charge for 1/7 days in a rental.
     days_to_charge_for = rental_duration - (rental_duration / 7)
     (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
