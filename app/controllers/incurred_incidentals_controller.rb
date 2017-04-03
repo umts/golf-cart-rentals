@@ -18,7 +18,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def create
-    binding.pry
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     if @incurred_incidental.save
       flash[:success] = 'Incidental Successfully Created'
