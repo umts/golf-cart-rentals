@@ -59,10 +59,10 @@ RSpec.describe Rental do
       rental_unpaid = create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).initial_amount
 
       # pay for rental
-      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+      create :financial_transaction, :with_payment, initial_amount: amount, rental: rental_paid
       # now rental_paid has no balance due
 
       expect(Rental.with_balance_due).to contain_exactly rental_unpaid
@@ -75,10 +75,10 @@ RSpec.describe Rental do
       create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).initial_amount
 
       # pay for rental
-      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+      create :financial_transaction, :with_payment, initial_amount: amount, rental: rental_paid
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
@@ -135,13 +135,13 @@ RSpec.describe Rental do
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
-      sum_amount = FinancialTransaction.where(rental: @rental).map(&:amount).inject(:+)
+      sum_amount = FinancialTransaction.where(rental: @rental).map(&:initial_amount).inject(:+)
       expect(@rental.balance).to eq(sum_amount)
     end
 
     it 'returns the cost-payments' do
-      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
-      create(:financial_transaction, transactable: create(:payment), amount: sum_amount, rental: @rental)
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:initial_amount)
+      create(:financial_transaction, transactable: create(:payment), initial_amount: sum_amount, rental: @rental)
 
       expect(@rental.balance).to be_zero # fully paid
     end
@@ -264,31 +264,31 @@ RSpec.describe Rental do
   end
   it 'creates a 1 day financial transaction' do
     rent = create :mock_rental, end_time: (Time.current + 1.second)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([110])
   end
   it 'creates a 2 day financial transaction' do
     rent = create :mock_rental
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([120])
   end
   it 'creates a 3 day financial transaction' do
     rent = create :mock_rental, end_time: (Time.current + 2.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([130])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([130])
   end
   it 'creates a 7 day financial transaction(1 day free)' do
     rent = create :mock_rental, end_time: (Time.current + 6.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([160])
   end
   it 'creates a 8 day financial transaction(1 day free)' do
     rent = create :mock_rental, end_time: (Time.current + 7.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([170])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([170])
   end
   it 'creates a 15 day financial transaction(2 days free)' do
     rent = create :mock_rental, end_time: (Time.current + 14.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([230])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([230])
   end
   it 'creates a 2 day financial transaction with different fees' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
-    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([240])
+    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([240])
   end
 
   describe '#delete_reservation' do

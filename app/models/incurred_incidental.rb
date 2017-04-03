@@ -23,6 +23,6 @@ class IncurredIncidental < ActiveRecord::Base
 
   # private
   def create_financial_transaction
-    FinancialTransaction.create(rental: rental, amount: amount, transactable_type: self.class.name, transactable_id: id)
+    FinancialTransaction.create(rental: rental, initial_amount: amount, transactable_type: self.class.name, transactable_id: id)
   end
 end

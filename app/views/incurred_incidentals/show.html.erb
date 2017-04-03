@@ -39,7 +39,7 @@
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
         <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.rental.basic_info %></p>
-        <p>Amount:               <%= number_to_currency @incurred_incidental.financial_transaction.amount %></p>
+        <p>Amount:               <%= number_to_currency @incurred_incidental.financial_transaction.initial_amount %></p>
         <p>Adjustment:           <%= number_to_currency @incurred_incidental.financial_transaction.adjustment %></p>
       </div>
     </div>
