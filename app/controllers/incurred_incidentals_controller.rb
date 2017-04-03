@@ -18,6 +18,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def create
+    binding.pry
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     if @incurred_incidental.save
       flash[:success] = 'Incidental Successfully Created'
@@ -87,9 +88,11 @@ class IncurredIncidentalsController < ApplicationController
   def filter_empty_docs(incidental)
     # documents attributes w/o description or an id do not exist yet and are a user upload error
     # documents w/o description but has an id exist, will be deleted latter
-    incidental[:documents_attributes] = incidental[:documents_attributes].reject { |key,value|
-      value[:description].blank? && value[:id].nil? # reject if blank desc and no id
-    }
+    if incidental[:documents_attributes]
+      incidental[:documents_attributes] = incidental[:documents_attributes].reject { |key,value|
+        value[:description].blank? && value[:id].nil? # reject if blank desc and no id
+      }
+    end
     incidental
   end
 end

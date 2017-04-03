@@ -40,6 +40,7 @@ class Document < ActiveRecord::Base
         file.write(uploaded_file.read)
       end
     rescue => e
+      self.filename = nil # reset so we can write again
       raise e, 'Failed to properly write file'
     end
   end

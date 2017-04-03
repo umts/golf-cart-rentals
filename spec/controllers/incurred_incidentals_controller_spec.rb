@@ -11,6 +11,8 @@ describe IncurredIncidentalsController do
     inc
   end
 
+
+
   let(:invalid_create) do
     inc = attributes_for(:invalid_incidental)
     inc
@@ -94,10 +96,11 @@ describe IncurredIncidentalsController do
       it 'takes a document and saves it' do
         desc = 'some desc'
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create,
-                                  documents_attributes: {
-                                    '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), desc: desc }
-                                  }
+          post :create, params: { incurred_incidental: incurred_incidental_create.merge(
+                                    documents_attributes: {
+                                      '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: desc }
+                                    }
+                                  )
                                 }
         end.to change(Document, :count).by(1)
         expect(IncurredIncidental.last.documents).to be_present
