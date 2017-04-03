@@ -90,12 +90,15 @@ describe IncurredIncidentalsController do
       end
     end
 
-    context 'with optional document' do
+    context 'with document' do
       it 'takes a document and saves it' do
         desc = 'some desc'
         expect do
           post :create, params: { incurred_incidental: incurred_incidental_create,
-                                  file: { '1' => fixture_file_upload('file.png', 'image/png') }, desc: { '1' => desc } }
+                                  documents_attributes: {
+                                    '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), desc: desc }
+                                  }
+                                }
         end.to change(Document, :count).by(1)
         expect(IncurredIncidental.last.documents).to be_present
         expect(Document.last.description).to eq(desc)

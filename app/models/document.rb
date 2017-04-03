@@ -22,6 +22,7 @@ class Document < ActiveRecord::Base
   private
 
   def write_file
+    return if filename # already stored file, will break if we try again
     return unless uploaded_file # this is a temp variable in this class, it wont be written to the database
     begin
       # this method can take multiple uploaded_file types but they need to have these methods.
