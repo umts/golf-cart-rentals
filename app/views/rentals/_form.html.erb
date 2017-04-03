@@ -45,7 +45,7 @@
   <div class="form-group col-xs-12">
     <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @start_date.next_day, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
+      <%= f.date_field :end_time, value: @start_date, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
     </div>
   </div>
 
