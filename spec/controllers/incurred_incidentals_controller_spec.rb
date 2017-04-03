@@ -174,10 +174,21 @@ describe IncurredIncidentalsController do
                                 '1' => {'description' => 'test', id: ii.documents.last}
                                 }
                               }
-        expect(response).to render_template :edit
         expect(ii.documents.reload.first.description).not_to be blank?
         expect(ii.documents.first.description).to eq 'not_test'
         expect(ii.documents.last.description).to eq 'other_desc'
+      end
+
+      it 'deletes documents' do
+          ii = create :incurred_incidental
+          ii.documents << create(:document, description: 'not_test')
+          ii.documents << create(:document, description: 'other_desc')
+          post :update, params: { incurred_incidental: ii, documents_attributes: {
+                                  '0' => {id: ii.documents.first}
+                                  }
+                                }
+          expect(ii.documents.reload.count).to be 1
+          expect(ii.documents.first.description).to be 'other_desc'
       end
     end
   end

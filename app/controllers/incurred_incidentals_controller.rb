@@ -41,6 +41,15 @@ class IncurredIncidentalsController < ApplicationController
   def update
     binding.pry
     if @incurred_incidental.update(incidental_update_params)
+      # find docs that just have an id, this means those were removed
+      removables = incidental_update_params[:documents_attributes].select { |k,v|
+        v.keys == ['id']
+      }
+      if removables.keys.any?
+        # remove anything we find
+        Document.destroy(removables.to_h.map { |k,v| v['id'] })
+      end
+
       flash[:success] = 'Incidental Successfully Updated'
       redirect_to incurred_incidental_path(@incurred_incidental)
     else
