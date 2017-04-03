@@ -110,10 +110,13 @@ describe IncurredIncidentalsController do
 
       it 'handles multiple documents' do
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create,
-                                  file: { '1' => fixture_file_upload('file.png', 'image/png'),
-                                          '2' => fixture_file_upload('file.txt', 'text/plain') },
-                                  desc: { '1' => 'some desc', '2' => 'another desc' } }
+          post :create, params: { incurred_incidental: incurred_incidental_create.merge(
+                                    documents_attributes: {
+                                      '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: 'somedesc' },
+                                      '1' => { uploaded_file: fixture_file_upload('file.txt', 'text/plain'), description: 'somedesc' }
+                                    }
+                                  )
+                                }
         end.to change(Document, :count).by(2)
       end
 
