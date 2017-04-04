@@ -37,7 +37,7 @@ RSpec.describe IncurredIncidental, type: :model do
   context 'time travel' do
     it 'can add an ii to a rental' do
       rental = create :rental
-      Timecop.travel(rental.start_date + 1.days) # after the start date
+      Timecop.travel(rental.start_date + 1.day) # after the start date
       expect do
         create :incurred_incidental, rental: rental
       end.to change(IncurredIncidental, :count).by 1

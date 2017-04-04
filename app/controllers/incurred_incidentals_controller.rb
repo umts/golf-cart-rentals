@@ -43,12 +43,12 @@ class IncurredIncidentalsController < ApplicationController
     if @incurred_incidental.update(update_params)
       # find docs that just have an id, this means those were removed
       if update_params[:documents_attributes]
-        removables = update_params[:documents_attributes].select { |k,v|
+        removables = update_params[:documents_attributes].select do |_k, v|
           v.keys == ['id']
-        }
+        end
         if removables.keys.any?
           # remove anything we find
-          Document.destroy(removables.to_h.map { |k,v| v['id'] })
+          Document.destroy(removables.to_h.map { |_k, v| v['id'] })
         end
       end
 
@@ -91,9 +91,9 @@ class IncurredIncidentalsController < ApplicationController
     # documents attributes w/o description and w/o id do not exist yet and are a user upload error
     # documents w/o description but has an id exist, will be deleted latter
     if incidental[:documents_attributes]
-      incidental[:documents_attributes] = incidental[:documents_attributes].reject { |key,value|
+      incidental[:documents_attributes] = incidental[:documents_attributes].reject do |_key, value|
         value[:description].blank? && value[:id].nil? # reject if blank desc and no id
-      }
+      end
     end
     incidental
   end
