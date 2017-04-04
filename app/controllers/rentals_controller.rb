@@ -86,11 +86,6 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params.merge(creator: @current_user))
 
-    # verify they have permission before creating reservation
-    if @current_user.assignable_renters.exclude? @rental.renter
-      render_401 && return
-    end
-
     @start_date = params['start_date'] || Time.zone.today
     if @rental.create_reservation && @rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')

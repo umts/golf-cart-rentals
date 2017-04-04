@@ -56,21 +56,22 @@ RSpec.describe Rental do
         u.groups << g
         u.save
         # renter is outside dept but has permissions
-        r = create :rental, creator: u, renter: @dept_one_users.first
-        expect(r).to be_valid
+        expect(create(:mock_rental, creator: u, renter: @dept_one_users.first)).to be_valid
       end
 
       it 'denies outside deparment' do
-        r = create :rental, creator: @other_users.first, renter: @dept_one_users
-        expect(r).not_to be_valid
+        expect(build(:mock_rental, creator: @other_users.first, renter: @dept_one_users.first)).not_to be_valid
       end
     end
   end
 
   describe 'scope' do
     it 'finds rented by and created by' do
-      creator = create :user
-      renter = create :user
+      g = create :group
+      g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+      g.save
+      creator = create :user, groups: [g]
+      renter = create :user, groups: [g]
       rentals_one = create_list :mock_rental, 4, creator: creator
       rentals_two = create_list :mock_rental, 4, renter: renter
       expect(Rental.created_by(creator)).to eq rentals_one
