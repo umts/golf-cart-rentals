@@ -77,13 +77,17 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file])
+    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id,
+                                                            :amount, notes_attributes: [:note],
+                                                            documents_attributes: [:description, :uploaded_file])
     filter_empty_docs(incidental)
   end
 
   def incidental_update_params
     # we can allow id here for the notes
-    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id, :amount, notes_attributes: [:note], documents_attributes: [:description, :uploaded_file, :id])
+    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id,
+                                                             :amount, notes_attributes: [:note],
+                                                             documents_attributes: [:description, :uploaded_file, :id])
     filter_empty_docs(incidental)
   end
 
