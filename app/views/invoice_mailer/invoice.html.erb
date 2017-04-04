@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group col-xs-12">
-      <h3><label class="col-xs-2 control-label">Status:</label>&nbsp;<span class="label label-info auto"><%= @rental.rental_status.upcase %></span></h3>
+      <h3><label class="col-xs-2 control-label">Status:</label>&nbsp;<span class="label label-info auto"><%= @rental.rental_status.titleize %></span></h3>
     </div>
     <div class="form-group col-xs-12">
       <label class="col-xs-2 control-label">Start Date/Time:</label>&nbsp;<%= @rental.start_date.strftime("%a %D %I:%M %p") %>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="form-group col-xs-12">
-       <label class="col-xs-3 control-label">Rental Amount:</label>&nbsp;<%= number_to_currency @rental.financial_transaction.amount %>
+       <label class="col-xs-3 control-label">Rental Amount:</label>&nbsp;<%= number_to_currency @rental.financial_transaction.initial_amount %>
     </div>
 
     <div class="form-group col-xs-12">
@@ -114,7 +114,7 @@
             <tr>
               <td><%= ft.created_at %></td>
               <td><%= ft.transactable_type %></td>
-              <td><%= number_to_currency (ft.amount || 0) %></td>
+              <td><%= number_to_currency (ft.initial_amount || 0) %></td>
               <td><%= number_to_currency (ft.adjustment || 0) %></td>
             </tr>
           <% end %>

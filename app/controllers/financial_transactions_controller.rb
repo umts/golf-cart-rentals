@@ -30,14 +30,14 @@ class FinancialTransactionsController < ApplicationController
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params) # hard fail
       unless payment.save
-        flash[:danger] = 'Please properly fill out Contact and Payment fields'
+        flash[:danger] = 'Please Properly Fill Out Contact And Payment Fields'
         render(:new) && return
       end
       @financial_transaction.transactable_id = payment.id
     end
 
     if @financial_transaction.save
-      redirect_to rental_invoice_path(@financial_transaction.rental_id), success: 'Financial transaction was successfully created.'
+      redirect_to rental_invoice_path(@financial_transaction.rental_id), success: 'Financial Transaction Successfully Created'
     else
       render :new
     end
@@ -56,6 +56,6 @@ class FinancialTransactionsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def financial_transaction_params
-    params.require(:financial_transaction).permit(:amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
+    params.require(:financial_transaction).permit(:initial_amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
   end
 end

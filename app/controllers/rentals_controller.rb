@@ -53,7 +53,7 @@ class RentalsController < ApplicationController
     elsif @rental.picked_up?
       render :drop_off, locals: { rental: @rental }
     else
-      flash[:danger] = 'Error redirecting to processing form'
+      flash[:danger] = 'Error Redirecting To Processing Form'
       render :index
     end
   end
@@ -65,14 +65,14 @@ class RentalsController < ApplicationController
       if @rental.pickup
         pickup_name = params[:rental][:pickup_name]
         pickup_number = params[:rental][:pickup_phone_number]
-        @rental.update(pickup_name: pickup_name, pickup_phone_number: pickup_number)
+        @rental.update!(pickup_name: pickup_name, pickup_phone_number: pickup_number)
       end
     elsif params[:commit] == 'Drop Off'
       DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
       if @rental.drop_off
         dropoff_name = params[:rental][:dropoff_name]
         dropoff_number = params[:rental][:dropoff_phone_number]
-        @rental.update(dropoff_name: dropoff_name, dropoff_phone_number: dropoff_number)
+        @rental.update!(dropoff_name: dropoff_name, dropoff_phone_number: dropoff_number)
       end
     elsif params[:commit] == 'Process No Show'
       @rental.process_no_show
@@ -91,14 +91,14 @@ class RentalsController < ApplicationController
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
         @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
-        @financial_transaction.amount = params[:amount]
+        @financial_transaction.initial_amount = params[:amount]
         @financial_transaction.save
       end # if they dont have permission ignore it and we will use default pricing
-      flash[:success] = 'You have succesfully reserved your Rental!'
+      flash[:success] = 'Rental Successfully Reserved'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
       set_users_to_assign
-      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' is not available for the specified dates'
+      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -109,11 +109,11 @@ class RentalsController < ApplicationController
     if @rental.may_cancel?
       @rental.cancel!
       @rental.delete_reservation
-      flash[:success] = 'Rental canceled.'
+      flash[:success] = 'Rental Canceled.'
     elsif @rental.canceled?
-      flash[:warning] = 'This rental is already canceled'
+      flash[:warning] = 'Rental Has Already Been Canceled'
     else
-      flash[:warning] = 'This rental may not be canceled'
+      flash[:warning] = 'Rental Cannot Be Canceled'
     end
     redirect_back(fallback_location: rentals_path)
   end

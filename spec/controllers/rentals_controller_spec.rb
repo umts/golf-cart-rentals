@@ -153,14 +153,16 @@ describe RentalsController do
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
         end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
-        expect(FinancialTransaction.last.amount).to eq cost + 1
+
+        expect(FinancialTransaction.last.initial_amount).to eq cost + 1
       end
 
       it 'ignores if the user does not have permission' do # by default does not have this permission
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
         end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
-        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
+
+        expect(FinancialTransaction.last.initial_amount).to eq cost # we asked for cost+1
       end
     end
   end
@@ -268,6 +270,21 @@ describe RentalsController do
       end.to change(DigitalSignature, :count).by(1)
       expect(DigitalSignature.last.drop_off?).to be true
       expect(@rental.reload.dropped_off?).to be true
+    end
+
+    context 'dropping off after a late rental' do
+      after do
+        Timecop.return
+      end
+
+      it 'allows dropping off a rental even though it is late' do
+        @rental.pickup
+        Timecop.travel(@rental.end_date+1.day) # travel to after the rental is due
+        # now try to drop it off
+        put :update, params: {id: @rental.id, rental: { customer_signature_image: 'something'}, commit: 'Drop Off'}
+        # it should be dropped off
+        expect(@rental.reload.dropped_off?).to be true
+      end
     end
 
     it 'properly processes a no show' do

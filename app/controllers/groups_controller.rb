@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      flash[:success] = 'Group Was Successfully Created'
+      flash[:success] = 'Group Successfully Created'
       redirect_to @group
     else
       @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      flash[:success] = 'Group Was Successfully Updated'
+      flash[:success] = 'Group Successfully Updated'
       redirect_to @group
     else
       @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    flash[:success] = 'Group Was Successfully Deleted'
+    flash[:success] = 'Group Successfully Deleted'
     redirect_to groups_url
   end
 

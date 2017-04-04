@@ -5,7 +5,7 @@ FactoryGirl.define do
     f.created_at DateTime.now
     f.updated_at DateTime.now
     f.adjustment 0
-    f.amount 1
+    f.initial_amount 1
     rental
 
     trait :with_rental do

@@ -21,7 +21,7 @@ class Rental < ActiveRecord::Base
 
   validates :reservation_id, uniqueness: true
   validates :renter, :creator, :start_time, :end_time, :item_type, :department, presence: true
-  validates :start_time, date: { after: Date.current, message: 'must be no earlier than today' }
+  validates :start_time, date: { after: Proc.new { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
 
   alias_attribute :start_date, :start_time
@@ -46,6 +46,9 @@ class Rental < ActiveRecord::Base
 
     event :cancel do
       transitions from: :reserved, to: :canceled
+      after do
+        financial_transaction.zero_balance 'Canceling a reservation and zero-ing balance'
+      end
     end
 
     event :pickup do
@@ -143,15 +146,19 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+    financial_transactions.where.not(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
   end
 
   def sum_payments
-    financial_transactions.where(transactable_type: Payment.name).sum(:amount)
+    financial_transactions.where(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
   end
 
   def balance
     sum_charges - sum_payments
+  end
+
+  def duration
+    (end_time.to_date - start_time.to_date).to_i + 1
   end
 
   # this method seems really inefficient
@@ -164,7 +171,9 @@ class Rental < ActiveRecord::Base
 
   def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
-    rental_duration = (end_time.to_date - start_time.to_date).to_i
+
+    # have to add one day at the end 12th to 13th is 2 days, pick up on 12 drop of on 13 is two full days
+    rental_duration = (end_time.to_date - start_time.to_date).to_i + 1
     # Do not charge for 1/7 days in a rental.
     days_to_charge_for = rental_duration - (rental_duration / 7)
     (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
@@ -172,6 +181,6 @@ class Rental < ActiveRecord::Base
 
   def create_financial_transaction
     rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
-    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+    FinancialTransaction.create rental: self, initial_amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
 end

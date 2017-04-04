@@ -18,7 +18,7 @@
   <% @financial_transactions.each do |financial_transaction| %>
     <tr>
       <td><%= financial_transaction.transactable_type %></td>
-      <td><%=financial_transaction.amount%></td>
+      <td><%=financial_transaction.initial_amount%></td>
       <td><%=financial_transaction.adjustment%></td>
       <td><%=financial_transaction.updated_at%></td>
       <td class="min-width">
