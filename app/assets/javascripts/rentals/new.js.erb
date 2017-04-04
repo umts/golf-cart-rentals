@@ -9,7 +9,8 @@ function days_between(sd, ed) {
   var endD = new Date(ed.replace(pattern,'$3-$2-$1')).getTime();
   var diff_ms = endD - startD;
 
-  return Math.round(diff_ms/one_day)
+  //have to add one day at the end 12th to 13th is 2 days, pick up on 12 drop of on 13 is two full days
+  return Math.round(diff_ms/one_day) + 1;
 }
 
 function costCalculation(){
