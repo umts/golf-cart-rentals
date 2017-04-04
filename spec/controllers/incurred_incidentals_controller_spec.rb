@@ -191,6 +191,7 @@ describe IncurredIncidentalsController do
 
       it 'adds a new document' do
         ii = create :incurred_incidental
+        expect(ii.documents.count).to be 0 # sanity check
         expect do
           post :update, params: {
             id: ii, incurred_incidental: { documents_attributes: {
@@ -198,7 +199,7 @@ describe IncurredIncidentalsController do
             }}
           }
         end.to change(Document, :count).by(1)
-        expect(ii.documents.count).to be 1
+        expect(ii.documents.reload.count).to be 1
       end
 
       it 'deletes documents' do
@@ -210,7 +211,7 @@ describe IncurredIncidentalsController do
                                   }}
                                 }
           expect(ii.documents.reload.count).to be 1
-          expect(ii.documents.first.description).to be 'other_desc'
+          expect(ii.documents.first.description).to eq 'other_desc'
       end
     end
   end
