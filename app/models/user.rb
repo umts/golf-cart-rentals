@@ -55,4 +55,12 @@ class User < ActiveRecord::Base
   def has_group?(group)
     groups.include? group
   end
+
+  def assignable_renters
+    if has_permission?('rentals', 'assign_anyone')
+      User.all
+    else
+      self.department.users
+    end
+  end
 end

@@ -96,7 +96,7 @@ describe RentalsController do
         expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
       end
 
-      it 'it only assigns users in the same dept if they do not have the special permission' do
+      it 'only assigns users in the same dept if they do not have the special permission' do
         current_user(@dept_one_users.first) # set current_user to some user from dept one in teh controller
         get :new
         expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users).collect(&:id)
@@ -135,6 +135,10 @@ describe RentalsController do
         post :create, params: { rental: invalid_create }
         expect(response).to render_template :new
         expect(assigns[:users]).not_to be_empty
+      end
+
+      it 'wont allow assignment of a user they do not have permission for' do
+        post :create 
       end
     end
 

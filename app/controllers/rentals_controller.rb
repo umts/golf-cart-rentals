@@ -86,6 +86,11 @@ class RentalsController < ApplicationController
   def create
     @rental = Rental.new(rental_params.merge(creator: @current_user))
 
+    # verify they have permission before creating reservation
+    if @current_user.assignable_renters.exclude? @rental.renter
+      render_401 && return
+    end
+
     @start_date = params['start_date'] || Time.zone.today
     if @rental.create_reservation && @rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
@@ -124,14 +129,8 @@ class RentalsController < ApplicationController
   private
 
   def set_users_to_assign
-    if @current_user.has_permission?('rentals', 'assign_anyone')
-      @users = User.all.map do |user|
-        { id: user.id, tag: user.tag }
-      end
-    else
-      @users = @current_user.department.users.map do |user|
-        { id: user.id, tag: user.tag }
-      end
+    @users = @current_user.renter_assignable_users.map do |user|
+      { id: user.id, tag: user.tag }
     end
   end
 
