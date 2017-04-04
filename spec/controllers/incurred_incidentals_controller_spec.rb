@@ -176,25 +176,38 @@ describe IncurredIncidentalsController do
     context 'updating documents' do
       it 'refuses to update given empty desc of existing doc' do
         ii = create :incurred_incidental
-        ii.documents << create(:document, description: 'not_test')
-        ii.documents << create(:document, description: 'other_desc')
-        post :update, params: { incurred_incidental: ii, documents_attributes: {
-                                '0' => {'description' => '', id: ii.documents.first},
-                                '1' => {'description' => 'test', id: ii.documents.last}
-                                }
+        doc1 = create(:document, description: 'not_test')
+        doc2 = create(:document, description: 'other_desc')
+        ii.documents << [doc1,doc2]
+
+        post :update, params: { id: ii, incurred_incidental: { documents_attributes: {
+                                  '0' => { 'description' => '', id: doc1 },
+                                  '1' => { 'description' => 'test', id: doc2 }
+                                }}
                               }
-        expect(ii.documents.reload.first.description).not_to be blank?
-        expect(ii.documents.first.description).to eq 'not_test'
-        expect(ii.documents.last.description).to eq 'other_desc'
+        expect(doc1.reload.description).to eq 'not_test' # has refused to update doc1
+        expect(doc2.reload.description).to eq 'test'
+      end
+
+      it 'adds a new document' do
+        ii = create :incurred_incidental
+        expect do
+          post :update, params: {
+            id: ii, incurred_incidental: { documents_attributes: {
+              '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: 'somedesc' }
+            }}
+          }
+        end.to change(Document, :count).by(1)
+        expect(ii.documents.count).to be 1
       end
 
       it 'deletes documents' do
           ii = create :incurred_incidental
           ii.documents << create(:document, description: 'not_test')
           ii.documents << create(:document, description: 'other_desc')
-          post :update, params: { incurred_incidental: ii, documents_attributes: {
-                                  '0' => {id: ii.documents.first}
-                                  }
+          post :update, params: { id: ii, incurred_incidental: { documents_attributes: {
+                                  '0' => { id: ii.documents.first }
+                                  }}
                                 }
           expect(ii.documents.reload.count).to be 1
           expect(ii.documents.first.description).to be 'other_desc'

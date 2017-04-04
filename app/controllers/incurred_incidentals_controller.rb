@@ -88,7 +88,7 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def filter_empty_docs(incidental)
-    # documents attributes w/o description or an id do not exist yet and are a user upload error
+    # documents attributes w/o description and w/o id do not exist yet and are a user upload error
     # documents w/o description but has an id exist, will be deleted latter
     if incidental[:documents_attributes]
       incidental[:documents_attributes] = incidental[:documents_attributes].reject { |key,value|
