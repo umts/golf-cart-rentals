@@ -39,14 +39,17 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def update
-    if @incurred_incidental.update(incidental_update_params)
+    update_params = incidental_update_params
+    if @incurred_incidental.update(update_params)
       # find docs that just have an id, this means those were removed
-      removables = incidental_update_params[:documents_attributes].select { |k,v|
-        v.keys == ['id']
-      }
-      if removables.keys.any?
-        # remove anything we find
-        Document.destroy(removables.to_h.map { |k,v| v['id'] })
+      if update_params[:documents_attributes]
+        removables = update_params[:documents_attributes].select { |k,v|
+          v.keys == ['id']
+        }
+        if removables.keys.any?
+          # remove anything we find
+          Document.destroy(removables.to_h.map { |k,v| v['id'] })
+        end
       end
 
       flash[:success] = 'Incidental Successfully Updated'
