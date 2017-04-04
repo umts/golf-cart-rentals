@@ -26,7 +26,9 @@ class Rental < ActiveRecord::Base
   validates :renter_is_assignable
 
   def renter_is_assignable
-    self.creator.assignable_renters.include? self.renter
+    if self.creator.assignable_renters.exclude? self.renter
+      errors.add :renter, 'must have permission to assign'
+    end
   end
 
   alias_attribute :start_date, :start_time

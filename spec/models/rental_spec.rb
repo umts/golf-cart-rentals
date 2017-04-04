@@ -39,6 +39,32 @@ RSpec.describe Rental do
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
     end
+
+    context 'renter_is_assignable' do
+      before do
+        User.destroy_all
+        @dept_one = create :department
+        @dept_one_users = create_list :user, 10, department: @dept_one
+        @other_users = create_list :user, 10 # not in @dept_one
+      end
+
+      it 'allows assignment of user outside dept with permission' do
+        u = @other_users.first
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+        g.save
+        u.groups << g
+        u.save
+        # renter is outside dept but has permissions
+        r = create :rental, creator: u, renter: @dept_one_users.first
+        expect(r).to be_valid
+      end
+
+      it 'denies outside deparment' do
+        r = create :rental, creator: @other_users.first, renter: @dept_one_users
+        expect(r).not_to be_valid
+      end
+    end
   end
 
   describe 'scope' do

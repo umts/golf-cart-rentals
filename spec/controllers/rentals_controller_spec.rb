@@ -136,10 +136,6 @@ describe RentalsController do
         expect(response).to render_template :new
         expect(assigns[:users]).not_to be_empty
       end
-
-      it 'wont allow assignment of a user they do not have permission for' do
-        post :create 
-      end
     end
 
     context 'cost adjustment' do
