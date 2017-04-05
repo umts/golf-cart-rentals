@@ -124,7 +124,7 @@ class RentalsController < ApplicationController
   private
 
   def set_users_to_assign
-    @users = @current_user.renter_assignable_users.map do |user|
+    @users = @current_user.assignable_renters.map do |user|
       { id: user.id, tag: user.tag }
     end
   end
