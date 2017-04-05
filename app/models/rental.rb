@@ -26,7 +26,7 @@ class Rental < ActiveRecord::Base
   validate :renter_is_assignable
 
   def renter_is_assignable
-    return unless self.renter && self.creator # will be validated elsewhere
+    return unless self.renter && self.creator # will be validated elsewhere, dont add an error twice
     if self.creator.assignable_renters.exclude? self.renter
       errors.add :renter, 'must have permission to assign'
     end

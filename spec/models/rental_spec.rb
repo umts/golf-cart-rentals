@@ -71,9 +71,11 @@ RSpec.describe Rental do
       g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
       g.save
       creator = create :user, groups: [g]
-      renter = create :user, groups: [g]
-      rentals_one = create_list :mock_rental, 4, creator: creator
-      rentals_two = create_list :mock_rental, 4, renter: renter
+      creator_two = create :user, groups: [g]
+      renter = create :user
+      renter_two = create :user
+      rentals_one = create_list :mock_rental, 4, creator: creator, renter: renter_two
+      rentals_two = create_list :mock_rental, 4, renter: renter, creator: creator_two
       expect(Rental.created_by(creator)).to eq rentals_one
       expect(Rental.created_by(renter)).to be_empty
       expect(Rental.rented_by(renter)).to eq rentals_two
