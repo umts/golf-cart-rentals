@@ -5,7 +5,7 @@ class Document < ActiveRecord::Base
   has_paper_trail
   belongs_to :documentable, polymorphic: true
   enum filetype: %i(picture other)
-  validates :filename, :filetype, :original_filename, presence: true # all set during write_file
+  validates :filename, :filetype, :original_filename, :description, presence: true # all set during write_file, except desc
   before_validation :write_file
 
   attr_readonly :filename # this will be set in the before action
@@ -22,6 +22,7 @@ class Document < ActiveRecord::Base
   private
 
   def write_file
+    return if filename # already stored file, will break if we try again
     return unless uploaded_file # this is a temp variable in this class, it wont be written to the database
     begin
       # this method can take multiple uploaded_file types but they need to have these methods.
@@ -39,6 +40,7 @@ class Document < ActiveRecord::Base
         file.write(uploaded_file.read)
       end
     rescue => e
+      self.filename = nil # reset so we can write again
       raise e, 'Failed to properly write file'
     end
   end
