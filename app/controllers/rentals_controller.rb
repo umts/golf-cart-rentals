@@ -40,6 +40,22 @@ class RentalsController < ApplicationController
     end
   end
 
+  def download_safety_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Safety.pdf'),
+      filename: "Golf Cart Safety.pdf",
+      type: "application/pdf"
+    )
+  end
+
+  def download_training_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Training-User-Agreement.pdf'),
+      filename: "Golf Cart Training User Agreement",
+      type: "application/pdf"
+    )
+  end
+
   # GET /rentals/processing
   def processing
     @q = Rental.all.search(params[:q])

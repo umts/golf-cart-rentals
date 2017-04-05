@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'rentals/cost', to: 'rentals#cost', as: 'rentals_cost'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
+  get 'rentals/download_safety_pdf'
+  get 'rentals/download_training_pdf'
   resources :rentals
 
   resources :departments do
