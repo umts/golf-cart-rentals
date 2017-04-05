@@ -39,18 +39,12 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @incurred_incidental.update(incidental_params)
-        format.html do
-          redirect_to incurred_incidental_path(@incurred_incidental)
-          flash[:success] = 'Incidental Successfully Updated'
-        end
-      else
-        format.html do
-          render :edit
-          flash[:error] = 'Failed To Update Incidental'
-        end
-      end
+    if @incurred_incidental.update(incidental_params)
+      redirect_to incurred_incidental_path(@incurred_incidental)
+      flash[:success] = 'Incidental Successfully Updated'
+    else
+      flash[:error] = 'Failed To Update Incidental'
+      redirect_to edit_incurred_incidental_path
     end
   end
 
@@ -85,6 +79,6 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
+    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note, :id], financial_transaction_attributes: [:initial_amount, :id])
   end
 end

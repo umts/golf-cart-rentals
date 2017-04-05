@@ -69,6 +69,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
   describe 'creating successive financial transactions' do
     it 'creates financial transaction after creating an incurred incidental' do
+      binding.pry
       rental = create :rental
       rental_trans = rental.financial_transaction
       incidental = create :incurred_incidental, rental: rental

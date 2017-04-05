@@ -145,9 +145,9 @@ describe IncurredIncidentalsController do
         expect(incurred_incidental.amount).to eq(old_amount)
       end
 
-      it 'renders the :edit template' do
+      it 'redirects to :edit' do
         post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
-        expect(response).to render_template :edit
+        expect(response).to redirect_to edit_incurred_incidental_path
       end
     end
   end
