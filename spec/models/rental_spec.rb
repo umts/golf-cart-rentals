@@ -24,8 +24,22 @@ RSpec.describe Rental do
     it 'is invalid without a end_time' do
       expect(build(:rental, end_time: nil)).not_to be_valid
     end
-    it 'is invalid with a start_time before today' do
-      expect(build(:rental, start_time: Time.zone.yesterday)).not_to be_valid
+    context 'start time before today' do
+      it 'is invalid with a start_time before today' do
+        expect(build(:rental, start_time: Time.zone.yesterday)).not_to be_valid
+      end
+
+      context 'time travel' do
+        it 'is valid if it is persisted' do
+          rental = create(:rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow)
+          Timecop.travel(4.days.from_now) # rental.start_time is before today
+          expect(rental).to be_valid
+        end
+
+        after do
+          Timecop.return
+        end
+      end
     end
     it 'is invalid with an end_time before the start_time' do
       expect(build(:rental, start_time: Time.zone.tomorrow, end_time: Time.zone.today)).not_to be_valid

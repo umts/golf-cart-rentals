@@ -3,7 +3,6 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incurred_incidental, only: [:edit, :update, :show]
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
-  after_action :upload_documents, only: [:create, :update]
 
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
@@ -29,8 +28,9 @@ class IncurredIncidentalsController < ApplicationController
         redirect_to incurred_incidental_path(@incurred_incidental)
       end
     else
-      render :new
       flash[:error] = 'Failed To Update Incidental'
+      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      render :new
     end
   end
 
@@ -39,38 +39,30 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @incurred_incidental.update(incidental_params)
-        format.html do
-          redirect_to incurred_incidental_path(@incurred_incidental)
-          flash[:success] = 'Incidental Successfully Updated'
+    update_params = incidental_update_params
+    if @incurred_incidental.update(update_params)
+      # find docs that just have an id, this means those were removed
+      if update_params[:documents_attributes]
+        removables = update_params[:documents_attributes].select do |_k, v|
+          v.keys == ['id']
         end
-      else
-        format.html do
-          render :edit
-          flash[:error] = 'Failed To Update Incidental'
+        if removables.keys.any?
+          # remove anything we find
+          Document.destroy(removables.to_h.map { |_k, v| v['id'] })
         end
       end
+
+      flash[:success] = 'Incidental Successfully Updated'
+      redirect_to incurred_incidental_path(@incurred_incidental)
+    else
+      flash[:error] = 'Failed To Update Incidental'
+      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      @rental = @incurred_incidental.rental
+      render :edit
     end
   end
 
   private
-
-  def upload_documents
-    # only do this on sucess and with a file
-    if @incurred_incidental.errors.empty? && params[:file]
-      params.require(:file).permit!
-
-      params[:file].each_pair do |id, uploaded_file|
-        next unless uploaded_file && id
-        # only allow types of uploaded file
-        next unless uploaded_file.is_a? ActionDispatch::Http::UploadedFile
-
-        desc = params[:desc][id] # this is not a required field
-        Document.create(uploaded_file: uploaded_file, description: desc, documentable: @incurred_incidental)
-      end
-    end
-  end
 
   def set_incurred_incidental
     @incurred_incidental = IncurredIncidental.find(params[:id])
@@ -85,6 +77,28 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note])
+    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id,
+                                                             :amount, notes_attributes: [:note],
+                                                             documents_attributes: [:description, :uploaded_file])
+    filter_empty_docs(incidental)
+  end
+
+  def incidental_update_params
+    # we can allow id here for the notes
+    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id,
+                                                             :amount, notes_attributes: [:note],
+                                                             documents_attributes: [:description, :uploaded_file, :id])
+    filter_empty_docs(incidental)
+  end
+
+  def filter_empty_docs(incidental)
+    # documents attributes w/o description and w/o id do not exist yet and are a user upload error
+    # documents w/o description but has an id exist, will be deleted latter
+    if incidental[:documents_attributes]
+      incidental[:documents_attributes] = incidental[:documents_attributes].reject do |_key, value|
+        value[:description].blank? && value[:id].nil? # reject if blank desc and no id
+      end
+    end
+    incidental
   end
 end
