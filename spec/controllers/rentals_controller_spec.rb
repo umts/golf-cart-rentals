@@ -6,8 +6,7 @@ describe RentalsController do
     rental = attributes_for(:new_rental)
     rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
     rental[:item_id] = create(:item, name: 'TEST_ITEM')
-    creator = [create(:user, first_name: 'Test2')]
-    rental[:renter_id] = creator
+    rental[:renter_id] = [create(:user, first_name: 'Test2')]
     rental
   end
 
@@ -23,7 +22,19 @@ describe RentalsController do
 
   let(:item) { create(:item, name: 'TEST_ITEM') }
 
-  before(:each) { current_user }
+  before(:each) { 
+    # we want a new user for each
+    # which has permission to assign anyone for ease of use
+    u = create :user, groups: [
+          create(:group, permissions: [
+            create(:permission, controller: 'rentals', action: 'assign_anyone')
+          ])
+        ]
+
+    binding.pry
+
+    current_user(u)
+  }
 
   before(:each) do
     @rental = create(:mock_rental)
