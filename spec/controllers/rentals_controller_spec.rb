@@ -22,17 +22,17 @@ describe RentalsController do
 
   let(:item) { create(:item, name: 'TEST_ITEM') }
 
-  before(:each) {
+  before(:each) do
     # we want a new user for each
     # which has permission to assign anyone for ease of use
     u = create :user, groups: [
-          create(:group, permissions: [
-            create(:permission, controller: 'rentals', action: 'assign_anyone')
-          ])
-        ]
+      create(:group, permissions: [
+               create(:permission, controller: 'rentals', action: 'assign_anyone')
+             ])
+    ]
 
     current_user(u)
-  }
+  end
 
   before(:each) do
     @rental = create(:mock_rental)
@@ -103,13 +103,13 @@ describe RentalsController do
         u.save
         current_user(u) # set current_user to u in teh controller
         get :new
-        expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
+        expect(assigns[:users].collect { |user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
       end
 
       it 'only assigns users in the same dept if they do not have the special permission' do
         current_user(@dept_one_users.first) # set current_user to some user from dept one in teh controller
         get :new
-        expect(assigns[:users].collect {|user| user[:id] }).to match_array (@dept_one_users).collect(&:id)
+        expect(assigns[:users].collect { |user| user[:id] }).to match_array @dept_one_users.collect(&:id)
       end
     end
   end
@@ -148,7 +148,6 @@ describe RentalsController do
       end
 
       it 'will not create a rental for a creator without permission to assign renter' do
-
       end
     end
 
@@ -157,11 +156,11 @@ describe RentalsController do
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [
-              create(:group, permissions: [
-                create(:permission, controller: 'rentals', action: 'cost_adjustment'),
-                create(:permission, controller: 'rentals', action: 'assign_anyone')
-              ])
-            ]
+          create(:group, permissions: [
+                   create(:permission, controller: 'rentals', action: 'cost_adjustment'),
+                   create(:permission, controller: 'rentals', action: 'assign_anyone')
+                 ])
+        ]
         current_user(u) # set current_user to u in teh controller
 
         expect do

@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
     if has_permission?('rentals', 'assign_anyone')
       User.all
     else
-      self.department.users
+      department.users
     end
   end
 end
