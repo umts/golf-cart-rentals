@@ -101,13 +101,13 @@ describe RentalsController do
         g.save
         u.groups << g
         u.save
-        current_user(u) # set current_user to u in teh controller
+        current_user(u) # set current_user to u in the controller
         get :new
         expect(assigns[:users].collect { |user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
       end
 
       it 'only assigns users in the same dept if they do not have the special permission' do
-        current_user(@dept_one_users.first) # set current_user to some user from dept one in teh controller
+        current_user(@dept_one_users.first) # set current_user to some user from dept one in the controller
         get :new
         expect(assigns[:users].collect { |user| user[:id] }).to match_array @dept_one_users.collect(&:id)
       end
@@ -161,7 +161,7 @@ describe RentalsController do
                    create(:permission, controller: 'rentals', action: 'assign_anyone')
                  ])
         ]
-        current_user(u) # set current_user to u in teh controller
+        current_user(u) # set current_user to u in the controller
 
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
