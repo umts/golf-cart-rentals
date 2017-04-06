@@ -53,14 +53,43 @@ RSpec.describe Rental do
         expect(build(:rental, reservation_id: rental.reservation_id)).not_to be_valid
       end
     end
+
+    context 'renter_is_assignable' do
+      before do
+        User.destroy_all
+        @dept_one = create :department
+        @dept_one_users = create_list :user, 10, department: @dept_one
+        @other_users = create_list :user, 10 # not in @dept_one
+      end
+
+      it 'allows assignment of user outside dept with permission' do
+        u = @other_users.first
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+        g.save
+        u.groups << g
+        u.save
+        # renter is outside dept but has permissions
+        expect(create(:mock_rental, creator: u, renter: @dept_one_users.first)).to be_valid
+      end
+
+      it 'denies outside deparment' do
+        expect(build(:mock_rental, creator: @other_users.first, renter: @dept_one_users.first)).not_to be_valid
+      end
+    end
   end
 
   describe 'scope' do
     it 'finds rented by and created by' do
-      creator = create :user
+      g = create :group
+      g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+      g.save
+      creator = create :user, groups: [g]
+      creator_two = create :user, groups: [g]
       renter = create :user
-      rentals_one = create_list :mock_rental, 4, creator: creator
-      rentals_two = create_list :mock_rental, 4, renter: renter
+      renter_two = create :user
+      rentals_one = create_list :mock_rental, 4, creator: creator, renter: renter_two
+      rentals_two = create_list :mock_rental, 4, renter: renter, creator: creator_two
       expect(Rental.created_by(creator)).to eq rentals_one
       expect(Rental.created_by(renter)).to be_empty
       expect(Rental.rented_by(renter)).to eq rentals_two

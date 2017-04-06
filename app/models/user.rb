@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many   :groups_users
+  has_many   :groups_users, dependent: :destroy
   has_many   :groups, through: :groups_users
 
   belongs_to :department
@@ -54,5 +54,13 @@ class User < ActiveRecord::Base
 
   def has_group?(group)
     groups.include? group
+  end
+
+  def assignable_renters
+    if has_permission?('rentals', 'assign_anyone')
+      User.all
+    else
+      department.users
+    end
   end
 end

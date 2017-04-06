@@ -23,6 +23,14 @@ class Rental < ActiveRecord::Base
   validates :renter, :creator, :start_time, :end_time, :item_type, :department, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
+  validate :renter_is_assignable
+
+  def renter_is_assignable
+    return unless renter && creator # will be validated elsewhere, dont add an error twice
+    if creator.assignable_renters.exclude? renter
+      errors.add :renter, 'must have permission to assign'
+    end
+  end
 
   alias_attribute :start_date, :start_time
   alias_attribute :end_date, :end_time
