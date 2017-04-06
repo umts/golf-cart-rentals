@@ -156,12 +156,12 @@ describe RentalsController do
       let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
 
       it 'adjusts the related financial transaction' do
-        u = create(:user)
-        g = create(:group)
-        g.permissions << create(:permission, controller: 'rentals', action: 'cost_adjustment')
-        g.save
-        u.groups << g
-        u.save
+        u = create :user, groups: [
+              create(:group, permissions: [
+                create(:permission, controller: 'rentals', action: 'cost_adjustment'),
+                create(:permission, controller: 'rentals', action: 'assign_anyone')
+              ])
+            ]
         current_user(u) # set current_user to u in teh controller
 
         expect do
