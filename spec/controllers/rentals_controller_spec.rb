@@ -293,9 +293,9 @@ describe RentalsController do
 
       it 'allows dropping off a rental even though it is late' do
         @rental.pickup
-        Timecop.travel(@rental.end_date+1.day) # travel to after the rental is due
+        Timecop.travel(@rental.end_date + 1.day) # travel to after the rental is due
         # now try to drop it off
-        put :update, params: {id: @rental.id, rental: { customer_signature_image: 'something'}, commit: 'Drop Off'}
+        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
         # it should be dropped off
         expect(@rental.reload.dropped_off?).to be true
       end

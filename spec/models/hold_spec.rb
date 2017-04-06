@@ -50,7 +50,7 @@ RSpec.describe Hold, type: :model do
 
       it 'allows the item to be updated even if start time is after current date if the item is saved' do
         hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
-        Timecop.travel Time.current+1.day
+        Timecop.travel Time.current + 1.day
         hold.reload
         expect(hold.start_time).to be < Time.current
         hold.update(active: false)
@@ -89,7 +89,7 @@ RSpec.describe Hold, type: :model do
     end
 
     it 'should handle when a rental falls within the hold but not exactly on it' do
-      hold = create :hold, start_time: 1.days.from_now, end_time: 3.days.from_now
+      hold = create :hold, start_time: 1.day.from_now, end_time: 3.days.from_now
 
       # conflicting rental starts in range but ends out side of it
       create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now)

@@ -1,13 +1,17 @@
-.multi-upload-desc {
+.multi-upload-desc, .multi-upload-persisted-desc {
   width: inherit !important;
   display: inline !important;
   width: 60%;
 }
 
-.multi-upload-file {
+.multi-upload-file, .multi-upload-persisted-file {
   display: inline !important;
 }
 
-.multi-upload-group {
+.multi-upload-group, .multi-upload-persisted-group {
   padding-bottom: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
+

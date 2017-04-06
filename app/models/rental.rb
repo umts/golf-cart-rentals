@@ -21,7 +21,7 @@ class Rental < ActiveRecord::Base
 
   validates :reservation_id, uniqueness: true
   validates :renter, :creator, :start_time, :end_time, :item_type, :department, presence: true
-  validates :start_time, date: { after: Proc.new { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
+  validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
   validate :renter_is_assignable
 
