@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many   :groups_users
+  has_many   :groups_users, dependent: :destroy
   has_many   :groups, through: :groups_users
 
   belongs_to :department

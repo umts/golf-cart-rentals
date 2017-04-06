@@ -22,7 +22,7 @@ describe RentalsController do
 
   let(:item) { create(:item, name: 'TEST_ITEM') }
 
-  before(:each) { 
+  before(:each) {
     # we want a new user for each
     # which has permission to assign anyone for ease of use
     u = create :user, groups: [
@@ -30,8 +30,6 @@ describe RentalsController do
             create(:permission, controller: 'rentals', action: 'assign_anyone')
           ])
         ]
-
-    binding.pry
 
     current_user(u)
   }
