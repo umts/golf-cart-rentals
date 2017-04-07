@@ -50,5 +50,5 @@ def current_user(user = nil)
 end
 
 def super_user
-  create(:user, groups: [ create(:group, permissions: Permission.all)])
+  create(:user, groups: [create(:group, permissions: Permission.all)])
 end
