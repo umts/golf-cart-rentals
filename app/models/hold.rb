@@ -51,4 +51,9 @@ class Hold < ActiveRecord::Base
     errors.add(:reservable, 'error occurred while lifting hold')
     return false
   end
+
+  def conflicting_ongoing_rental
+    # it couldnt be possible that the same item has been picked up twice under the same rental
+    Rental.picked_up.find_by(item: self.item)
+  end
 end

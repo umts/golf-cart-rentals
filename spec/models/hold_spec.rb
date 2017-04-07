@@ -112,4 +112,19 @@ RSpec.describe Hold, type: :model do
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
     end
   end
+
+  context 'conflicting_ongoing_rental' do
+    it 'identifies a conflicting ongoing rental' do
+      rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
+      rental.pickup
+      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      expect(hold.conflicting_ongoing_rental).to eq(rental)
+    end
+
+    it 'doesnt care if it isnt picked up' do
+      rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
+      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      expect(hold.conflicting_ongoing_rental).to be nil
+    end
+  end
 end

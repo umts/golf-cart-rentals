@@ -18,6 +18,12 @@ class HoldsController < ApplicationController
     if @hold.save
       flash[:success] = 'Hold Successfully Created'
       @hold.handle_conflicting_rentals
+
+      # rental that has already started and conflicts with hold, needs to be handled
+      # by a csr
+      if rental = @hold.conflicting_ongoing_rental
+        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe, :now
+      end
       redirect_to @hold
     else
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
@@ -31,6 +37,12 @@ class HoldsController < ApplicationController
     if @hold.update(hold_params)
       flash[:success] = 'Hold Successfully Updated'
       @hold.handle_conflicting_rentals
+
+      # rental that has already started and conflicts with hold, needs to be handled
+      # by a csr
+      if rental = @hold.conflicting_ongoing_rental
+        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe, :now
+      end
       redirect_to @hold
     else
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
