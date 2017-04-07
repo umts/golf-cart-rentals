@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :rental do
     association :creator, factory: :user
-    association :renter, factory: :user
+    renter { creator } # set renter equal to creator by default
     association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
     association :item, name: 'TEST_ITEM'
@@ -12,7 +12,7 @@ FactoryGirl.define do
 
   factory :invalid_rental, parent: :mock_rental do
     association :creator, factory: :user
-    association :renter, factory: :user
+    renter { creator } # set renter equal to creator by default
     association :department
     association :item_type
     association :item
@@ -32,7 +32,7 @@ FactoryGirl.define do
 
   factory :mock_rental, parent: :rental do
     association :creator, factory: :user
-    association :renter, factory: :user
+    renter { creator } # set renter equal to creator by default
     association :department
     association :item_type
     association :item

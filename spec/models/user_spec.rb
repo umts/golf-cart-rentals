@@ -34,6 +34,30 @@ RSpec.describe User, type: :model do
   end
 
   context 'helper methods' do
+    context 'assignable users' do
+      before do
+        User.destroy_all
+        @dept_one = create :department
+        @dept_one_users = create_list :user, 10, department: @dept_one
+        @other_users = create_list :user, 10 # not in @dept_one
+      end
+
+      it 'returns all users if they have the permission' do
+        u = @other_users.first
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+        g.save
+        u.groups << g
+        u.save
+        expect(u.assignable_renters).to match_array User.all.to_a # everyone
+      end
+
+      it 'returns just the users in the department by default' do
+        u = @other_users.first
+        expect(u.assignable_renters).to match_array u.department.users.to_a # department mates
+      end
+    end
+
     it 'builds a tag' do
       expect(user.tag).to include user.spire_id, user.full_name
     end

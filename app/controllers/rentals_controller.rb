@@ -6,7 +6,7 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
-  before_action :set_users, only: [:index, :new, :processing, :transform, :create]
+  before_action :set_all_users, only: [:index, :processing]
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
@@ -14,7 +14,6 @@ class RentalsController < ApplicationController
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
 
     gon.reservations = Rental.to_json_reservations
   end
@@ -35,9 +34,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    @users = User.all.map do |user|
-      { id: user.id, tag: user.tag }
-    end
+    set_users_to_assign
   end
 
   # Send safety pdf to client
@@ -118,6 +115,7 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
+      set_users_to_assign
       flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
@@ -143,6 +141,16 @@ class RentalsController < ApplicationController
 
   private
 
+  def set_users_to_assign
+    @users = @current_user.assignable_renters.map do |user|
+      { id: user.id, tag: user.tag }
+    end
+  end
+
+  def set_all_users
+    @users = User.all
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
@@ -159,10 +167,6 @@ class RentalsController < ApplicationController
 
   def set_items
     @items = Item.all
-  end
-
-  def set_users
-    @users = User.all
   end
 
   def set_incidental_types
