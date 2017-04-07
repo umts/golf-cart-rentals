@@ -54,6 +54,7 @@ class Hold < ActiveRecord::Base
 
   def conflicting_ongoing_rental
     # it couldnt be possible that the same item has been picked up twice under the same rental
-    Rental.picked_up.find_by(item: self.item)
+    Rental.where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
+                 hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id).picked_up.first
   end
 end
