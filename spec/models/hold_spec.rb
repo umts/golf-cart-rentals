@@ -64,9 +64,10 @@ RSpec.describe Hold, type: :model do
   end
 
   describe 'handle_conflicting_rentals' do
-    let(:hold) { create(:hold) }
-    let(:conflicting_rental) { create(:hold_conflicting_rental) }
-    let(:future_rental) { create(:far_future_rental) }
+    let(:shared_item) { create(:item) }
+    let(:hold) { create(:hold, item: shared_item) }
+    let(:conflicting_rental) { create(:hold_conflicting_rental, item: shared_item) }
+    let(:future_rental) { create(:far_future_rental, item: shared_item) }
 
     it 'should cancel a conflicting rental' do
       conflicting_rental
@@ -92,7 +93,7 @@ RSpec.describe Hold, type: :model do
       hold = create :hold, start_time: 1.day.from_now, end_time: 3.days.from_now
 
       # conflicting rental starts in range but ends out side of it
-      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now)
+      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now, item: hold.item)
       expect do
         hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)

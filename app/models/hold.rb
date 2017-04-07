@@ -18,9 +18,9 @@ class Hold < ActiveRecord::Base
 
   def handle_conflicting_rentals
     # if rental falls between data range of our hold
-    conflicting_rentals = Rental.where('start_time <= :hold_end_time AND end_time >= :hold_start_time',
-                                       hold_start_time: start_time,
-                                       hold_end_time: end_time).reserved # only reserved but not picked up
+    # only reserved but not picked up
+    conflicting_rentals = Rental.reserved.where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
+                                                hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
@@ -54,7 +54,7 @@ class Hold < ActiveRecord::Base
 
   def conflicting_ongoing_rental
     # it couldnt be possible that the same item has been picked up twice under the same rental
-    Rental.where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
-                 hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id).picked_up.first
+    Rental.picked_up.where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
+                 hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id).first
   end
 end
