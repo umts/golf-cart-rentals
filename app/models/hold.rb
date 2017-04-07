@@ -20,7 +20,7 @@ class Hold < ActiveRecord::Base
     # if rental falls between data range of our hold
     conflicting_rentals = Rental.where('start_time <= :hold_end_time AND end_time >= :hold_start_time',
                                        hold_start_time: start_time,
-                                       hold_end_time: end_time)
+                                       hold_end_time: end_time).reserved # only reserved but not picked up
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
