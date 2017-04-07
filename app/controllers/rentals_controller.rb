@@ -37,6 +37,24 @@ class RentalsController < ApplicationController
     set_users_to_assign
   end
 
+  # Send safety pdf to client
+  def safety_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Safety.pdf'),
+      filename: 'Golf Cart Safety.pdf',
+      type: 'application/pdf'
+    )
+  end
+
+  # Send training pdf to client
+  def training_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Training-User-Agreement.pdf'),
+      filename: 'Golf Cart Training User Agreement',
+      type: 'application/pdf'
+    )
+  end
+
   # GET /rentals/processing
   def processing
     @q = Rental.all.search(params[:q])
