@@ -41,8 +41,8 @@ class RentalsController < ApplicationController
   def safety_pdf
     send_file(
       Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Safety.pdf'),
-      filename: "Golf Cart Safety.pdf",
-      type: "application/pdf"
+      filename: 'Golf Cart Safety.pdf',
+      type: 'application/pdf'
     )
   end
 
@@ -50,8 +50,8 @@ class RentalsController < ApplicationController
   def training_pdf
     send_file(
       Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Training-User-Agreement.pdf'),
-      filename: "Golf Cart Training User Agreement",
-      type: "application/pdf"
+      filename: 'Golf Cart Training User Agreement',
+      type: 'application/pdf'
     )
   end
 
