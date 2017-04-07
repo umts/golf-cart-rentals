@@ -42,7 +42,7 @@ class HoldsController < ApplicationController
       # rental that has already started and conflicts with hold, needs to be handled
       # by a csr
       if rental = @hold.conflicting_ongoing_rental
-        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe
+        flash_message :warning, "Ongoing rental with item #{url_for rental}".html_safe
       end
       redirect_to @hold
     else
