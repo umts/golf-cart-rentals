@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class HoldsController < ApplicationController
+  include ApplicationHelper
   before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
   def show; end
@@ -22,7 +23,7 @@ class HoldsController < ApplicationController
       # rental that has already started and conflicts with hold, needs to be handled
       # by a csr
       if rental = @hold.conflicting_ongoing_rental
-        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe, :now
+        flash_message :warning, "Ongoing rental with item #{url_for rental}".html_safe
       end
       redirect_to @hold
     else
@@ -41,7 +42,7 @@ class HoldsController < ApplicationController
       # rental that has already started and conflicts with hold, needs to be handled
       # by a csr
       if rental = @hold.conflicting_ongoing_rental
-        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe, :now
+        flash_message :warning, "Ongoing rental with item #{link_to rental}".html_safe
       end
       redirect_to @hold
     else
