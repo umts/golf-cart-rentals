@@ -23,6 +23,7 @@
           <% glyph = "glyphicon glyphicon-remove flash-icon" if name == 'danger' %>
           <% glyph = "glyphicon glyphicon-ok flash-icon" if name == 'success' %>
 
+          <% binding.pry %>
           <table class="flash-message"><tr>
               <td><%= content_tag :span, nil, class: glyph %></td>
               <!-- If there is an array of messages, print them all -->
@@ -30,15 +31,18 @@
                 <% if msg.is_a? Array %>
                   <% msg.each do |m| %>
                     <div>
-                      <%= m %>
+                      <%= if m.html_safe? then raw m else m end %>
                     </div>
                   <% end %>
                   <!-- Otherwise, print the one -->
                 <% else %>
-                  <div><%= msg  %></div>
+                  <div>
+                    <%= if msg.html_safe? then raw msg else msg end %>
+                  </div>
                 <% end %>
               </td>
-            </tr></table>
+            </tr>
+          </table>
 
           <% end %>
         <% end %>
