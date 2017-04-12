@@ -69,7 +69,7 @@ class Rental < ActiveRecord::Base
     event :drop_off do
       transitions from: :picked_up, to: :dropped_off
       after do
-        if end_time < Time.zone.now
+        if end_time < Time.zone.now # Automatic incurred incidental if drop off is late
           note = Note.create note: 'Automatic incidental for late dropoff', noteable_type: 'IncurredIncidental'
           IncurredIncidental.create incidental_type_id: 1, amount: 10, rental_id: id, notes: [note]
         end
