@@ -31,13 +31,13 @@
                 <% if msg.is_a? Array %>
                   <% msg.each do |m| %>
                     <div>
-                      <%= if m.html_safe? then raw m else m end %>
+                      <%= if flash.html_safe? then raw m else m end %>
                     </div>
                   <% end %>
-                  <!-- Otherwise, print the one -->
+                <!-- Otherwise, print the one -->
                 <% else %>
                   <div>
-                    <%= if msg.html_safe? then raw msg else msg end %>
+                    <%= if flash.html_safe? then raw msg else msg end %>
                   </div>
                 <% end %>
               </td>

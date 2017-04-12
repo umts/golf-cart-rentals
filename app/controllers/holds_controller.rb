@@ -76,6 +76,8 @@ class HoldsController < ApplicationController
     # rental that has already started and conflicts with hold,
     # needs to be handled by a csr
     if rental = @hold.conflicting_ongoing_rental
+      binding.pry
+      flash.html_safe = true
       flash[:warning] = "Ongoing #{view_context.link_to 'rental', rental} with item".html_safe
     end
   end
