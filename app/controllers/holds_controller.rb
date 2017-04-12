@@ -76,9 +76,7 @@ class HoldsController < ApplicationController
     # rental that has already started and conflicts with hold,
     # needs to be handled by a csr
     if rental = @hold.conflicting_ongoing_rental
-      # permit <a> tags
-      @flash_html_safe = true
-      flash[:warning] = view_context.sanitize "Ongoing #{view_context.link_to 'rental', rental} with item", {tags: ['a']}
+      flash[:warning] = "Ongoing #{view_context.link_to 'rental', rental} with item"
     end
   end
 end
