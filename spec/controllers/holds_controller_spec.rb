@@ -68,7 +68,7 @@ describe HoldsController do
         rental = create :mock_rental
         rental.pickup
         put :create, params: { hold: attributes_for(:hold).merge(item_id: rental.item) }
-        expect(flash[:warning].first).to include rental.id.to_s
+        expect(flash[:warning]).to include rental.id.to_s
       end
     end
 
