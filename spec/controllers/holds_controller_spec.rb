@@ -134,7 +134,7 @@ describe HoldsController do
     end
   end
 
-  #this test does not work, for some reason validations are done differently in test than they are in dev
+  # this test does not work, for some reason validations are done differently in test than they are in dev
   describe 'post #lift' do
     context 'allows the item to be updated even if start time is after current date if the item is saved' do
       after :each do
@@ -143,7 +143,7 @@ describe HoldsController do
 
       it 'allows the item to be updated even if start time is after current date if the item is saved' do
         hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
-        Timecop.travel Time.current+1.day
+        Timecop.travel Time.current + 1.day
         expect(hold.start_time).to be < Time.current
         post :lift, params: { id: hold.id }
         hold.reload
