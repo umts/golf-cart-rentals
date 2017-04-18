@@ -88,9 +88,6 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Base Fee</th>
-            <th>Modifier Amount</th>
-            <th>Modifier Description</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -98,9 +95,6 @@
           <% @rental.incurred_incidentals.each do |incurred_incidental| %>
           <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
           <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
-          <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
-          <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
-          <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
           <td><%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View Incurred Incidental"), incurred_incidental, class: "btn btn-xs btn-success"%>
             <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Edit Incurred Incidental"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-info"%></td>
           </tr>
