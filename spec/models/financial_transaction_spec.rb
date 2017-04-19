@@ -66,19 +66,4 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(fc.adjustment).to eq(0)
     end
   end
-
-  describe 'creating successive financial transactions' do
-    it 'creates financial transaction after creating an incurred incidental' do
-      rental = create :rental
-      rental_trans = rental.financial_transaction
-      incidental = create :incurred_incidental, rental: rental
-      incidental_trans = incidental.financial_transaction
-
-      expect(incidental_trans).to be_valid
-      expect(incidental).to eq(incidental_trans.transactable)
-      expect(rental).to eq(incidental_trans.rental)
-
-      expect(incidental_trans.initial_amount).to eq(incidental.amount)
-    end
-  end
 end
