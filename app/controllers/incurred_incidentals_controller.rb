@@ -15,6 +15,7 @@ class IncurredIncidentalsController < ApplicationController
 
   def new
     @incurred_incidental = IncurredIncidental.new
+    @incurred_incidental.financial_transaction = FinancialTransaction.new
     @rental = Rental.find(params[:rental_id])
   end
 
@@ -29,13 +30,14 @@ class IncurredIncidentalsController < ApplicationController
         redirect_to incurred_incidental_path(@incurred_incidental)
       end
     else
-      render :new
-      flash[:error] = 'Failed To Update Incidental'
+      flash[:error] = 'Failed To Create Incidental'
+      redirect_to new_incurred_incidental_path(rental_id: @incurred_incidental.rental)
     end
   end
 
   def edit
     @rental = @incurred_incidental.rental
+    @financial_transaction = @incurred_incidental.financial_transaction
   end
 
   def update
@@ -79,6 +81,8 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :amount, notes_attributes: [:note, :id], financial_transaction_attributes: [:initial_amount, :id])
+    incidental_params = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, notes_attributes: [:note], financial_transaction_attributes: [:initial_amount, :id])
+    incidental_params[:financial_transaction_attributes][:rental_id] = incidental_params[:rental_id] || @incurred_incidental.rental_id
+    incidental_params
   end
 end

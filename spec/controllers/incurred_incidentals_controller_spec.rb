@@ -6,14 +6,13 @@ describe IncurredIncidentalsController do
     inc = attributes_for(:incurred_incidental)
     inc[:rental_id] = create(:rental).id
     inc[:incidental_type_id] = create(:incidental_type).id
-    inc[:amount] = 0
     inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
+    inc[:financial_transaction_attributes] = { initial_amount: 44, rental_id: inc[:rental_id]}
     inc
   end
 
   let(:invalid_create) do
-    inc = attributes_for(:invalid_incidental)
-    inc
+    attributes_for(:invalid_incidental)
   end
 
   let!(:incurred_incidental) { create(:incurred_incidental) }
@@ -50,6 +49,14 @@ describe IncurredIncidentalsController do
         end.to change(IncurredIncidental, :count).by(1)
       end
 
+      it 'creates a financial transaction linked to the same rental' do
+        post :create, params: { incurred_incidental: incurred_incidental_create }
+        incurred_incidental = IncurredIncidental.last
+        financial_transaction = incurred_incidental.financial_transaction
+        expect(financial_transaction).not_to be_nil
+        expect(incurred_incidental.rental).to eq(financial_transaction.rental)
+      end
+
       context 'redirection' do
         it 'redirects to the show page for created incurred incidental without damage tracking' do
           post :create, params: { incurred_incidental: incurred_incidental_create }
@@ -74,7 +81,7 @@ describe IncurredIncidentalsController do
 
       it 'redirects to the :new template' do
         post :create, params: { incurred_incidental: invalid_create }
-        expect(response).to render_template :new
+        expect(response).to redirect_to new_incurred_incidental_path
       end
     end
 
@@ -126,23 +133,23 @@ describe IncurredIncidentalsController do
   describe 'POST #update' do
     context 'with valid params' do
       it 'updates the incurred incidental in the database' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { amount: 5 } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { initial_amount: 5 } } }
         incurred_incidental.reload
-        expect(incurred_incidental.amount).to eq(5)
+        expect(incurred_incidental.financial_transaction.initial_amount).to eq(5)
       end
 
       it 'redirects to the updated incurred incidentals :show page' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { amount: 5 } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { initial_amount: 5 } } }
         expect(response).to redirect_to incurred_incidental
       end
     end
 
     context 'with invalid params' do
       it 'does not update the incurred incidental in the database' do
-        old_amount = incurred_incidental.amount
+        old_type_id = incurred_incidental.incidental_type_id
         post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         incurred_incidental.reload
-        expect(incurred_incidental.amount).to eq(old_amount)
+        expect(incurred_incidental.incidental_type_id).to eq(old_type_id)
       end
 
       it 'redirects to :edit' do

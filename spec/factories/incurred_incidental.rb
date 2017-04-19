@@ -3,7 +3,6 @@ FactoryGirl.define do
   factory :incurred_incidental do
     association :rental, factory: :mock_rental
     association :incidental_type
-    amount 10
 
     after(:build) do |incidental|
       incidental.notes = FactoryGirl.build_list(:note, 1)
@@ -11,6 +10,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_incidental, parent: :incurred_incidental do
-    amount nil
+    rental_id nil
+    financial_transaction_attributes initial_amount: 5
   end
 end
