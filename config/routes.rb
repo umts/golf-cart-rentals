@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'rentals/cost', to: 'rentals#cost', as: 'rentals_cost'
   get 'rentals/:id/transform', to: 'rentals#transform', as: 'rental_transform'
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
+  get 'rentals/safety_pdf'
+  get 'rentals/training_pdf'
   resources :rentals
 
   resources :departments do
@@ -28,7 +30,6 @@ Rails.application.routes.draw do
     post :enable, on: :member
   end
   resources :item_types, only: [:index, :show, :edit, :update]
-  resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
   resources :incurred_incidentals
   resources :damages

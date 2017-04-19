@@ -74,8 +74,8 @@ describe HomeController do
 
       it 'filters out rentals not belonging to the current user' do
         get :index
-        expect(assigns[:rentals]).to include(create(:mock_rental, renter_id: @user.id), create(:ongoing_rental, renter_id: @user.id))
-        expect(assigns[:rentals]).not_to include(create(:mock_rental, renter_id: @other_user.id))
+        expect(assigns[:rentals]).to include(create(:mock_rental, renter_id: @user.id, creator_id: @user.id), create(:ongoing_rental, renter_id: @user.id, creator_id: @user.id))
+        expect(assigns[:rentals]).not_to include(create(:mock_rental, renter_id: @other_user.id, creator_id: @other_user.id))
       end
     end
   end

@@ -3,7 +3,6 @@ require 'rails_helper'
 
 describe HoldsController do
   let!(:hold) { create :hold }
-
   let(:item) { create(:item, name: 'TEST_ITEM') }
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
 
@@ -45,25 +44,6 @@ describe HoldsController do
     end
   end
 
-  # this test does not work, for some reason validations are done differently in test than they are in dev
-  #describe 'POST #lift' do
-    #context 'allows the item to be updated even if start time is after current date if the item is saved' do
-      #after :each do
-        #Timecop.return # always return
-      #end
-
-      #it 'allows the item to be updated even if start time is after current date if the item is saved' do
-        #hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
-        #Timecop.travel Time.current+1.day
-        #expect(hold.start_time).to be < Time.current
-        #post :lift, params: { id: hold.id }
-        #hold.reload
-        #expect(hold).to be_valid
-        #expect(hold.active).to be false
-      #end
-    #end
-  #end
-
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new hold in the database' do
@@ -80,6 +60,15 @@ describe HoldsController do
       it 'sets the damage given the params for damage' do
         damage = create :damage
         post :create, params: { hold: attributes_for(:hold, item_id: Item.first).merge(damage: damage) }
+      end
+
+      it 'warns user of ongoing rentals' do
+        current_user(super_user)
+
+        rental = create :mock_rental
+        rental.pickup
+        put :create, params: { hold: attributes_for(:hold).merge(item_id: rental.item) }
+        expect(flash[:warning]).to include rental.id.to_s
       end
     end
 
@@ -142,6 +131,25 @@ describe HoldsController do
     it 'redirects to :edit template if update fails' do
       post :update, params: { id: @hold.id, hold: { start_time: @hold.start_time + 5.days, end_time: @hold.end_time + 1.day, item_id: Item.first } }
       expect(response).to render_template :edit
+    end
+  end
+
+  # this test does not work, for some reason validations are done differently in test than they are in dev
+  describe 'post #lift' do
+    context 'allows the item to be updated even if start time is after current date if the item is saved' do
+      after :each do
+        Timecop.return # always return
+      end
+
+      it 'allows the item to be updated even if start time is after current date if the item is saved' do
+        hold = create(:hold, start_time: Time.current, end_time: Time.current + 4.days)
+        Timecop.travel Time.current + 1.day
+        expect(hold.start_time).to be < Time.current
+        post :lift, params: { id: hold.id }
+        hold.reload
+        expect(hold).to be_valid
+        expect(hold.active).to be false
+      end
     end
   end
 end

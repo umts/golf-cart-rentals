@@ -22,7 +22,17 @@ describe RentalsController do
 
   let(:item) { create(:item, name: 'TEST_ITEM') }
 
-  before(:each) { current_user }
+  before(:each) do
+    # we want a new user for each
+    # which has permission to assign anyone for ease of use
+    u = create :user, groups: [
+      create(:group, permissions: [
+               create(:permission, controller: 'rentals', action: 'assign_anyone')
+             ])
+    ]
+
+    current_user(u)
+  end
 
   before(:each) do
     @rental = create(:mock_rental)
@@ -75,6 +85,33 @@ describe RentalsController do
       get :new
       expect(response).to render_template :new
     end
+
+    context 'assiging users for search' do
+      before do
+        User.destroy_all
+        @dept_one = create :department
+        @dept_one_users = create_list :user, 10, department: @dept_one
+        @other_users = create_list :user, 10 # not in @dept_one
+      end
+
+      it 'assigns all users if that user has the permission' do
+        u = @other_users.first
+        g = create(:group)
+        g.permissions << create(:permission, controller: 'rentals', action: 'assign_anyone')
+        g.save
+        u.groups << g
+        u.save
+        current_user(u) # set current_user to u in the controller
+        get :new
+        expect(assigns[:users].collect { |user| user[:id] }).to match_array (@dept_one_users + @other_users).collect(&:id)
+      end
+
+      it 'only assigns users in the same dept if they do not have the special permission' do
+        current_user(@dept_one_users.first) # set current_user to some user from dept one in the controller
+        get :new
+        expect(assigns[:users].collect { |user| user[:id] }).to match_array @dept_one_users.collect(&:id)
+      end
+    end
   end
 
   describe 'POST #create' do
@@ -107,6 +144,10 @@ describe RentalsController do
       it 're-renders the :new template' do
         post :create, params: { rental: invalid_create }
         expect(response).to render_template :new
+        expect(assigns[:users]).not_to be_empty
+      end
+
+      it 'will not create a rental for a creator without permission to assign renter' do
       end
     end
 
@@ -114,13 +155,13 @@ describe RentalsController do
       let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
 
       it 'adjusts the related financial transaction' do
-        u = create(:user)
-        g = create(:group)
-        g.permissions << create(:permission, controller: 'rentals', action: 'cost_adjustment')
-        g.save
-        u.groups << g
-        u.save
-        current_user(u) # set current_user to u in teh controller
+        u = create :user, groups: [
+          create(:group, permissions: [
+                   create(:permission, controller: 'rentals', action: 'cost_adjustment'),
+                   create(:permission, controller: 'rentals', action: 'assign_anyone')
+                 ])
+        ]
+        current_user(u) # set current_user to u in the controller
 
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
@@ -228,19 +269,13 @@ describe RentalsController do
 
   describe 'PUT #update' do
     it 'properly picks up a rental' do
-      expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Pick Up' }
-      end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.pickup?).to be true
+      put :update, params: { id: @rental.id, commit: 'Pick Up' }
       expect(@rental.reload.picked_up?).to be true
     end
 
     it 'properly drops off a rental' do
       @rental.pickup
-      expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
-      end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.drop_off?).to be true
+      put :update, params: { id: @rental.id, commit: 'Drop Off' }
       expect(@rental.reload.dropped_off?).to be true
     end
 
@@ -251,9 +286,9 @@ describe RentalsController do
 
       it 'allows dropping off a rental even though it is late' do
         @rental.pickup
-        Timecop.travel(@rental.end_date+1.day) # travel to after the rental is due
+        Timecop.travel(@rental.end_date + 1.day) # travel to after the rental is due
         # now try to drop it off
-        put :update, params: {id: @rental.id, rental: { customer_signature_image: 'something'}, commit: 'Drop Off'}
+        put :update, params: { id: @rental.id, commit: 'Drop Off' }
         # it should be dropped off
         expect(@rental.reload.dropped_off?).to be true
       end

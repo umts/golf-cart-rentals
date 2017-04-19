@@ -6,7 +6,7 @@ class RentalsController < ApplicationController
   before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
   before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
   before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
-  before_action :set_users, only: [:index, :new, :processing, :transform, :create]
+  before_action :set_all_users, only: [:index, :processing]
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
@@ -14,7 +14,6 @@ class RentalsController < ApplicationController
   def index
     @q = Rental.all.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @users = User.all
 
     gon.reservations = Rental.to_json_reservations
   end
@@ -35,9 +34,25 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    @users = User.all.map do |user|
-      { id: user.id, tag: user.tag }
-    end
+    set_users_to_assign
+  end
+
+  # Send safety pdf to client
+  def safety_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Safety.pdf'),
+      filename: 'Golf Cart Safety.pdf',
+      type: 'application/pdf'
+    )
+  end
+
+  # Send training pdf to client
+  def training_pdf
+    send_file(
+      Rails.root.join('app', 'assets', 'pdfs', 'Golf-Cart-Training-User-Agreement.pdf'),
+      filename: 'Golf Cart Training User Agreement',
+      type: 'application/pdf'
+    )
   end
 
   # GET /rentals/processing
@@ -64,14 +79,12 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Pick Up'
-      DigitalSignature.create(image: sig_image_params, intent: :pickup, rental: @rental, author: :customer)
       if @rental.pickup
         pickup_name = params[:rental][:pickup_name]
         pickup_number = params[:rental][:pickup_phone_number]
         @rental.update!(pickup_name: pickup_name, pickup_phone_number: pickup_number)
       end
     elsif params[:commit] == 'Drop Off'
-      DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
       if @rental.drop_off
         dropoff_name = params[:rental][:dropoff_name]
         dropoff_number = params[:rental][:dropoff_phone_number]
@@ -100,6 +113,7 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(@rental)
     else # error has problem, cannot rental a error message here
+      set_users_to_assign
       flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
       @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
@@ -125,6 +139,16 @@ class RentalsController < ApplicationController
 
   private
 
+  def set_users_to_assign
+    @users = @current_user.assignable_renters.map do |user|
+      { id: user.id, tag: user.tag }
+    end
+  end
+
+  def set_all_users
+    @users = User.all
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
@@ -143,10 +167,6 @@ class RentalsController < ApplicationController
     @items = Item.all
   end
 
-  def set_users
-    @users = User.all
-  end
-
   def set_incidental_types
     @incidental_types = IncidentalType.all
   end
@@ -158,9 +178,5 @@ class RentalsController < ApplicationController
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
                                    :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
-  end
-
-  def sig_image_params
-    params.require(:rental).permit(:customer_signature_image)
   end
 end

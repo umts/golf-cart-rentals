@@ -7,7 +7,7 @@ describe IncurredIncidentalsController do
     inc[:rental_id] = create(:rental).id
     inc[:incidental_type_id] = create(:incidental_type).id
     inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
-    inc[:financial_transaction_attributes] = { initial_amount: 44, rental_id: inc[:rental_id]}
+    inc[:financial_transaction_attributes] = { initial_amount: 44 }
     inc
   end
 
@@ -48,6 +48,18 @@ describe IncurredIncidentalsController do
           post :create, params: { incurred_incidental: incurred_incidental_create }
         end.to change(IncurredIncidental, :count).by(1)
       end
+      context 'time travel' do
+        it 'can create a incurred incidental past rental start date' do
+          Timecop.travel(Rental.find(incurred_incidental_create[:rental_id]).start_date + 1.day)
+          expect do
+            post :create, params: { incurred_incidental: incurred_incidental_create }
+          end.to change(IncurredIncidental, :count).by(1)
+        end
+
+        after do
+          Timecop.return
+        end
+      end
 
       it 'creates a financial transaction linked to the same rental' do
         post :create, params: { incurred_incidental: incurred_incidental_create }
@@ -85,12 +97,15 @@ describe IncurredIncidentalsController do
       end
     end
 
-    context 'with optional document' do
+    context 'with document' do
       it 'takes a document and saves it' do
         desc = 'some desc'
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create,
-                                  file: { '1' => fixture_file_upload('file.png', 'image/png') }, desc: { '1' => desc } }
+          post :create, params: { incurred_incidental: incurred_incidental_create.merge(
+            documents_attributes: {
+              '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: desc }
+            }
+          ) }
         end.to change(Document, :count).by(1)
         expect(IncurredIncidental.last.documents).to be_present
         expect(Document.last.description).to eq(desc)
@@ -99,10 +114,12 @@ describe IncurredIncidentalsController do
 
       it 'handles multiple documents' do
         expect do
-          post :create, params: { incurred_incidental: incurred_incidental_create,
-                                  file: { '1' => fixture_file_upload('file.png', 'image/png'),
-                                          '2' => fixture_file_upload('file.txt', 'text/plain') },
-                                  desc: { '1' => 'some desc', '2' => 'another desc' } }
+          post :create, params: { incurred_incidental: incurred_incidental_create.merge(
+            documents_attributes: {
+              '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: 'somedesc' },
+              '1' => { uploaded_file: fixture_file_upload('file.txt', 'text/plain'), description: 'somedesc' }
+            }
+          ) }
         end.to change(Document, :count).by(2)
       end
     end
@@ -155,6 +172,46 @@ describe IncurredIncidentalsController do
       it 'redirects to :edit' do
         post :update, params: { id: incurred_incidental, incurred_incidental: attributes_for(:invalid_incidental) }
         expect(response).to redirect_to edit_incurred_incidental_path
+      end
+    end
+
+    context 'updating documents' do
+      it 'refuses to update given empty desc of existing doc' do
+        ii = create :incurred_incidental
+        doc1 = create(:document, description: 'not_test')
+        doc2 = create(:document, description: 'other_desc')
+        ii.documents << [doc1, doc2]
+
+        post :update, params: { id: ii, incurred_incidental: { documents_attributes: {
+          '0' => { 'description' => '', id: doc1 },
+          '1' => { 'description' => 'test', id: doc2 }
+        } } }
+        expect(doc1.reload.description).to eq 'not_test' # has refused to update doc1
+        expect(doc2.reload.description).to eq 'test'
+      end
+
+      it 'adds a new document' do
+        ii = create :incurred_incidental
+        expect(ii.documents.count).to be 0 # sanity check
+        expect do
+          post :update, params: {
+            id: ii, incurred_incidental: { documents_attributes: {
+              '0' => { uploaded_file: fixture_file_upload('file.png', 'image/png'), description: 'somedesc' }
+            } }
+          }
+        end.to change(Document, :count).by(1)
+        expect(ii.documents.reload.count).to be 1
+      end
+
+      it 'deletes documents' do
+        ii = create :incurred_incidental
+        ii.documents << create(:document, description: 'not_test')
+        ii.documents << create(:document, description: 'other_desc')
+        post :update, params: { id: ii, incurred_incidental: { documents_attributes: {
+          '0' => { id: ii.documents.first }
+        } } }
+        expect(ii.documents.reload.count).to be 1
+        expect(ii.documents.first.description).to eq 'other_desc'
       end
     end
   end
