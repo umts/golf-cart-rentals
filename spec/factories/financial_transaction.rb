@@ -4,7 +4,6 @@ FactoryGirl.define do
     f.note_field 'Property of Factory Girl'
     f.created_at DateTime.now
     f.updated_at DateTime.now
-    f.adjustment 0
     f.initial_amount 1
     rental
 
