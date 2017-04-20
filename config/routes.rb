@@ -39,11 +39,11 @@ Rails.application.routes.draw do
     post :lift, on: :member
   end
   resources :financial_transaction, except: %i(destroy update)
-  resources :items do
+  resources :items, except: [:new, :create] do
     collection do
-      get :new_item
-      post :create_item
-      get :refresh_items
+      get :new_item, as: 'new'
+      post :create_item, as: 'create'
+      get :refresh_items, as: 'refresh'
     end
   end
   get 'payment_tracking', to: 'payment_tracking#index'
