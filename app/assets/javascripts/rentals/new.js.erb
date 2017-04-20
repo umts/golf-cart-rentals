@@ -60,8 +60,10 @@ $(document).ready( function () {
     //if this is the start time, and the start is greater than the end, we should adjust the end date
     if(field.attr("id") === "rental_start_time" && new Date(raw_start_time) > new Date(raw_end_time)) {
       //date range hasnt changed yet, we can use it to update end date
-      //set end date to start date + whatever range we had before
-      var new_end_date = moment(raw_start_time).add($("#date_range").val(), 'days').format("YYYY-MM-DD");
+      //set end date to start date + whatever range we had before - 1 because range was inclusive
+      //NOTE: date range cannot be < 1
+      var new_end_date = moment(raw_start_time).
+        add($("#date_range").val()-1, 'days').format("YYYY-MM-DD");
       $("#rental_end_time").val(new_end_date); //update end_time
     }
 
