@@ -64,9 +64,10 @@ RSpec.describe Hold, type: :model do
   end
 
   describe 'handle_conflicting_rentals' do
-    let(:hold) { create(:hold) }
-    let(:conflicting_rental) { create(:hold_conflicting_rental) }
-    let(:future_rental) { create(:far_future_rental) }
+    let(:shared_item) { create(:item) }
+    let(:hold) { create(:hold, item: shared_item) }
+    let(:conflicting_rental) { create(:hold_conflicting_rental, item: shared_item) }
+    let(:future_rental) { create(:far_future_rental, item: shared_item) }
 
     it 'should cancel a conflicting rental' do
       conflicting_rental
@@ -92,7 +93,7 @@ RSpec.describe Hold, type: :model do
       hold = create :hold, start_time: 1.day.from_now, end_time: 3.days.from_now
 
       # conflicting rental starts in range but ends out side of it
-      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now)
+      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now, item: hold.item)
       expect do
         hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)
@@ -105,11 +106,40 @@ RSpec.describe Hold, type: :model do
       end.to change(Rental, :count).by(0)
     end
 
+    it 'should not create a new rental when the rental is on a different item' do
+      create :mock_rental
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change(Rental, :count).by(0)
+    end
+
     it 'should send an email when there is a conflicting rental' do
       conflicting_rental
       expect do
         hold.handle_conflicting_rentals
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
+    end
+  end
+
+  context 'conflicting_ongoing_rental' do
+    it 'identifies a conflicting ongoing rental' do
+      rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
+      rental.pickup
+      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      expect(hold.conflicting_ongoing_rental).to eq(rental)
+    end
+
+    it 'doesnt care if it isnt picked up' do
+      rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
+      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      expect(hold.conflicting_ongoing_rental).to be nil
+    end
+
+    it 'doesnt return rentals outside of hold range' do
+      rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
+      rental.pickup
+      hold = create :hold, item: rental.item, start_time: 5.days.from_now, end_time: 6.days.from_now
+      expect(hold.conflicting_ongoing_rental).to be nil
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310172354) do
+ActiveRecord::Schema.define(version: 20170418163930) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -29,15 +29,6 @@ ActiveRecord::Schema.define(version: 20170310172354) do
     t.boolean  "active",     default: true, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-  end
-
-  create_table "digital_signatures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "image",      limit: 65535
-    t.integer  "rental_id"
-    t.integer  "author"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "intent"
   end
 
   create_table "documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -115,23 +106,21 @@ ActiveRecord::Schema.define(version: 20170310172354) do
 
   create_table "incurred_incidentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "incidental_type_id"
-    t.decimal  "amount",             precision: 10
     t.integer  "rental_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.datetime "deleted_at"
     t.index ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
     t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
   end
 
   create_table "item_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",                      null: false
-    t.text     "disclaimer",  limit: 65535
+    t.string   "name",                   null: false
     t.float    "base_fee",    limit: 24
     t.float    "fee_per_day", limit: 24
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "uuid",                      null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "uuid",                   null: false
     t.index ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
   end
 

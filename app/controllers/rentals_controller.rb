@@ -79,14 +79,12 @@ class RentalsController < ApplicationController
   # PUT /rentals/1/
   def update
     if params[:commit] == 'Pick Up'
-      DigitalSignature.create(image: sig_image_params, intent: :pickup, rental: @rental, author: :customer)
       if @rental.pickup
         pickup_name = params[:rental][:pickup_name]
         pickup_number = params[:rental][:pickup_phone_number]
         @rental.update!(pickup_name: pickup_name, pickup_phone_number: pickup_number)
       end
     elsif params[:commit] == 'Drop Off'
-      DigitalSignature.create(image: sig_image_params, intent: :drop_off, rental: @rental, author: :customer)
       if @rental.drop_off
         dropoff_name = params[:rental][:dropoff_name]
         dropoff_number = params[:rental][:dropoff_phone_number]
@@ -180,9 +178,5 @@ class RentalsController < ApplicationController
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
                                    :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
-  end
-
-  def sig_image_params
-    params.require(:rental).permit(:customer_signature_image)
   end
 end

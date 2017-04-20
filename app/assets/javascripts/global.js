@@ -29,15 +29,6 @@ $(document).ready(function() {
       format: 'h:mm A'
     });
 
-    //Adds listeners to select inputs to toggle disclaimers on rental schedule page
-    $(document.getElementsByName("rental[item_type_id]")).each(function() {
-      $(this).change(function () {
-        $(this).closest("form").find(".disclaimer").each(function() {
-          $(this).toggleClass("disclaimer-hidden")
-        })
-      })
-    })
-
     //Single day submit button function for updating end time
     $('#TOC').click(function () {
       $('#rental_end_time').val($('#rental_start_time').val())

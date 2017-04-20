@@ -18,7 +18,6 @@ reserve-4' %>
     <th><%= sort_link(@q, :name, 'Name') %></th>
     <th><%= sort_link(@q, :item_type_base_fee, 'Base Fee') %></th>
     <th><%= sort_link(@q, :item_type_fee_per_day, 'Fee Per Day') %></th>
-    <th><%= sort_link(@q, :item_type_disclaimer, 'Disclaimer') %></th>
     <th class="min-width">Actions</th>
   </tr>
   <% @items.sort_by { |i| i.item_type_id }.each do |item| %>
@@ -27,7 +26,6 @@ reserve-4' %>
       <td><%= item.name %></td>
       <td><%= number_to_currency item.item_type_base_fee %></td>
       <td><%= number_to_currency item.item_type_fee_per_day %></td>
-      <td><%= simple_format item.item_type_disclaimer %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), item, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_item_path(item), class: "btn btn-xs btn-primary" %>

@@ -48,3 +48,7 @@ def current_user(user = nil)
                   end
   controller.instance_variable_set('@current_user', @current_user)
 end
+
+def super_user
+  create(:user, groups: [create(:group, permissions: Permission.all)])
+end

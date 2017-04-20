@@ -5,7 +5,6 @@
     <th>Name</th>
     <th>Base Fee</th>
     <th>Fee Per Day</th>
-    <th>Disclaimer</th>
     <th class="min-width">Actions</th>
   </tr>
   <% @item_types.each do |item_type| %>
@@ -13,7 +12,6 @@
       <td><%= item_type.name %></td>
       <td><%= number_to_currency item_type.base_fee %></td>
       <td><%= number_to_currency item_type.fee_per_day %></td>
-      <td><%= simple_format item_type.disclaimer %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), item_type, class: "btn btn-xs btn-success" %>
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-edit")+" Edit"), edit_item_type_path(item_type), class: "btn btn-xs btn-primary" %>

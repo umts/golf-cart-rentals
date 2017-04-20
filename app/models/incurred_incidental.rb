@@ -10,6 +10,7 @@ class IncurredIncidental < ActiveRecord::Base
   has_many :documents, as: :documentable, dependent: :destroy
 
   accepts_nested_attributes_for :notes, reject_if: proc { |attributes| attributes.all? { |_, v| v.blank? } }
+  accepts_nested_attributes_for :financial_transaction
   accepts_nested_attributes_for :documents, reject_if: proc { |attributes|
     attributes[:description].blank?
   }
@@ -17,13 +18,5 @@ class IncurredIncidental < ActiveRecord::Base
   validates_associated :rental, :incidental_type, :notes, :documents
 
   validates :rental, :notes, presence: true
-  validates :amount, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' }, presence: true
-
-  after_create :create_financial_transaction
-
-  # private
-  def create_financial_transaction
-    FinancialTransaction.create(rental: rental, initial_amount: amount, transactable_type: self.class.name, transactable_id: id)
-  end
 end

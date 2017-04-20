@@ -30,15 +30,18 @@
                 <% if msg.is_a? Array %>
                   <% msg.each do |m| %>
                     <div>
-                      <%= m %>
+                      <%= raw m %>
                     </div>
                   <% end %>
-                  <!-- Otherwise, print the one -->
+                <!-- Otherwise, print the one -->
                 <% else %>
-                  <div><%= msg  %></div>
+                  <div>
+                    <%= raw msg %>
+                  </div>
                 <% end %>
               </td>
-            </tr></table>
+            </tr>
+          </table>
 
           <% end %>
         <% end %>

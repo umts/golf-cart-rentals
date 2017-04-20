@@ -1,9 +1,7 @@
 - name: "4 Seat"
-  disclaimer: "Maximum of 4 riders.\nNo joyriding."
   base_fee: "40"
   fee_per_day: "35"
 
 - name: "6 Seat"
-  disclaimer: "Maximum of 6 riders.\nNo joyriding."
   base_fee: "60"
   fee_per_day: "40"

@@ -269,19 +269,13 @@ describe RentalsController do
 
   describe 'PUT #update' do
     it 'properly picks up a rental' do
-      expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Pick Up' }
-      end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.pickup?).to be true
+      put :update, params: { id: @rental.id, commit: 'Pick Up' }
       expect(@rental.reload.picked_up?).to be true
     end
 
     it 'properly drops off a rental' do
       @rental.pickup
-      expect do
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
-      end.to change(DigitalSignature, :count).by(1)
-      expect(DigitalSignature.last.drop_off?).to be true
+      put :update, params: { id: @rental.id, commit: 'Drop Off' }
       expect(@rental.reload.dropped_off?).to be true
     end
 
@@ -294,7 +288,7 @@ describe RentalsController do
         @rental.pickup
         Timecop.travel(@rental.end_date + 1.day) # travel to after the rental is due
         # now try to drop it off
-        put :update, params: { id: @rental.id, rental: { customer_signature_image: 'something' }, commit: 'Drop Off' }
+        put :update, params: { id: @rental.id, commit: 'Drop Off' }
         # it should be dropped off
         expect(@rental.reload.dropped_off?).to be true
       end

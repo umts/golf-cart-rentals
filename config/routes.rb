@@ -30,7 +30,6 @@ Rails.application.routes.draw do
     post :enable, on: :member
   end
   resources :item_types, only: [:index, :show, :edit, :update]
-  resources :digital_signatures, only: [:show, :index]
   resources :incidental_types
   resources :incurred_incidentals
   resources :damages
