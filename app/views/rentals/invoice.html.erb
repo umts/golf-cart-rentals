@@ -63,25 +63,6 @@
   <div class="form-control-informaton col-xs-9"><%= @rental.department.name %></div>
 </div>
 
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Amount Charged</label>
-  <div class="form-control-information col-xs-9"><%= number_to_currency @rental.sum_charges %></div>
-</div>
-
-<div class="form-group col-xs-12">
-   <label class="col-xs-3 control-label">Rental Amount</label>
-   <div class="form-control-information col-xs-9"><%= number_to_currency @rental.financial_transaction.initial_amount %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Total Amount Due</label>
-  <div class="form-control-information col-xs-9"><%= number_to_currency @rental.balance %></div>
-</div>
-
-<%#<ul class="nav nav-tabs hidden-print">%>
-  <%#<li class="active"><a data-toggle="tab" href="#incidental">Incidentals</a></li>%>
-  <%#<li><a data-toggle="tab" href="#payment" >Payment Summary</a></li>%>
-  <%#</ul>%>
 <div class="container">
   <div id="incidental" class="">
     <div class="form-group col-xs-12">
@@ -117,7 +98,7 @@
   </div>
 </div>
 
-<p class="legal-blurb">This invoice may be paid by Procard on-line or at our office or by recharge form. <br>
+<p class="legal-blurb">This invoice may be paid by recharge form. <br>
 
 Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
 
