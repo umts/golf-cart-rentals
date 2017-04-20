@@ -16,5 +16,5 @@ class Item < ActiveRecord::Base
     "#{name} (#{item_type.name})"
   end
 
-  delegate :name, :base_fee, :fee_per_day, :disclaimer, to: :item_type, prefix: true
+  delegate :name, :base_fee, :fee_per_day, to: :item_type, prefix: true
 end

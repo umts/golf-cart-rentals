@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170414184539) do
+ActiveRecord::Schema.define(version: 20170418163930) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -115,13 +115,12 @@ ActiveRecord::Schema.define(version: 20170414184539) do
   end
 
   create_table "item_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",                      null: false
-    t.text     "disclaimer",  limit: 65535
+    t.string   "name",                   null: false
     t.float    "base_fee",    limit: 24
     t.float    "fee_per_day", limit: 24
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "uuid",                      null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "uuid",                   null: false
     t.index ["uuid"], name: "index_item_types_on_uuid", unique: true, using: :btree
   end
 
