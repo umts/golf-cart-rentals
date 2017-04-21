@@ -53,7 +53,8 @@ class Rental < ActiveRecord::Base
     event :cancel do
       transitions from: :reserved, to: :canceled
       after do
-        financial_transaction.zero_balance 'Canceling a reservation and zero-ing balance'
+        # Canceling a reservation and zero-ing balance
+        FinancialTransaction.create amount: self.balance, transactable_type: Cancelation.name, rental: self
       end
     end
 
@@ -152,11 +153,13 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
+    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).
+      inject(0) { |acc, elem| acc + elem.balance }
   end
 
   def sum_payments
-    financial_transactions.where(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
+    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).
+      inject(0) { |acc, elem| acc + elem.balance }
   end
 
   def balance

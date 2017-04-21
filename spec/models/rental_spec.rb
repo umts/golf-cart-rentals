@@ -188,6 +188,13 @@ RSpec.describe Rental do
 
       expect(@rental.balance).to be_zero # fully paid
     end
+
+    it 'handles a cancelation' do
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:initial_amount)
+      create(:financial_transaction, transactable_type: Cancelation.name, initial_amount: sum_amount, rental: @rental)
+
+      expect(@rental.balance).to be_zero # fully paid, because it was canceled
+    end
   end
 
   describe 'rental_status' do
@@ -202,6 +209,12 @@ RSpec.describe Rental do
     it 'is canceled after cancel' do
       @rental.cancel!
       expect(@rental).to be_canceled
+    end
+
+    it 'creates a cancelation ft' do
+      expect do
+        @rental.cancel!
+      end.to change(FinancialTransaction,:count).by(1)
     end
 
     it 'is picked_up after pickup' do

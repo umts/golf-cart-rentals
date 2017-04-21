@@ -56,6 +56,7 @@ class FinancialTransactionsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def financial_transaction_params
-    params.require(:financial_transaction).permit(:initial_amount, :adjustment, :rental_id, :transactable_type, :transactable_id)
+    # allows intial amount or amount
+    params.require(:financial_transaction).permit(:initial_amount, :amount, :rental_id, :transactable_type, :transactable_id)
   end
 end
