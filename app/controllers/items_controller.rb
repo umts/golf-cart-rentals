@@ -44,7 +44,7 @@ class ItemsController < ApplicationController
       end
     else
       flash[:danger] = 'Invalid Cart Name'
-      redirect_to new_item_items_path
+      redirect_to new_items_path
     end
   end
 
@@ -69,7 +69,7 @@ class ItemsController < ApplicationController
     refresh_items
   rescue => error
     flash[:danger] = "Failed To Create Cart In API. #{error.inspect}"
-    redirect_to new_item_items_path
+    redirect_to new_items_path
   end
 
   def refresh_items_helper(item_type)
