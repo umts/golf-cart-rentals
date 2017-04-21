@@ -11,19 +11,14 @@ class FinancialTransaction < ActiveRecord::Base
 
   alias_attribute :base_amount, :amount
   alias_attribute :initial_amount, :amount
+  alias_attribute :balance, :amount
+  alias_attribute :value, :amount
 
   def default
-    self.adjustment ||= 0
-    self.initial_amount ||= 0
+    self.amount ||= 0
   end
 
   def send_updated_invoice
     InvoiceMailer.send_invoice(rental).deliver_later
   end
-
-  def value
-    initial_amount
-  end
-
-  alias balance value
 end

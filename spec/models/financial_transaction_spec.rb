@@ -36,10 +36,6 @@ RSpec.describe FinancialTransaction, type: :model do
       expect(build(:financial_transaction, :with_rental, initial_amount: nil)).not_to be_valid
     end
 
-    it 'is invalid without an adjustment' do
-      expect(build(:financial_transaction, :with_rental, adjustment: nil)).not_to be_valid
-    end
-
     it 'defaults to 0 when initial_amount is not specified' do
       fc = build(:financial_transaction, :with_rental)
       expect(fc.initial_amount).to eq(1)
@@ -47,23 +43,7 @@ RSpec.describe FinancialTransaction, type: :model do
 
     it 'sums up the values correctly' do
       fc = build(:financial_transaction, :with_rental)
-      expect(fc.value).to eq(fc.initial_amount + fc.adjustment)
-    end
-
-    it 'zeros the balance correctly' do
-      fc = build(:financial_transaction, :with_rental)
-      fc.update initial_amount: 999, adjustment: 333
-
-      expect(fc.value).not_to eq(0)
-
-      fc.zero_balance
-
-      expect(fc.value).to eq(0)
-    end
-
-    it 'defaults to 0 when adjustment is not specified' do
-      fc = build(:financial_transaction, :with_rental)
-      expect(fc.adjustment).to eq(0)
+      expect(fc.value).to eq(fc.amount)
     end
   end
 end
