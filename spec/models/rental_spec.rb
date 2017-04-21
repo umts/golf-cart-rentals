@@ -214,7 +214,7 @@ RSpec.describe Rental do
     it 'creates a cancelation ft' do
       expect do
         @rental.cancel!
-      end.to change(FinancialTransaction,:count).by(1)
+      end.to change(FinancialTransaction, :count).by(1)
     end
 
     it 'is picked_up after pickup' do
