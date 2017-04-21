@@ -108,10 +108,10 @@ RSpec.describe ItemsController, type: :controller do
     end
 
     context 'create item in api fails' do
-      it 'redirects to new_item_items_path' do
+      it 'redirects to new_items_path' do
         allow(Inventory).to receive(:create_item).and_raise('boom')
         post :create_item, params: { name: item.name, type: item_type.name }
-        expect(response).to redirect_to new_item_items_path
+        expect(response).to redirect_to new_items_path
       end
 
       it 'populates a danger flash message' do
