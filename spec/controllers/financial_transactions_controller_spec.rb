@@ -119,19 +119,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end
-
-      it 'creates a new FeeSchedule based FinancialTransaction' do
-        skip('not yet implemented')
-        attributes = ft_transact_fee # ft_transact_fee has to create one for its rental as well
-        expect do
-          post :create, params: { financial_transaction: ft_transact_fee }
-        end.to change(FinancialTransaction, :count).by(1)
-        expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
-        expect(assigns(:financial_transaction)).to be_persisted
-        expect(assigns(:financial_transaction).transactable_id).to eq(ii.id)
-        expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
-        expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
-      end
     end
 
     context 'with invalid params' do
