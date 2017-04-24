@@ -18,7 +18,7 @@ RSpec.describe FinancialTransaction, type: :model do
     end
 
     it 'creates a financial transaction via post hook from creating a Rental' do
-      rent = create :rental
+      rent = create :mock_rental
       transaction = FinancialTransaction.first
       polymorphism_trans = rent.financial_transaction
 

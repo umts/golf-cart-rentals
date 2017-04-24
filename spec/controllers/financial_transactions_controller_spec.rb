@@ -14,10 +14,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     (build :financial_transaction, :with_incidental).attributes.symbolize_keys
   end
 
-  let(:ft_transact_fee) do
-    (build :financial_transaction, :with_fee).attributes.symbolize_keys
-  end
-
   let(:ft_transact_payment) do
     (build :financial_transaction, :with_payment).attributes.symbolize_keys
   end
