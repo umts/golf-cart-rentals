@@ -60,44 +60,34 @@
 </div>
 <% end %>
 
-<ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#incidental">Incurred Incidentals</a></li>
-  <li><a data-toggle="tab" href="#payment" >Financial Transactions</a></li>
-</ul>
-
-<div class="tab-content tab-content-border">
-  <div id="incidental" class="tab-pane fade in active">
-    <div class="form-group col-xs-12">
-      <h2 class="visible-print-inline">Incidentals</h2>
-      <table class="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th class="min-width">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @rental.incurred_incidentals.each do |incurred_incidental| %>
-          <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
-          <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
-          <td class="min-width"><%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View Incurred Incidental"), incurred_incidental, class: "btn btn-xs btn-success"%>
-            <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Edit Incurred Incidental"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-info"%></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <%= link_to 'Add New Incidental to Current Rental', new_incurred_incidental_path(:rental_id => @rental.id), class: "btn btn-default form-control" %>
-    </div>
-  </div>
-
-  <div id="payment" class="tab-pane fade">
-    <div class="form-group col-xs-12">
-      <h2 class="visible-print-inline">Payment Summary</h2>
-      <%= render partial: "transaction_detail" %>
-    </div>
-  </div>
+<div class="form-group col-xs-12">
+  <h3>Incurred Incidentals</h3>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th class="min-width">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+      <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+      <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+      <td class="min-width"><%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View Incurred Incidental"), incurred_incidental, class: "btn btn-xs btn-success"%>
+        <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-log-in")+" Edit Incurred Incidental"), edit_incurred_incidental_path(incurred_incidental), class: "btn btn-xs btn-info"%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Add New Incidental to Current Rental', new_incurred_incidental_path(:rental_id => @rental.id), class: "btn btn-default form-control" %>
 </div>
+
+<div class="form-group col-xs-12">
+  <h3>Payment Summary</h3>
+  <%= render partial: "transaction_detail" %>
+</div>
+
 
 <div class="form-group col-xs-12">
   <div class="col-xs-offset-2 col-xs-10">
