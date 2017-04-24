@@ -146,9 +146,6 @@ describe RentalsController do
         expect(response).to render_template :new
         expect(assigns[:users]).not_to be_empty
       end
-
-      it 'will not create a rental for a creator without permission to assign renter' do
-      end
     end
 
     context 'cost adjustment' do
