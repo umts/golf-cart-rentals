@@ -14,10 +14,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     (build :financial_transaction, :with_incidental).attributes.symbolize_keys
   end
 
-  let(:ft_transact_payment) do
-    (build :financial_transaction, :with_payment).attributes.symbolize_keys
-  end
-
   describe 'GET #index' do
     it 'assigns all financial_transactions as @financial_transactions' do
       financial_transaction = create(:financial_transaction, :with_rental) # this actually creates two, one for the association and one for this
@@ -52,13 +48,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       expect(assigns(:financial_transaction).rental).to eq(rental)
       expect(assigns(:financial_transaction).transactable_id).to eq(ii.id)
       expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
-    end
-
-    it 'properly creates @financial_transaction for a FeeSchedule based FinancialTransaction' do
-      skip('fee shedule is not done yet')
-      rental = create :rental
-      get :new, params: { rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id }
-      expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
     end
 
     it 'properly handles an invalid rental reference' do

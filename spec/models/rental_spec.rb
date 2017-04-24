@@ -206,15 +206,22 @@ RSpec.describe Rental do
       expect(@rental).to be_reserved
     end
 
-    it 'is canceled after cancel' do
-      @rental.cancel!
-      expect(@rental).to be_canceled
-    end
-
-    it 'creates a cancelation ft' do
-      expect do
+    context 'cancelation' do
+      it 'changes state to canceled' do
         @rental.cancel!
-      end.to change(FinancialTransaction, :count).by(1)
+        expect(@rental).to be_canceled
+      end
+
+      it 'creates a cancelation ft' do
+        expect do
+          @rental.cancel!
+        end.to change(FinancialTransaction, :count).by(1)
+      end
+
+      it 'is zero balanced' do
+        @rental.cancel!
+        expect(@rental.balance).to be_zero
+      end
     end
 
     it 'is picked_up after pickup' do
