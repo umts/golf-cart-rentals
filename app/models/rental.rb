@@ -9,7 +9,8 @@ class Rental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
 
   after_create :create_financial_transaction
-  before_save :create_reservation
+  # create reservation unless it has already been created
+  before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
@@ -89,7 +90,7 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    return false unless valid? # check if the current rental object is valid or not
+    throw :abort unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
       raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
@@ -98,7 +99,7 @@ class Rental < ActiveRecord::Base
       self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
       errors.add :base, error.inspect
-      return false
+      throw :abort
     end
   end
 
