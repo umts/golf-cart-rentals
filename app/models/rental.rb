@@ -9,6 +9,7 @@ class Rental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
 
   after_create :create_financial_transaction
+  before_save :create_reservation
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User

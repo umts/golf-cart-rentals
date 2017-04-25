@@ -103,7 +103,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new(rental_params.merge(creator: @current_user))
 
     @start_date = params['start_date'] || Time.zone.today
-    if @rental.create_reservation && @rental.save
+    if @rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
         # find existing financial_transaction and change it
         @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id

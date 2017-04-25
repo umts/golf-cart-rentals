@@ -153,6 +153,16 @@ describe RentalsController do
       end
     end
 
+    context 'inventory does not create' do
+      allow(Inventory).to recieve(:create_reservation).and_return({}) # wont do it
+      expect do
+        post :create, params: { rental: rental_create } # sends valid params
+      end.not_to change(Rental, :count)
+
+      expect(flash[:warning]).to end_with 'Is Not Available For Specified Dates'
+      expect(response).to render_new
+    end
+
     context 'cost adjustment' do
       let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
 
