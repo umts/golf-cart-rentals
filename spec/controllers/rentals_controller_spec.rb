@@ -133,6 +133,11 @@ describe RentalsController do
         end.to change(Rental, :count).by(1)
         expect(response).to redirect_to Rental.last
       end
+
+      it 'creates associated reservation' do
+        post :create, params: { rental: rental_create }
+        expect(assigns[:rental].reservation_id).to be_present
+      end
     end
 
     context 'with invalid attributes' do

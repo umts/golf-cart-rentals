@@ -130,13 +130,18 @@ RSpec.describe Rental do
   end
 
   describe '#create_rental' do
-    before(:each) do
-      @rent = create :mock_rental
-    end
-
     it 'creates a rental with valid parameters' do
+      @rent = create :mock_rental
       expect(@rent).to be_valid
       expect(Rental.find(@rent.id)).to eq(@rent)
+    end
+
+    it 'creates associated reservation' do
+      # mock up the api so it doesnt make it
+      allow(Inventory).to receive(:create_reservation).and_return({ uuid: 0 })
+      rental = create :rental
+      expect(rental).to be_reserved
+      expect(rental.reservation_id).to be_present
     end
   end
 
