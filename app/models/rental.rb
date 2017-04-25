@@ -92,6 +92,8 @@ class Rental < ActiveRecord::Base
     return false unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
+      raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+
       self.reservation_id = reservation[:uuid]
       self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
@@ -167,11 +169,6 @@ class Rental < ActiveRecord::Base
   def duration
     (end_time.to_date - start_time.to_date).to_i + 1
   end
-
-  # this method seems really inefficient
-  # def self.with_balance_due
-  # Rental.select { |x| x.balance > 0 }
-  # end
 
   def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
