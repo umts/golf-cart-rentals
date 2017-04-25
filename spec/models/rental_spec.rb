@@ -138,10 +138,10 @@ RSpec.describe Rental do
 
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it
-      allow(Inventory).to receive(:create_reservation).and_return({ uuid: 0 })
+      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42" })
       rental = create :rental
       expect(rental).to be_reserved
-      expect(rental.reservation_id).to be_present
+      expect(rental.reservation_id).to eq "42"
     end
   end
 

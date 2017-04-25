@@ -173,9 +173,6 @@ class Rental < ActiveRecord::Base
   # Rental.select { |x| x.balance > 0 }
   # end
 
-  # private
-  attr_accessor :skip_reservation_validation
-
   def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
 
