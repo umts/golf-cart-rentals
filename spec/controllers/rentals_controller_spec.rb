@@ -161,7 +161,7 @@ describe RentalsController do
         end.not_to change(Rental, :count)
 
         expect(flash[:warning]).to be_present
-        expect(response).to render_new
+        expect(response).to render_template :new
       end
     end
 
