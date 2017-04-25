@@ -100,7 +100,6 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
-    binding.pry
     @rental = Rental.new(rental_params.merge(creator: @current_user))
 
     @start_date = params['start_date'] || Time.zone.today

@@ -160,7 +160,7 @@ describe RentalsController do
           post :create, params: { rental: rental_create } # sends valid params
         end.not_to change(Rental, :count)
 
-        expect(flash[:warning]).to end_with 'Is Not Available For Specified Dates'
+        expect(flash[:warning]).to be_present
         expect(response).to render_new
       end
     end
