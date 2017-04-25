@@ -137,8 +137,10 @@ RSpec.describe Rental do
     end
 
     it 'creates associated reservation' do
-      # mock up the api so it doesnt make it
-      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42" })
+      # mock up the api so it doesnt make it for realzies
+      create :item
+      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42", item: { name: Item.first.name }})
+
       rental = create :rental
       expect(rental).to be_reserved
       expect(rental.reservation_id).to eq "42"
@@ -346,22 +348,6 @@ RSpec.describe Rental do
         r.create_reservation
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
         expect(r.delete_reservation).to be false
-      end
-    end
-  end
-
-  describe '#create_reservation' do
-    context 'error thrown' do
-      it 'logs error and returns false for a series of errors' do
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
-        expect(r.create_reservation).to be false
       end
     end
   end
