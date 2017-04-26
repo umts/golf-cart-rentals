@@ -145,6 +145,23 @@ RSpec.describe Rental do
       expect(rental).to be_reserved
       expect(rental.reservation_id).to eq "42"
     end
+
+    it 'doesnt create a rental if the reservation fails' do
+      allow(Inventory).to receive(:create_reservation).and_return({})
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental,:count)
+    end
+
+    it 'doesnt create a rental if the reservation thows an error' do
+      # generic exception
+      allow(Inventory).to receive(:create_reservation).and_raise(StandardError)
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental,:count)
+    end
   end
 
   describe '#delete_rental' do
