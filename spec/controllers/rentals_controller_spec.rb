@@ -181,7 +181,7 @@ describe RentalsController do
           post :create, params: { rental: rental_create, amount: cost + 1 }
         end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
 
-        expect(FinancialTransaction.last.initial_amount).to eq cost + 1
+        expect(FinancialTransaction.last.amount).to eq cost + 1
       end
 
       it 'ignores if the user does not have permission' do # by default does not have this permission
@@ -189,7 +189,7 @@ describe RentalsController do
           post :create, params: { rental: rental_create, amount: cost + 1 }
         end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
 
-        expect(FinancialTransaction.last.initial_amount).to eq cost # we asked for cost+1
+        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
       end
     end
   end
