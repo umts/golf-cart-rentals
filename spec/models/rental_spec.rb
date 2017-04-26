@@ -130,13 +130,37 @@ RSpec.describe Rental do
   end
 
   describe '#create_rental' do
-    before(:each) do
-      @rent = create :mock_rental
-    end
-
     it 'creates a rental with valid parameters' do
+      @rent = create :mock_rental
       expect(@rent).to be_valid
       expect(Rental.find(@rent.id)).to eq(@rent)
+    end
+
+    it 'creates associated reservation' do
+      # mock up the api so it doesnt make it for realzies
+      create :item
+      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42", item: { name: Item.first.name }})
+
+      rental = create :rental
+      expect(rental).to be_reserved
+      expect(rental.reservation_id).to eq "42"
+    end
+
+    it 'doesnt create a rental if the reservation fails' do
+      allow(Inventory).to receive(:create_reservation).and_return({})
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental,:count)
+    end
+
+    it 'doesnt create a rental if the reservation thows an error' do
+      # generic exception
+      allow(Inventory).to receive(:create_reservation).and_raise(StandardError)
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental,:count)
     end
   end
 
@@ -361,22 +385,6 @@ RSpec.describe Rental do
         r.create_reservation
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
         expect(r.delete_reservation).to be false
-      end
-    end
-  end
-
-  describe '#create_reservation' do
-    context 'error thrown' do
-      it 'logs error and returns false for a series of errors' do
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
-        expect(r.create_reservation).to be false
       end
     end
   end
