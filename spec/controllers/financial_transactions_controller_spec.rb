@@ -80,21 +80,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end
 
-      it 'creates a new rental based FinancialTransaction using initial_amount alias' do
-        attributes = ft_transact_rental # ft_transact_rental has to create one for its rental as well
-        attributes.delete :amount
-        attributes[:initial_amount] = 5 # use this field instead
-        expect do
-          post :create, params: { financial_transaction: attributes }
-        end.to change(FinancialTransaction, :count).by(1)
-        expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
-        expect(assigns(:financial_transaction)).to be_persisted
-        expect(assigns(:financial_transaction).amount).to eq attributes[:initial_amount]
-        expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:rental_id])
-        expect(assigns(:financial_transaction).transactable_type).to eq(Rental.name)
-        expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
-      end
-
       it 'creates a payment based FinancialTransaction' do # specialized logic, params are passed in root and payment is created in this controller
         attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
         payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309' }
