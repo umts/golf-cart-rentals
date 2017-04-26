@@ -9,11 +9,6 @@ class FinancialTransaction < ActiveRecord::Base
   validates :rental_id, :amount, presence: true
   validates :amount, numericality: { greater_than: 0 }
 
-  alias_attribute :base_amount, :amount
-  alias_attribute :initial_amount, :amount
-  alias_attribute :balance, :amount
-  alias_attribute :value, :amount
-
   def default
     self.amount ||= 0
   end
