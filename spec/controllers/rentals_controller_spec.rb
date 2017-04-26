@@ -133,6 +133,11 @@ describe RentalsController do
         end.to change(Rental, :count).by(1)
         expect(response).to redirect_to Rental.last
       end
+
+      it 'creates associated reservation' do
+        post :create, params: { rental: rental_create }
+        expect(assigns[:rental].reservation_id).to be_present
+      end
     end
 
     context 'with invalid attributes' do
@@ -146,8 +151,17 @@ describe RentalsController do
         expect(response).to render_template :new
         expect(assigns[:users]).not_to be_empty
       end
+    end
 
-      it 'will not create a rental for a creator without permission to assign renter' do
+    context 'inventory does not create' do
+      it 'renders new and flashes warning if inventory api returns invalid response' do
+        allow(Inventory).to receive(:create_reservation).and_return({}) # wont do it
+        expect do
+          post :create, params: { rental: rental_create } # sends valid params
+        end.not_to change(Rental, :count)
+
+        expect(flash[:warning]).to be_present
+        expect(response).to render_template :new
       end
     end
 
