@@ -12,9 +12,9 @@
 
   <div class="form-group col-xs-12">
     <%= f.fields_for :financial_transaction do |ft_fields| %>
-      <%= ft_fields.label :initial_amount, 'Amount', class: 'control-label col-xs-2' %>
+      <%= ft_fields.label :amount, 'Amount', class: 'control-label col-xs-2' %>
       <div class="col-xs-6">
-        <%= ft_fields.number_field :initial_amount, value: @incurred_incidental.financial_transaction.initial_amount, required: true, class: 'form-control' %>
+        <%= ft_fields.number_field :amount, value: @incurred_incidental.financial_transaction.amount, required: true, class: 'form-control' %>
       </div>
     <% end %>
   </div>
