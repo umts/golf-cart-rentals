@@ -104,7 +104,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
           expect do
             post :create, params: { financial_transaction: attributes }.merge(payment)
           end.to(change(FinancialTransaction, :count).by(1)) && change(Payment, :count).by(1)
-          expect(assigns(:financial_transaction).reference).to eq 'asfadlj'
+          expect(assigns(:financial_transaction).transactable.reference).to eq 'asfadlj'
           expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
         end
       end
