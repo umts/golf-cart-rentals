@@ -51,7 +51,7 @@ class FinancialTransactionsController < ApplicationController
   end
 
   def payment_params
-    params.permit(:payment_type, :contact_name, :contact_email, :contact_phone)
+    params.permit(:payment_type, :contact_name, :contact_email, :contact_phone, :reference)
   end
 
   # Only allow a trusted parameter "white list" through.
