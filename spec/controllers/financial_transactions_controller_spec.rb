@@ -14,14 +14,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     (build :financial_transaction, :with_incidental).attributes.symbolize_keys
   end
 
-  let(:ft_transact_fee) do
-    (build :financial_transaction, :with_fee).attributes.symbolize_keys
-  end
-
-  let(:ft_transact_payment) do
-    (build :financial_transaction, :with_payment).attributes.symbolize_keys
-  end
-
   describe 'GET #index' do
     it 'assigns all financial_transactions as @financial_transactions' do
       financial_transaction = create(:financial_transaction, :with_rental) # this actually creates two, one for the association and one for this
@@ -58,13 +50,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
     end
 
-    it 'properly creates @financial_transaction for a FeeSchedule based FinancialTransaction' do
-      skip('fee shedule is not done yet')
-      rental = create :rental
-      get :new, params: { rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id }
-      expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
-    end
-
     it 'properly handles an invalid rental reference' do
       rental = create :rental
       get :new, params: { rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id }
@@ -90,6 +75,7 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:rental_id])
+        expect(assigns(:financial_transaction).amount).to eq attributes[:amount]
         expect(assigns(:financial_transaction).transactable_type).to eq(Rental.name)
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end
@@ -115,19 +101,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:transactable_id])
-        expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
-        expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
-      end
-
-      it 'creates a new FeeSchedule based FinancialTransaction' do
-        skip('not yet implemented')
-        attributes = ft_transact_fee # ft_transact_fee has to create one for its rental as well
-        expect do
-          post :create, params: { financial_transaction: ft_transact_fee }
-        end.to change(FinancialTransaction, :count).by(1)
-        expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
-        expect(assigns(:financial_transaction)).to be_persisted
-        expect(assigns(:financial_transaction).transactable_id).to eq(ii.id)
         expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end

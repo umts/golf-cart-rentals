@@ -7,7 +7,7 @@ describe IncurredIncidentalsController do
     inc[:rental_id] = create(:rental).id
     inc[:incidental_type_id] = create(:incidental_type).id
     inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
-    inc[:financial_transaction_attributes] = { initial_amount: 44 }
+    inc[:financial_transaction_attributes] = { amount: 44 }
     inc
   end
 
@@ -150,13 +150,13 @@ describe IncurredIncidentalsController do
   describe 'POST #update' do
     context 'with valid params' do
       it 'updates the incurred incidental in the database' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { initial_amount: 5 } } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { amount: 5 } } }
         incurred_incidental.reload
-        expect(incurred_incidental.financial_transaction.initial_amount).to eq(5)
+        expect(incurred_incidental.financial_transaction.amount).to eq(5)
       end
 
       it 'redirects to the updated incurred incidentals :show page' do
-        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { initial_amount: 5 } } }
+        post :update, params: { id: incurred_incidental, incurred_incidental: { financial_transaction_attributes: { amount: 5 } } }
         expect(response).to redirect_to incurred_incidental
       end
     end

@@ -82,7 +82,7 @@ class IncurredIncidentalsController < ApplicationController
     incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id,
                                                              :amount, notes_attributes: [:note],
                                                                       documents_attributes: [:description, :uploaded_file],
-                                                                      financial_transaction_attributes: [:initial_amount, :id])
+                                                                      financial_transaction_attributes: [:amount, :id])
     incidental[:financial_transaction_attributes][:rental_id] = incidental[:rental_id]
     filter_empty_docs(incidental)
   end
@@ -92,7 +92,7 @@ class IncurredIncidentalsController < ApplicationController
     incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id,
                                                              :amount, notes_attributes: [:note],
                                                                       documents_attributes: [:description, :uploaded_file, :id],
-                                                                      financial_transaction_attributes: [:initial_amount, :id])
+                                                                      financial_transaction_attributes: [:amount, :id])
     incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id if incidental[:financial_transaction_attributes]
     filter_empty_docs(incidental)
   end
