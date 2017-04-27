@@ -13,7 +13,7 @@
   <tr>
     <td><%= rental.item_type.name%></td>
     <td><%= rental.item.name%></td>
-    <td><%= number_to_currency(rental.financial_transaction.initial_amount) %></td>
+    <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.renter.full_name %></td>
     <td><%= rental.department.name %></td>
     <td><%= rental.start_time.to_date %></td>
