@@ -44,6 +44,8 @@ class Rental < ActiveRecord::Base
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
 
+  delegate :payments, to: :financial_transactions
+
   aasm column: :rental_status do
     state :reserved, initial: true
     state :picked_up
@@ -154,10 +156,6 @@ class Rental < ActiveRecord::Base
                 url: Rails.application.routes.url_helpers.rental_path(rental.id) }
     end
     arr
-  end
-
-  def payments
-    financial_transactions.payments
   end
 
   def sum_charges
