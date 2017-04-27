@@ -139,11 +139,11 @@ RSpec.describe Rental do
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it for realzies
       create :item
-      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42", item: { name: Item.first.name }})
+      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: Item.first.name })
 
       rental = create :rental
       expect(rental).to be_reserved
-      expect(rental.reservation_id).to eq "42"
+      expect(rental.reservation_id).to eq '42'
     end
 
     it 'doesnt create a rental if the reservation fails' do
@@ -151,7 +151,7 @@ RSpec.describe Rental do
 
       expect do
         (build :rental).save
-      end.not_to change(Rental,:count)
+      end.not_to change(Rental, :count)
     end
 
     it 'doesnt create a rental if the reservation thows an error' do
@@ -160,7 +160,7 @@ RSpec.describe Rental do
 
       expect do
         (build :rental).save
-      end.not_to change(Rental,:count)
+      end.not_to change(Rental, :count)
     end
   end
 
