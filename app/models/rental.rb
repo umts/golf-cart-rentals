@@ -156,6 +156,10 @@ class Rental < ActiveRecord::Base
     arr
   end
 
+  def payments
+    financial_transactions.payments
+  end
+
   def sum_charges
     financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
                           .inject(0) { |acc, elem| acc + elem.amount }

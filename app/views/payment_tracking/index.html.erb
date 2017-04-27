@@ -36,6 +36,7 @@
         <th>Renter Department/Name</th>
         <th>Days Since Reservation</th>
         <th>Balance Due</th>
+        <th>Payment Reference</th>
         <th class="min-width nosortcol">Actions</th>
       </tr>
     </thead>
@@ -48,6 +49,7 @@
           <td><%= if rental.renter.department then rental.renter.department.name else rental.renter.full_name end %></td>
           <td><%= ((Time.current-rental.created_at) / 1.days ).floor %></td>
           <td><%= number_to_currency rental.balance %></td>
+          <td><%= rental.payments.map { |ft| ft.transactable.reference }.join ', ' %></td>
           <td class="min-width">
             <%= link_to (content_tag(:span, nil, class: 'glyphicon glyphicon-eye-open')+' View'), rental, class: "btn btn-xs btn-success" %>
             <a href="#" id=<%= "paymentTrackingSendInvoice#{rental.id}" %> class="btn btn-xs btn-primary payment_tracking_send_invoice"><span class="glyphicon glyphicon-envelope"></span> Send Invoice</a>

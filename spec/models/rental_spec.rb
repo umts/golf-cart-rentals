@@ -344,6 +344,15 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#payments' do
+    it 'returns payments for that rental' do
+      rental = create :rental
+      one = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      two = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      expect(rental.payments).to contain_exactly one, two
+    end
+  end
+
   it "doesn't allow a zero day rental" do
     time = Time.current
     rent = build(:mock_rental, start_time: time, end_time: time)
