@@ -109,4 +109,12 @@ module ApplicationHelper
       'Ongoing rental'
     end
   end
+
+  def rentals_with_permission_to_view
+    if @current_user.has_permisssion('rentals', 'view_any')
+      Rental.all
+    else
+      Rental.where(department: @current_user.department)
+    end
+  end
 end
