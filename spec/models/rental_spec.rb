@@ -139,11 +139,11 @@ RSpec.describe Rental do
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it for realzies
       create :item
-      allow(Inventory).to receive(:create_reservation).and_return({ uuid: "42", item: { name: Item.first.name }})
+      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: Item.first.name })
 
       rental = create :rental
       expect(rental).to be_reserved
-      expect(rental.reservation_id).to eq "42"
+      expect(rental.reservation_id).to eq '42'
     end
 
     it 'doesnt create a rental if the reservation fails' do
@@ -151,7 +151,7 @@ RSpec.describe Rental do
 
       expect do
         (build :rental).save
-      end.not_to change(Rental,:count)
+      end.not_to change(Rental, :count)
     end
 
     it 'doesnt create a rental if the reservation thows an error' do
@@ -160,7 +160,7 @@ RSpec.describe Rental do
 
       expect do
         (build :rental).save
-      end.not_to change(Rental,:count)
+      end.not_to change(Rental, :count)
     end
   end
 
@@ -341,6 +341,15 @@ RSpec.describe Rental do
       @item_type = create :item_type
       @rental = create :mock_rental, item_type: @item_type
       expect(@rental.event_name).to eq("#{@item_type.name}(#{@item_type.id}) - Rental ID: #{@rental.id}")
+    end
+  end
+
+  describe '#payments' do
+    it 'returns payments for that rental' do
+      rental = create :rental
+      one = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      two = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      expect(rental.payments).to contain_exactly one, two
     end
   end
 

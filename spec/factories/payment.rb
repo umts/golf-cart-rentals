@@ -5,5 +5,6 @@ FactoryGirl.define do
     contact_name 'billy'
     contact_email 'billy@bill.net'
     contact_phone '8606176147'
+    reference 'AAAABBBB'
   end
 end
