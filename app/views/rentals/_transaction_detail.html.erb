@@ -11,7 +11,7 @@
       <tr>
         <td><%= ft.created_at.to_date %></td>
         <td><%= ft.transactable_type %></td>
-        <td><%= number_to_currency (ft.value || 0) %></td>
+        <td><%= number_to_currency (ft.amount || 0) %></td>
       </tr>
     <% end %>
   </tbody>
