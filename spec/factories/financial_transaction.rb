@@ -8,7 +8,7 @@ FactoryGirl.define do
     rental
 
     trait :with_rental do
-      after(:build) { |f| f.transactable = f.rental }
+      after(:build) { |o| o.transactable = o.rental }
     end
 
     trait :with_payment do

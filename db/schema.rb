@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420205233) do
+ActiveRecord::Schema.define(version: 20170427164818) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20170420205233) do
     t.string   "contact_email"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "reference"
   end
 
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

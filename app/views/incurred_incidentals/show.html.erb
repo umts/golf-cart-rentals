@@ -41,7 +41,6 @@
         <% if @incurred_incidental.financial_transaction %>
           <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.rental.basic_info %></p>
           <p>Amount:               <%= number_to_currency @incurred_incidental.financial_transaction.amount %></p>
-          <p>Adjustment:           <%= number_to_currency @incurred_incidental.financial_transaction.adjustment %></p>
         <% else %>
           <p>Financial information will be available once the Damage Tracking information is updated with the actual costs.</p>
         <% end %>
