@@ -17,6 +17,6 @@ FactoryGirl.define do
 
   factory :invalid_incidental, parent: :incurred_incidental do
     rental_id nil
-    financial_transaction_attributes initial_amount: 5
+    financial_transaction_attributes amount: 5
   end
 end

@@ -4,12 +4,11 @@ FactoryGirl.define do
     f.note_field 'Property of Factory Girl'
     f.created_at DateTime.now
     f.updated_at DateTime.now
-    f.adjustment 0
-    f.initial_amount 1
+    f.amount 1
     rental
 
     trait :with_rental do
-      after(:build) { |f| f.transactable = f.rental }
+      after(:build) { |o| o.transactable = o.rental }
     end
 
     trait :with_payment do

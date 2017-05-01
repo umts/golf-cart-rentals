@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418163930) do
+ActiveRecord::Schema.define(version: 20170427164818) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -46,8 +46,7 @@ ActiveRecord::Schema.define(version: 20170418163930) do
     t.integer  "rental_id"
     t.integer  "transactable_id"
     t.string   "transactable_type"
-    t.integer  "initial_amount",                  default: 0, null: false
-    t.integer  "adjustment",                      default: 0, null: false
+    t.integer  "amount",                          default: 0, null: false
     t.text     "note_field",        limit: 65535
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
@@ -152,6 +151,7 @@ ActiveRecord::Schema.define(version: 20170418163930) do
     t.string   "contact_email"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "reference"
   end
 
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

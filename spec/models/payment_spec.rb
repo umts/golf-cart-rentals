@@ -26,6 +26,10 @@ RSpec.describe Payment, type: :model do
     it 'requires length contact_phone to be 10' do
       expect(build(:payment, contact_phone: '1' * 9)).not_to be_valid
     end
+
+    it 'has an optional reference field' do
+      expect(build(:payment, reference: nil)).to be_valid
+    end
   end
 
   context 'payment_type enum' do

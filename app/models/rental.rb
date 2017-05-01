@@ -9,6 +9,8 @@ class Rental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
 
   after_create :create_financial_transaction
+  # create reservation unless it has already been created
+  before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
@@ -42,6 +44,8 @@ class Rental < ActiveRecord::Base
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
 
+  delegate :payments, to: :financial_transactions
+
   aasm column: :rental_status do
     state :reserved, initial: true
     state :picked_up
@@ -53,7 +57,8 @@ class Rental < ActiveRecord::Base
     event :cancel do
       transitions from: :reserved, to: :canceled
       after do
-        financial_transaction.zero_balance 'Canceling a reservation and zero-ing balance'
+        # Canceling a reservation and zero-ing balance
+        FinancialTransaction.create amount: balance, transactable_type: Cancelation.name, rental: self
       end
     end
 
@@ -88,14 +93,16 @@ class Rental < ActiveRecord::Base
   end
 
   def create_reservation
-    return false unless valid? # check if the current rental object is valid or not
+    throw :abort unless valid? # check if the current rental object is valid or not
     begin
       reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
+      raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+
       self.reservation_id = reservation[:uuid]
       self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
       errors.add :base, error.inspect
-      return false
+      throw :abort
     end
   end
 
@@ -152,11 +159,13 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
+    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
+                          .inject(0) { |acc, elem| acc + elem.amount }
   end
 
   def sum_payments
-    financial_transactions.where(transactable_type: Payment.name).inject(0) { |acc, elem| acc + elem.balance }
+    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
+                          .inject(0) { |acc, elem| acc + elem.amount }
   end
 
   def balance
@@ -166,14 +175,6 @@ class Rental < ActiveRecord::Base
   def duration
     (end_time.to_date - start_time.to_date).to_i + 1
   end
-
-  # this method seems really inefficient
-  # def self.with_balance_due
-  # Rental.select { |x| x.balance > 0 }
-  # end
-
-  # private
-  attr_accessor :skip_reservation_validation
 
   def self.cost(start_time, end_time, item_type)
     return 0 if start_time > end_time
@@ -187,6 +188,6 @@ class Rental < ActiveRecord::Base
 
   def create_financial_transaction
     rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
-    FinancialTransaction.create rental: self, initial_amount: rental_amount, transactable_type: self.class, transactable_id: id
+    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
 end

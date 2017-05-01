@@ -6,20 +6,16 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     (build :financial_transaction, :with_rental).attributes.symbolize_keys
   end
 
+  let(:ft_transact_payment) do
+    (build :financial_transaction, :with_payment).attributes.symbolize_keys
+  end
+
   let(:financial_transaction) do
     (build :financial_transaction).attributes.symbolize_keys
   end
 
   let(:ft_transact_incidental) do
     (build :financial_transaction, :with_incidental).attributes.symbolize_keys
-  end
-
-  let(:ft_transact_fee) do
-    (build :financial_transaction, :with_fee).attributes.symbolize_keys
-  end
-
-  let(:ft_transact_payment) do
-    (build :financial_transaction, :with_payment).attributes.symbolize_keys
   end
 
   describe 'GET #index' do
@@ -58,13 +54,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
     end
 
-    it 'properly creates @financial_transaction for a FeeSchedule based FinancialTransaction' do
-      skip('fee shedule is not done yet')
-      rental = create :rental
-      get :new, params: { rental_id: rental.id, transactable_type: FeeSchedule.name, transactable_id: rental.id }
-      expect(assigns(:financial_transaction)).to be_a_new(FinancialTransaction)
-    end
-
     it 'properly handles an invalid rental reference' do
       rental = create :rental
       get :new, params: { rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id }
@@ -90,21 +79,34 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:rental_id])
+        expect(assigns(:financial_transaction).amount).to eq attributes[:amount]
         expect(assigns(:financial_transaction).transactable_type).to eq(Rental.name)
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end
 
-      it 'creates a payment based FinancialTransaction' do # specialized logic, params are passed in root and payment is created in this controller
-        attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
-        payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309' }
-        expect do
-          post :create, params: { financial_transaction: attributes }.merge(payment)
-        end.to(change(FinancialTransaction, :count).by(1)) && change(Payment, :count).by(1)
-        expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
-        expect(assigns(:financial_transaction)).to be_persisted
-        expect(assigns(:financial_transaction).transactable_id).to eq(Payment.last.id)
-        expect(assigns(:financial_transaction).transactable_type).to eq(Payment.name)
-        expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
+      context 'payment based' do
+        it 'creates a payment based FinancialTransaction' do # specialized logic, params are passed in root and payment is created in this controller
+          attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
+          payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309' }
+          expect do
+            post :create, params: { financial_transaction: attributes }.merge(payment)
+          end.to(change(FinancialTransaction, :count).by(1)) && change(Payment, :count).by(1)
+          expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
+          expect(assigns(:financial_transaction)).to be_persisted
+          expect(assigns(:financial_transaction).transactable_id).to eq(Payment.last.id)
+          expect(assigns(:financial_transaction).transactable_type).to eq(Payment.name)
+          expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
+        end
+
+        it 'also takes a reference field' do
+          attributes = financial_transaction.merge(transactable_type: Payment.name) # creates a rental at the same time
+          payment = { payment_type: Payment.payment_types.keys.first, contact_name: 'jill', contact_email: 'jill@gmail.com', contact_phone: '8608675309', reference: 'asfadlj' }
+          expect do
+            post :create, params: { financial_transaction: attributes }.merge(payment)
+          end.to(change(FinancialTransaction, :count).by(1)) && change(Payment, :count).by(1)
+          expect(assigns(:financial_transaction).transactable.reference).to eq 'asfadlj'
+          expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
+        end
       end
 
       it 'creates a new IncurredIncidental based FinancialTransaction' do
@@ -115,19 +117,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
         expect(assigns(:financial_transaction)).to be_persisted
         expect(assigns(:financial_transaction).transactable_id).to eq(attributes[:transactable_id])
-        expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
-        expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
-      end
-
-      it 'creates a new FeeSchedule based FinancialTransaction' do
-        skip('not yet implemented')
-        attributes = ft_transact_fee # ft_transact_fee has to create one for its rental as well
-        expect do
-          post :create, params: { financial_transaction: ft_transact_fee }
-        end.to change(FinancialTransaction, :count).by(1)
-        expect(assigns(:financial_transaction)).to be_a(FinancialTransaction)
-        expect(assigns(:financial_transaction)).to be_persisted
-        expect(assigns(:financial_transaction).transactable_id).to eq(ii.id)
         expect(assigns(:financial_transaction).transactable_type).to eq(IncurredIncidental.name)
         expect(response).to redirect_to(action: :invoice, controller: :rentals, id: attributes[:rental_id])
       end

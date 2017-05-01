@@ -102,10 +102,10 @@ RSpec.describe Rental do
       rental_unpaid = create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).initial_amount
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
 
       # pay for rental
-      create :financial_transaction, :with_payment, initial_amount: amount, rental: rental_paid
+      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
       # now rental_paid has no balance due
 
       expect(Rental.with_balance_due).to contain_exactly rental_unpaid
@@ -118,10 +118,10 @@ RSpec.describe Rental do
       create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).initial_amount
+      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
 
       # pay for rental
-      create :financial_transaction, :with_payment, initial_amount: amount, rental: rental_paid
+      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
@@ -130,13 +130,37 @@ RSpec.describe Rental do
   end
 
   describe '#create_rental' do
-    before(:each) do
-      @rent = create :mock_rental
-    end
-
     it 'creates a rental with valid parameters' do
+      @rent = create :mock_rental
       expect(@rent).to be_valid
       expect(Rental.find(@rent.id)).to eq(@rent)
+    end
+
+    it 'creates associated reservation' do
+      # mock up the api so it doesnt make it for realzies
+      create :item
+      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: Item.first.name })
+
+      rental = create :rental
+      expect(rental).to be_reserved
+      expect(rental.reservation_id).to eq '42'
+    end
+
+    it 'doesnt create a rental if the reservation fails' do
+      allow(Inventory).to receive(:create_reservation).and_return({})
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental, :count)
+    end
+
+    it 'doesnt create a rental if the reservation thows an error' do
+      # generic exception
+      allow(Inventory).to receive(:create_reservation).and_raise(StandardError)
+
+      expect do
+        (build :rental).save
+      end.not_to change(Rental, :count)
     end
   end
 
@@ -178,15 +202,22 @@ RSpec.describe Rental do
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
-      sum_amount = FinancialTransaction.where(rental: @rental).map(&:initial_amount).inject(:+)
+      sum_amount = FinancialTransaction.where(rental: @rental).map(&:amount).inject(:+)
       expect(@rental.balance).to eq(sum_amount)
     end
 
     it 'returns the cost-payments' do
-      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:initial_amount)
-      create(:financial_transaction, transactable: create(:payment), initial_amount: sum_amount, rental: @rental)
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+      create(:financial_transaction, transactable: create(:payment), amount: sum_amount, rental: @rental)
 
       expect(@rental.balance).to be_zero # fully paid
+    end
+
+    it 'handles a cancelation' do
+      sum_amount = @rental.financial_transactions.where.not(transactable_type: Payment.name).sum(:amount)
+      create(:financial_transaction, transactable_type: Cancelation.name, amount: sum_amount, rental: @rental)
+
+      expect(@rental.balance).to be_zero # fully paid, because it was canceled
     end
   end
 
@@ -199,9 +230,22 @@ RSpec.describe Rental do
       expect(@rental).to be_reserved
     end
 
-    it 'is canceled after cancel' do
-      @rental.cancel!
-      expect(@rental).to be_canceled
+    context 'cancelation' do
+      it 'changes state to canceled' do
+        @rental.cancel!
+        expect(@rental).to be_canceled
+      end
+
+      it 'creates a cancelation ft' do
+        expect do
+          @rental.cancel!
+        end.to change(FinancialTransaction, :count).by(1)
+      end
+
+      it 'is zero balanced' do
+        @rental.cancel!
+        expect(@rental.balance).to be_zero
+      end
     end
 
     it 'is picked_up after pickup' do
@@ -300,6 +344,15 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#payments' do
+    it 'returns payments for that rental' do
+      rental = create :rental
+      one = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      two = create :financial_transaction, :with_payment, amount: 1, rental: rental
+      expect(rental.payments).to contain_exactly one, two
+    end
+  end
+
   it "doesn't allow a zero day rental" do
     time = Time.current
     rent = build(:mock_rental, start_time: time, end_time: time)
@@ -307,31 +360,31 @@ RSpec.describe Rental do
   end
   it 'creates a 1 day financial transaction' do
     rent = create :mock_rental, end_time: (Time.current + 1.second)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([110])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
   end
   it 'creates a 2 day financial transaction' do
     rent = create :mock_rental
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([120])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
   end
   it 'creates a 3 day financial transaction' do
     rent = create :mock_rental, end_time: (Time.current + 2.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([130])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([130])
   end
   it 'creates a 7 day financial transaction(1 day free)' do
     rent = create :mock_rental, end_time: (Time.current + 6.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([160])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
   end
   it 'creates a 8 day financial transaction(1 day free)' do
     rent = create :mock_rental, end_time: (Time.current + 7.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([170])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([170])
   end
   it 'creates a 15 day financial transaction(2 days free)' do
     rent = create :mock_rental, end_time: (Time.current + 14.days)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([230])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([230])
   end
   it 'creates a 2 day financial transaction with different fees' do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
-    expect(FinancialTransaction.where(rental: rent).map(&:initial_amount)).to eq([240])
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([240])
   end
 
   describe '#delete_reservation' do
@@ -341,22 +394,6 @@ RSpec.describe Rental do
         r.create_reservation
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
         expect(r.delete_reservation).to be false
-      end
-    end
-  end
-
-  describe '#create_reservation' do
-    context 'error thrown' do
-      it 'logs error and returns false for a series of errors' do
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::InventoryError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::ReservationError)
-        expect(r.create_reservation).to be false
-        r = build(:rental)
-        allow(Inventory).to receive(:create_reservation).and_raise(InventoryExceptions::AuthError)
-        expect(r.create_reservation).to be false
       end
     end
   end
