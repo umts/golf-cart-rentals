@@ -35,14 +35,15 @@ class ItemTypesController < ApplicationController
   end
 
   def refresh_item_types(base_fee = 0, fee_per_day = 0)
-    inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
-      memo[i['name']] = i['uuid']
+    begin
+      inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+        memo[i['name']] = i['uuid']
+      end
+      refresh_items_helper(inv_item_types, base_fee, fee_per_day)
+      flash[:success] ||= 'Successfully Updated Item Types.'
+    rescue => error
+      flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
     end
-    refresh_items_helper(inv_item_types, base_fee, fee_per_day)
-    flash[:success] ||= 'Item Types Successfully Updated.'
-    redirect_to item_types_path
-  rescue => error
-    flash[:danger] = "Failed to Refresh Item Types. #{error.inspect}"
     redirect_to item_types_path
   end
 
@@ -63,11 +64,8 @@ class ItemTypesController < ApplicationController
         memo[i[:name]] = i[:uuid]
       end
 
-      next unless item_types.keys.include?(inv_item_type[0])
-      begin
+      unless item_types.keys.include?(inv_item_type[0])
         ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1], base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
-      rescue => error
-        flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
       end
     end
   end
