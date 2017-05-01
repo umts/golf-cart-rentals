@@ -124,4 +124,30 @@ describe ApplicationHelper do
       expect(flash_message(:danger, 'Danger Danger')).to eq(['Danger Danger'])
     end
   end
+
+  describe '#rentals_visible_to_current_user' do
+    it 'only gives rentals with permission to view' do
+      u1 = create :user, department: create(:department)
+      u2 = create :user, department: create(:department)
+
+      r1 = create :mock_rental, renter: u1, creator: u1
+      create :mock_rental, renter: u2, creator: u2
+
+      current_user u1 # should only be able to see r1
+
+      expect(rentals_visible_to_current_user).to contain_exactly r1
+    end
+
+    it 'with permission can view all rentals' do
+      current_user(super_user) # this guy has all the permissions!
+
+      u1 = create :user, department: create(:department)
+      u2 = create :user, department: create(:department)
+
+      r1 = create :mock_rental, renter: u1, creator: u1
+      r2 = create :mock_rental, renter: u2, creator: u2
+
+      expect(rentals_visible_to_current_user).to contain_exactly r1, r2
+    end
+  end
 end
