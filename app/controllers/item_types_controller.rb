@@ -20,9 +20,7 @@ class ItemTypesController < ApplicationController
     end
   end
 
-  def new_item_type
-    @item_type = ItemType.new
-  end
+  def new_item_type;  end
 
   def create_item_type
     name = params[:name]
