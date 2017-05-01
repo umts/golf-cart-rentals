@@ -21,17 +21,17 @@ class ItemTypesController < ApplicationController
   end
 
   def new_item_type
-    @item_types = ItemType.all
+    @item_type = ItemType.new
   end
 
   def create_item_type
     name = params[:name]
     base_fee = params[:base_fee]
     fee_per_day = params[:fee_per_day]
-    if name.present?
-      create_item_type_helper(name, base_fee, fee_per_day) # protect better
+    if name.present? && base_fee.present? && fee_per_day.present?
+      create_item_type_helper(name, base_fee, fee_per_day)
     else
-      flash[:danger] = 'Invalid Item Type' # better errors
+      flash[:danger] = 'Please Fill All Fields Then Try Again.'
       redirect_to new_item_types_path
     end
   end
@@ -48,23 +48,23 @@ class ItemTypesController < ApplicationController
       unless item_types.keys.include?(inv_item_type[0])
         begin
           ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1], base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
-          flash[:success] ||= 'Item Types Successfully Updated'
         rescue => error
           flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
         end
       end
     end
+    flash[:success] ||= 'Item Types Successfully Updated.'
     redirect_to item_types_path
   end
 
   private
 
-  def create_item_type_helper(name)
+  def create_item_type_helper(name, base_fee, fee_per_day)
     Inventory.create_item_type(name)
-    flash[:success] = 'Item Type Successfully Created'
-    refresh_item_types
-  rescue => error
-    flash[:danger] = "Failed To Create Item Type In API. #{error.inspect}"
+    flash[:success] = 'Item Type Successfully Created.'
+    refresh_item_types(base_fee, fee_per_day)
+  rescue
+    flash[:danger] = "That Item Type Already Exists."
     redirect_to new_item_types_path
   end
 

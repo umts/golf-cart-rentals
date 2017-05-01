@@ -1,6 +1,8 @@
 <% provide( :page_header, 'Item Types' ) %>
 
+<%= link_to 'New Item Type', new_item_types_path, class: 'btn btn-primary btn-md reserve-4' %>
 <%= link_to 'Reload Item Types', { :controller => "item_types", :action => "refresh_item_types" }, class:'btn btn-primary btn-md reserve-4' %>
+<br><br>
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
