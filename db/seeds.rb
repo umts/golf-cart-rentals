@@ -94,9 +94,6 @@ puts '*****************************'
 puts 'Updating permissions'
 admin = Group.find_by name: 'admin'
 Permission.update_permissions_table
-Permission.where(controller: 'rentals', action: 'cost_adjustment').first_or_create # this is a special permission that isnt really a controller action
-Permission.where(controller: 'rentals', action: 'assign_anyone').first_or_create # this is a special permission that allows the user to assign users outside their dept
-Permission.where(controller: 'rentals', action: 'view_any').first_or_create # this is a special permission that allows the user to view any rental, even ones not in their dept
 
 puts 'Giving all permissions to admin'
 Permission.all.each do |p|

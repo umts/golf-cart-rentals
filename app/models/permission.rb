@@ -54,5 +54,10 @@ class Permission < ActiveRecord::Base
         Permission.find_or_create_by(controller: controller.name.gsub!('Controller', '').underscore, action: action, id_field: nil)
       end
     end
+
+    # Handle our special perms
+    SPECIAL_PERMS.each do |p|
+      Permission.where(p).first_or_create
+    end
   end
 end
