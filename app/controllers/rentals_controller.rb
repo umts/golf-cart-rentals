@@ -177,6 +177,6 @@ class RentalsController < ApplicationController
     user = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
+                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, end_time: new_time)
   end
 end

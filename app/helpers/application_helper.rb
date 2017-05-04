@@ -115,7 +115,8 @@ module ApplicationHelper
     if @current_user.has_permission?('rentals', 'view_any')
       Rental.all
     else
-      Rental.where(department: @current_user.department)
+      dept = @current_user.department
+      dept.rented_rentals + dept.created_rentals
     end
   end
 end
