@@ -111,6 +111,7 @@ module ApplicationHelper
   end
 
   def rentals_visible_to_current_user
+    binding.pry
     if @current_user.has_permission?('rentals', 'view_any')
       Rental.all
     else

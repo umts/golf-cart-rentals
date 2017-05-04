@@ -50,6 +50,5 @@ def current_user(user = nil)
 end
 
 def super_user
-  binding.pry
   create(:user, groups: [create(:group, permissions: Permission.all)])
 end

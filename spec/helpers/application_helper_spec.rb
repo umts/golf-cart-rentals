@@ -127,8 +127,9 @@ describe ApplicationHelper do
 
   describe '#rentals_visible_to_current_user' do
     it 'only gives rentals with permission to view' do
-      u1 = create :user, department: create(:department)
-      u2 = create :user, department: create(:department)
+      # each have different departments
+      u1 = create :user
+      u2 = create :user
 
       r1 = create :mock_rental, renter: u1, creator: u1
       create :mock_rental, renter: u2, creator: u2
@@ -141,8 +142,9 @@ describe ApplicationHelper do
     it 'with permission can view all rentals' do
       current_user(super_user) # this guy has all the permissions!
 
-      u1 = create :user, department: create(:department)
-      u2 = create :user, department: create(:department)
+      # each have different departments
+      u1 = create :user
+      u2 = create :user
 
       r1 = create :mock_rental, renter: u1, creator: u1
       r2 = create :mock_rental, renter: u2, creator: u2
