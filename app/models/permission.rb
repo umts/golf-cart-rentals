@@ -28,6 +28,9 @@ class Permission < ActiveRecord::Base
     # Delete all permissions that do not map to a valid controller action
     Rails.application.eager_load!
     Permission.all.find_each do |permission|
+      # first check if it is one of our special permissions
+      next if SPECIAL_PERMS.include?(permission.attributes.slice('action', 'controller'))
+
       controller = ApplicationController.descendants.find { |c| c.name == "#{permission.controller}_controller".camelcase }
       # Destroy the permission if the controller doesn't exist
       if controller.nil?
