@@ -16,6 +16,10 @@ describe PaymentTrackingController do
     rental_paid
   end
 
+  before :each do
+    current_user super_user
+  end
+
   describe 'get #index' do
     it 'only returns unpaid rentals' do
       unpaid_rental
@@ -33,7 +37,7 @@ describe PaymentTrackingController do
   end
 
   describe 'post #send_invoice' do
-    context 'sends and email' do
+    context 'sends an email' do
       # will send invoice even if there is no balance due
       it 'for a paid rental' do
         paid_rental
@@ -52,6 +56,19 @@ describe PaymentTrackingController do
           expect do
             post :send_invoice, params: { rental_id: unpaid_rental.id }
           end.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
+      end
+    end
+
+    context 'doesnt send invoice' do
+      it 'doesnt have permission' do
+        current_user # set to new unprivileged user
+        unpaid_rental
+
+        perform_enqueued_jobs do
+          expect do
+            post :send_invoice, params: { rental_id: unpaid_rental.id }
+          end.to change { ActionMailer::Base.deliveries.count }.by(0)
         end
       end
     end
@@ -80,6 +97,12 @@ describe PaymentTrackingController do
       end
       expect(response.code).to eq '207'
       expect(JSON.parse(response.body)['errors']).to contain_exactly('-1', '-2')
+    end
+
+    context 'doesnt send invoice' do
+      it 'doesnt have permission' do
+
+      end
     end
   end
 end

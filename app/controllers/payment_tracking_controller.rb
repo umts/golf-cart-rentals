@@ -5,7 +5,7 @@ class PaymentTrackingController < ApplicationController
 
     # collect rentals with balance over or eq to
     min = params.permit(:balance_gteq)[:balance_gteq].to_f || 0
-    search_area = Rental.with_balance_over(min)
+    search_area = rentals_visible_to_current_user.with_balance_over(min)
 
     search_q = params[:q].permit(:created_at_gteq, :created_at_lteq)
     # move these to end or beginning of day but only if they are present
@@ -27,7 +27,7 @@ class PaymentTrackingController < ApplicationController
   # returns 204 by default and will not cause navigation in browser
   def send_invoice
     rental = Rental.find params.require(:rental_id)
-    InvoiceMailer.send_invoice(rental).deliver_later # async delivery
+    InvoiceMailer.send_invoice(rental).deliver_later unless check_permission_for(rental) # async delivery
   end
 
   def send_many_invoices
@@ -35,12 +35,19 @@ class PaymentTrackingController < ApplicationController
     errors = []
     rentals.each do |id|
       rental = Rental.find_by(id: id)
-      if rental
+      if rental && check_permission_for(rental)
         InvoiceMailer.send_invoice(rental).deliver_later
       else
         errors.push id
       end
     end
     render json: { errors: errors }, status: (errors.any? ? 207 : 200)
+  end
+
+  private
+
+  def check_permission_for(rental)
+    @rentals ||= rentals_visible_to_current_user
+    @rentals.include? rental
   end
 end
