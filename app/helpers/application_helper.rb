@@ -111,12 +111,12 @@ module ApplicationHelper
   end
 
   def rentals_visible_to_current_user
-    binding.pry
     if @current_user.has_permission?('rentals', 'view_any')
       Rental.all
     else
       dept = @current_user.department
-      dept.rented_rentals + dept.created_rentals
+      # need uniq because a rental could be created by and rented by same user
+      (dept.rented_rentals + dept.created_rentals).uniq
     end
   end
 end
