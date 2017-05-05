@@ -101,7 +101,19 @@ describe PaymentTrackingController do
 
     context 'doesnt send invoice' do
       it 'doesnt have permission' do
+        current_user # set to new unprivileged user
 
+        # creates rental now so they dont get emails sent inside the perform_enqueued_jobs block
+        unpaid_rental
+        paid_rental
+
+        perform_enqueued_jobs do
+          expect do
+            post :send_many_invoices, params: { rentals: [unpaid_rental.id, paid_rental.id] } # these id's couldnt possibly exist
+          end.to change { ActionMailer::Base.deliveries.count }.by(0)
+        end
+        expect(response.code).to eq '207'
+        expect(JSON.parse(response.body)['errors']).to contain_exactly unpaid_rental.id.to_s, paid_rental.id.to_s
       end
     end
   end

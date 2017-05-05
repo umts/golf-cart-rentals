@@ -27,7 +27,7 @@ class PaymentTrackingController < ApplicationController
   # returns 204 by default and will not cause navigation in browser
   def send_invoice
     rental = Rental.find params.require(:rental_id)
-    InvoiceMailer.send_invoice(rental).deliver_later unless check_permission_for(rental) # async delivery
+    InvoiceMailer.send_invoice(rental).deliver_later if check_permission_for(rental) # async delivery
   end
 
   def send_many_invoices
@@ -47,7 +47,7 @@ class PaymentTrackingController < ApplicationController
   private
 
   def check_permission_for(rental)
-    @rentals ||= rentals_visible_to_current_user
+    @rentals ||= rentals_visible_to_current_user # will want to cache this
     @rentals.include? rental
   end
 end
