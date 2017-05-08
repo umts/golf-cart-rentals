@@ -109,4 +109,13 @@ module ApplicationHelper
       'Ongoing rental'
     end
   end
+
+  def rentals_visible_to_current_user
+    if @current_user.has_permission?('rentals', 'view_any')
+      Rental.all
+    else
+      dept = @current_user.department
+      Rental.joins('INNER JOIN users ON users.id=rentals.renter_id OR users.id=rentals.creator_id').where('users.department_id' => dept.id)
+    end
+  end
 end
