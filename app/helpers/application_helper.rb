@@ -115,7 +115,7 @@ module ApplicationHelper
       Rental.all
     else
       dept = @current_user.department
-      Rental.joins('INNER JOIN users ON users.id=rentals.renter_id OR users.id=rentals.creator_id').where("users.department_id" => dept.id)
+      Rental.joins('INNER JOIN users ON users.id=rentals.renter_id OR users.id=rentals.creator_id').where('users.department_id' => dept.id)
     end
   end
 end
