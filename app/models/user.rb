@@ -5,6 +5,11 @@ class User < ActiveRecord::Base
   has_many   :groups_users, dependent: :destroy
   has_many   :groups, through: :groups_users
 
+  # user is creator
+  has_many   :created_rentals, class_name: Rental.name, foreign_key: :creator_id
+  # user is renter
+  has_many   :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
+
   belongs_to :department
 
   validates :first_name, :last_name, :spire_id, :phone, :email, :department, presence: true
