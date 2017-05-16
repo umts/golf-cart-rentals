@@ -1,0 +1,11 @@
+- controller: 'rentals'
+  action: 'cost_adjustment'
+  # change cost of rentals
+
+- controller: 'rentals'
+  action: 'assign_anyone'
+  # assign people outside of creator's dept to renter
+
+- controller: 'rentals'
+  action: 'view_any'
+  # view all rentals, even outisde dept

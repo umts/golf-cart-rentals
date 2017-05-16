@@ -27,7 +27,7 @@ class Hold < ActiveRecord::Base
 
   def replace_rental(curr_rental)
     new_rental = Rental.new(item_type_id: curr_rental.item_type_id, creator_id: curr_rental.creator_id,
-                            renter_id: curr_rental.renter_id, department_id: curr_rental.department_id,
+                            renter_id: curr_rental.renter_id,
                             start_time: curr_rental.start_time, end_time: curr_rental.end_time)
     new_rental.create_reservation
     new_rental.save!

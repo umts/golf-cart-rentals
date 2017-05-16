@@ -12,7 +12,7 @@ class RentalsController < ApplicationController
 
   # GET /rentals
   def index
-    @q = Rental.all.search(params[:q])
+    @q = rentals_visible_to_current_user.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
 
     gon.reservations = Rental.to_json_reservations
@@ -57,7 +57,7 @@ class RentalsController < ApplicationController
 
   # GET /rentals/processing
   def processing
-    @q = Rental.all.search(params[:q])
+    @q = rentals_visible_to_current_user.search(params[:q])
     @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
                                                Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
   end
@@ -152,6 +152,7 @@ class RentalsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
+    render_401 && return unless rentals_visible_to_current_user.include? @rental
   end
 
   def set_financial_transactions
@@ -177,6 +178,6 @@ class RentalsController < ApplicationController
     user = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, department_id: user.try(:department_id), end_time: new_time)
+                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, end_time: new_time)
   end
 end

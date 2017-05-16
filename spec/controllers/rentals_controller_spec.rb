@@ -27,7 +27,8 @@ describe RentalsController do
     # which has permission to assign anyone for ease of use
     u = create :user, groups: [
       create(:group, permissions: [
-               create(:permission, controller: 'rentals', action: 'assign_anyone')
+               create(:permission, controller: 'rentals', action: 'assign_anyone'),
+               create(:permission, controller: 'rentals', action: 'view_any')
              ])
     ]
 
@@ -73,6 +74,12 @@ describe RentalsController do
     it 'renders the :show template' do
       get :show, params: { id: @rental }
       expect(response).to render_template :show
+    end
+
+    it 'wont render if they dont have permission' do
+      current_user # unprivileged user
+      get :show, params: { id: @rental }
+      expect(response).to render_template('errors/401.html.erb')
     end
   end
 

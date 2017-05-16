@@ -124,4 +124,45 @@ describe ApplicationHelper do
       expect(flash_message(:danger, 'Danger Danger')).to eq(['Danger Danger'])
     end
   end
+
+  describe '#rentals_visible_to_current_user' do
+    it 'only gives rentals with permission to view' do
+      # each have different departments
+      u1 = create :user
+      u2 = create :user
+
+      r1 = create :mock_rental, renter: u1, creator: u1
+      create :mock_rental, renter: u2, creator: u2
+
+      current_user u1 # should only be able to see r1
+
+      expect(rentals_visible_to_current_user).to contain_exactly r1
+    end
+
+    it 'also gives permission to view if they are creator' do
+      # each have different departments
+      u1 = create :user
+      u2 = create :user, groups: [create(:group, permissions: [create(:permission, controller: 'rentals', action: 'assign_anyone')])]
+
+      r1 = create :mock_rental, renter: u1, creator: u2
+      r2 = create :mock_rental, renter: u1, creator: u2
+
+      current_user u2 # this user created both
+
+      expect(rentals_visible_to_current_user).to contain_exactly r1, r2
+    end
+
+    it 'with permission can view all rentals' do
+      current_user(super_user) # this guy has all the permissions!
+
+      # each have different departments
+      u1 = create :user
+      u2 = create :user
+
+      r1 = create :mock_rental, renter: u1, creator: u1
+      r2 = create :mock_rental, renter: u2, creator: u2
+
+      expect(rentals_visible_to_current_user).to contain_exactly r1, r2
+    end
+  end
 end
