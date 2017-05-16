@@ -15,12 +15,11 @@ class Rental < ActiveRecord::Base
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  belongs_to :department
   belongs_to :item_type
   belongs_to :item
 
   validates :reservation_id, uniqueness: true
-  validates :renter, :creator, :start_time, :end_time, :item_type, :department, presence: true
+  validates :renter, :creator, :start_time, :end_time, :item_type, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
   validate :renter_is_assignable
@@ -45,6 +44,7 @@ class Rental < ActiveRecord::Base
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
 
   delegate :payments, to: :financial_transactions
+  delegate :department, to: :renter
 
   aasm column: :rental_status do
     state :reserved, initial: true

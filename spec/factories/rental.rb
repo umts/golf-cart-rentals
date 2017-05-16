@@ -3,7 +3,6 @@ FactoryGirl.define do
   factory :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    association :department
     association :item_type, name: 'TEST_ITEM_TYPE'
     association :item, name: 'TEST_ITEM'
     start_time Time.current
@@ -13,7 +12,6 @@ FactoryGirl.define do
   factory :invalid_rental, parent: :mock_rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    association :department
     association :item_type
     association :item
     start_time nil
@@ -23,7 +21,6 @@ FactoryGirl.define do
   factory :new_rental, parent: :mock_rental do
     creator_id nil
     renter_id nil
-    department_id nil
     item_type_id { create(:item_type).id }
     item_id { create(:item).id }
     start_time Time.current
@@ -33,7 +30,6 @@ FactoryGirl.define do
   factory :mock_rental, parent: :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    association :department
     association :item_type
     association :item
     sequence :reservation_id

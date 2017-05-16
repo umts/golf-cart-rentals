@@ -44,9 +44,6 @@ RSpec.describe Rental do
     it 'is invalid with an end_time before the start_time' do
       expect(build(:rental, start_time: Time.zone.tomorrow, end_time: Time.zone.today)).not_to be_valid
     end
-    it 'is invalid without a department_id' do
-      expect(build(:rental, department_id: nil)).not_to be_valid
-    end
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
         rental = create :mock_rental
@@ -350,6 +347,13 @@ RSpec.describe Rental do
       one = create :financial_transaction, :with_payment, amount: 1, rental: rental
       two = create :financial_transaction, :with_payment, amount: 1, rental: rental
       expect(rental.payments).to contain_exactly one, two
+    end
+  end
+
+  describe '#department' do
+    it 'delegates to renter' do
+      rental = create :mock_rental
+      expect(rental.department).to eq(rental.renter.department)
     end
   end
 
