@@ -66,4 +66,72 @@ describe ItemTypesController do
       end
     end
   end
+
+  describe 'GET #new_item_type' do
+    it 'renders the :new_item_type view' do
+      get :new_item_type
+      expect(response).to render_template :new_item_type
+    end
+  end
+
+  describe 'POST #create_item_type' do
+    context 'with valid attributes' do
+      it 'creates an item with valid params' do
+        post :create_item_type, params: { item_type: :item_type }
+        expect(item_type).to be_valid
+        expect(ItemType.find(item_type.id)).to eq(item_type)
+      end
+
+      it 'creates an item_type in the database and populates a flash message' do
+        expect do
+          allow(Inventory).to receive(:create_item_type).and_return(true)
+          allow(Inventory).to receive(:create_item_type).and_return([create(:item_type)])
+          post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
+          expect(flash[:success]).to be_present
+          expect(flash[:success]).to eq('Item Type Successfully Created.')
+        end.to change { ItemType.count }.by(1)
+      end
+    end
+
+    context 'create item_type in api fails' do
+      it 'redirects to new_item_types_path' do
+        allow(Inventory).to receive(:create_item_type).and_raise("boom")
+        post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
+        expect(response).to redirect_to new_item_types_path
+      end
+
+      it 'populates a danger flash message' do
+        allow(Inventory).to receive(:create_item_type).and_raise("boom")
+        post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
+        expect(flash[:danger]).to be_present
+        expect(flash[:danger]).to eq('That Item Type Already Exists.')
+      end
+    end
+  end
+
+  describe 'GET #refresh_item_types' do
+    context 'called independent of #create_item_type with no error' do
+      it 'populates a flash success message' do
+        allow(Inventory).to receive(:item_types).and_return([create(:item_type)])
+        get :refresh_item_types
+        expect(flash[:success]).to be_present
+        expect(flash[:success]).to eq('Successfully Updated Item Types.')
+      end
+    end
+
+    context 'called indepedent of #create_item_type with error' do
+      it 'populates a flash danger message' do
+        allow(Inventory).to receive(:item_types).and_raise("boom")
+        get :refresh_item_types
+        expect(flash[:danger]).to be_present
+        expect(flash[:danger]).to eq('Failed to Refresh Item Types From API. #<RuntimeError: boom>')
+      end
+    end
+
+    it 'redirects to item_types_path' do
+      allow(Inventory).to receive(:item_types).and_return([create(:item_type)])
+      get :refresh_item_types
+      expect(response).to redirect_to item_types_path
+    end
+  end
 end
