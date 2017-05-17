@@ -194,12 +194,12 @@ class Rental < ActiveRecord::Base
   end
 
   def self.longterm_cost(weeks, name)
-    if name == '4 Seat'
-      { 2 => 500, 3 => 700, 4 => 850 }
-    elsif name == '6 Seat'
-      { 2 => 600, 3 => 900, 4 => 1100 }
-    else
-      nil
+    if weeks >= 2
+      if name == '4 Seat'
+        { 2 => 500, 3 => 700, 4 => 850 }
+      elsif name == '6 Seat'
+        { 2 => 600, 3 => 900, 4 => 1100 }
+      end
     end
   end
 
