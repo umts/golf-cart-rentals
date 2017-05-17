@@ -185,18 +185,22 @@ class Rental < ActiveRecord::Base
     # Do not charge for 1/7 days in a rental.
     days_to_charge_for = rental_duration - no_of_weeks
     # Long term pricing
-    if no_of_weeks >= 2
-      if item_type.name == "4 Seat"
-        longterm_prices = { 2 => 500, 3 => 700, 4 => 850 }
-      elsif item_type.name == "6 Seat"
-        longterm_prices = { 2 => 600, 3 => 900, 4 => 1100 }
-      end
+    longterm_prices = longterm_cost(no_of_weeks, item_type.name)
 
-      unless longterm_prices.nil? # catch cases where item is neither 4 nor 6 seat cart
-        return longterm_prices[no_of_weeks] + ((rental_duration % 7) * item_type.fee_per_day)
-      end
+    unless longterm_prices.nil? # catch cases where item is neither 4 nor 6 seat cart
+      return longterm_prices[no_of_weeks] + ((rental_duration % 7) * item_type.fee_per_day)
     end
     (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
+  end
+
+  def self.longterm_cost(weeks, name)
+    if name == '4 Seat'
+      { 2 => 500, 3 => 700, 4 => 850 }
+    elsif name == '6 Seat'
+      { 2 => 600, 3 => 900, 4 => 1100 }
+    else
+      nil
+    end
   end
 
   def create_financial_transaction
