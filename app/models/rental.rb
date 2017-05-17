@@ -192,7 +192,7 @@ class Rental < ActiveRecord::Base
         longterm_prices = { 2 => 600, 3 => 900, 4 => 1100 }
       end
 
-      unless longterm_prices.empty? # catch cases where item is neither 4 nor 6 seat cart
+      if defined? longterm_prices # catch cases where item is neither 4 nor 6 seat cart
         return longterm_prices[no_of_weeks] + ((rental_duration % 7) * item_type.fee_per_day)
       end
     end
