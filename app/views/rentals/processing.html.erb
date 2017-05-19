@@ -13,7 +13,7 @@
   <%= f.label :end_time_lteq, 'And' %>
   <%= f.date_field :end_time_lteq, class: "form-control" %>
 
-  <%= f.submit class: "btn btn-default" %>
+  <%= f.submit class: "btn btn-default", data: { confirm: 'Are you sure?' } %>
 <% end %>
 <br>
 
