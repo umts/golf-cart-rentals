@@ -390,6 +390,32 @@ RSpec.describe Rental do
     rent = create :mock_rental, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20)
     expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([240])
   end
+  let!(:four_seat) {create(:item_type, name: "4 Seat")}
+  it 'creates a 4 Seat 14 day financial transaction(longterm 2 week)' do
+    rent = create :mock_rental, item_type: four_seat, end_time: (Time.current + 13.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([500])
+  end
+  it 'creates a 4 Seat 21 day financial transaction(longterm 3 week)' do
+    rent = create :mock_rental, item_type: four_seat, end_time: (Time.current + 20.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([700])
+  end
+  it 'creates a 4 Seat 28 day financial transaction(longterm 4 week)' do
+    rent = create :mock_rental, item_type: four_seat, end_time: (Time.current + 27.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([850])
+  end
+  let!(:six_seat) {create(:item_type, name: "6 Seat")}
+  it 'creates a 6 Seat 14 day financial transaction(longterm 2 week)' do
+    rent = create :mock_rental, item_type: six_seat, end_time: (Time.current + 13.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([600])
+  end
+  it 'creates a 6 Seat 21 day financial transaction(longterm 3 week)' do
+    rent = create :mock_rental, item_type: six_seat, end_time: (Time.current + 20.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([900])
+  end
+  it 'creates a 6 Seat 28 day financial transaction(longterm 4 week)' do
+    rent = create :mock_rental, item_type: six_seat, end_time: (Time.current + 27.days)
+    expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([1100])
+  end
 
   describe '#delete_reservation' do
     context 'error thrown' do

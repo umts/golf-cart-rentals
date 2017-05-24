@@ -181,9 +181,26 @@ class Rental < ActiveRecord::Base
 
     # have to add one day at the end 12th to 13th is 2 days, pick up on 12 drop of on 13 is two full days
     rental_duration = (end_time.to_date - start_time.to_date).to_i + 1
+    no_of_weeks = (rental_duration / 7)
     # Do not charge for 1/7 days in a rental.
-    days_to_charge_for = rental_duration - (rental_duration / 7)
+    days_to_charge_for = rental_duration - no_of_weeks
+    # Long term pricing
+    longterm_prices = longterm_cost(no_of_weeks, item_type.name)
+
+    unless longterm_prices.nil? # catch cases where item is neither 4 nor 6 seat cart
+      return longterm_prices[no_of_weeks] + ((rental_duration % 7) * item_type.fee_per_day)
+    end
     (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
+  end
+
+  def self.longterm_cost(weeks, name)
+    if weeks >= 2
+      if name == '4 Seat'
+        { 2 => 500, 3 => 700, 4 => 850 }
+      elsif name == '6 Seat'
+        { 2 => 600, 3 => 900, 4 => 1100 }
+      end
+    end
   end
 
   def create_financial_transaction
