@@ -29,7 +29,13 @@ Rails.application.routes.draw do
   resources :users do
     post :enable, on: :member
   end
-  resources :item_types, only: [:index, :show, :edit, :update]
+  resources :item_types, only: [:index, :show, :edit, :update] do
+    collection do
+      get :new_item_type, as: 'new'
+      post :create_item_type, as: 'create'
+      get :refresh_item_types, as: 'refresh'
+    end
+  end
   resources :incidental_types
   resources :incurred_incidentals
   resources :damages

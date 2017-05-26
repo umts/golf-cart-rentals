@@ -20,7 +20,55 @@ class ItemTypesController < ApplicationController
     end
   end
 
+  def new_item_type; end
+
+  def create_item_type
+    name = params[:name]
+    base_fee = params[:base_fee]
+    fee_per_day = params[:fee_per_day]
+    if name.present? && base_fee.present? && fee_per_day.present?
+      create_item_type_helper(name, base_fee, fee_per_day)
+    else
+      flash[:danger] = 'Please Fill All Fields Then Try Again.'
+      redirect_to new_item_types_path
+    end
+  end
+
+  def refresh_item_types(base_fee = 0, fee_per_day = 0)
+    begin
+      inv_item_types = Inventory.item_types.each_with_object({}) do |i, memo|
+        memo[i['name']] = i['uuid']
+      end
+      refresh_items_helper(inv_item_types, base_fee, fee_per_day)
+      flash[:success] ||= 'Successfully Updated Item Types.'
+    rescue => error
+      flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
+    end
+    redirect_to item_types_path
+  end
+
   private
+
+  def create_item_type_helper(name, base_fee, fee_per_day)
+    Inventory.create_item_type(name)
+    flash[:success] = 'Item Type Successfully Created.'
+    refresh_item_types(base_fee, fee_per_day)
+  rescue
+    flash[:danger] = 'That Item Type Already Exists.'
+    redirect_to new_item_types_path
+  end
+
+  def refresh_items_helper(inv_item_types, base_fee = 0, fee_per_day = 0)
+    inv_item_types.each do |inv_item_type|
+      item_types = ItemType.all.each_with_object({}) do |i, memo|
+        memo[i[:name]] = i[:uuid]
+      end
+
+      unless item_types.keys.include?(inv_item_type[0])
+        ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1], base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
+      end
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_item_type
