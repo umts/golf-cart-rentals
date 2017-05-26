@@ -58,7 +58,7 @@
       <% if rental.start_time > Time.current %>
         <%= f.submit 'Pick Up', class: "btn btn-primary", data: { confirm: 'This is an early pick up, continue processing?' } %>
       <% else %>
-        <%= f.submit 'Pick Up', class: "btn btn-primary" %>
+        <%= f.submit 'Pick Up', class: "btn btn-primary", data: { confirm: 'Are you sure?' } %>
       <% end %>
       <%= link_to 'Back', :back, class: "btn btn-default" %>
     </div>
