@@ -117,4 +117,9 @@ class ApplicationController < ActionController::Base
       (params[:controller] == 'home' && params[:action] == 'index') ||
       params[:action] == 'render_404'
   end
+
+  def store_return_to
+    # save the current url for use by back buttons
+    session[:return_to] = request.original_url
+  end
 end

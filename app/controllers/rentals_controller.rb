@@ -10,6 +10,8 @@ class RentalsController < ApplicationController
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
+  before_action :store_return_to, only: [:index, :processing]
+
   # GET /rentals
   def index
     @q = rentals_visible_to_current_user.search(params[:q])
