@@ -10,7 +10,7 @@ class RentalsController < ApplicationController
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
 
-  before_action :store_return_to, only: [:index, :processing]
+  after_action :set_return_url, only: [:index, :processing]
 
   # GET /rentals
   def index

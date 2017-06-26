@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update]
-  before_action :store_return_to, only: [:index]
+
+  after_action :set_return_url, only: [:index]
 
   def index
     @item_types = ItemType.all

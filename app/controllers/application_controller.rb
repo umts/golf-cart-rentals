@@ -85,6 +85,11 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def set_return_url
+    # save the current url for use by back buttons
+    session[:return_url] = request.original_url
+  end
+
   private
 
   def send_error_email(error)
@@ -116,10 +121,5 @@ class ApplicationController < ActionController::Base
     (params[:controller] == 'application' && params[:action] == 'root') ||
       (params[:controller] == 'home' && params[:action] == 'index') ||
       params[:action] == 'render_404'
-  end
-
-  def store_return_to
-    # save the current url for use by back buttons
-    session[:return_to] = request.original_url
   end
 end

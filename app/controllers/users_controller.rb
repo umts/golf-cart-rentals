@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :enable]
   before_action :set_department
 
+  after_action :set_return_url, only: [:index]
+
   def index
     @users = User.all
   end
