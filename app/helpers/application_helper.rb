@@ -36,9 +36,7 @@ module ApplicationHelper
   end
 
   def link_back(name = nil, default_path = nil, html_options = nil, &block)
-    if session.has_key? :return_url
-      return_url = session[:return_url]
-    end
+    return_url = session[:return_url] if session.key? :return_url
     link_to(name, return_url || default_path, html_options, &block)
   end
 
