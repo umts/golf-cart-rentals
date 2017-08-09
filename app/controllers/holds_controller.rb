@@ -3,6 +3,8 @@ class HoldsController < ApplicationController
   include ApplicationHelper
   before_action :set_hold, only: [:show, :edit, :update, :destroy, :lift]
 
+  after_action :set_return_url, only: [:index]
+
   def show; end
 
   def index

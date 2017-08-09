@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class HomeController < ApplicationController
+  after_action :set_return_url, only: [:index]
+
   @per_page = 5
 
   def index

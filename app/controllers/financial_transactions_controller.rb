@@ -2,6 +2,8 @@
 class FinancialTransactionsController < ApplicationController
   before_action :set_financial_transaction, only: [:show, :edit]
 
+  after_action :set_return_url, only: [:index]
+
   # GET /financial_transactions
   def index
     @q = FinancialTransaction.search(params[:q])

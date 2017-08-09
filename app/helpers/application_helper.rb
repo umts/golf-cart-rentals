@@ -35,6 +35,11 @@ module ApplicationHelper
     # raise "Link not rendered for omni user, please check this" if @current_user.groups.find_by(name: "omni").present?
   end
 
+  def link_back(name = nil, default_path = nil, html_options = nil, &block)
+    return_url = session[:return_url] if session.key? :return_url
+    link_to(name, return_url || default_path, html_options, &block)
+  end
+
   def button_to(*_args)
     raise 'Button to is not protected by permissions'
   end
