@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'factory_girl_rails'
 require 'simplecov'
+require 'capybara/rspec'
 
 SimpleCov.start
 
