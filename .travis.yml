@@ -4,7 +4,6 @@ rvm: 2.2.3
 script:
   - bundle exec rspec spec/
 before_script:
-  - sudo apt-get install ruby-all-dev mysql-dev
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
   - cp config/database.travis.yml config/database.yml
   - rm config/environments/development.rb
@@ -16,6 +15,10 @@ before_script:
   - bundle exec rake db:seed
   - export TZ="America/New_York"
 addons:
+  apt:
+    packages:
+    - ruby-all-dev
+    - mysql-dev
   mariadb: '10.0'
   code_climate:
     repo_token: 15ed3ea3aa5e152f478928dbb01e5747253e54be2b90553170931dbc842428c7
