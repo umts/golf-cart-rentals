@@ -3,6 +3,8 @@ class IncidentalTypesController < ApplicationController
   before_action :set_incidental_type, only: [:edit, :update, :destroy, :show]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
 
+  after_action :set_return_url, only: [:index]
+
   def index
     @incidental_types = IncidentalType.all
   end
