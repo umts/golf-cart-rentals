@@ -4,6 +4,7 @@ rvm: 2.2.3
 script:
   - bundle exec rspec spec/
 before_script:
+  - sudo apt-get install ruby-all-dev mysql-dev
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
   - cp config/database.travis.yml config/database.yml
   - rm config/environments/development.rb
