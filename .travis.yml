@@ -1,9 +1,6 @@
 language: ruby
 env: "CODECLIMATE_REPO_TOKEN=15ed3ea3aa5e152f478928dbb01e5747253e54be2b90553170931dbc842428c7"
 rvm: 2.2.3
-sudo: true
-before_install:
-  - sudo apt-get install ruby-all-dev mysql-dev
 script:
   - bundle exec rspec spec/
 before_script:
@@ -18,6 +15,11 @@ before_script:
   - bundle exec rake db:seed
   - export TZ="America/New_York"
 addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
   mariadb: '10.0'
   code_climate:
     repo_token: 15ed3ea3aa5e152f478928dbb01e5747253e54be2b90553170931dbc842428c7
