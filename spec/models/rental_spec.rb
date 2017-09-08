@@ -59,6 +59,10 @@ RSpec.describe Rental do
         @other_users = create_list :user, 10 # not in @dept_one
       end
 
+      it 'allows assignment of user inside dept w/o perm' do
+        expect(build(:mock_rental, creator: @dept_one_users.first, renter: @dept_one_users.second)).to be_valid
+      end
+
       it 'allows assignment of user outside dept with permission' do
         u = @other_users.first
         g = create(:group)
@@ -71,7 +75,9 @@ RSpec.describe Rental do
       end
 
       it 'denies outside deparment' do
-        expect(build(:mock_rental, creator: @other_users.first, renter: @dept_one_users.first)).not_to be_valid
+        r = build(:mock_rental, creator: @other_users.first, renter: @dept_one_users.first)
+        expect(r).not_to be_valid
+        expect(r.errors[:renter].size).to eq(1)
       end
     end
   end
