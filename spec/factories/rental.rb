@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
+    items { create_list :item, 2 }
     association :item_type, name: 'TEST_ITEM_TYPE'
     association :item, name: 'TEST_ITEM'
     start_time Time.current

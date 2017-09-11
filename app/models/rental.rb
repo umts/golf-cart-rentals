@@ -204,6 +204,7 @@ class Rental < ActiveRecord::Base
   end
 
   def create_financial_transaction
+    # TODO create financial transactions for all the rentals
     rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
   end
