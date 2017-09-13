@@ -8,6 +8,7 @@ abort 'The Rails environment is running in production mode!' if Rails.env.produc
 require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'selenium/webdriver'
 
 ActiveRecord::Migration.maintain_test_schema!
 

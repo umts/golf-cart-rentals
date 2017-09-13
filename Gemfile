@@ -13,9 +13,6 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
-# capybara for feature testing
-gem 'capybara'
-
 # Interaction with jquery and controller without refreshing page
 gem 'fullcalendar-rails'
 gem 'gon'
@@ -98,7 +95,8 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'vcr', '2.4.0'
-  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'codeclimate-test-reporter', require: nil
   gem 'rake'
   gem 'simplecov'
