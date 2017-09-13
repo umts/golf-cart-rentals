@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class IncurredIncidental < ActiveRecord::Base
   belongs_to :rental
+  belongs_to :item
   belongs_to :incidental_type
 
   has_one :damage, dependent: :destroy # zero or one damages, depending on incidental_type
@@ -18,5 +19,5 @@ class IncurredIncidental < ActiveRecord::Base
   validates_associated :rental, :incidental_type, :notes, :documents
 
   validates :rental, :notes, presence: true
-  validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' }, presence: true
+  validates :incidental_type, :item, uniqueness: { scope: :rental, message: 'should happen once per rental' }, presence: true
 end

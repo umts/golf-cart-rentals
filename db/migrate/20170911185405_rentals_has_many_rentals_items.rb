@@ -8,6 +8,8 @@ class RentalsHasManyRentalsItems < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
+    add_column :incurred_incidentals, :item_id, :integer
+
     remove_column :rentals, :item_id
     remove_column :rentals, :item_type_id
   end

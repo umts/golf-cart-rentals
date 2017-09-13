@@ -9,16 +9,15 @@ class Rental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
 
   after_create :create_financial_transaction
-  # create reservation unless it has already been created
-  before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
+
+  has_many :rentals_items, dependent: :destroy
+  has_many :items, through: :rentals_items
+  has_many :item_types, through: :rentals_items
+  has_many :reservation_ids, through: :rentals_items
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  belongs_to :item_type
-  belongs_to :item
-
-  validates :reservation_id, uniqueness: true
   validates :renter, :creator, :start_time, :end_time, :item_type, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
@@ -92,21 +91,8 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  def create_reservation
-    throw :abort unless valid? # check if the current rental object is valid or not
-    begin
-      reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
-      raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
-
-      self.reservation_id = reservation[:uuid]
-      self.item = Item.find_by(name: reservation[:item][:name])
-    rescue => error
-      errors.add :base, error.inspect
-      throw :abort
-    end
-  end
-
   def delete_reservation
+    #TODO rewrite this to handle many rental items
     return true if reservation_id.nil? # nothing to delete here
     return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
     begin

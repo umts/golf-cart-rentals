@@ -3,20 +3,22 @@ FactoryGirl.define do
   factory :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    items { create_list :item, 2 }
-    association :item_type, name: 'TEST_ITEM_TYPE'
-    association :item, name: 'TEST_ITEM'
     start_time Time.current
     end_time (Time.current + 1.day)
+
+    # add the rentals_items, no reservation id
+    it = create(:item_type, name: 'TEST_ITEM_TYPE')
+    items { [create(:item, name: 'TEST_ITEM', item_type: it)] }
+    item_types { [it] }
+  end
+
+  factory :mock_rental, parent: :rental do
+    # give a reservation id
+    reservation_ids { (1..(items.count)).to_a }
   end
 
   factory :invalid_rental, parent: :mock_rental do
-    association :creator, factory: :user
-    renter { creator } # set renter equal to creator by default
-    association :item_type
-    association :item
     start_time nil
-    end_time (Time.current + 1.day)
   end
 
   factory :new_rental, parent: :mock_rental do
@@ -24,16 +26,6 @@ FactoryGirl.define do
     renter_id nil
     item_type_id { create(:item_type).id }
     item_id { create(:item).id }
-    start_time Time.current
-    end_time (Time.current + 1.day)
-  end
-
-  factory :mock_rental, parent: :rental do
-    association :creator, factory: :user
-    renter { creator } # set renter equal to creator by default
-    association :item_type
-    association :item
-    sequence :reservation_id
     start_time Time.current
     end_time (Time.current + 1.day)
   end
