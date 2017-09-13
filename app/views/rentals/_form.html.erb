@@ -51,17 +51,17 @@
 
 
   <div class="form-group col-xs-12">
-    <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
+    <%= f.label :amount, 'Cost', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
-      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
+      <%= f.number_field :amount, value: nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-2' %>
+    <%= f.label :date_range, 'Number of Days', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%  #(:start_time - :end_time) %>
-      <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
+      <%= f.number_field :date_range, value: 1, min: 0, disabled: true, id: 'rental_date_range', class: 'form-control' %>
     </div>
   </div>
 
