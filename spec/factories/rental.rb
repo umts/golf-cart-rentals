@@ -26,8 +26,6 @@ FactoryGirl.define do
     renter_id nil
     item_type_id { create(:item_type).id }
     item_id { create(:item).id }
-    start_time Time.current
-    end_time (Time.current + 1.day)
   end
 
   factory :upcoming_rental, parent: :mock_rental do
