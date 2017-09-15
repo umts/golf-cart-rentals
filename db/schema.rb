@@ -166,7 +166,6 @@ ActiveRecord::Schema.define(version: 20170911185405) do
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "rental_status",        null: false
-    t.string   "reservation_id"
     t.datetime "dropped_off_at"
     t.datetime "picked_up_at"
     t.datetime "created_at",           null: false
@@ -183,15 +182,15 @@ ActiveRecord::Schema.define(version: 20170911185405) do
   end
 
   create_table "rentals_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "rentals_id"
-    t.integer  "items_id"
+    t.integer  "rental_id"
+    t.integer  "item_id"
     t.string   "reservation_id"
-    t.integer  "item_types_id"
+    t.integer  "item_type_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.index ["item_types_id"], name: "index_rentals_items_on_item_types_id", using: :btree
-    t.index ["items_id"], name: "index_rentals_items_on_items_id", using: :btree
-    t.index ["rentals_id"], name: "index_rentals_items_on_rentals_id", using: :btree
+    t.index ["item_id"], name: "index_rentals_items_on_item_id", using: :btree
+    t.index ["item_type_id"], name: "index_rentals_items_on_item_type_id", using: :btree
+    t.index ["rental_id"], name: "index_rentals_items_on_rental_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

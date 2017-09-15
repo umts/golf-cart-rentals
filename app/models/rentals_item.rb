@@ -7,6 +7,8 @@ class RentalsItem < ActiveRecord::Base
   has_one :end_time, through: :rental
   validates :rental, :item, :item_type, presence: true
 
+  alias_attribute :reservation, :reservation_id
+
   # create reservation unless it has already been created
   before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
 

@@ -13,7 +13,6 @@ class Rental < ActiveRecord::Base
   has_many :rentals_items, dependent: :destroy
   has_many :items, through: :rentals_items
   has_many :item_types, through: :rentals_items
-  has_many :reservation_ids, through: :rentals_items
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
@@ -41,19 +40,33 @@ class Rental < ActiveRecord::Base
   scope :created_by, ->(user) { where(creator_id: user) }
 
 =begin
-if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
-select * from rentals where
-    ((select sum(amount) from financial_transactions where rental_id=rentals.id and
-      (transactable_type='Payment' or transactable_type='Cancelation'))
-    -(select sum(amount) from financial_transactions where rental_id=rentals.id and
-      not (transactable_type='Payment' or transactable_type='Cancelation')))
-    > 0
+  if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
+  select * from rentals where
+      ((select sum(amount) from financial_transactions where rental_id=rentals.id and
+        (transactable_type='Payment' or transactable_type='Cancelation'))
+      -(select sum(amount) from financial_transactions where rental_id=rentals.id and
+        not (transactable_type='Payment' or transactable_type='Cancelation')))
+      > 0
 =end
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
 
   delegate :payments, to: :financial_transactions
   delegate :department, to: :renter
+
+  def reservations
+    rentals_items.collect(&:reservation_id)
+  end; alias reservation_ids reservations
+
+  def reservations=(ids = [])
+    if ids.size != rentals_items.size
+      raise(ArgumentError, 'Size mismatch') and return
+    else
+      rentals_items.each_with_index do |ri,i|
+        ri.reservation_id = ids[i]
+      end
+    end
+  end; alias reservation_ids= reservations=
 
   aasm column: :rental_status do
     state :reserved, initial: true
