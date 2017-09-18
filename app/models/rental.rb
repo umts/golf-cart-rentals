@@ -8,7 +8,7 @@ class Rental < ActiveRecord::Base
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  after_create :create_financial_transaction
+  #TODO reenable this # after_create :create_financial_transaction
 
   has_many :rentals_items, dependent: :destroy
   has_many :items, through: :rentals_items
@@ -17,7 +17,7 @@ class Rental < ActiveRecord::Base
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  validates :renter, :creator, :start_time, :end_time, :item_type, presence: true
+  validates :renter, :creator, :start_time, :end_time, :items, :item_types, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
   validate :renter_is_assignable

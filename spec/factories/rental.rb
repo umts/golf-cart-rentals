@@ -6,14 +6,19 @@ FactoryGirl.define do
     start_time Time.current
     end_time (Time.current + 1.day)
 
-    # add the rentals_items, no reservation id
-    item_type_ids { [create(:item_type, name: 'TEST_ITEM_TYPE').id] }
-    item_ids { [create(:item, name: 'TEST_ITEM', item_type: item_types.last).id] }
+    after(:build) do |rental|
+      # add the rentals_items, no reservation id
+      if rental.rentals_items.empty?
+        rental.rentals_items << build(:rentals_item, reservation_id: nil)
+      end
+    end
   end
 
   factory :mock_rental, parent: :rental do
-    # give a reservation id to all of the items
-    reservations { (1..(items.count)).to_a }
+    before(:create) do |rental| # reservations are automatically created after create, doing this before will prevent that
+      # give a reservation id to all of the items
+      rental.reservations= (1..(rental.items.count)).to_a
+    end
   end
 
   factory :invalid_rental, parent: :mock_rental do

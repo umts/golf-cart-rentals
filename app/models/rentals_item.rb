@@ -6,12 +6,14 @@ class RentalsItem < ActiveRecord::Base
   has_one :start_time, through: :rental
   has_one :end_time, through: :rental
   validates :rental, :item, :item_type, presence: true
+  validates :reservation_id, uniqueness: true, allow_nil: true
 
   alias_attribute :reservation, :reservation_id
 
   # create reservation unless it has already been created
   before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
 
+  # Note, rspec will mock this so we wont communicate with the api
   def create_reservation
     throw :abort unless (valid? and rental.valid?) # check if the current rental object is valid or not
     begin
