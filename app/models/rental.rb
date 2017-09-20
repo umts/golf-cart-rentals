@@ -8,7 +8,7 @@ class Rental < ActiveRecord::Base
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  #TODO reenable this # after_create :create_financial_transaction
+  after_create :create_financial_transaction
 
   has_many :rentals_items, dependent: :destroy
   has_many :items, through: :rentals_items
@@ -213,8 +213,10 @@ class Rental < ActiveRecord::Base
   end
 
   def create_financial_transaction
-    # TODO create financial transactions for all the rentals
-    rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
-    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+    # create financial transactions for all the rentals
+    rentals_items.each do |ri|
+      rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
+      FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+    end
   end
 end
