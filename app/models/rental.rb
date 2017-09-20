@@ -49,7 +49,7 @@ class Rental < ActiveRecord::Base
       > 0
 =end
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
-  scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
+  scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance > min }.collect(&:id) }
 
   delegate :payments, to: :financial_transactions
   delegate :department, to: :renter

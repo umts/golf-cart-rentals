@@ -115,8 +115,8 @@ RSpec.describe Rental do
     end
 
     it 'with_balance_over' do
-      rental_expensive = create :mock_rental, item_type: (create :item_type, base_fee: 1000)
-      rental_expensive_exact = create :mock_rental, item_type: (create :item_type, base_fee: 900)
+      rental_expensive = create :mock_rental, rentals_items: [build(:rentals_item, item_type: (create :item_type, base_fee: 1000, fee_per_day: 0))]
+      create :mock_rental, rentals_items: [build(:rentals_item, item_type: (create :item_type, base_fee: 900, fee_per_day: 0))]
       rental_paid = create :mock_rental
       create :mock_rental # unpaid
 
@@ -128,7 +128,7 @@ RSpec.describe Rental do
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
-      expect(Rental.with_balance_over(900)).to contain_exactly rental_expensive, rental_expensive_exact
+      expect(Rental.with_balance_over(900)).to contain_exactly rental_expensive
     end
   end
 
@@ -141,12 +141,11 @@ RSpec.describe Rental do
 
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it for realzies
-      create :item
-      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: Item.first.name })
+      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: create(:item).name })
 
       rental = create :rental
       expect(rental).to be_reserved
-      expect(rental.reservation_id).to eq '42'
+      expect(rental.reservation_ids).to contain_exactly '42'
     end
 
     it 'doesnt create a rental if the reservation fails' do
@@ -176,15 +175,6 @@ RSpec.describe Rental do
       expect do
         @rent.destroy
       end.to change { Rental.count }.by(-1)
-    end
-  end
-
-  describe 'check if the rental object is valid or not' do
-    it 'returns true if the item is valid except for a missing reservation_id' do
-      expect(build(:rental, reservation_id: nil).valid?).to be true
-    end
-    it 'returns false if the item is in_valid except for a missing reservation_id' do
-      expect(build(:invalid_rental, reservation_id: nil).valid?).to be false
     end
   end
 
