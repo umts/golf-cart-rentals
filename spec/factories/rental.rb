@@ -15,9 +15,12 @@ FactoryGirl.define do
   end
 
   factory :mock_rental, parent: :rental do
-    before(:create) do |rental| # reservations are automatically created after create, doing this before will prevent that
+    # reservations are automatically created after create, doing this before will prevent that
+    before(:create) do |rental|
       # give a reservation id to all of the items
-      rental.reservations = (1..(rental.items.count)).to_a
+      rental.rentals_items.each do |r|
+        r.reservation_id = SecureRandom.uuid
+      end
     end
   end
 
