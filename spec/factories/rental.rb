@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :mock_rental, parent: :rental do
     before(:create) do |rental| # reservations are automatically created after create, doing this before will prevent that
       # give a reservation id to all of the items
-      rental.reservations= (1..(rental.items.count)).to_a
+      rental.reservations = (1..(rental.items.count)).to_a
     end
   end
 

@@ -4,7 +4,6 @@ require 'rails_helper'
 RSpec.describe Rental do
   describe '#validations' do
     it 'has a valid factory' do
-      binding.pry
       expect(build(:rental)).to be_valid
     end
     it 'has a can build with alias date designations' do
