@@ -14,6 +14,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :rental_without_items, parent: :rental do
+    after(:build) do |rental|
+      rental.rentals_items = []
+    end
+  end
+
   factory :mock_rental, parent: :rental do
     # reservations are automatically created after create, doing this before will prevent that
     before(:create) do |rental|

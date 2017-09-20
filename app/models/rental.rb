@@ -17,7 +17,7 @@ class Rental < ActiveRecord::Base
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  validates :renter, :creator, :start_time, :end_time, presence: true
+  validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
   validate :renter_is_assignable

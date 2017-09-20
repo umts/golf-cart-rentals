@@ -16,7 +16,7 @@ RSpec.describe Rental do
       expect(build(:rental, creator_id: nil)).not_to be_valid
     end
     it 'is invalid without any items' do
-      expect(build(:rental, rentals_items: [])).not_to be_valid
+      expect(build(:rental_without_items)).not_to be_valid
     end
     it 'is invalid without a start_time' do
       expect(build(:rental, start_time: nil)).not_to be_valid
@@ -47,7 +47,6 @@ RSpec.describe Rental do
     context 'creating two rentals' do
       it 'does not allow duplicate reservation_id' do
         rental = create :mock_rental
-        binding.pry
         expect(build(:rental, rentals_items: [build(:rentals_item, reservation_id: rental.reservation_ids.first)])).not_to be_valid
       end
     end
