@@ -58,15 +58,16 @@ class Rental < ActiveRecord::Base
     rentals_items.collect(&:reservation_id)
   end; alias reservation_ids reservations
 
-  def reservations=(ids = [])
-    if ids.size != rentals_items.size
-      raise(ArgumentError, 'Size mismatch') and return
-    else
-      rentals_items.each_with_index do |ri,i|
-        ri.reservation_id = ids[i]
-      end
-    end
-  end; alias reservation_ids= reservations=
+  # TODO remove this
+  #def reservations=(ids = [])
+    #if ids.size != rentals_items.size
+      #raise(ArgumentError, 'Size mismatch') and return
+    #else
+      #rentals_items.each_with_index do |ri,i|
+        #ri.reservation_id = ids[i]
+      #end
+    #end
+  #end; alias reservation_ids= reservations=
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -215,7 +216,8 @@ class Rental < ActiveRecord::Base
   def create_financial_transaction
     # create financial transactions for all the rentals
     rentals_items.each do |ri|
-      rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
+      rental_amount = Rental.cost(start_time.to_date, end_time.to_date, ri.item_type)
+      # TODO maybe set transactable to RentalsItem
       FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
     end
   end
