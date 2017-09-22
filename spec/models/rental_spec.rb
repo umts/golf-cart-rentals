@@ -31,6 +31,7 @@ RSpec.describe Rental do
 
       context 'time travel' do
         it 'is valid if it is persisted' do
+          binding.pry
           rental = create(:rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow)
           Timecop.travel(4.days.from_now) # rental.start_time is before today
           expect(rental).to be_valid
@@ -163,6 +164,38 @@ RSpec.describe Rental do
       expect do
         (build :rental).save
       end.not_to change(Rental, :count)
+    end
+
+    context 'rolls reservation if any reservations fail to create' do
+      let(:fail_rentals_item) { build(:rentals_item, reservation_id: nil) }
+      before(:each) do
+        # fail on one but not the other
+        allow(Inventory).to receive(:create_reservation).with(fail_rentals_item.item_type.name, anything, anything).and_raise(StandardError)
+      end
+
+      it 'rolls back other reservations if a single reservation fails' do
+        expect do
+          create(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
+        end.to raise_error(ActiveRecord::RecordNotSaved) and change(Rental, :count).by(0) and change(RentalsItem, :count).by(0)
+        expect(Inventory).to have_received(:delete_reservation).once # will only be called for the one that works
+      end
+
+      it 'adds to errors if it fails to delete reservation' do
+        # will try to roll back but we wont let it
+        allow(Inventory).to receive(:delete_reservation).and_raise(StandardError)
+
+        r = build(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
+        expect do
+          r.save!
+        end.to raise_error(ActiveRecord::RecordNotSaved) and change(Rental, :count).by(0) and change(RentalsItem, :count).by(0)
+        messages = r.errors.messages[:base]
+        expect(messages.count).to eq 2
+        expected_message = /Failed to delete reservations from inventory api /
+        expected_message.match(message.first) ^ expected_message.match(message.second)
+        expected_message = /Reservations partially rolled back /
+
+        # todo check that other things are included
+      end
     end
   end
 

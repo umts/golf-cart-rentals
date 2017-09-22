@@ -9,6 +9,11 @@ class Rental < ActiveRecord::Base
   has_one :financial_transaction, as: :transactable
 
   after_create :create_financial_transaction
+  # create reservation unless it has already been created
+  before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
+
+  # unreserve the items
+  before_destroy :delete_reservations
 
   has_many :rentals_items, dependent: :destroy
   has_many :items, through: :rentals_items
@@ -58,17 +63,6 @@ class Rental < ActiveRecord::Base
     rentals_items.collect(&:reservation_id)
   end; alias reservation_ids reservations
 
-  # TODO remove this
-  #def reservations=(ids = [])
-    #if ids.size != rentals_items.size
-      #raise(ArgumentError, 'Size mismatch') and return
-    #else
-      #rentals_items.each_with_index do |ri,i|
-        #ri.reservation_id = ids[i]
-      #end
-    #end
-  #end; alias reservation_ids= reservations=
-
   aasm column: :rental_status do
     state :reserved, initial: true
     state :picked_up
@@ -115,17 +109,63 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  def delete_reservation
-    #TODO rewrite this to handle many rental items
-    return true if reservation_id.nil? # nothing to delete here
-    return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+  # Note, rspec will mock this so we wont communicate with the api
+  def create_reservations
+    # if we fail half way through creating reservations we should roll them all back
+    created_reservations = []
     begin
-      Inventory.delete_reservation(reservation_id)
-      self.reservation_id = nil
+      raise RecordInvalid, 'Rental invalid' unless valid?
+      rentals_items.each do |ri|
+        raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
+
+        reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
+        raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+
+        ri.reservation_id = reservation[:uuid]
+        created_reservations << reservation[:uuid]
+        ri.item = Item.find_by(name: reservation[:item][:name])
+      end
     rescue => error
-      errors.add(:base, error.inspect) && (return false)
+      # roll back the rentals we got partially through creating
+      failed_roll_back = false
+      created_reservations.each { |uuid|
+        # remove reservation from RentalsItem
+        if (ri = rentals_items.to_a.find { |_ri| _ri.reservation_id == uuid})
+          ri.reservation_id = nil
+        else
+          failed_roll_back = true
+          errors.add :base, "Failed to find associated rentals item when rolling back reservation (uuid #{uuid})"
+        end
+
+        # remove reservation from api
+        unless delete_reservation(uuid)
+          errors.add :base, "Failed to delete reservations from inventory api (uuid #{uuid})"
+          failed_roll_back = true
+        end
+      }
+
+      errors.add :base, "Reservations #{'partially' if(failed_roll_back)} rolled back " + error.inspect
+      throw :abort
     end
-    true
+  end
+
+  def delete_reservations
+    return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    rentals_items.each do |ri|
+      next if ri.reservation_id.nil? # nothing to delete here
+      errors.add(:rentals_items, error.inspect) unless delete_reservation(ri.reservation_id)
+      ri.reservation_id = nil
+    end
+    throw(:abort) if errors.any?
+    return errors.empty?
+  end
+
+  def delete_reservation(uuid)
+    begin
+      Inventory.delete_reservation(uuid) # will throw errors if it fails
+    rescue
+       return false
+    end
   end
 
   def basic_info
