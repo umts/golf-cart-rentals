@@ -31,7 +31,6 @@ RSpec.describe Rental do
 
       context 'time travel' do
         it 'is valid if it is persisted' do
-          binding.pry
           rental = create(:rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow)
           Timecop.travel(4.days.from_now) # rental.start_time is before today
           expect(rental).to be_valid
@@ -169,7 +168,7 @@ RSpec.describe Rental do
     context 'rolls reservation if any reservations fail to create' do
       let(:fail_rentals_item) { build(:rentals_item, reservation_id: nil) }
       before(:each) do
-        # fail on one but not the other
+        # fail on one reservation but not the other
         allow(Inventory).to receive(:create_reservation).with(fail_rentals_item.item_type.name, anything, anything).and_raise(StandardError)
       end
 
@@ -190,11 +189,12 @@ RSpec.describe Rental do
         end.to raise_error(ActiveRecord::RecordNotSaved) and change(Rental, :count).by(0) and change(RentalsItem, :count).by(0)
         messages = r.errors.messages[:base]
         expect(messages.count).to eq 2
-        expected_message = /Failed to delete reservations from inventory api /
-        expected_message.match(message.first) ^ expected_message.match(message.second)
-        expected_message = /Reservations partially rolled back /
 
-        # todo check that other things are included
+        # expect messages to contain 'partially rolled back' and 'failed to delete reservations from api'
+        expected_message = /Failed to delete reservations from inventory api /
+        expect(expected_message.match(messages.first).nil? ^ expected_message.match(messages.second).nil?).to eq(true)
+        expected_message = /Reservations partially rolled back /
+        expect(expected_message.match(messages.first).nil? ^ expected_message.match(messages.second).nil?).to eq(true)
       end
     end
   end
@@ -354,19 +354,39 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#basic_info' do
+  describe '#str_item_types' do
     it 'returns basic info of new rental' do
-      @item_type = create :item_type
-      @rental = create :mock_rental, item_type: @item_type
-      expect(@rental.basic_info).to eq("#{@item_type.name}:(#{@rental.start_time.to_date} -> #{@rental.end_time.to_date})")
+      rental = create :mock_rental
+      expect(rental.str_item_types).to eq(rental.item_types.first.name)
+    end
+
+    it 'returns a list of item types if there are multiple items' do
+      rental = create :mock_rental, rentals_items: build_list(:rentals_item, 2)
+      expect(rental.str_item_types).to eq("#{rental.item_types.first.name}, #{rental.item_types.second.name}")
+    end
+  end
+
+  describe '#basic_info' do
+    it 'returns basic info of single item rental' do
+      rental = create :mock_rental
+      expect(rental.basic_info).to eq("#{rental.item_types.first.name}:(#{rental.start_time.to_date} -> #{rental.end_time.to_date})")
+    end
+
+    it 'returns a list of item types if there are multiple' do
+      rental = create :mock_rental, rentals_items: build_list(:rentals_item, 2)
+      expect(rental.basic_info).to eq("#{rental.str_item_types}:(#{rental.start_time.to_date} -> #{rental.end_time.to_date})")
     end
   end
 
   describe '#event_name' do
-    it 'returns event name of new rental' do
-      @item_type = create :item_type
-      @rental = create :mock_rental, item_type: @item_type
-      expect(@rental.event_name).to eq("#{@item_type.name}(#{@item_type.id}) - Rental ID: #{@rental.id}")
+    it 'returns event name of single item rental' do
+      rental = create :mock_rental
+      expect(rental.event_name).to eq("#{rental.item_types.first.name}(#{rental.item_types.first.id}) - Rental ID: #{rental.id}")
+    end
+
+    it 'returns event name of multiple item rental' do
+      rental = create :mock_rental
+      expect(rental.event_name).to eq("#{rental.item_types.first.name}(#{rental.item_types.first.id}) - Rental ID: #{rental.id}")
     end
   end
 

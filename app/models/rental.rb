@@ -168,8 +168,12 @@ class Rental < ActiveRecord::Base
     end
   end
 
+  def str_item_types
+    item_types.map(&:name).reduce("") { |whole, part| whole+', '+part }[2..-1]
+  end
+
   def basic_info
-    "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
+    "#{str_item_types}:(#{start_date.to_date} -> #{end_date.to_date})"
   end
 
   def times
@@ -178,7 +182,7 @@ class Rental < ActiveRecord::Base
   alias dates times
 
   def event_name
-    "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
+    "#{str_item_types}(#{item_type.id}) - Rental ID: #{id}"
   end
 
   def event_status_color
