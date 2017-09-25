@@ -153,7 +153,7 @@ class Rental < ActiveRecord::Base
     return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
     rentals_items.each do |ri|
       next if ri.reservation_id.nil? # nothing to delete here
-      errors.add(:rentals_items, error.inspect) unless delete_reservation(ri.reservation_id)
+      errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)
       ri.reservation_id = nil
     end
     throw(:abort) if errors.any?
@@ -168,8 +168,8 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  def str_item_types
-    item_types.map(&:name).reduce("") { |whole, part| whole+', '+part }[2..-1]
+  def str_item_types(with_ids = false)
+    item_types.reduce("") { |whole, part| whole+', '+"#{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
   end
 
   def basic_info
@@ -182,7 +182,7 @@ class Rental < ActiveRecord::Base
   alias dates times
 
   def event_name
-    "#{str_item_types}(#{item_type.id}) - Rental ID: #{id}"
+    "#{str_item_types(true)} - Rental ID: #{id}"
   end
 
   def event_status_color

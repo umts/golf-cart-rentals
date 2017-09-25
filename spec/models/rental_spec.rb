@@ -384,10 +384,7 @@ RSpec.describe Rental do
       expect(rental.event_name).to eq("#{rental.item_types.first.name}(#{rental.item_types.first.id}) - Rental ID: #{rental.id}")
     end
 
-    it 'returns event name of multiple item rental' do
-      rental = create :mock_rental
-      expect(rental.event_name).to eq("#{rental.item_types.first.name}(#{rental.item_types.first.id}) - Rental ID: #{rental.id}")
-    end
+    # it calls the same method as used in basic_info no reason to test multiple as well
   end
 
   describe '#payments' do
@@ -469,10 +466,13 @@ RSpec.describe Rental do
   describe '#delete_reservation' do
     context 'error thrown' do
       it 'logs the error and returns false' do
-        r = build(:rental)
-        r.create_reservation
+        r = create(:mock_rental)
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
-        expect(r.delete_reservation).to be false
+        expect do
+          r.destroy # will call delete reservation before_destroy
+        end.not_to change(Rental,:count)
+        expect(r.errors.count).to be 1
+        expect(r.errors[:rentals_items].first).to match(/Failed to delete reservation \(uuid /)
       end
     end
   end
