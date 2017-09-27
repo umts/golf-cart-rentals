@@ -23,12 +23,19 @@ class RentalsController < ApplicationController
   # GET /rentals/1
   def show; end
 
-  # GET /rentals/cost?end_time=time&start_time=time&item_type=1
+  # GET /rentals/cost?end_time=time&start_time=time&item_type_ids=...
   def cost
-    start_time = Time.zone.parse(params[:start_time]).to_date.to_s
-    end_time = Time.zone.parse(params[:end_time]).to_date.to_s
-    item_type = ItemType.find(params[:item_type]) if params[:item_type]
-    render json: Rental.cost(start_time, end_time, item_type)
+    _params = cost_params
+    required_params = %i(start_time end_time item_types)
+    if (_params & required_params) == required_params
+      start_time = Time.zone.parse(_params[:start_time]).to_date.to_s
+      end_time = Time.zone.parse(_params[:end_time]).to_date.to_s
+
+      item_type = ItemType.find(params[:item_type]) if params[:item_type]
+      render json: item_type.cost(start_time, end_time, item_type)
+    else
+      render json: {errors: { missing_params: (required_params - _params)} }
+    end
   end
 
   # GET /rentals/new
@@ -140,6 +147,10 @@ class RentalsController < ApplicationController
   def invoice; end
 
   private
+
+  def cost_params
+    params.permit(:start_time,:end_time, item_types: [])
+  end
 
   def set_users_to_assign
     @users = @current_user.assignable_renters.map do |user|
