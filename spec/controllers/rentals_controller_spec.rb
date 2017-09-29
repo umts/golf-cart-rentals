@@ -47,22 +47,24 @@ describe RentalsController do
   end
 
   describe 'GET #cost' do
-    it 'returns a cost for a single item type' do
-      start_time = Date.today
-      end_time = Date.tomorrow
-      get :cost, params: { item_types: [item_type], start_time: start_time, end_time: end_time }
-      expect(response).to have_http_status(:ok)
-      cost = item_type.cost(start_time, end_time).to_s
-      expect(JSON.parse(response.body)).to include("_total" => cost, item_type.name => cost)
-    end
-    it 'returns costs for multiple item types' do
-      start_time = Date.today
-      end_time = Date.tomorrow
-      item_types = create_list :item_type, 2, base_fee: 10, fee_per_day: 40
-      get :cost, params: { item_types: item_types, start_time: start_time, end_time: end_time }
-      expect(response).to have_http_status(:ok)
-      cost = item_type.cost(start_time, end_time).to_s
-      expect(JSON.parse(response.body)).to include(_total: cost, item_type.first.name => cost, item_type.second.name => cost)
+    context 'retrieves cost' do
+      it 'returns a cost for a single item type' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        get :cost, params: { item_types: [item_type], start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time).to_s
+        expect(JSON.parse(response.body)).to include("_total" => cost, item_type.name => cost)
+      end
+      it 'returns costs for multiple item types' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        item_types = create_list :item_type, 2
+        get :cost, params: { item_types: item_types, start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time).to_s
+        expect(JSON.parse(response.body)).to include("_total" => cost, item_type.first.name => cost, item_type.second.name => cost)
+      end
     end
 
     context 'handling errors' do
