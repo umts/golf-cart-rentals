@@ -46,8 +46,8 @@ class RentalsController < ApplicationController
 
       render json: cost.merge(_total: cost.values.reduce(:+))
     else
-      render json: { errors: [
-        "missing_params: #{(required_params - _params).inject('') { |acc, part| if acc.blank? then "#{part}" else "#{acc}, #{part}" end }}"
+      render status: 400, json: { errors: [
+        "missing_params: #{(required_params - _params.to_h.keys).inject('') { |acc, part| if acc.blank? then "#{part}" else "#{acc}, #{part}" end }}"
       ]}
     end
   end

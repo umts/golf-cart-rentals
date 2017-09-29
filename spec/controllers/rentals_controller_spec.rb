@@ -53,7 +53,7 @@ describe RentalsController do
         end_time = Date.tomorrow
         get :cost, params: { item_types: [item_type], start_time: start_time, end_time: end_time }
         expect(response).to have_http_status(:ok)
-        cost = item_type.cost(start_time, end_time).to_s
+        cost = item_type.cost(start_time, end_time)
         expect(JSON.parse(response.body)).to include("_total" => cost, item_type.name => cost)
       end
       it 'returns costs for multiple item types' do
@@ -62,15 +62,21 @@ describe RentalsController do
         item_types = create_list :item_type, 2
         get :cost, params: { item_types: item_types, start_time: start_time, end_time: end_time }
         expect(response).to have_http_status(:ok)
-        cost = item_type.cost(start_time, end_time).to_s
-        expect(JSON.parse(response.body)).to include("_total" => cost, item_type.first.name => cost, item_type.second.name => cost)
+        cost = item_type.cost(start_time, end_time)
+        expect(JSON.parse(response.body)).to include("_total" => cost*2, item_types.first.name => cost, item_types.second.name => cost)
       end
     end
 
     context 'handling errors' do
-      it 'can handle improper params' do
+      it 'can handle invalid item id' do
+        get :cost, params: { item_types: [-1], start_time: Date.today, end_time: Date.tomorrow }
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body)).to include("errors" => [ "item not found -1" ])
       end
-      it 'can handle an unfound item type' do
+      it 'can handle invalid params' do
+        get :cost, params: { end_time: Date.tomorrow }
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body)).to include("errors" => [ "missing_params: start_time, item_types" ])
       end
     end
   end
