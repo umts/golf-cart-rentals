@@ -23,18 +23,32 @@ class RentalsController < ApplicationController
   # GET /rentals/1
   def show; end
 
-  # GET /rentals/cost?end_time=time&start_time=time&item_type_ids=...
+  # GET /rentals/cost?end_time=time&start_time=time&item_types=...
   def cost
     _params = cost_params
-    required_params = %i(start_time end_time item_types)
-    if (_params & required_params) == required_params
+    required_params = %w(start_time end_time item_types)
+    if (_params.to_h.keys & required_params) == required_params
       start_time = Time.zone.parse(_params[:start_time]).to_date.to_s
       end_time = Time.zone.parse(_params[:end_time]).to_date.to_s
 
-      item_type = ItemType.find(params[:item_type]) if params[:item_type]
-      render json: item_type.cost(start_time, end_time, item_type)
+      cost = {}
+      begin
+        cost = Hash[_params[:item_types].map do |it_id|
+          if it = ItemType.find_by_id(it_id)
+            [it.name, it.cost(start_time, end_time)]
+          else
+            raise ArgumentError, it_id
+          end
+        end]
+      rescue => err
+        render json: {errors: [ "item not found #{err.message}" ]}, status: 400 and return
+      end
+
+      render json: cost.merge(_total: cost.values.reduce(:+))
     else
-      render json: {errors: { missing_params: (required_params - _params)} }
+      render json: { errors: [
+        "missing_params: #{(required_params - _params).inject('') { |acc, part| if acc.blank? then "#{part}" else "#{acc}, #{part}" end }}"
+      ]}
     end
   end
 
