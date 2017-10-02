@@ -123,7 +123,8 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
-    rentals_items = params[:rentals_items][:item_types].map do |it_id|
+    binding.pry
+    rentals_items = params.require(:rental).require(:rentals_items).permit(item_types: []).map do |it_id|
       RentalsItem.new(item_type_id: it_id)
     end
     rental = Rental.new(rental_params.merge(creator: @current_user, rentals_items: rentals_items))

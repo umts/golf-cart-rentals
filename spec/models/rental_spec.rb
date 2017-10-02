@@ -168,6 +168,10 @@ RSpec.describe Rental do
       end.not_to change(Rental, :count)
     end
 
+    it 'accepts nested attributes' do
+      expect { create :rental, rentals_items_attributes: [ {item_type: create(:item_type)}, {item_type: create(:item_type)}]}.to change(Rental,:count).by 1
+    end
+
     context 'rolls reservation if any reservations fail to create' do
       let(:fail_rentals_item) { build(:rentals_item, reservation_id: nil) }
       before(:each) do

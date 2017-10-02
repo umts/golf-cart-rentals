@@ -15,7 +15,8 @@ class Rental < ActiveRecord::Base
   # unreserve the items
   before_destroy :delete_reservations
 
-  has_many :rentals_items, dependent: :destroy
+  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
+  accepts_nested_attributes_for :rentals_items
   has_many :items, through: :rentals_items
   has_many :item_types, through: :rentals_items
 

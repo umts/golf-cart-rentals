@@ -3,10 +3,11 @@ require 'rails_helper'
 
 describe RentalsController do
   let(:rental_create) do
-    rental = attributes_for(:new_rental)
-    rental[:rentals_items] = { item_types: create_list(:item_type, 2).map(&:id) }
-    rental[:renter_id] = create(:user, first_name: 'Test2').id
-    rental
+    attributes_for(:new_rental).
+      merge(renter: create(:user),
+            rentals_items_attributes: [
+              { item_type_id: create(:item_type).id },
+              { item_type_id: create(:item_type).id }])
   end
 
   let(:invalid_create) do
@@ -199,7 +200,7 @@ describe RentalsController do
     end
 
     context 'cost adjustment' do
-      let(:cost) { ItemType.find(rental_create[:rentals_items][:item_types].first).cost(rental_create[:start_time], rental_create[:end_time]) }
+      let(:cost) { ItemType.find(rental_create[:rentals_items][:item_types].first).cost(rental_create[:rental][:start_time], rental_create[:rental][:end_time]) }
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [
