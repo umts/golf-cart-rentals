@@ -123,23 +123,25 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
-    @rental = Rental.new(rental_params.merge(creator: @current_user))
+    rentals_items = params[:rentals_items][:item_types].map do |it_id|
+      RentalsItem.new(item_type_id: it_id)
+    end
+    rental = Rental.new(rental_params.merge(creator: @current_user, rentals_items: rentals_items))
 
-    @start_date = params['start_date'] || Time.zone.today
-    if @rental.save
+    if rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
+        # TODO this needs to be changed
         # find existing financial_transaction and change it
-        @financial_transaction = FinancialTransaction.find_by rental: @rental, transactable_type: Rental.name, transactable_id: @rental.id
-        @financial_transaction.amount = params[:amount]
-        @financial_transaction.save
+        financial_transaction = FinancialTransaction.find_by rental: rental, transactable_type: Rental.name, transactable_id: rental.id
+        financial_transaction.amount = params[:amount]
+        financial_transaction.save
       end # if they dont have permission ignore it and we will use default pricing
       flash[:success] = 'Rental Successfully Reserved'
-      redirect_to(@rental)
+      redirect_to(rental)
     else # error has problem, cannot rental a error message here
-      set_users_to_assign
-      flash[:warning] = (@rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
-      @rental.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
+      flash[:warning] = (rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
+      rental.errors.full_messages.each { |e| flash_message :warning, e }
+      redirect_to :new
     end
   end
 
@@ -202,9 +204,9 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     # tokeninput gives us an array, but find_by doesnt care it just gives us the first one
-    user = User.find_by id: params.require(:rental).require(:renter_id)
+    renter = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
-    params.require(:rental).permit(:start_time, :item_type_id, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: user, end_time: new_time)
+    params.require(:rental).permit(:start_time, :pickup_name, :dropoff_name,
+                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: renter, end_time: new_time)
   end
 end

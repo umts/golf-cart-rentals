@@ -29,6 +29,10 @@ RSpec.describe Rental do
     it 'is invalid without a end_time' do
       expect(build(:rental, end_time: nil)).not_to be_valid
     end
+    it 'does not allow duplicate reservation_id' do
+      rental = create :mock_rental
+      expect(build(:rental, rentals_items: [build(:rentals_item, reservation_id: rental.reservation_ids.first)])).not_to be_valid
+    end
     context 'start time before today' do
       it 'is invalid with a start_time before today' do
         expect(build(:rental, start_time: Time.zone.yesterday)).not_to be_valid
@@ -48,12 +52,6 @@ RSpec.describe Rental do
     end
     it 'is invalid with an end_time before the start_time' do
       expect(build(:rental, start_time: Time.zone.tomorrow, end_time: Time.zone.today)).not_to be_valid
-    end
-    context 'creating two rentals' do
-      it 'does not allow duplicate reservation_id' do
-        rental = create :mock_rental
-        expect(build(:rental, rentals_items: [build(:rentals_item, reservation_id: rental.reservation_ids.first)])).not_to be_valid
-      end
     end
 
     context 'renter_is_assignable' do

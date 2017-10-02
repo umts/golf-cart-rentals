@@ -4,15 +4,14 @@ require 'rails_helper'
 describe RentalsController do
   let(:rental_create) do
     rental = attributes_for(:new_rental)
-    rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
-    rental[:item_id] = create(:item, name: 'TEST_ITEM')
-    rental[:renter_id] = [create(:user, first_name: 'Test2')]
+    rental[:rentals_items] = { item_types: create_list(:item_type, 2).map(&:id) }
+    rental[:renter_id] = create(:user, first_name: 'Test2').id
     rental
   end
 
   let(:invalid_create) do
     rental = attributes_for(:invalid_rental)
-    rental[:renter_id] = [create(:user, first_name: 'Test_User')]
+    rental[:renter_id] = create(:user, first_name: 'Test_User').id
     rental
   end
 
@@ -160,7 +159,8 @@ describe RentalsController do
       end
 
       it 'can handle a renter_id passed as an array or not' do
-        rental_create[:renter_id] = rental_create[:renter_id].first
+        # token input gives array so we are testing renter id as array
+        rental_create[:renter_id] = [rental_create[:renter_id]]
         expect do
           post :create, params: { rental: rental_create }
         end.to change(Rental, :count).by(1)
@@ -199,7 +199,7 @@ describe RentalsController do
     end
 
     context 'cost adjustment' do
-      let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
+      let(:cost) { ItemType.find(rental_create[:rentals_items][:item_types].first).cost(rental_create[:start_time], rental_create[:end_time]) }
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [
@@ -300,19 +300,6 @@ describe RentalsController do
       expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
     end
   end
-
-  # unless i'm mistaken this is not an action anymore, just a partial
-  # describe 'GET #transaction_detail' do
-  # it 'assigns a requested rental to @rental' do
-  # get :transaction_detail, params: { id: @rental.id }
-  # expect(assigns[:rental]).to eq @rental
-  # end
-
-  # it 'all requested financial transactions should contain the same rental as @rental' do
-  # get :transaction_detail, params: { id: @rental }
-  # expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
-  # end
-  # end
 
   describe 'PUT #update' do
     it 'properly picks up a rental' do
