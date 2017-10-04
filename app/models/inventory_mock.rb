@@ -59,11 +59,15 @@ class InventoryMock
   end
 
   def self.create_reservation(item_type, start_time, end_time)
-    JSON.parse("{\"id\": \"#{SecureRandom.uuid}\",
-    \"start_time\": \"#{start_time}\",
-    \"end_time\": \"#{end_time}\",
-    \"item_type\": \"#{item_type}\",
-    \"item\": \"Dummy Data\"}")
+    {
+      uuid: SecureRandom.uuid,
+      start_time: start_time,
+      end_time: end_time,
+      item_type: item_type,
+      item: {
+        name: "Fiore"
+      }
+    }
   end
 
   # maybe in the future add a few helper methods like update_start_time(uuid,start_time)

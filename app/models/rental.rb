@@ -95,12 +95,21 @@ class Rental < ActiveRecord::Base
   def create_reservation
     throw :abort unless valid? # check if the current rental object is valid or not
     begin
-      reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
+      if Rails.env.development?
+        reservation = InventoryMock.create_reservation(item_type.name, start_time, end_time)
+      else
+        reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
+      end
+
       raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
 
       self.reservation_id = reservation[:uuid]
       self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
+      # vague begin-rescue blocks like this make it very hard to determine
+      # the error causes during development
+      raise error if Rails.env.development?
+
       errors.add :base, error.inspect
       throw :abort
     end
