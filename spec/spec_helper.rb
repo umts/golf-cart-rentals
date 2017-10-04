@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 require 'factory_girl_rails'
 require 'simplecov'
-# require 'webmock/rspec'
-#
-# WebMock.disable_net_connect!(allow_localhost: true)
+
 SimpleCov.start
 
 RSpec.configure do |config|

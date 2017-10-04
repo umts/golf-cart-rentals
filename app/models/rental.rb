@@ -95,6 +95,12 @@ class Rental < ActiveRecord::Base
   def create_reservation
     throw :abort unless valid? # check if the current rental object is valid or not
     begin
+
+      # Because integration testing using development environment (not fixable
+      # so it seems), need to make sure it isn't sending requests to the API
+      # endpoint. A potential addition to this is to add an "override" checkbox
+      # for development environment only that allows developers to send requests
+      # to the development API endpoint by overriding this clause.
       if Rails.env.development?
         reservation = InventoryMock.create_reservation(item_type.name, start_time, end_time)
       else
