@@ -50,6 +50,7 @@ gem 'rails-jquery-tokeninput'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
 gem 'signature-pad-rails', '~> 0.5'
+gem 'thin' # replacement for webrick
 
 # pagination
 gem 'will_paginate'
