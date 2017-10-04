@@ -27,7 +27,8 @@ Capybara.register_driver :selenium_chrome do |app|
 end
 
 Capybara.javascript_driver = :selenium_chrome
-Capybara.default_wait_time = 100
+Capybara.default_max_wait_time = 15
+Capybara.run_server = true
 
 
 if ENV['TRAVIS']
