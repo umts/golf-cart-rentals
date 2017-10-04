@@ -108,10 +108,6 @@ class Rental < ActiveRecord::Base
       self.reservation_id = reservation[:uuid]
       self.item = Item.find_by(name: reservation[:item][:name])
     rescue => error
-      # vague begin-rescue blocks like this make it very hard to determine
-      # the error causes during development
-      raise error if Rails.env.development?
-
       errors.add :base, error.inspect
       throw :abort
     end

@@ -93,11 +93,11 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'vcr', '2.4.0'
   gem 'codeclimate-test-reporter', require: nil
-  gem 'selenium-webdriver'
+  gem 'factory_girl_rails'
   gem 'rake'
+  gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'vcr', '2.4.0'
 end
