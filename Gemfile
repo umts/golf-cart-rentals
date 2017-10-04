@@ -94,10 +94,10 @@ end
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'vcr', '2.4.0'
   gem 'capybara'
-  gem 'selenium-webdriver'
+  gem 'vcr', '2.4.0'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'selenium-webdriver'
   gem 'rake'
   gem 'simplecov'
 end

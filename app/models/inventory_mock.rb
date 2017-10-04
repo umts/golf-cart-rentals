@@ -65,7 +65,7 @@ class InventoryMock
       end_time: end_time,
       item_type: item_type,
       item: {
-        name: "Fiore"
+        name: 'Fiore'
       }
     }
   end

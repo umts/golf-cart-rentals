@@ -30,4 +30,4 @@ Capybara.javascript_driver = :selenium_chrome
 
 Capybara.app_host = "http://127.0.0.1:3000"
 Capybara.server_host = "127.0.0.1"
-Capybara.server_port = 3000
+Capybara.server_port = 3001

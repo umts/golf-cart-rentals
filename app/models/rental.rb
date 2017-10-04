@@ -101,11 +101,7 @@ class Rental < ActiveRecord::Base
       # endpoint. A potential addition to this is to add an "override" checkbox
       # for development environment only that allows developers to send requests
       # to the development API endpoint by overriding this clause.
-      if Rails.env.development?
-        reservation = InventoryMock.create_reservation(item_type.name, start_time, end_time)
-      else
-        reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
-      end
+      reservation = reservation_response(item_type, start_time, end_time)
 
       raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
 
@@ -221,5 +217,15 @@ class Rental < ActiveRecord::Base
   def create_financial_transaction
     rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
     FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+  end
+
+  private
+
+  def reservation_response(item_type, start_time, end_time)
+    if Rails.env.development?
+      InventoryMock.create_reservation(item_type.name, start_time, end_time)
+    else
+      Inventory.create_reservation(item_type.name, start_time, end_time)
+    end
   end
 end
