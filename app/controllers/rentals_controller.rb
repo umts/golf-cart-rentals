@@ -123,11 +123,7 @@ class RentalsController < ApplicationController
 
   # POST /rentals
   def create
-    binding.pry
-    rentals_items = params.require(:rental).require(:rentals_items).permit(item_types: []).map do |it_id|
-      RentalsItem.new(item_type_id: it_id)
-    end
-    rental = Rental.new(rental_params.merge(creator: @current_user, rentals_items: rentals_items))
+    rental = Rental.new rental_params.merge(creator: @current_user)
 
     if rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
