@@ -4,10 +4,10 @@ require 'rails_helper'
 describe RentalsController do
   let(:rental_create) do
     attributes_for(:new_rental).
-      merge(renter: create(:user),
+      merge(renter_id: create(:user),
             rentals_items_attributes: [
-              { item_type_id: create(:item_type).id },
-              { item_type_id: create(:item_type).id }])
+              { item_type_id: create(:item_type) },
+              { item_type_id: create(:item_type) }])
   end
 
   let(:invalid_create) do
@@ -169,8 +169,12 @@ describe RentalsController do
       end
 
       it 'creates associated reservation' do
-        post :create, params: { rental: rental_create }
-        expect(assigns[:rental].reservation_id).to be_present
+        fixed_uuid = SecureRandom.uuid
+        allow(Inventory).to receive(:create_reservation) { { uuid: fixed_uuid, item: { name: create(:item).name } } }
+        expect do
+          post :create, params: { rental: rental_create }
+        end.to change(RentalsItem,:count).by(2)
+        expect(RentalsItem.last(2).collect(&:reservation_id)).to contain_exactly fixed_uuid, fixed_uuid
       end
     end
 
@@ -179,11 +183,7 @@ describe RentalsController do
         expect do
           post :create, params: { rental: invalid_create }
         end.to_not change(Rental, :count)
-      end
-      it 're-renders the :new template' do
-        post :create, params: { rental: invalid_create }
-        expect(response).to render_template :new
-        expect(assigns[:users]).not_to be_empty
+        expect(response).to redirect_to :new
       end
     end
 
@@ -195,7 +195,7 @@ describe RentalsController do
         end.not_to change(Rental, :count)
 
         expect(flash[:warning]).to be_present
-        expect(response).to render_template :new
+        expect(response).to redirect_to :new
       end
     end
 

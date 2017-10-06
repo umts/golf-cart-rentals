@@ -127,7 +127,7 @@ class RentalsController < ApplicationController
 
     if rental.save
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
-        # TODO this needs to be changed
+        # TODO this needs to be changed to handle multiple rentals
         # find existing financial_transaction and change it
         financial_transaction = FinancialTransaction.find_by rental: rental, transactable_type: Rental.name, transactable_id: rental.id
         financial_transaction.amount = params[:amount]
@@ -135,9 +135,10 @@ class RentalsController < ApplicationController
       end # if they dont have permission ignore it and we will use default pricing
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(rental)
-    else # error has problem, cannot rental a error message here
-      flash[:warning] = (rental.item_type.try(:name) || 'Item type') + ' Is Not Available For Specified Dates'
-      rental.errors.full_messages.each { |e| flash_message :warning, e }
+    else
+      flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
+      binding.pry
+      rental.errors.full_messages.each { |e| flash_message :warning, e}
       redirect_to :new
     end
   end
@@ -201,9 +202,9 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     # tokeninput gives us an array, but find_by doesnt care it just gives us the first one
-    renter = User.find_by id: params.require(:rental).require(:renter_id)
+    renter = User.find_by_id params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number).merge(renter: renter, end_time: new_time)
+                                   :pickup_phone_number, :dropoff_phone_number, rentals_items_attributes: [:item_type_id]).merge(renter: renter, end_time: new_time)
   end
 end
