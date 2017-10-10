@@ -54,10 +54,11 @@ class RentalsController < ApplicationController
 
   # GET /rentals/new
   def new
-    @rental = Rental.new
+    @rental ||= Rental.new # conditionally assign because it could be set already by a method that calls this one
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
     set_users_to_assign
+    render :new # this call is required because we directly call the new method on failure of create and other methods
   end
 
   # Send safety pdf to client
@@ -136,10 +137,10 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(rental)
     else
-      flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
-      binding.pry
+      #flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
       rental.errors.full_messages.each { |e| flash_message :warning, e}
-      redirect_to :new
+      @rental = rental
+      new && return # render new
     end
   end
 
