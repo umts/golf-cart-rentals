@@ -200,7 +200,8 @@ describe RentalsController do
     end
 
     context 'cost adjustment' do
-      let(:cost) { ItemType.find(rental_create[:rentals_items][:item_types].first).cost(rental_create[:rental][:start_time], rental_create[:rental][:end_time]) }
+      let(:cost) { ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id]). # that item_type_id is actually the object itself
+                     cost(rental_create[:start_time], rental_create[:end_time]) }
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [
@@ -213,7 +214,7 @@ describe RentalsController do
 
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        end.to(change(FinancialTransaction, :count).by(rental_create[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
 
         expect(FinancialTransaction.last.amount).to eq cost + 1
       end
@@ -221,9 +222,9 @@ describe RentalsController do
       it 'ignores if the user does not have permission' do # by default does not have this permission
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        end.to(change(FinancialTransaction, :count).by(rental_create[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
 
-        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
+        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1, but they ignored because we dont have perms
       end
     end
   end
