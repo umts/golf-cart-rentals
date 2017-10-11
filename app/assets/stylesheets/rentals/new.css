@@ -3,9 +3,5 @@
 }
 
 .item-type-quantity-picker {
-  width: 35px; /* just wide enough for double digits */
-}
-
-.selectable-item-types {
-  /*overflow-y:scroll;*/
+  width: 40px; /* just wide enough for double digits */
 }

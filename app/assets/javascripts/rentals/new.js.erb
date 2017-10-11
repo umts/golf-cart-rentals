@@ -47,22 +47,7 @@ function costCalculation(){
    }
 }
 
-$('.selectable-item-type').click(function (e) {
-  if($(this).hasClass('active')) { //was active lets remove it
-    $(this).removeClass('active');
-    $(this).html($(this).attr('_name')); //set to base item type name
-  } else { //was inactive lets active it
-    //set item type to active
-    $(this).addClass('active');
-    //add input for ammount
-    $(this).html("<input type='number' step='1' value='1' class='item-type-quantity-picker cost-dependent'> " + $(this).attr('_name')); //set to base item type name
-  }
-
-  $('.cost-dependent').trigger('change'); //force a recalculation
-  e.preventDefault();
-});
-
-$(document).ready( function () {
+$(document).ready(function () {
   costCalculation(); //initial cost calculaton
 
   $("#rental_amount").change(function () {
@@ -84,6 +69,12 @@ $(document).ready( function () {
     }
 
     costCalculation();
+  });
+
+  $('.include-item-type-in-rental').click(function (e) {
+
+    $('.cost-dependent').trigger('change'); //force a recalculation
+    e.preventDefault();
   });
 
   $('select.cost-dependent').on('change', function () {

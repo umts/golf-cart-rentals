@@ -43,10 +43,12 @@
       </div>
     </div>
     <div class="right_side col-xs-6">
-      <div class="list-group selectable-item-types">
-        <a href="#" class="list-group-item">First item <input type="number" step="1" value="1" style="width: 30px"></a>
+      <div class="list-group">
         <% @item_types.each do |it| %>
-          <%= link_to it.name, '#', class: 'selectable-item-type list-group-item', _name: it.name %>
+          <div class="input-group selectable-item-type">
+            <%= link_to it.name, '#', class: 'list-group-item', _name: it.name %>
+            <span class="input-group-addon"><input type="number" step="1" value="0" max="99" min="0" class="item-type-quantity-picker"></span>
+          </div>
         <% end %>
       </div>
     </div>
