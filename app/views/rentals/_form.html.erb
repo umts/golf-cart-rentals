@@ -1,57 +1,62 @@
 <%= form_for @rental, method: :post do |f| %>
-  <div class="form-group col-xs-12">
-    <%= f.label :type, 'Cart Type', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <% #f.select :item_type_id, options_from_collection_for_select(@item_types, "id", "name"), {}, id: 'rental_item_type_id', class: "selectpicker form-control cost-dependent" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
+  <div class="row">
+    <div class="left_side col-xs-6">
+      <div class="form-group col-xs-12">
+        <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
+        <div class="col-xs-9">
           <%= f.text_field :renter_id,
             data: { tokeninput:
-              { collection: @users,
-                options: {tokenLimit: 1, propertyToSearch: :tag, tokenDelimiter: '', prePopulate: [{id: @current_user.id, tag: @current_user.tag}]}}},
-                required: true, class: "form-control" %>
+                    { collection: @users,
+                      options: {tokenLimit: 1, propertyToSearch: :tag, tokenDelimiter: '', prePopulate: [{id: @current_user.id, tag: @current_user.tag}]}}},
+          required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
+        <div class="col-xs-9">
+          <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
+        <div class="col-xs-9">
+          <%= f.date_field :end_time, value: @start_date, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
+        </div>
+      </div>
+
+
+      <div class="form-group col-xs-12">
+        <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
+        <div class="col-xs-9">
+          <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-2' %>
+        <div class="col-xs-9">
+          <%  #(:start_time - :end_time) %>
+          <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+    <div class="right_side col-xs-6">
+      <div class="list-group selectable-item-types">
+        <a href="#" class="list-group-item">First item <input type="number" step="1" value="1" style="width: 30px"></a>
+        <% @item_types.each do |it| %>
+          <%= link_to it.name, '#', class: 'selectable-item-type list-group-item', _name: it.name %>
+        <% end %>
+      </div>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :end_time, value: @start_date, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
-    </div>
-  </div>
-
-
-  <div class="form-group col-xs-12">
-    <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%  #(:start_time - :end_time) %>
-      <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
-    </div>
-  </div>
-
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-6">
+    <div class="col-xs-offset-4 col-xs-6">
       <p>
       <%= link_to 'Download Safety PDF', rentals_safety_pdf_url %>
-       |
+      |
       <%= link_to 'Download Training PDF', rentals_training_pdf_url %>
       </p>
     </div>
@@ -63,6 +68,13 @@
         <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)"> I agree to the safety and training regulations in the above documents</label>
       </div>
     </div>
+  <% else %>
+    <script>
+      $(document).ready(function() {
+        //override this thing
+        $('#rentalSubmit').prop('disabled', false)
+      });
+    </script>
   <% end %>
 
   <div class="form-group col-xs-12">

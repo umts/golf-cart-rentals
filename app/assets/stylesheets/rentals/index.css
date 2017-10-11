@@ -1,38 +1,38 @@
 /* Legend Customization */
 .legend {
-	list-style: none;
-	padding-bottom: 10px;
+  list-style: none;
+  padding-bottom: 10px;
 }
 
 .legend li {
-	float: left;
-	margin-right: 10px;
+  float: left;
+  margin-right: 10px;
 }
 
 .legend span {
-	border: 1px solid #ccc;
-	float: left;
-	width: 12px;
-	height: 12px;
-	margin: 2px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 12px;
+  height: 12px;
+  margin: 2px;
 }
 
 .legend .reserved {
-	background-color: #0092ff;
+  background-color: #0092ff;
 }
 
 .legend .checkedout {
-	background-color: #f7ff76;
+  background-color: #f7ff76;
 }
 
 .legend .checkedin {
-	background-color: #09ff00;
+  background-color: #09ff00;
 }
 
 .legend .canceled {
-	background-color: #ff0000;
+  background-color: #ff0000;
 }
 
 form#rental_search {
-	width: 70%;
+  width: 70%;
 }

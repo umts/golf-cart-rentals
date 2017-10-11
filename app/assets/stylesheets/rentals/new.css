@@ -1,0 +1,11 @@
+.left_size {
+  border-right:1px solid #ccc;
+}
+
+.item-type-quantity-picker {
+  width: 35px; /* just wide enough for double digits */
+}
+
+.selectable-item-types {
+  /*overflow-y:scroll;*/
+}
