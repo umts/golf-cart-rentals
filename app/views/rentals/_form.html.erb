@@ -1,8 +1,8 @@
 <%= form_for @rental, method: :post do |f| %>
   <div class="row">
-    <div class="left_side col-xs-6">
-      <div class="form-group col-xs-12">
-        <%= f.label :renter, 'Renter', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <div class="form-group row">
+        <%= f.label :renter, 'Renter', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%= f.text_field :renter_id,
             data: { tokeninput:
@@ -12,49 +12,49 @@
         </div>
       </div>
 
-      <div class="form-group col-xs-12">
-        <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-2' %>
+      <div class="form-group row">
+        <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
         </div>
       </div>
 
-      <div class="form-group col-xs-12">
-        <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-2' %>
+      <div class="form-group row">
+        <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%= f.date_field :end_time, value: @start_date, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
         </div>
       </div>
 
 
-      <div class="form-group col-xs-12">
-        <%= label_tag :amount, 'Cost', class: 'control-label col-xs-2' %>
+      <div class="form-group row">
+        <%= label_tag :amount, 'Cost', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
         </div>
       </div>
 
-      <div class="form-group col-xs-12">
-        <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-2' %>
+      <div class="form-group row">
+        <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%  #(:start_time - :end_time) %>
           <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
         </div>
       </div>
     </div>
-    <div class="right_side col-xs-6">
+    <div class="col-xs-6">
       <div class="list-group">
         <% @item_types.each do |it| %>
           <div class="input-group selectable-item-type">
-            <%= link_to it.name, '#', class: 'list-group-item', _name: it.name %>
-            <span class="input-group-addon"><input type="number" step="1" value="0" max="99" min="0" class="item-type-quantity-picker"></span>
+            <%= link_to it.name, '#', class: 'list-group-item' %>
+            <span class="input-group-addon"><input type="number" name="<%= it.id %>" step="1" value="0" max="99" min="0" class="item-type-quantity-picker cost-dependent"></span>
           </div>
         <% end %>
       </div>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
+  <div class="form-group row">
     <div class="col-xs-offset-4 col-xs-6">
       <p>
       <%= link_to 'Download Safety PDF', rentals_safety_pdf_url %>
@@ -64,19 +64,19 @@
     </div>
   </div>
 
-  <% if @current_user.department.name != 'Parking' %>
-    <div class="form-group col-xs-12">
-      <div class="col-xs-offset-2 col-xs-6">
-        <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)"> I agree to the safety and training regulations in the above documents</label>
-      </div>
-    </div>
-  <% else %>
+  <% if @current_user.department.name == 'Parking' %>
     <script>
       $(document).ready(function() {
         //override this thing
         $('#rentalSubmit').prop('disabled', false)
       });
     </script>
+  <% else %>
+    <div class="form-group row">
+      <div class="col-xs-offset-2 col-xs-6">
+        <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)"> I agree to the safety and training regulations in the above documents</label>
+      </div>
+    </div>
   <% end %>
 
   <div class="form-group col-xs-12">

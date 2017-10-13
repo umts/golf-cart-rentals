@@ -31,15 +31,16 @@ class RentalsController < ApplicationController
       start_time = Time.zone.parse(_params[:start_time]).to_date.to_s
       end_time = Time.zone.parse(_params[:end_time]).to_date.to_s
 
-      cost = {}
       begin
-        cost = Hash[_params[:item_types].map do |it_id|
+        cost = _params[:item_types].reduce({}) do |acc,it_id|
           if it = ItemType.find_by_id(it_id)
-            [it.name, it.cost(start_time, end_time)]
+            acc[it.name] ||= 0
+            acc[it.name] += it.cost(start_time, end_time)
           else
             raise ArgumentError, it_id
           end
-        end]
+          acc
+        end
       rescue => err
         render json: {errors: [ "item not found #{err.message}" ]}, status: 400 and return
       end

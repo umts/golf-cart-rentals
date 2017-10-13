@@ -65,6 +65,15 @@ describe RentalsController do
         cost = item_type.cost(start_time, end_time)
         expect(JSON.parse(response.body)).to include("_total" => cost*2, item_types.first.name => cost, item_types.second.name => cost)
       end
+      it 'returns the cost for two of the same item' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        item_type = create :item_type
+        get :cost, params: { item_types: [item_type,item_type], start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time)
+        expect(JSON.parse(response.body)).to include("_total" => cost*2)
+      end
     end
 
     context 'handling errors' do
