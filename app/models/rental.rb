@@ -169,6 +169,14 @@ class Rental < ActiveRecord::Base
     end
   end
 
+  def str_reservation_ids
+    rentals_items.reduce("") { |acc,part| "#{acc}, #{part.reservation_id}" }[2..-1]
+  end
+
+  def str_items(with_ids = false)
+    items.reduce("") { |acc, part| "#{acc}, #{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
+  end
+
   def str_item_types(with_ids = false)
     item_types.reduce("") { |whole, part| whole+', '+"#{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
   end

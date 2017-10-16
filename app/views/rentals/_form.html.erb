@@ -47,7 +47,8 @@
         <% @item_types.each do |it| %>
           <div class="input-group selectable-item-type">
             <%= link_to it.name, '#', class: 'list-group-item' %>
-            <span class="input-group-addon"><input type="number" name="<%= it.id %>" step="1" value="0" max="99" min="0" class="item-type-quantity-picker cost-dependent"></span>
+            <!-- we use _name attr because any ele with a name attr is submitted to server, this is a dummy field, we have to fix it latter so it submitts properly -->
+            <span class="input-group-addon"><input type="number" _name="<%= it.id %>" step="1" value="0" max="99" min="0" class="item-type-quantity-picker cost-dependent"></span>
           </div>
         <% end %>
       </div>

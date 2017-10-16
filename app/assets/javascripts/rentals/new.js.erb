@@ -13,15 +13,20 @@ function days_between(sd, ed) {
   return Math.round(diff_ms/one_day) + 1;
 }
 
-function costCalculation(){
+function item_types_to_arr() {
   //collect item types (will always be at least [])
-  var item_types = $(".item-type-quantity-picker").toArray().reduce(function (acc,part) {
+  return $(".item-type-quantity-picker").toArray().reduce(function (acc,part) {
     var it_part = [];
     for(var i=0;i<part.value;i++){
-      it_part.push(part.name);
+      it_part.push($(part).attr("_name"));
     }
     return acc.concat(it_part);
   }, []);
+}
+
+function costCalculation(){
+  //collect item types (will always be at least [])
+  var item_types = item_types_to_arr();
 
   var raw_start_time = $('#rental_start_time').val();
   var raw_end_time = $('#rental_end_time').val();
@@ -74,5 +79,15 @@ $(document).ready(function () {
 
   $('input.cost-dependent.item-type-quantity-picker').change(function () {
     costCalculation();
+  });
+
+  $('form#new_rental').submit(function () {
+    //need to take all the item types and format them correctly; it should look like this
+    // { renter_id: 1, rental_items_attributes: { {item_type_id: 1}, {item_type_id: 4} }
+    // need a few inputs with name = "rental[rentals_items_attributes][0][item_type_id]"
+    // these will be hidden from user so they think those other inputs are the things that make it work
+    item_types_to_arr().forEach((it, ind) => {
+      $(this).append(`<input name='rental[rentals_items_attributes][${ind}][item_type_id]' value='${it}' hidden>`);
+    });
   });
 });
