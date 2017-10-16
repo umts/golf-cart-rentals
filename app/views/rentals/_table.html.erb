@@ -15,8 +15,8 @@
       <td><%= rental.renter.full_name %></td>
       <td><%= rental.start_time.strftime("%a %m/%d/%Y") %></td>
       <td><%= rental.end_time.strftime("%a %m/%d/%Y") %></td>
-      <td><%= rental.item_type.name %></td>
-      <td><%= rental.item.name %></td>
+      <td><%= rental.item_types.reduce({}) { |acc,part| acc[part.name] ||= 0; acc[part.name] += 1; acc }.map { |pair| "#{pair[1]} #{pair[0]}" }.join(', ')  %></td>
+      <td><%= rental.items.reduce("") { |acc, part| "#{acc}, #{part.name}" }[2..-1] %></td>
       <td><%= number_to_currency(rental.balance) %></td>
       <td class="min-width">
         <%= link_to (content_tag(:span, nil, class: "glyphicon glyphicon-eye-open")+" View"), rental, class: "btn btn-xs btn-success" %>
