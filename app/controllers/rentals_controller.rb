@@ -3,9 +3,9 @@ require 'will_paginate/array'
 class RentalsController < ApplicationController
   @per_page = 10
 
-  before_action :set_rental, only: [:show, :edit, :update, :destroy, :transform, :invoice]
-  before_action :set_item_types, only: [:index, :new, :create, :edit, :update, :processing]
-  before_action :set_items, only: [:index, :new, :create, :edit, :update, :processing]
+  before_action :set_rental, only: [:show, :update, :destroy, :transform, :invoice]
+  before_action :set_item_types, only: [:index, :new, :create, :update, :processing]
+  before_action :set_items, only: [:index, :new, :create, :update, :processing]
   before_action :set_all_users, only: [:index, :processing]
   before_action :set_incidental_types, only: [:new]
   before_action :set_financial_transactions, only: [:show, :invoice]
