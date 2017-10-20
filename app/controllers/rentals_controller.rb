@@ -128,12 +128,14 @@ class RentalsController < ApplicationController
     rental = Rental.new rental_params.merge(creator: @current_user)
 
     if rental.save
+      # by deleting and createing a new ft we cause two emails to be sent
       if params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
-        # TODO this needs to be changed to handle multiple rentals
-        # find existing financial_transaction and change it
-        financial_transaction = FinancialTransaction.find_by rental: rental, transactable_type: Rental.name, transactable_id: rental.id
-        financial_transaction.amount = params[:amount]
-        financial_transaction.save
+        # delete the financial transactions for the existing rental
+        FinancialTransaction.where(rental: rental, transactable_type: Rental.name, transactable_id: rental.id).destroy!
+
+        # create a single custom financial transaction for entire rental
+        FinancialTransaction.create rental: rental, transactable_type: Rental.name, transactable_id: rental.id,
+          amount: params[:amount], note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
       end # if they dont have permission ignore it and we will use default pricing
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(rental)
