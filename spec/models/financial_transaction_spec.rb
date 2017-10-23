@@ -17,21 +17,6 @@ RSpec.describe FinancialTransaction, type: :model do
       expect { create :financial_transaction, rental: nil }.to raise_error ActiveRecord::RecordInvalid
     end
 
-    it 'creates a financial transaction via post hook from creating a Rental' do
-      rent = create :mock_rental
-      transaction = FinancialTransaction.first
-      polymorphism_trans = rent.financial_transaction
-
-      expect(rent).to eq(transaction.rental)
-      expect(transaction).to eq(polymorphism_trans)
-      expect(rent).to eq(polymorphism_trans.rental)
-
-      base_fee = rent.item_type.base_fee
-      daily_fee = rent.item_type.fee_per_day * rent.duration
-
-      expect(transaction.amount).to eq(base_fee + daily_fee)
-    end
-
     it 'is invalid without an amount' do
       expect(build(:financial_transaction, :with_rental, amount: nil)).not_to be_valid
     end

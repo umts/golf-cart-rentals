@@ -4,10 +4,12 @@ include ActionDispatch::TestProcess
 describe IncurredIncidentalsController do
   let(:incurred_incidental_create) do
     inc = attributes_for(:incurred_incidental)
-    inc[:rental_id] = create(:rental).id
+    rental = create(:rental)
+    inc[:rental_id] = rental.id
     inc[:incidental_type_id] = create(:incidental_type).id
     inc[:notes_attributes] = { '0': { note: 'hey wassup hello' } }
     inc[:financial_transaction_attributes] = { amount: 44 }
+    inc[:item_id] = rental.rentals_items.first.item.id
     inc
   end
 
