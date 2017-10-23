@@ -209,7 +209,7 @@ describe RentalsController do
     end
 
     context 'cost adjustment' do
-      let(:cost) { ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id]). # that item_type_id is actually the object itself
+      let(:cost) { ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id].id). # that item_type_id is actually the object itself
                      cost(rental_create[:start_time], rental_create[:end_time]) }
 
       it 'adjusts the related financial transaction' do
@@ -223,7 +223,7 @@ describe RentalsController do
 
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(rental_create[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
+        end.to change(FinancialTransaction, :count).by(1) && change(Rental, :count).by(1)
 
         expect(FinancialTransaction.last.amount).to eq cost + 1
       end

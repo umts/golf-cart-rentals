@@ -218,6 +218,16 @@ RSpec.describe Rental do
     end
   end
 
+  describe '#cost' do
+    it 'gets the right cost based on item types' do
+      it1 = create :item_type, base_fee: 5, fee_per_day: 2
+      it2 = create :item_type, base_fee: 3, fee_per_day: 11
+      rental = build :rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow,
+        rentals_items_attributes: [ {item_type: it1}, {item_type: it2} ]
+      expect(rental.cost).to eq((5+2*2)+(3+2*11))
+    end
+  end
+
   describe '#times' do
     before :each do
       @rental = create :mock_rental
@@ -329,6 +339,10 @@ RSpec.describe Rental do
       expect(rental.financial_transaction).to be(nil)
       rental.save
       expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
+    end
+    it 'wont create a financial_transaction if told not to' do
+      rental = build :rental, skip_financial_transactions: true
+      expect { rental.save }.not_to change(FinancialTransaction, :count)
     end
   end
 

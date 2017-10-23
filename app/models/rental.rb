@@ -8,7 +8,9 @@ class Rental < ActiveRecord::Base
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  after_create :create_financial_transaction
+  # will skip financial transactions if we plan to create manual pricing
+  attr_accessor :skip_financial_transactions
+  after_create :create_financial_transaction, unless: proc { |rental| rental.skip_financial_transactions }
   # create reservation unless it has already been created
   before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
 
@@ -246,5 +248,9 @@ class Rental < ActiveRecord::Base
       # TODO maybe set transactable to RentalsItem
       FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
     end
+  end
+
+  def cost
+    rentals_items.reduce(0) { |acc,part| acc + part.item_type.cost(start_time.to_date, end_time.to_date) }
   end
 end
