@@ -23,7 +23,7 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-  - bundle exec rackup -p 5000
+  - bundle exec rackup -p 5000 &
   - sleep 3 # give rackup time to start
 addons:
   code_climate:
