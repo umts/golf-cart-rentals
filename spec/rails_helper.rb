@@ -26,9 +26,22 @@ Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
+Capybara.register_driver :selenium_chrome_headless do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: %w(headless disable-gpu no-sandbox disable-gpu window-size=1400,900})
+    }
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+end
+
+Capybara.default_driver = :selenium_chrome_headless
 Capybara.javascript_driver = :selenium_chrome
-Capybara.default_max_wait_time = 15
-Capybara.run_server = true
+Capybara.default_max_wait_time = 8
+# Capybara.run_server = true
 
 
 if ENV['TRAVIS']

@@ -42,8 +42,12 @@ describe 'Creating a new rental', js: true do
           check('TOC')
         end
 
-        click_button('rentalSubmit')
-        page.driver.browser.switch_to.alert.accept
+        click_button 'rentalSubmit'
+        accept_alert
+        # accept_alert  do
+        #   click_button 'rentalSubmit'
+        # end
+        #page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoSuchAlertError
 
         # slightly confusing, but this is the relative url when redirecting
         # back to itself on a failed creation, not the index
@@ -59,8 +63,12 @@ describe 'Creating a new rental', js: true do
           check('TOC')
         end
 
-        find_by_id('rentalSubmit').click
-        page.driver.browser.switch_to.alert.accept
+        click_button 'rentalSubmit'
+        accept_alert
+        # accept_alert do
+        #     find_by_id('rentalSubmit').click
+        # end
+        # page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoSuchAlertError
 
         # Because it is using development data but the logic itself runs off
         # test data, neither "/rentals/1" (test) or "rentals/#{Rental.count}"
