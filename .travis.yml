@@ -7,6 +7,7 @@ script:
 before_install:
  - sudo apt-get update
  - sudo apt-get install chromium-chromedriver
+ - gem install rack
 before_script:
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
   - cp config/database.travis.yml config/database.yml
