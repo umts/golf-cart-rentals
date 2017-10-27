@@ -19,22 +19,21 @@ class Hold < ActiveRecord::Base
   def handle_conflicting_rentals
     # if rental falls between data range of our hold
     # only reserved but not picked up
-    conflicting_rentals = Rental.reserved.where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
-                                                hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+    conflicting_rentals = Rental.reserved.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id').
+      where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
+            hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
 
   def replace_rental(curr_rental)
-    new_rental = Rental.new(item_type_id: curr_rental.item_type_id, creator_id: curr_rental.creator_id,
-                            renter_id: curr_rental.renter_id,
-                            start_time: curr_rental.start_time, end_time: curr_rental.end_time)
-    new_rental.create_reservation
+    new_rental = Rental.new(rentals_items_attributes: (curr_rental.item_types.map { |x| { item_type: x } }), creator_id: curr_rental.creator_id,
+                            renter_id: curr_rental.renter_id, start_time: curr_rental.start_time, end_time: curr_rental.end_time)
     new_rental.save!
     curr_rental.cancel!
     ReplacementMailer.replacement_email(curr_rental.renter, self, curr_rental, new_rental).deliver_now
-  rescue
-    errors.add(:item_id, ': failed to replace existing rentals for this item')
+  rescue => err
+    errors.add(:rentals_items, ': failed to replace existing rentals for this item ' + err.message)
     ReplacementMailer.no_replacement_email(curr_rental.renter, self, curr_rental).deliver_now
   end
 
@@ -54,7 +53,8 @@ class Hold < ActiveRecord::Base
 
   def conflicting_ongoing_rental
     # it couldnt be possible that the same item has already been picked up twice under the same rental
-    Rental.picked_up.find_by('start_time <= :hold_end_time AND end_time >= :hold_start_time AND item_id = :hold_item_id',
-                             hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+    Rental.picked_up.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id').
+      find_by('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
+              hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
   end
 end
