@@ -127,7 +127,8 @@ class RentalsController < ApplicationController
     rental = Rental.new rental_params.merge(creator: @current_user)
 
     # if the specified a custom amount we will create the financial transactions later
-    rental.skip_financial_transactions = true if params[:amount] && rental.cost != params[:amount] && @current_user.has_permission?('rentals', 'cost_adjustment')
+    rental.skip_financial_transactions = params[:amount] && rental.cost != params[:amount] &&
+      @current_user.has_permission?('rentals', 'cost_adjustment')
 
     if rental.save
       if rental.skip_financial_transactions # use that special pricing, we already verified their perms
@@ -208,6 +209,7 @@ class RentalsController < ApplicationController
     renter = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :pickup_name, :dropoff_name,
-                                   :pickup_phone_number, :dropoff_phone_number, rentals_items_attributes: [:item_type_id]).merge(renter: renter, end_time: new_time)
+                                   :pickup_phone_number, :dropoff_phone_number,
+                                   rentals_items_attributes: [:item_type_id]).merge(renter: renter, end_time: new_time)
   end
 end
