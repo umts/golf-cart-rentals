@@ -47,6 +47,7 @@ describe PaymentTrackingController do
             post :send_invoice, params: { rental_id: paid_rental.id }
           end.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
+        expect(ActionMailer::Base.deliveries.last.subject).to eq("Invoice for Rental #{paid_rental.basic_info}")
       end
 
       it 'for an unpaid rental' do
@@ -57,6 +58,7 @@ describe PaymentTrackingController do
             post :send_invoice, params: { rental_id: unpaid_rental.id }
           end.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
+        expect(ActionMailer::Base.deliveries.last.subject).to eq("Invoice for Rental #{unpaid_rental.basic_info}")
       end
     end
 

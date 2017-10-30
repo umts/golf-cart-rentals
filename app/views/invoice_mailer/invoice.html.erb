@@ -31,11 +31,11 @@
       <label class="col-xs-2 control-label">End Date/Time:</label>&nbsp;<%= @rental.end_date.strftime("%a %D %I:%M %p") %>
     </div>
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Item Type:</label>&nbsp;<%= @rental.item_type.name %>
+      <label class="col-xs-3 control-label">Item Type:</label>&nbsp;<%= @rental.str_item_types %>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Item Name:</label>&nbsp;<%= @rental.item.name %>
+      <label class="col-xs-3 control-label">Item Name:</label>&nbsp;<%= @rental.str_items %>
     </div>
 
     <div class="form-group col-xs-12">
@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-3 control-label">Reservation ID:</label>&nbsp;<%= @rental.reservation_id %>
+      <label class="col-xs-3 control-label">Reservation IDs:</label>&nbsp;<%= @rental.str_reservation_ids %>
     </div>
 
     <div class="form-group col-xs-12">
