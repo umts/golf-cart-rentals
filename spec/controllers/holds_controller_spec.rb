@@ -48,7 +48,7 @@ describe HoldsController do
     context 'with valid attributes' do
       it 'saves the new hold in the database' do
         expect do
-          put :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
+          post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
         end.to change(Hold, :count).by(1)
       end
 
@@ -65,9 +65,9 @@ describe HoldsController do
       it 'warns user of ongoing rentals' do
         current_user(super_user)
 
-        rental = create :mock_rental
+        rental = create :mock_rental # only has one item
         rental.pickup
-        put :create, params: { hold: attributes_for(:hold).merge(item_id: rental.item) }
+        post :create, params: { hold: attributes_for(:hold).merge(item_id: rental.items.first.id) }
         expect(flash[:warning]).to include rental.id.to_s
       end
     end
