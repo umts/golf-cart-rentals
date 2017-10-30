@@ -220,13 +220,11 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
-                          .inject(0) { |acc, elem| acc + elem.amount }
+    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).sum(:amount)
   end
 
   def sum_payments
-    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
-                          .inject(0) { |acc, elem| acc + elem.amount }
+    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).sum(:amount)
   end
 
   def balance
@@ -241,8 +239,7 @@ class Rental < ActiveRecord::Base
     # create financial transactions for all the rentals
     rentals_items.each do |ri|
       rental_amount = ri.item_type.cost(start_time.to_date, end_time.to_date)
-      # TODO: maybe set transactable to RentalsItem
-      FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+      FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: RentalsItem.name, transactable_id: ri.id
     end
   end
 

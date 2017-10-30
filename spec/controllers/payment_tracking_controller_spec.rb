@@ -6,11 +6,8 @@ describe PaymentTrackingController do
   let(:paid_rental) do
     rental_paid = create :mock_rental
 
-    # get amount from the transaction created by rental
-    amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
-
     # pay for rental
-    create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+    create :financial_transaction, :with_payment, amount: rental_paid.balance, rental: rental_paid
     # now rental_paid has no balance due
 
     rental_paid

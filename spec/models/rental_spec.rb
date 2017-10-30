@@ -108,7 +108,7 @@ RSpec.describe Rental do
       rental_unpaid = create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+      amount = rental_paid.balance
 
       # pay for rental
       create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
@@ -124,7 +124,7 @@ RSpec.describe Rental do
       create :mock_rental # unpaid
 
       # get amount from the transaction created by rental
-      amount = FinancialTransaction.find_by(rental: rental_paid, transactable: rental_paid).amount
+      amount = rental_paid.balance
 
       # pay for rental
       create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
