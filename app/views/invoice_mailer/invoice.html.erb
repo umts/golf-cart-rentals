@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-6">
-          <p>
-            Parking Services <br>
-            University of Massachusetts Amherst<br>
-            51 Forestry Way Amherst, MA 01003-9262<br>
-            phone: (413) 577-PARK <br>
-            fax: (413) 545-4440<br>
-            web: http://parking.umass.edu<br>
-            email: parking@admin.umass.edu<br>
-          </p>
-        <div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+      <p>
+      Parking Services <br>
+      University of Massachusetts Amherst<br>
+      51 Forestry Way Amherst, MA 01003-9262<br>
+      phone: (413) 577-PARK <br>
+      fax: (413) 545-4440<br>
+      web: http://parking.umass.edu<br>
+      email: parking@admin.umass.edu<br>
+      </p>
+      <div>
       </div>
     </div>
 
@@ -52,81 +46,79 @@
 
     <div class="form-group col-xs-12">
       <label class="col-xs-3 control-label">Department:</label>&nbsp;<div class="form-control-informaton col-xs-9"><%= @rental.department.name %>
-    </div>
+      </div>
 
-    <% if @rental.incurred_incidentals.any? %>
-      <div class="container">
-        <div id="incidental" class="">
-          <div class="form-group col-xs-12">
-            <h2 class="">Incidentals</h2>
-            <table class="table table-striped table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Base Fee</th>
-                  <th>Modifier Amount</th>
-                  <th>Modifier Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+      <% if @rental.incurred_incidentals.any? %>
+        <div class="container">
+          <div id="incidental" class="">
+            <div class="form-group col-xs-12">
+              <h2 class="">Incidentals</h2>
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
                   <tr>
-                    <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
-                    <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
-                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
-                    <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
-                    <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Base Fee</th>
+                    <th>Modifier Amount</th>
+                    <th>Modifier Description</th>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+                    <tr>
+                      <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+                      <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+                      <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
+                      <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
+                      <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
 
-      <div id="payment" class="form-group col-xs-12">
-        <h2 class="">Payment Summary</h2>
-      </div>
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th>Create Date</th>
-            <th>Transaction Type</th>
-            <th>Transaction Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @rental.financial_transactions.each do |ft| %>
+        <div id="payment" class="form-group col-xs-12">
+          <h2 class="">Payment Summary</h2>
+        </div>
+        <table class="table table-sm">
+          <thead>
             <tr>
-              <td><%= ft.created_at %></td>
-              <td><%= ft.transactable_type %></td>
-              <td><%= number_to_currency (ft.amount || 0) %></td>
+              <th>Create Date</th>
+              <th>Transaction Type</th>
+              <th>Transaction Amount</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% @rental.financial_transactions.each do |ft| %>
+              <tr>
+                <td><%= ft.created_at %></td>
+                <td><%= ft.transactable_type %></td>
+                <td><%= number_to_currency (ft.amount || 0) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="text-right">
-            <h2><label>Total Amount Due:</label>
-            <%= number_to_currency @rental.balance %></h2>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="text-right">
+              <h2><label>Total Amount Due:</label>
+                <%= number_to_currency @rental.balance %></h2>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
 
-    <p class="legal-blurb">This invoice may be paid by recharge form. <br>
+        <p class="legal-blurb">This invoice may be paid by recharge form. <br>
 
-    Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
+        Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
 
-    The golf cart training user agreement is available online at http://rental.parking.umass.edu/rentals/safety_pdf <br>
+        The golf cart training user agreement is available online at http://rental.parking.umass.edu/rentals/safety_pdf <br>
 
-    The golf cart safety form is available online at http://rental.parking.umass.edu/rentals/training_pdf <br>
+        The golf cart safety form is available online at http://rental.parking.umass.edu/rentals/training_pdf <br>
 
-    Please send payment to Parking Services, Attention Sharon Kennedy. <br>
+        Please send payment to Parking Services, Attention Sharon Kennedy. <br>
 
-    If you have any questions, please contact Sharon Kennedy at 413-545-6588 or srkenned@admin.umass.edu </p>
-  </body>
-</html>
+        If you have any questions, please contact Sharon Kennedy at 413-545-6588 or srkenned@admin.umass.edu </p>
