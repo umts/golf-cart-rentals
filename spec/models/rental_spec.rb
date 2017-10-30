@@ -169,7 +169,7 @@ RSpec.describe Rental do
     end
 
     it 'accepts nested attributes' do
-      expect { create :rental, rentals_items_attributes: [ {item_type: create(:item_type)}, {item_type: create(:item_type)}]}.to change(Rental,:count).by 1
+      expect { create :rental, rentals_items_attributes: [{ item_type: create(:item_type) }, { item_type: create(:item_type) }] }.to change(Rental, :count).by 1
     end
 
     context 'rolls reservation if any reservations fail to create' do
@@ -182,7 +182,7 @@ RSpec.describe Rental do
       it 'rolls back other reservations if a single reservation fails' do
         expect do
           create(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
-        end.to raise_error(ActiveRecord::RecordNotSaved) and change(Rental, :count).by(0) and change(RentalsItem, :count).by(0)
+        end.to(raise_error(ActiveRecord::RecordNotSaved)) && change(Rental, :count).by(0) && change(RentalsItem, :count).by(0)
         expect(Inventory).to have_received(:delete_reservation).once # will only be called for the one that works
       end
 
@@ -193,7 +193,7 @@ RSpec.describe Rental do
         r = build(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
         expect do
           r.save!
-        end.to raise_error(ActiveRecord::RecordNotSaved) and change(Rental, :count).by(0) and change(RentalsItem, :count).by(0)
+        end.to(raise_error(ActiveRecord::RecordNotSaved)) && change(Rental, :count).by(0) && change(RentalsItem, :count).by(0)
         messages = r.errors.messages[:base]
         expect(messages.count).to eq 2
 
@@ -223,8 +223,8 @@ RSpec.describe Rental do
       it1 = create :item_type, base_fee: 5, fee_per_day: 2
       it2 = create :item_type, base_fee: 3, fee_per_day: 11
       rental = build :rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow,
-        rentals_items_attributes: [ {item_type: it1}, {item_type: it2} ]
-      expect(rental.cost).to eq((5+2*2)+(3+2*11))
+                              rentals_items_attributes: [{ item_type: it1 }, { item_type: it2 }]
+      expect(rental.cost).to eq((5 + 2 * 2) + (3 + 2 * 11))
     end
   end
 
@@ -453,7 +453,7 @@ RSpec.describe Rental do
       rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20))]
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([240])
     end
-    let!(:four_seat) {create(:item_type, name: "4 Seat")}
+    let!(:four_seat) { create(:item_type, name: '4 Seat') }
     it 'creates a 4 Seat 14 day financial transaction(longterm 2 week)' do
       rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 13.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([500])
@@ -466,7 +466,7 @@ RSpec.describe Rental do
       rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 27.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([850])
     end
-    let!(:six_seat) {create(:item_type, name: "6 Seat")}
+    let!(:six_seat) { create(:item_type, name: '6 Seat') }
     it 'creates a 6 Seat 14 day financial transaction(longterm 2 week)' do
       rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 13.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([600])
@@ -488,7 +488,7 @@ RSpec.describe Rental do
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
         expect do
           r.destroy # will call delete reservation before_destroy
-        end.not_to change(Rental,:count)
+        end.not_to change(Rental, :count)
         expect(r.errors.count).to be 1
         expect(r.errors[:rentals_items].first).to match(/Failed to delete reservation \(uuid /)
       end

@@ -3,11 +3,12 @@ require 'rails_helper'
 
 describe RentalsController do
   let(:rental_create) do
-    attributes_for(:new_rental).
-      merge(renter_id: create(:user),
-            rentals_items_attributes: [
-              { item_type_id: create(:item_type) },
-              { item_type_id: create(:item_type) }])
+    attributes_for(:new_rental)
+      .merge(renter_id: create(:user),
+             rentals_items_attributes: [
+               { item_type_id: create(:item_type) },
+               { item_type_id: create(:item_type) }
+             ])
   end
 
   let(:invalid_create) do
@@ -54,7 +55,7 @@ describe RentalsController do
         get :cost, params: { item_types: [item_type], start_time: start_time, end_time: end_time }
         expect(response).to have_http_status(:ok)
         cost = item_type.cost(start_time, end_time)
-        expect(JSON.parse(response.body)).to include("_total" => cost, item_type.name => cost)
+        expect(JSON.parse(response.body)).to include('_total' => cost, item_type.name => cost)
       end
       it 'returns costs for multiple item types' do
         start_time = Date.today
@@ -63,16 +64,16 @@ describe RentalsController do
         get :cost, params: { item_types: item_types, start_time: start_time, end_time: end_time }
         expect(response).to have_http_status(:ok)
         cost = item_type.cost(start_time, end_time)
-        expect(JSON.parse(response.body)).to include("_total" => cost*2, item_types.first.name => cost, item_types.second.name => cost)
+        expect(JSON.parse(response.body)).to include('_total' => cost * 2, item_types.first.name => cost, item_types.second.name => cost)
       end
       it 'returns the cost for two of the same item' do
         start_time = Date.today
         end_time = Date.tomorrow
         item_type = create :item_type
-        get :cost, params: { item_types: [item_type,item_type], start_time: start_time, end_time: end_time }
+        get :cost, params: { item_types: [item_type, item_type], start_time: start_time, end_time: end_time }
         expect(response).to have_http_status(:ok)
         cost = item_type.cost(start_time, end_time)
-        expect(JSON.parse(response.body)).to include("_total" => cost*2)
+        expect(JSON.parse(response.body)).to include('_total' => cost * 2)
       end
     end
 
@@ -80,12 +81,12 @@ describe RentalsController do
       it 'can handle invalid item id' do
         get :cost, params: { item_types: [-1], start_time: Date.today, end_time: Date.tomorrow }
         expect(response).to have_http_status(400)
-        expect(JSON.parse(response.body)).to include("errors" => [ "item not found -1" ])
+        expect(JSON.parse(response.body)).to include('errors' => ['item not found -1'])
       end
       it 'can handle invalid params' do
         get :cost, params: { end_time: Date.tomorrow }
         expect(response).to have_http_status(400)
-        expect(JSON.parse(response.body)).to include("errors" => [ "missing_params: start_time, item_types" ])
+        expect(JSON.parse(response.body)).to include('errors' => ['missing_params: start_time, item_types'])
       end
     end
   end
@@ -182,7 +183,7 @@ describe RentalsController do
         allow(Inventory).to receive(:create_reservation) { { uuid: fixed_uuid, item: { name: create(:item).name } } }
         expect do
           post :create, params: { rental: rental_create }
-        end.to change(RentalsItem,:count).by(2)
+        end.to change(RentalsItem, :count).by(2)
         expect(RentalsItem.last(2).collect(&:reservation_id)).to contain_exactly fixed_uuid, fixed_uuid
       end
     end
@@ -203,14 +204,16 @@ describe RentalsController do
           post :create, params: { rental: rental_create } # sends valid params
         end.not_to change(Rental, :count)
 
-        expect(flash[:warning]).to be_any {|warning| warning =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/}
+        expect(flash[:warning]).to be_any { |warning| warning =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
         expect(response).to render_template :new
       end
     end
 
     context 'cost adjustment' do
-      let(:cost) { ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id].id). # that item_type_id is actually the object itself
-                     cost(rental_create[:start_time], rental_create[:end_time]) }
+      let(:cost) do
+        ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id].id) # that item_type_id is actually the object itself
+                .cost(rental_create[:start_time], rental_create[:end_time])
+      end
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [

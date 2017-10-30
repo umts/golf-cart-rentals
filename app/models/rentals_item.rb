@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RentalsItem < ActiveRecord::Base
   has_paper_trail
   # use inverse of so we can create this with rental blank at first

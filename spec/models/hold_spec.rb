@@ -67,10 +67,14 @@ RSpec.describe Hold, type: :model do
     # the start times and end times here are configured to be overlapping for the conflict and non overlapping for the future rental
     let(:shared_item) { create(:item) }
     let(:hold) { create(:hold, item: shared_item, start_time: 1.day.from_now, end_time: 10.days.from_now) }
-    let(:conflicting_rental) { create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now,
-                                      rentals_items: [build(:rentals_item, item: shared_item)]) }
-    let(:future_rental) { create(:rental, start_time: 40.days.from_now, end_time: 42.days.from_now,
-                                 rentals_items: [build(:rentals_item, item: shared_item)]) }
+    let(:conflicting_rental) do
+      create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now,
+                      rentals_items: [build(:rentals_item, item: shared_item)])
+    end
+    let(:future_rental) do
+      create(:rental, start_time: 40.days.from_now, end_time: 42.days.from_now,
+                      rentals_items: [build(:rentals_item, item: shared_item)])
+    end
 
     it 'should cancel a conflicting rental' do
       conflicting_rental

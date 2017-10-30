@@ -19,9 +19,9 @@ class Hold < ActiveRecord::Base
   def handle_conflicting_rentals
     # if rental falls between data range of our hold
     # only reserved but not picked up
-    conflicting_rentals = Rental.reserved.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id').
-      where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
-            hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+    conflicting_rentals = Rental.reserved.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id')
+                                .where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
+                                       hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
@@ -53,8 +53,8 @@ class Hold < ActiveRecord::Base
 
   def conflicting_ongoing_rental
     # it couldnt be possible that the same item has already been picked up twice under the same rental
-    Rental.picked_up.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id').
-      find_by('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
-              hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+    Rental.picked_up.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id')
+          .find_by('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
+                   hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
   end
 end

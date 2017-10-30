@@ -32,24 +32,23 @@ class RentalsController < ApplicationController
       end_time = Time.zone.parse(_params[:end_time]).to_date.to_s
 
       begin
-        cost = _params[:item_types].reduce({}) do |acc,it_id|
-          if it = ItemType.find_by_id(it_id)
+        cost = _params[:item_types].each_with_object({}) do |it_id, acc|
+          if it = ItemType.find_by(id: it_id)
             acc[it.name] ||= 0
             acc[it.name] += it.cost(start_time, end_time)
           else
             raise ArgumentError, it_id
           end
-          acc
         end
       rescue => err
-        render json: {errors: [ "item not found #{err.message}" ]}, status: 400 and return
+        render(json: { errors: ["item not found #{err.message}"] }, status: 400) && (return)
       end
 
       render json: cost.merge(_total: cost.values.reduce(:+))
     else
       render status: 400, json: { errors: [
-        "missing_params: #{(required_params - _params.to_h.keys).inject('') { |acc, part| if acc.blank? then "#{part}" else "#{acc}, #{part}" end }}"
-      ]}
+        "missing_params: #{(required_params - _params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}"
+      ] }
     end
   end
 
@@ -134,14 +133,14 @@ class RentalsController < ApplicationController
       if rental.skip_financial_transactions # use that special pricing, we already verified their perms
         # create a single custom financial transaction for entire rental
         FinancialTransaction.create rental: rental, transactable_type: Rental.name, transactable_id: rental.id,
-          amount: params[:amount], note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
+                                    amount: params[:amount], note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
       end # else use default pricing
 
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(rental)
     else
-      #flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
-      rental.errors.full_messages.each { |e| flash_message :warning, e}
+      # flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
+      rental.errors.full_messages.each { |e| flash_message :warning, e }
       @rental = rental
       new && return # render new
     end
@@ -167,7 +166,7 @@ class RentalsController < ApplicationController
   private
 
   def cost_params
-    params.permit(:start_time,:end_time, item_types: [])
+    params.permit(:start_time, :end_time, item_types: [])
   end
 
   def set_users_to_assign
@@ -206,7 +205,7 @@ class RentalsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def rental_params
     # tokeninput gives us an array, but find_by doesnt care it just gives us the first one
-    renter = User.find_by_id params.require(:rental).require(:renter_id)
+    renter = User.find_by id: params.require(:rental).require(:renter_id)
     new_time = Time.zone.parse(params[:rental][:end_time]).end_of_day
     params.require(:rental).permit(:start_time, :pickup_name, :dropoff_name,
                                    :pickup_phone_number, :dropoff_phone_number, rentals_items_attributes: [:item_type_id]).merge(renter: renter, end_time: new_time)

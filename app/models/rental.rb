@@ -47,15 +47,13 @@ class Rental < ActiveRecord::Base
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
 
-=begin
-  if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
-  select * from rentals where
-      ((select sum(amount) from financial_transactions where rental_id=rentals.id and
-        (transactable_type='Payment' or transactable_type='Cancelation'))
-      -(select sum(amount) from financial_transactions where rental_id=rentals.id and
-        not (transactable_type='Payment' or transactable_type='Cancelation')))
-      > 0
-=end
+  #   if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
+  #   select * from rentals where
+  #       ((select sum(amount) from financial_transactions where rental_id=rentals.id and
+  #         (transactable_type='Payment' or transactable_type='Cancelation'))
+  #       -(select sum(amount) from financial_transactions where rental_id=rentals.id and
+  #         not (transactable_type='Payment' or transactable_type='Cancelation')))
+  #       > 0
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance > min }.collect(&:id) }
 
@@ -131,9 +129,9 @@ class Rental < ActiveRecord::Base
     rescue => error
       # roll back the rentals we got partially through creating
       failed_roll_back = false
-      created_reservations.each { |uuid|
+      created_reservations.each do |uuid|
         # remove reservation from RentalsItem
-        if (ri = rentals_items.to_a.find { |_ri| _ri.reservation_id == uuid})
+        if (ri = rentals_items.to_a.find { |_ri| _ri.reservation_id == uuid })
           ri.reservation_id = nil
         else
           failed_roll_back = true
@@ -145,9 +143,9 @@ class Rental < ActiveRecord::Base
           errors.add :base, "Failed to delete reservations from inventory api (uuid #{uuid})"
           failed_roll_back = true
         end
-      }
+      end
 
-      errors.add :base, "Reservations #{'partially' if(failed_roll_back)} rolled back " + error.inspect
+      errors.add :base, "Reservations #{'partially' if failed_roll_back} rolled back " + error.inspect
       throw :abort
     end
   end
@@ -160,27 +158,25 @@ class Rental < ActiveRecord::Base
       ri.reservation_id = nil
     end
     throw(:abort) if errors.any?
-    return errors.empty?
+    errors.empty?
   end
 
   def delete_reservation(uuid)
-    begin
-      Inventory.delete_reservation(uuid) # will throw errors if it fails
-    rescue
-       return false
-    end
+    Inventory.delete_reservation(uuid) # will throw errors if it fails
+  rescue
+    return false
   end
 
   def str_reservation_ids
-    rentals_items.reduce("") { |acc,part| "#{acc}, #{part.reservation_id}" }[2..-1]
+    rentals_items.reduce('') { |acc, part| "#{acc}, #{part.reservation_id}" }[2..-1]
   end
 
   def str_items(with_ids = false)
-    items.reduce("") { |acc, part| "#{acc}, #{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
+    items.reduce('') { |acc, part| "#{acc}, #{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
   end
 
   def str_item_types(with_ids = false)
-    item_types.reduce("") { |whole, part| whole+', '+"#{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
+    item_types.reduce('') { |whole, part| whole + ', ' + "#{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
   end
 
   def basic_info
@@ -245,12 +241,12 @@ class Rental < ActiveRecord::Base
     # create financial transactions for all the rentals
     rentals_items.each do |ri|
       rental_amount = ri.item_type.cost(start_time.to_date, end_time.to_date)
-      # TODO maybe set transactable to RentalsItem
+      # TODO: maybe set transactable to RentalsItem
       FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
     end
   end
 
   def cost
-    rentals_items.reduce(0) { |acc,part| acc + part.item_type.cost(start_time.to_date, end_time.to_date) }
+    rentals_items.reduce(0) { |acc, part| acc + part.item_type.cost(start_time.to_date, end_time.to_date) }
   end
 end
