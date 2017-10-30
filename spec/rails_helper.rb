@@ -38,18 +38,17 @@ Capybara.register_driver :selenium_chrome_headless do |app|
     desired_capabilities: capabilities
 end
 
-
-Capybara.default_driver = :selenium_chrome_headless
-Capybara.javascript_driver = :selenium_chrome
 Capybara.default_max_wait_time = 8
 # Capybara.run_server = true
-
 
 if ENV['TRAVIS']
   Capybara.app_host = "http://0.0.0.0:5000"
   Capybara.server_host = "0.0.0.0"
   Capybara.server_port = 5001
 else
+  Capybara.default_driver = :selenium_chrome_headless
+  Capybara.javascript_driver = :selenium_chrome
+
   Capybara.app_host = "http://0.0.0.0:5000"
   Capybara.server_host = "0.0.0.0"
   Capybara.server_port = 5001
