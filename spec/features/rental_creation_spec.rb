@@ -44,9 +44,10 @@ describe 'Creating a new rental', js: true do
 
         click_button 'rentalSubmit'
         accept_alert
-        # accept_alert  do
-        #   click_button 'rentalSubmit'
-        # end
+        #page.evaluate_script('window.confirm = function() { return true; }')
+        #accept_alert  do
+        #  click_button 'rentalSubmit'
+        #end
         #page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoSuchAlertError
 
         # slightly confusing, but this is the relative url when redirecting
@@ -65,6 +66,8 @@ describe 'Creating a new rental', js: true do
 
         click_button 'rentalSubmit'
         accept_alert
+        
+        #page.evaluate_script('window.confirm = function() { return true; }')
         # accept_alert do
         #     find_by_id('rentalSubmit').click
         # end
