@@ -7,7 +7,6 @@ script:
 before_install:
  - sudo apt-get update
  - sudo apt-get install firefox #chromium-chromedriver
-# - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
 install:
   - export PATH=$PATH:/usr/lib/chromium-browser/
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
