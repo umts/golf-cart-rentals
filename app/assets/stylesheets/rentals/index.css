@@ -36,3 +36,7 @@
 form#rental_search {
   width: 70%;
 }
+
+.rental-status-title {
+  margin-left: 15px;
+}
