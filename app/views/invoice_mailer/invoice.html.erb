@@ -46,6 +46,27 @@
 
     <div class="form-group col-xs-12">
       <label class="col-xs-3 control-label">Department:</label>&nbsp;<div class="form-control-informaton col-xs-9"><%= @rental.department.name %> </div>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <div class="col-xs-12">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <th>Item</th>
+            <th>Item Type</th>
+            <th>Reservation ID</th>
+          </thead>
+          <tbody>
+            <% @rental.rentals_items.each do |ri| %>
+              <tr>
+                <td><%= ri.item.name %></td>
+                <td><%= ri.item_type.name %></td>
+                <td><%= ri.reservation_id %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
       <% if @rental.incurred_incidentals.any? %>
         <div class="container">
