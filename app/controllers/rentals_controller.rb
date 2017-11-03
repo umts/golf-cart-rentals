@@ -14,7 +14,18 @@ class RentalsController < ApplicationController
 
   # GET /rentals
   def index
-    @q = rentals_visible_to_current_user.search(params[:q])
+    # first pull out the rentals that match our two fields that are not done through ransack
+    # (because arel is honestly just too complicated)
+    base_search_area = rentals_visible_to_current_user.joins(:rentals_items)
+    if params[:item_type_id_in].present?
+      base_search_area = base_search_area.where('rentals_items.item_type_id' => params.permit(item_type_id_in: []).fetch(:item_type_id_in))
+    end
+    if params[:item_id_in].present?
+      base_search_area = base_search_area.where('rentals_items.item_id' => params.permit(item_id_in: []).fetch(:item_id_in))
+    end
+    # this probably isnt the most efficient way to do it
+
+    @q = base_search_area.search(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
 
     gon.reservations = Rental.to_json_reservations

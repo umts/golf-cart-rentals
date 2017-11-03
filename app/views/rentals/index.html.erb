@@ -14,48 +14,48 @@
 </br>
 <h1>List of Rentals</h1>
 <%= search_form_for @q, class: 'form-inline' do |f| %>
-<div class="row">
-  <div class="col-xs-1">
-    <%= f.label :item_type_id_eq, 'Item Type' %>
-  </div>
-  <div class="col-xs-3">
-    <%= f.select :item_type_id_eq, options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_type_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+  <div class="row">
+    <div class="form-group col-xs-5">
+      <%= label_tag :item_type_id_in, 'Containing Item Types' %>
+      <select name="item_type_id_in" class="selectpicker form-control col-xs-2" multiple>
+        <option> test</option>
+        <% # options_from_collection_for_select(@item_types.order(name: :asc), "id", "name", selected: params[:item_type_id_in]) %>
+      </select>
+    </div>
+
+    <div class="form-group col-xs-5">
+      <%= label_tag :item_id_in, 'Containing Items' %>
+      <%= select_tag :item_id_in, options_from_collection_for_select(@items.order(name: :asc), "id", "name", selected: params[:item_id_in]),
+            multiple: true, include_blank: true, class: "selectpicker form-control col-xs-2" %>
+    </div>
+
+    <div class="form-group col-xs-2">
+      <%= f.label :renter_id_eq, 'Customer' %>
+      <%= f.select :renter_id_eq,
+            options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :renter_id_eq) || 0)),
+            {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
+    </div>
   </div>
 
-  <div class="col-xs-1">
-    <%= f.label :item_id_eq, 'Item Name' %>
-  </div>
-  <div class="col-xs-3">
-    <%= f.select :item_id_eq, options_from_collection_for_select(@items.order(name: :asc), "id", "name", selected: (params[:q].try(:[], :item_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
-  </div>
+  <div class="row">
+    <div class="col-xs-2">
+      <%= f.label :start_time_gteq, 'Between' %>
+    </div>
+    <div class="col-xs-4">
+      <%= f.date_field :start_time_gteq, class: "form-control" %>
+    </div>
 
-  <div class="col-xs-2">
-    <%= f.label :renter_id_eq, 'Customer' %>
-  </div>
-  <div class="col-xs-2">
-    <%= f.select :renter_id_eq, options_from_collection_for_select(@users.order(first_name: :asc), "id", "full_name", selected: (params[:q].try(:[], :renter_id_eq) || 0)), {include_blank: true}, class: "selectpicker form-control col-xs-2" %>
-  </div>
-</div>
+    <div class="col-xs-2">
+      <%= f.label :end_time_lteq, 'And' %>
+    </div>
+    <div class="col-xs-4">
+      <%= f.date_field :end_time_lteq, class: "form-control" %>
+    </div>
 
-<div class="row">
-  <div class="col-xs-1">
-    <%= f.label :start_time_gteq, 'Between' %>
+    <div class="col-xs-2">
+      <%= f.submit class: "btn btn-default" %>
+    </div>
   </div>
-  <div class="col-xs-4">
-    <%= f.date_field :start_time_gteq, class: "form-control" %>
-  </div>
-
-  <div class="col-xs-1">
-    <%= f.label :end_time_lteq, 'And' %>
-  </div>
-  <div class="col-xs-4">
-    <%= f.date_field :end_time_lteq, class: "form-control" %>
-  </div>
-
-  <div class="col-xs-2">
-    <%= f.submit class: "btn btn-default" %>
-  </div>
-</div>
 <% end %>
 <br>
 
