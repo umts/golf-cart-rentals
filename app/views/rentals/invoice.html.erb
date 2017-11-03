@@ -1,120 +1,104 @@
 <% provide( :page_header, "Rental ##{@rental.id} --- #{@rental.dates}" ) %>
 <div class="container">
-  <div class="row">
-    <div class="col-xs-3">
-      <%= image_tag 'umass_logo.jpg', size: 130 %>
-    </div>
-    <div class="col-xs-6">
-      <p>
-        Parking Services <br>
-        University of Massachusetts Amherst<br>
-        51 Forestry Way Amherst, MA 01003-9262<br>
-        phone: (413) 577-PARK <br>
-        fax: (413) 545-4440<br>
-        web: http://parking.umass.edu<br>
-        email: parking@admin.umass.edu<br>
-      </p>
+  <div class="col-xs-3">
+    <%= image_tag 'umass_logo.jpg', size: 130 %>
+  </div>
+  <div class="col-xs-6">
+    <p>
+    Parking Services <br>
+    University of Massachusetts Amherst<br>
+    51 Forestry Way Amherst, MA 01003-9262<br>
+    phone: (413) 577-PARK <br>
+    fax: (413) 545-4440<br>
+    web: http://parking.umass.edu<br>
+    email: parking@admin.umass.edu<br>
+    </p>
     <div>
-  </div>
-</div>
-
-<div class="form-group col-xs-12">
-  <h3><label class="col-xs-2 control-label">Status</label>
-  <span class="label label-info auto"><%= @rental.rental_status.titleize %></span></h3>
-</div>
-<!--
-<div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">Start Date/Time</label>
-  <div class="form-control-information col-xs-10"><%= @rental.start_date.strftime("%a %D %I:%M %p") %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-2 control-label">End Date/Time</label>
-  <div class="form-control-information col-xs-10"><%= @rental.end_date.strftime("%a %D %I:%M %p") %></div>
-</div>
--->
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Item Types</label>
-  <div class="form-control-information col-xs-9"><%= @rental.str_item_types %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Item Names</label>
-  <div class="form-control-information col-xs-9"><%= @rental.str_items %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Reserved By</label>
-  <div class="form-control-information col-xs-9"><%= @rental.creator.full_name %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Customer</label>
-  <div class="form-control-information col-xs-9"><%= @rental.renter.full_name %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Reservation IDs</label>
-  <div class="form-control-information col-xs-9"><%= @rental.str_reservation_ids %></div>
-</div>
-
-<div class="form-group col-xs-12">
-  <label class="col-xs-3 control-label">Department</label>
-  <div class="form-control-informaton col-xs-9"><%= @rental.department.name %></div>
-</div>
-
-<div class="container">
-  <div id="incidental" class="">
-    <div class="form-group col-xs-12">
-      <h2 class="">Incidentals</h2>
-      <table class="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Base Fee</th>
-            <th>Modifier Amount</th>
-            <th>Modifier Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @rental.incurred_incidentals.each do |incurred_incidental| %>
-            <tr>
-              <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
-              <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
-              <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
-              <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
-              <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
     </div>
   </div>
 
-  <div id="payment" class="form-group col-xs-12">
-    <h2 class="">Payment Summary</h2>
-    <%= render partial: "transaction_detail" %>
+  <div class="col-xs-12">
+    <label class="col-xs-2 control-label">Status</label>
+    <span class="label label-info auto"><%= @rental.rental_status.titleize %></span>
   </div>
-</div>
+  <div class="col-xs-12">
+    <label class="col-xs-3 control-label">Reserved By</label>
+    <div class="form-control-information col-xs-9"><%= @rental.creator.full_name %></div>
+  </div>
 
-<p class="legal-blurb">This invoice may be paid by recharge form. <br>
+  <div class="col-xs-12">
+    <label class="col-xs-3 control-label">Customer</label>
+    <div class="form-control-information col-xs-9"><%= @rental.renter.full_name %></div>
+  </div>
 
-Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
+  <div class="col-xs-12">
+    <label class="col-xs-3 control-label">Reservation IDs</label>
+    <div class="form-control-information col-xs-9"><%= @rental.str_reservation_ids %></div>
+  </div>
 
-The golf cart training user agreement is available online at http://rental.parking.umass.edu/rentals/safety_pdf <br>
+  <div class="col-xs-12">
+    <label class="col-xs-3 control-label">Department</label>
+    <div class="form-control-information col-xs-9"><%= @rental.department.name %></div>
+  </div>
 
-The golf cart safety form is available online at http://rental.parking.umass.edu/rentals/training_pdf <br>
+  <div class="container">
+    <div class="col-xs-12">
+      <h2 class="">Rentals Items</h2>
+      <%= render partial: 'rentals_items/table', locals: { rentals_items: @rental.rentals_items } %>
+    </div>
 
-Please send payment to Parking Services, Attention Sharon Kennedy. <br>
+    <div id="incidental">
+      <div class="col-xs-12">
+        <h2>Incidentals</h2>
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Base Fee</th>
+              <th>Modifier Amount</th>
+              <th>Modifier Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @rental.incurred_incidentals.each do |incurred_incidental| %>
+              <tr>
+                <td><%= incurred_incidental.try(:incidental_type).try(:name) %></td>
+                <td><%= incurred_incidental.try(:incidental_type).try(:description) %></td>
+                <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:base) %></td>
+                <td><%= number_to_currency incurred_incidental.try(:incidental_type).try(:modifier_amount) %></td>
+                <td><%= incurred_incidental.try(:incidental_type).try(:modifier_description) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-If you have any questions, please contact Sharon Kennedy at 413-545-6588 or srkenned@admin.umass.edu </p>
+    <div id="payment" class="col-xs-12">
+      <h2 class="">Payment Summary</h2>
+      <%= render partial: "transaction_detail" %>
+    </div>
+  </div>
 
-<%= image_tag 'recharge_form.svg', class: 'print-full-image' %>
+  <p class="legal-blurb">This invoice may be paid by recharge form. <br>
 
-<div class="form-group col-xs-12">
-  <div class="col-xs-offset-2 col-xs-10">
-    <%= link_to 'Back', :back, class: "btn btn-default" %>
-    <%= link_to 'Print Invoice', @rental, :onclick => 'window.print();return false;', class: "btn btn-primary"%>
+  Recharge forms are available online at http://www.umass.edu/transportation/guides-and-forms <br>
+
+  The golf cart training user agreement is available online at http://rental.parking.umass.edu/rentals/safety_pdf <br>
+
+  The golf cart safety form is available online at http://rental.parking.umass.edu/rentals/training_pdf <br>
+
+  Please send payment to Parking Services, Attention Sharon Kennedy. <br>
+
+  If you have any questions, please contact Sharon Kennedy at 413-545-6588 or srkenned@admin.umass.edu </p>
+
+  <%= image_tag 'recharge_form.svg', class: 'print-full-image' %>
+
+  <div class="col-xs-12">
+    <div class="col-xs-offset-2 col-xs-10">
+      <%= link_to 'Back', :back, class: "btn btn-default" %>
+      <%= link_to 'Print Invoice', @rental, :onclick => 'window.print();return false;', class: "btn btn-primary"%>
+    </div>
   </div>
 </div>
