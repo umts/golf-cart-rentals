@@ -31,7 +31,6 @@
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip(); //init tooltips
   $('.datatable').DataTable({});
-  $('.multiselect').multiselect({ numberDisplayed: 1 });
 });
 
 $( ".datepicker" ).datetimepicker(); //datepicker initialization
