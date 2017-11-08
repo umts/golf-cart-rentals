@@ -59,6 +59,7 @@ describe 'Creating a new rental', js: true do
     describe 'valid' do
       it 'redirects to index page' do
         visit '/rentals/new'
+        puts page.html
 
         within 'form.new_rental' do
           check('TOC')
