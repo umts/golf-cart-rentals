@@ -10,7 +10,6 @@ default: &default
   host: 127.0.0.1
   socket: /tmp/mysql.sock
   username: travis
-  password: probable
 
 development:
   <<: *default
