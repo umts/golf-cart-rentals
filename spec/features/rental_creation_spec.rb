@@ -64,9 +64,12 @@ describe 'Creating a new rental', js: true do
           check('TOC')
         end
 
+        # page.accept_modal do
+        #   page.click_button('rentalSubmit')
+        # end
         click_button 'rentalSubmit'
         accept_alert
-        
+
         #page.evaluate_script('window.confirm = function() { return true; }')
         # accept_alert do
         #     find_by_id('rentalSubmit').click

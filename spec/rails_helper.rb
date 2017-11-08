@@ -43,15 +43,12 @@ Capybara.default_max_wait_time = 8
 Capybara.default_driver = :selenium_chrome
 Capybara.javascript_driver = :selenium_chrome
 
-Capybara.app_host = "http://0.0.0.0:3000"
-Capybara.server_host = "0.0.0.0"
+Capybara.app_host = "http://localhost:3000"
+Capybara.server_host = "localhost"
 Capybara.server_port = 3001
 
-# if ENV['TRAVIS']
-#   Capybara.app_host = "http://0.0.0.0:5000"
-#   Capybara.server_host = "0.0.0.0"
-#   Capybara.server_port = 5001
-# else
-#   # Capybara.default_driver = :selenium_chrome
-#   # Capybara.javascript_driver = :selenium_chrome
-# end
+if ENV['TRAVIS']
+  Capybara.app_host = "http://0.0.0.0:3000"
+  Capybara.server_host = "0.0.0.0"
+  Capybara.server_port = 3001
+end

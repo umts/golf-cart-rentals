@@ -2,20 +2,19 @@ language: ruby
 env: "CODECLIMATE_REPO_TOKEN=15ed3ea3aa5e152f478928dbb01e5747253e54be2b90553170931dbc842428c7"
 rvm: 2.2.3
 script:
-  - bundle exec rspec spec/features/*.rb
+  - xvfb-run --server-args="-screen 0 1024x768x24" bundle exec rspec spec/features/*.rb
   - bundle exec rspec --exclude-pattern "spec/features/*.rb" spec/
 before_install:
  - sudo apt-get update
-# - sudo apt-get install firefox #chromium-chromedriver
  - sudo apt-get install chromium-chromedriver
 install:
   - export PATH=$PATH:/usr/lib/chromium-browser/
 #  - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
 #  - tar -zxvf geckodriver*
 #  - sudo mv geckodriver /usr/local/bin
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
+#  - export DISPLAY=:99.0
+#  - sh -e /etc/init.d/xvfb start
+#  - sleep 3 # give xvfb some time to start
   - bundle install
 before_script:
   - cp config/inventory_api_keys.travis.yml config/inventory_api_keys.yml
