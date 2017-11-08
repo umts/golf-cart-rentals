@@ -24,10 +24,10 @@ before_script:
   - cp -f config/environments/development.travis.rb config/environments/development.rb
   - cp -f config/environments/test.travis.rb config/environments/test.rb
   # test to see if the db is an issue
-  - mysql -e 'CREATE DATABASE probabledev;'
-  - mysql -e 'CREATE DATABASE probabletest;'
-  - mysql -e "GRANT ALL PRIVILEGES on probabledev.* TO 'travis';"
-  - mysql -e "GRANT ALL PRIVILEGES on probabletest.* TO 'travis';"
+  # - mysql -e 'CREATE DATABASE probabledev;'
+  # - mysql -e 'CREATE DATABASE probabletest;'
+  # - mysql -e "GRANT ALL PRIVILEGES on probabledev.* TO 'travis';"
+  # - mysql -e "GRANT ALL PRIVILEGES on probabletest.* TO 'travis';"
   # --- #
   - bundle exec rake db:create
   - bundle exec rake db:migrate
