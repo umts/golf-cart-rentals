@@ -12,6 +12,14 @@ describe 'Creating a new rental', js: true do
     @day_after = @tomorrow + 1
   end
 
+  describe 'testing homepage for travis' do
+    it 'loads' do
+      visit '/'
+      puts page.html
+      expect(find_by_id('upcoming').value).to eql "Welcome to UMass Parking Services Rental Purchasing Program AKA RPP"
+    end
+  end
+
   describe 'form autopopulation' do
     before(:each) do
       visit '/rentals/new'
@@ -23,7 +31,6 @@ describe 'Creating a new rental', js: true do
 
     it 'populates fields' do
       puts page.html
-      expect(Rental.count).to eq(0)
       # Normally I would spread this to 3 tests, but due to the way integration
       # tests are ran (using the browser), it is a significant performance gain
       # to place all 3 of these in 1 test.
