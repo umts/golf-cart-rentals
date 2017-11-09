@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   # Set auto papertrail
   before_action :set_paper_trail_whodunnit
 
-  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development?
+  # rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
   rescue_from MissingUserError, with: :render_401
 
