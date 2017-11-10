@@ -36,14 +36,14 @@ class RentalsController < ApplicationController
 
   # GET /rentals/cost?end_time=time&start_time=time&item_types=...
   def cost
-    _params = cost_params
+    cost_params = params.permit(:start_time, :end_time, item_types: [])
     required_params = %w(start_time end_time item_types)
-    if (_params.to_h.keys & required_params) == required_params
-      start_time = Time.zone.parse(_params[:start_time]).to_date.to_s
-      end_time = Time.zone.parse(_params[:end_time]).to_date.to_s
+    if (cost_params.to_h.keys & required_params) == required_params
+      start_time = Time.zone.parse(cost_params[:start_time]).to_date.to_s
+      end_time = Time.zone.parse(cost_params[:end_time]).to_date.to_s
 
       begin
-        cost = _params[:item_types].each_with_object({}) do |it_id, acc|
+        cost = cost_params[:item_types].each_with_object({}) do |it_id, acc|
           if it = ItemType.find_by(id: it_id)
             acc[it.name] ||= 0
             acc[it.name] += it.cost(start_time, end_time)
@@ -58,7 +58,7 @@ class RentalsController < ApplicationController
       render json: cost.merge(_total: cost.values.reduce(:+))
     else
       render status: 400, json: { errors: [
-        "missing_params: #{(required_params - _params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}"
+        "missing_params: #{(required_params - cost_params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}"
       ] }
     end
   end
@@ -174,10 +174,6 @@ class RentalsController < ApplicationController
   def invoice; end
 
   private
-
-  def cost_params
-    params.permit(:start_time, :end_time, item_types: [])
-  end
 
   def set_users_to_assign
     @users = @current_user.assignable_renters.map do |user|
