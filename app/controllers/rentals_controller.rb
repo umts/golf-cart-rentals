@@ -52,7 +52,7 @@ class RentalsController < ApplicationController
           end
         end
       rescue => err
-        render(json: { errors: ["item not found #{err.message}"] }, status: 400) && (return)
+        render(json: { errors: ["item not found #{err.message}"] }, status: 400) and return
       end
 
       render json: cost.merge(_total: cost.values.reduce(:+))
@@ -151,7 +151,6 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental Successfully Reserved'
       redirect_to(rental)
     else
-      # flash[:warning] = 'Item type is not available for specified dates' # TODO find out the actual error
       rental.errors.full_messages.each { |e| flash_message :warning, e }
       @rental = rental
       new && return # render new
