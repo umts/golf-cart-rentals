@@ -193,7 +193,8 @@ describe RentalsController do
         expect do
           post :create, params: { rental: invalid_create }
         end.to_not change(Rental, :count)
-        expect(response).to render_template :new
+        expect(response).to redirect_to(action: :new)
+
       end
     end
 
@@ -205,7 +206,7 @@ describe RentalsController do
         end.not_to change(Rental, :count)
 
         expect(flash[:warning]).to be_any { |warning| warning =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
-        expect(response).to render_template :new
+        expect(response).to redirect_to(action: :new)
       end
     end
 

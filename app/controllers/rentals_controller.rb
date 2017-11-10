@@ -69,7 +69,6 @@ class RentalsController < ApplicationController
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
     set_users_to_assign
-    render :new # this call is required because we directly call the new method on failure of create and other methods
   end
 
   # Send safety pdf to client
@@ -153,7 +152,7 @@ class RentalsController < ApplicationController
     else
       rental.errors.full_messages.each { |e| flash_message :warning, e }
       @rental = rental
-      new && return # render new
+      redirect_to action: :new
     end
   end
 
