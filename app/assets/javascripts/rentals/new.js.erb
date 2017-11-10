@@ -15,6 +15,10 @@ function days_between(sd, ed) {
 
 function item_types_to_arr() {
   //collect item types (will always be at least [])
+
+  //because of the way im constructing the parameters to Rental.new I need rentals_items_attributes
+  //in a way such that multiple item types yield multiple rentals_items not just a single one.
+  //refer to this methods caller for more information
   return $(".item-type-quantity-picker").toArray().reduce(function (acc,part) {
     var it_part = [];
     for(var i=0;i<part.value;i++){
