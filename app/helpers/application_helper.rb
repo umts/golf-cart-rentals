@@ -79,10 +79,10 @@ module ApplicationHelper
   def flash_message(type, text, now = nil)
     if now
       flash.now[type] ||= []
-      flash.now[type] << text.dup
+      flash.now[type] << text
     else
       flash[type] ||= []
-      flash[type] << text.dup
+      flash[type] << text
     end
   end
 
