@@ -2,6 +2,7 @@
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
+  include ApplicationHelper
 
   has_many :incurred_incidentals, dependent: :destroy
 
@@ -168,16 +169,19 @@ class Rental < ActiveRecord::Base
     return false
   end
 
-  def str_reservation_ids
-    rentals_items.reduce('') { |acc, part| "#{acc}, #{part.reservation_id}" }[2..-1]
+  # join reservation ids togeather as a comma separated str
+  def str_reservation_ids(trnc = 0)
+    stringulize_arr(reservation_ids, :itself, false, trnc)
   end
 
-  def str_items(with_ids = false)
-    items.reduce('') { |acc, part| "#{acc}, #{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
+  # join item names togeather as a comma separated str
+  def str_items(with_ids = false, trnc = 0)
+    stringulize_arr(items, :name, with_ids, trnc)
   end
 
-  def str_item_types(with_ids = false)
-    item_types.reduce('') { |whole, part| whole + ', ' + "#{part.name}#{'(' + part.id.to_s + ')' if with_ids}" }[2..-1]
+  # join item type names togeather as a comma separated str
+  def str_item_types(with_ids = false, trnc = 0)
+    stringulize_arr(item_types, :name, with_ids, trnc)
   end
 
   def basic_info
