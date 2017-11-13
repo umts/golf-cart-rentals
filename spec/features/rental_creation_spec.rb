@@ -52,7 +52,7 @@ describe 'Creating a new rental', js: true do
 
           # click_button '#rentalSubmit'
           page.find_by_id('rentalSubmit').click
-          accept_alert
+          page.driver.browser.switch_to.alert.accept
         end
         #page.evaluate_script('window.confirm = function() { return true; }')
         #accept_alert  do
