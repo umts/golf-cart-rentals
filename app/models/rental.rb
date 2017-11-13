@@ -10,7 +10,7 @@ class Rental < ActiveRecord::Base
 
   # will skip financial transactions if we plan to create manual pricing
   attr_accessor :skip_financial_transactions
-  after_create :create_financial_transaction, unless: proc { |rental| rental.skip_financial_transactions }
+  after_create :create_financial_transaction, unless: :skip_financial_transactions
   # create reservation unless it has already been created
   before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
 
