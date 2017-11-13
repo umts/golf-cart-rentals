@@ -44,7 +44,8 @@ class RentalsController < ApplicationController
 
       begin
         cost = cost_params[:item_types].each_with_object({}) do |it_id, acc|
-          if it = ItemType.find_by(id: it_id)
+          it = ItemType.find_by(id: it_id)
+          if it
             acc[it.name] ||= 0
             acc[it.name] += it.cost(start_time, end_time)
           else
