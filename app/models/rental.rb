@@ -131,8 +131,9 @@ class Rental < ActiveRecord::Base
       failed_roll_back = false
       created_reservations.each do |uuid|
         # remove reservation from RentalsItem
-        if (ri = rentals_items.to_a.find { |_ri| _ri.reservation_id == uuid })
-          ri.reservation_id = nil
+        rental_item = rentals_items.to_a.find { |ri| ri.reservation_id == uuid }
+        if rental_item.present?
+          rental_item.reservation_id = nil
         else
           failed_roll_back = true
           errors.add :base, "Failed to find associated rentals item when rolling back reservation (uuid #{uuid})"
@@ -157,7 +158,7 @@ class Rental < ActiveRecord::Base
       errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)
       ri.reservation_id = nil
     end
-    throw(:abort) if errors.any?
+    throw(:abort) if errors.any? # abort a #destroy
     errors.empty?
   end
 
