@@ -12,14 +12,6 @@ describe 'Creating a new rental', js: true do
     @day_after = @tomorrow + 1
   end
 
-  describe 'testing homepage for travis' do
-    it 'loads' do
-      visit '/'
-      puts page.html
-      expect(find_by_id('upcoming').value).to eql "Welcome to UMass Parking Services Rental Purchasing Program AKA RPP"
-    end
-  end
-
   describe 'form autopopulation' do
     before(:each) do
       visit '/rentals/new'
@@ -30,7 +22,6 @@ describe 'Creating a new rental', js: true do
     # object using 'data-id' instead of 'id' so find_by_id does not work.
 
     it 'populates fields' do
-      puts page.html
       # Normally I would spread this to 3 tests, but due to the way integration
       # tests are ran (using the browser), it is a significant performance gain
       # to place all 3 of these in 1 test.
@@ -45,16 +36,16 @@ describe 'Creating a new rental', js: true do
     describe 'invalid' do
       it 'redirects to creation page again' do
         visit '/rentals/new'
-        puts page.html
+        # puts page.html
 
         within('form.new_rental') do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
           check('TOC')
-        end
 
-        click_button 'rentalSubmit'
-        accept_alert
+          click_button 'rentalSubmit'
+          accept_alert
+        end
         #page.evaluate_script('window.confirm = function() { return true; }')
         #accept_alert  do
         #  click_button 'rentalSubmit'
