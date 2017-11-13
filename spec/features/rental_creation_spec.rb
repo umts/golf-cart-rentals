@@ -12,6 +12,10 @@ describe 'Creating a new rental', js: true do
     @day_after = @tomorrow + 1
   end
 
+  describe 'static page tests for the sake of testing' do
+
+  end
+
   describe 'form autopopulation' do
     before(:each) do
       visit '/rentals/new'
@@ -42,6 +46,7 @@ describe 'Creating a new rental', js: true do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
           check('TOC')
+          sleep 10
 
           click_button 'rentalSubmit'
           accept_alert
