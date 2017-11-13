@@ -9,6 +9,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'selenium/webdriver'
+require 'capybara/poltergeist'
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -38,10 +39,15 @@ Capybara.register_driver :selenium_chrome_headless do |app|
     desired_capabilities: capabilities
 end
 
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, :inspector => true)
+end
+
 Capybara.default_max_wait_time = 8
 # Capybara.run_server = true
+Capybara.javascript_driver = :poltergeist_debug
 Capybara.default_driver = :selenium_chrome
-Capybara.javascript_driver = :selenium_chrome
+# Capybara.javascript_driver = :selenium_chrome
 
 Capybara.app_host = "http://localhost:3000"
 Capybara.server_host = "localhost"

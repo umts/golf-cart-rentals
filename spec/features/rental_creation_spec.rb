@@ -48,14 +48,19 @@ describe 'Creating a new rental', js: true do
           #expect(page).to have_button('rentalSubmit', disabled: true)
           check('TOC')
           #expect(page).to have_button('rentalSubmit', disabled: false)
-          print page.html
+          puts page.html
 
           #click_button 'rentalSubmit'
-          find_button('rentalSubmit').click#.trigger('click')
+          page.save_screenshot('page1.png')
+          find_button('rentalSubmit').trigger('click')
+          page.save_screenshot('page2.png')
           accept_alert
           #page.find_by_id('rentalSubmit').click
           #page.driver.browser.switch_to.alert.accept
         end
+        page.save_screenshot('page3.png')
+        sleep 3
+        page.save_screenshot('page4.png')
         #page.evaluate_script('window.confirm = function() { return true; }')
         #accept_alert  do
         #  click_button 'rentalSubmit'
@@ -77,8 +82,9 @@ describe 'Creating a new rental', js: true do
           check('TOC')
         end
 
-        find_button('rentalSubmit').click
+        find_button('rentalSubmit').trigger('click')
         accept_alert
+        sleep 3
 
         #page.evaluate_script('window.confirm = function() { return true; }')
         # accept_alert do
