@@ -46,7 +46,7 @@ describe 'Creating a new rental', js: true do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
           check('TOC')
-          sleep 10
+          sleep 3
 
           click_button 'rentalSubmit'
           accept_alert
