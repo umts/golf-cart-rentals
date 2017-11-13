@@ -53,7 +53,7 @@ class RentalsController < ApplicationController
           end
         end
       rescue => err
-        render(json: { errors: ["item not found #{err.message}"] }, status: 400) && (return)
+        render(json: { errors: ["item not found #{err.message}"] }, status: 400) and return
       end
 
       render json: cost.merge(_total: cost.values.reduce(:+))
