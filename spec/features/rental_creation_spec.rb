@@ -46,13 +46,15 @@ describe 'Creating a new rental', js: true do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
 
-          # expect(page).to have_button('#rentalSubmit', disabled: true)
+          #expect(page).to have_button('rentalSubmit', disabled: true)
           check('TOC')
-          # expect(page).to have_button('#rentalSubmit', disabled: false)
+          #expect(page).to have_button('rentalSubmit', disabled: false)
 
-          # click_button '#rentalSubmit'
-          page.find_by_id('rentalSubmit').click
-          page.driver.browser.switch_to.alert.accept
+          #click_button 'rentalSubmit'
+          find_button('rentalSubmit').click#.trigger('click')
+          accept_alert
+          #page.find_by_id('rentalSubmit').click
+          #page.driver.browser.switch_to.alert.accept
         end
         #page.evaluate_script('window.confirm = function() { return true; }')
         #accept_alert  do
