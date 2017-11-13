@@ -125,14 +125,14 @@ module ApplicationHelper
   end
 
   def stringulize_arr(arr, prop, with_ids = false, trnc = 0)
-    str = arr.reduce("") { |acc,obj|
+    str = arr.reduce('') do |acc, obj|
       part = "#{obj.public_send(prop)}#{'(' + obj.public_send(:id).to_s + ')' if with_ids}"
-      if acc == ""
+      if acc == ''
         part
       else
         "#{acc}, #{part}"
       end
-    }
-    if trnc != 0 then str.truncate(trnc) else str end
+    end
+    trnc != 0 ? str.truncate(trnc) : str
   end
 end

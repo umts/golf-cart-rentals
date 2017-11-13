@@ -194,7 +194,6 @@ describe RentalsController do
           post :create, params: { rental: invalid_create }
         end.to_not change(Rental, :count)
         expect(response).to redirect_to(action: :new)
-
       end
     end
 

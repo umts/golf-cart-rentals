@@ -52,7 +52,7 @@ class RentalsController < ApplicationController
           end
         end
       rescue => err
-        render(json: { errors: ["item not found #{err.message}"] }, status: 400) and return
+        render(json: { errors: ["item not found #{err.message}"] }, status: 400) && (return)
       end
 
       render json: cost.merge(_total: cost.values.reduce(:+))
@@ -138,7 +138,7 @@ class RentalsController < ApplicationController
 
     # if the specified a custom amount we will create the financial transactions later
     rental.skip_financial_transactions = params[:amount] && rental.cost != params[:amount] &&
-                                          @current_user.has_permission?('rentals', 'cost_adjustment')
+                                         @current_user.has_permission?('rentals', 'cost_adjustment')
 
     if rental.save
       if rental.skip_financial_transactions # use that special pricing, we already verified their perms
