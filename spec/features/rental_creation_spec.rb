@@ -40,7 +40,6 @@ describe 'Creating a new rental', js: true do
     describe 'invalid' do
       it 'redirects to creation page again' do
         visit '/rentals/new'
-        # puts page.html
 
         within('form.new_rental') do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
@@ -49,6 +48,7 @@ describe 'Creating a new rental', js: true do
           #expect(page).to have_button('rentalSubmit', disabled: true)
           check('TOC')
           #expect(page).to have_button('rentalSubmit', disabled: false)
+          print page.html
 
           #click_button 'rentalSubmit'
           find_button('rentalSubmit').click#.trigger('click')
@@ -77,10 +77,7 @@ describe 'Creating a new rental', js: true do
           check('TOC')
         end
 
-        # page.accept_modal do
-        #   page.click_button('rentalSubmit')
-        # end
-        click_button 'rentalSubmit'
+        find_button('rentalSubmit').click
         accept_alert
 
         #page.evaluate_script('window.confirm = function() { return true; }')
