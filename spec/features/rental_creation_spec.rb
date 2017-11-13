@@ -46,11 +46,11 @@ describe 'Creating a new rental', js: true do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
 
-          expect(page).to have_button('rentalSubmit', disabled: true)
+          expect(page).to have_button('Create Rental', disabled: true)
           check('TOC')
-          expect(page).to have_button('rentalSubmit', disabled: false)
+          expect(page).to have_button('Create Rental', disabled: false)
 
-          click_button 'rentalSubmit'
+          click_button 'Create Rental'
           accept_alert
         end
         #page.evaluate_script('window.confirm = function() { return true; }')
