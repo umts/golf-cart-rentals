@@ -27,8 +27,8 @@ class Hold < ActiveRecord::Base
   end
 
   def replace_rental(curr_rental)
-    new_rental = Rental.new(rentals_items_attributes: (curr_rental.item_types.map { |x| { item_type: x } }), creator_id: curr_rental.creator_id,
-                            renter_id: curr_rental.renter_id, start_time: curr_rental.start_time, end_time: curr_rental.end_time)
+    new_rental = Rental.new(rentals_items_attributes: (curr_rental.item_types.map { |x| { item_type: x } }), creator: curr_rental.creator,
+                            renter: curr_rental.renter, start_time: curr_rental.start_time, end_time: curr_rental.end_time)
     new_rental.save!
     curr_rental.cancel!
     ReplacementMailer.replacement_email(curr_rental.renter, self, curr_rental, new_rental).deliver_now
