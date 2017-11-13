@@ -31,8 +31,8 @@
     <thead>
       <tr>
         <th class="min-width nosortcol">Select All <input type="checkbox" id="payment_tracking_select_all"></th>
-        <th>Rental Id</th>
-        <th>Reservation Ids</th>
+        <th>Rental ID</th>
+        <th>Reservation IDs</th>
         <th>Renter Department/Name</th>
         <th>Days Since Reservation</th>
         <th>Balance Due</th>
@@ -45,7 +45,7 @@
         <tr>
           <td><input type="checkbox" id=<%= "paymentTrackingCheck#{rental.id}" %> ></td>
           <td><%= rental.id %></td>
-          <td><%= rental.str_reservation_ids.truncate(77) %></td>
+          <td><%= rental.str_reservation_ids(77) %></td>
           <td><%= if rental.renter.department then rental.renter.department.name else rental.renter.full_name end %></td>
           <td><%= ((Time.current-rental.created_at) / 1.days ).floor %></td>
           <td><%= number_to_currency rental.balance %></td>
