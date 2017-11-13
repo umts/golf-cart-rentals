@@ -249,6 +249,6 @@ class Rental < ActiveRecord::Base
   end
 
   def cost
-    rentals_items.reduce(0) { |acc, part| acc + part.item_type.cost(start_time.to_date, end_time.to_date) }
+    rentals_items.sum { |ri| ri.item_type.cost(start_time.to_date, end_time.to_date) }
   end
 end
