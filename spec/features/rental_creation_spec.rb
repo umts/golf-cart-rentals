@@ -45,8 +45,10 @@ describe 'Creating a new rental', js: true do
         within('form.new_rental') do
           fill_in('rental_start_time', with: @tomorrow.strftime('%Y-%m-%d'))
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
+
+          expect(page).to have_button('rentalSubmit', disabled: true)
           check('TOC')
-          sleep 2
+          expect(page).to have_button('rentalSubmit', disabled: false)
 
           click_button 'rentalSubmit'
           accept_alert
