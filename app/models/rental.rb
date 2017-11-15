@@ -48,13 +48,12 @@ class Rental < ActiveRecord::Base
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
 
-  #   if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
-  #   select * from rentals where
-  #       ((select sum(amount) from financial_transactions where rental_id=rentals.id and
-  #         (transactable_type='Payment' or transactable_type='Cancelation'))
-  #       -(select sum(amount) from financial_transactions where rental_id=rentals.id and
-  #         not (transactable_type='Payment' or transactable_type='Cancelation')))
-  #       > 0
+  # if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
+  # select * from rentals where
+  #  (select coalesce(sum(amount),0) from financial_transactions where
+  #    rental_id=rentals.id and not (transactable_type='Payment' or transactable_type='Cancelation')) -
+  #  (select coalesce(sum(amount),0) from financial_transactions where
+  #    rental_id=rentals.id and (transactable_type='Payment' or transactable_type='Cancelation')) > min
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
   scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance > min }.collect(&:id) }
 
