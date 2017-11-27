@@ -33,6 +33,8 @@ engines:
   rubocop:
     enabled: true
     checks:
+      Rubocop/Style/SingleLineBlockParams:
+        enabled: false
       Rubocop/Rails/DynamicFindBy:
         enabled: false
       Rubocop/Style/AndOr:

@@ -6,6 +6,10 @@ FactoryGirl.define do
 
     after(:build) do |incidental|
       incidental.notes = FactoryGirl.build_list(:note, 1)
+      # in reality it will be one of the rentals_items from the rental, always the first is good enough
+      if incidental.rental.present?
+        incidental.item = incidental.rental.rentals_items.first.item
+      end
     end
 
     trait :with_documents do

@@ -3,16 +3,17 @@ require 'rails_helper'
 
 describe RentalsController do
   let(:rental_create) do
-    rental = attributes_for(:new_rental)
-    rental[:item_type_id] = create(:item_type, name: 'TEST_ITEM_TYPE')
-    rental[:item_id] = create(:item, name: 'TEST_ITEM')
-    rental[:renter_id] = [create(:user, first_name: 'Test2')]
-    rental
+    attributes_for(:new_rental)
+      .merge(renter_id: create(:user),
+             rentals_items_attributes: [
+               { item_type_id: create(:item_type) },
+               { item_type_id: create(:item_type) }
+             ])
   end
 
   let(:invalid_create) do
     rental = attributes_for(:invalid_rental)
-    rental[:renter_id] = [create(:user, first_name: 'Test_User')]
+    rental[:renter_id] = create(:user, first_name: 'Test_User').id
     rental
   end
 
@@ -47,11 +48,46 @@ describe RentalsController do
   end
 
   describe 'GET #cost' do
-    it 'returns a cost based on item type' do
-      start_time = Date.today
-      end_time = Date.tomorrow
-      get :cost, params: { item_type: item_type, start_time: start_time, end_time: end_time }
-      expect(response.body).to eq(Rental.cost(start_time, end_time, item_type).to_s)
+    context 'retrieves cost' do
+      it 'returns a cost for a single item type' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        get :cost, params: { item_types: [item_type], start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time)
+        expect(JSON.parse(response.body)).to include('_total' => cost, item_type.name => cost)
+      end
+      it 'returns costs for multiple item types' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        item_types = create_list :item_type, 2
+        get :cost, params: { item_types: item_types, start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time)
+        expect(JSON.parse(response.body)).to include('_total' => cost * 2, item_types.first.name => cost, item_types.second.name => cost)
+      end
+      it 'returns the cost for two of the same item' do
+        start_time = Date.today
+        end_time = Date.tomorrow
+        item_type = create :item_type
+        get :cost, params: { item_types: [item_type, item_type], start_time: start_time, end_time: end_time }
+        expect(response).to have_http_status(:ok)
+        cost = item_type.cost(start_time, end_time)
+        expect(JSON.parse(response.body)).to include('_total' => cost * 2)
+      end
+    end
+
+    context 'handling errors' do
+      it 'can handle invalid item id' do
+        get :cost, params: { item_types: [-1], start_time: Date.today, end_time: Date.tomorrow }
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body)).to include('errors' => ['item not found -1'])
+      end
+      it 'can handle invalid params' do
+        get :cost, params: { end_time: Date.tomorrow }
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body)).to include('errors' => ['missing_params: start_time, item_types'])
+      end
     end
   end
 
@@ -134,7 +170,8 @@ describe RentalsController do
       end
 
       it 'can handle a renter_id passed as an array or not' do
-        rental_create[:renter_id] = rental_create[:renter_id].first
+        # token input gives array so we are testing renter id as array
+        rental_create[:renter_id] = [rental_create[:renter_id]]
         expect do
           post :create, params: { rental: rental_create }
         end.to change(Rental, :count).by(1)
@@ -142,8 +179,12 @@ describe RentalsController do
       end
 
       it 'creates associated reservation' do
-        post :create, params: { rental: rental_create }
-        expect(assigns[:rental].reservation_id).to be_present
+        fixed_uuid = SecureRandom.uuid
+        allow(Inventory).to receive(:create_reservation) { { uuid: fixed_uuid, item: { name: create(:item).name } } }
+        expect do
+          post :create, params: { rental: rental_create }
+        end.to change(RentalsItem, :count).by(2)
+        expect(RentalsItem.last(2).collect(&:reservation_id)).to contain_exactly fixed_uuid, fixed_uuid
       end
     end
 
@@ -152,11 +193,7 @@ describe RentalsController do
         expect do
           post :create, params: { rental: invalid_create }
         end.to_not change(Rental, :count)
-      end
-      it 're-renders the :new template' do
-        post :create, params: { rental: invalid_create }
-        expect(response).to render_template :new
-        expect(assigns[:users]).not_to be_empty
+        expect(response).to redirect_to(action: :new)
       end
     end
 
@@ -167,13 +204,16 @@ describe RentalsController do
           post :create, params: { rental: rental_create } # sends valid params
         end.not_to change(Rental, :count)
 
-        expect(flash[:warning]).to be_present
-        expect(response).to render_template :new
+        expect(flash[:warning]).to be_any { |warning| warning =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
+        expect(response).to redirect_to(action: :new)
       end
     end
 
     context 'cost adjustment' do
-      let(:cost) { Rental.cost(rental_create[:start_time], rental_create[:end_time], rental_create[:item_type_id]) }
+      let(:cost) do
+        ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id].id) # that item_type_id is actually the object itself
+                .cost(rental_create[:start_time], rental_create[:end_time])
+      end
 
       it 'adjusts the related financial transaction' do
         u = create :user, groups: [
@@ -186,7 +226,7 @@ describe RentalsController do
 
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        end.to change(FinancialTransaction, :count).by(1) && change(Rental, :count).by(1)
 
         expect(FinancialTransaction.last.amount).to eq cost + 1
       end
@@ -194,9 +234,9 @@ describe RentalsController do
       it 'ignores if the user does not have permission' do # by default does not have this permission
         expect do
           post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(1)) && change(Rental, :count).by(1)
+        end.to(change(FinancialTransaction, :count).by(rental_create[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
 
-        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1
+        expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1, but they ignored because we dont have perms
       end
     end
   end
@@ -274,19 +314,6 @@ describe RentalsController do
       expect(assigns[:financial_transactions].pluck(:rental_id).uniq).to eq([@rental.id])
     end
   end
-
-  # unless i'm mistaken this is not an action anymore, just a partial
-  # describe 'GET #transaction_detail' do
-  # it 'assigns a requested rental to @rental' do
-  # get :transaction_detail, params: { id: @rental.id }
-  # expect(assigns[:rental]).to eq @rental
-  # end
-
-  # it 'all requested financial transactions should contain the same rental as @rental' do
-  # get :transaction_detail, params: { id: @rental }
-  # expect(assigns[:financial_transactions].all? { |ft| ft.rental.id == @rental.id }).to be true
-  # end
-  # end
 
   describe 'PUT #update' do
     it 'properly picks up a rental' do

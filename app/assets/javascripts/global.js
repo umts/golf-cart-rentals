@@ -16,7 +16,7 @@ $(function(){
 
 //Allow multi-select, datepicker, and timepicker to work on all browsers
 $(document).ready(function() {
-    $('.selectpicker').selectpicker();
+    $('.selectpicker').selectpicker({numberDisplayed: 2});
 
     $( ".datepicker" ).datetimepicker({
       format: 'YYYY-MM-DD',

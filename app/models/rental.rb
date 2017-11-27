@@ -2,24 +2,31 @@
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
+  include ApplicationHelper
 
   has_many :incurred_incidentals, dependent: :destroy
 
   has_many :financial_transactions
   has_one :financial_transaction, as: :transactable
 
-  after_create :create_financial_transaction
+  # will skip financial transactions if we plan to create manual pricing
+  attr_accessor :skip_financial_transactions
+  after_create :create_financial_transaction, unless: :skip_financial_transactions
   # create reservation unless it has already been created
-  before_save :create_reservation, unless: proc { |rental| rental.reservation_id.present? }
+  before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
+
+  # unreserve the items
+  before_destroy :delete_reservations
+
+  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
+  accepts_nested_attributes_for :rentals_items
+  has_many :items, through: :rentals_items
+  has_many :item_types, through: :rentals_items
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  belongs_to :item_type
-  belongs_to :item
-
-  validates :reservation_id, uniqueness: true
-  validates :renter, :creator, :start_time, :end_time, :item_type, presence: true
+  validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start' }
   validate :renter_is_assignable
@@ -40,11 +47,22 @@ class Rental < ActiveRecord::Base
   scope :inactive_rentals, -> { where(rental_status: %w(canceled dropped_off)) }
   scope :rented_by, ->(user) { where(renter_id: user) }
   scope :created_by, ->(user) { where(creator_id: user) }
+
+  # if these queries ever become a problem this would be faster, i think a cross apply or something like that would probably be even faster.
+  # select * from rentals where
+  #  (select coalesce(sum(amount),0) from financial_transactions where
+  #    rental_id=rentals.id and not (transactable_type='Payment' or transactable_type='Cancelation')) -
+  #  (select coalesce(sum(amount),0) from financial_transactions where
+  #    rental_id=rentals.id and (transactable_type='Payment' or transactable_type='Cancelation')) > min
   scope :with_balance_due, -> { Rental.where id: Rental.select { |rental| rental.balance.positive? }.collect(&:id) }
-  scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance >= min }.collect(&:id) }
+  scope :with_balance_over, ->(min) { Rental.where id: Rental.select { |rental| rental.balance > min }.collect(&:id) }
 
   delegate :payments, to: :financial_transactions
   delegate :department, to: :renter
+
+  def reservations
+    rentals_items.collect(&:reservation_id)
+  end; alias reservation_ids reservations
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -92,34 +110,81 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  def create_reservation
-    throw :abort unless valid? # check if the current rental object is valid or not
+  # Note, rspec will mock this so we wont communicate with the api
+  def create_reservations
+    # if we fail half way through creating reservations we should roll them all back
+    created_reservations = []
     begin
-      reservation = Inventory.create_reservation(item_type.name, start_time, end_time)
-      raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+      raise RecordInvalid, 'Rental invalid' unless valid?
+      rentals_items.each do |ri|
+        raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
 
-      self.reservation_id = reservation[:uuid]
-      self.item = Item.find_by(name: reservation[:item][:name])
+        reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
+        raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+
+        ri.reservation_id = reservation[:uuid]
+        created_reservations << reservation[:uuid]
+        ri.item = Item.find_by(name: reservation[:item][:name])
+      end
     rescue => error
-      errors.add :base, error.inspect
+      # roll back the rentals we got partially through creating
+      failed_roll_back = false
+      created_reservations.each do |uuid|
+        # remove reservation from RentalsItem
+        rental_item = rentals_items.to_a.find { |ri| ri.reservation_id == uuid }
+        if rental_item.present?
+          rental_item.reservation_id = nil
+        else
+          failed_roll_back = true
+          errors.add :base, "Failed to find associated rentals item when rolling back reservation (uuid #{uuid})"
+        end
+
+        # remove reservation from api
+        unless delete_reservation(uuid)
+          errors.add :base, "Failed to delete reservations from inventory api (uuid #{uuid})"
+          failed_roll_back = true
+        end
+      end
+
+      errors.add :base, "Reservations #{'partially' if failed_roll_back} rolled back " + error.inspect
       throw :abort
     end
   end
 
-  def delete_reservation
-    return true if reservation_id.nil? # nothing to delete here
+  def delete_reservations
     return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
-    begin
-      Inventory.delete_reservation(reservation_id)
-      self.reservation_id = nil
-    rescue => error
-      errors.add(:base, error.inspect) && (return false)
+    rentals_items.each do |ri|
+      next if ri.reservation_id.nil? # nothing to delete here
+      errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)
+      ri.reservation_id = nil
     end
-    true
+    throw(:abort) if errors.any? # abort a #destroy
+    errors.empty?
+  end
+
+  def delete_reservation(uuid)
+    Inventory.delete_reservation(uuid) # will throw errors if it fails
+  rescue
+    return false
+  end
+
+  # join reservation ids togeather as a comma separated str
+  def str_reservation_ids(trnc = 0)
+    stringulize_arr(reservation_ids, :itself, false, trnc)
+  end
+
+  # join item names togeather as a comma separated str
+  def str_items(with_ids = false, trnc = 0)
+    stringulize_arr(items, :name, with_ids, trnc)
+  end
+
+  # join item type names togeather as a comma separated str
+  def str_item_types(with_ids = false, trnc = 0)
+    stringulize_arr(item_types, :name, with_ids, trnc)
   end
 
   def basic_info
-    "#{item_type.name}:(#{start_date.to_date} -> #{end_date.to_date})"
+    "#{str_item_types}:(#{start_date.to_date} -> #{end_date.to_date})"
   end
 
   def times
@@ -128,7 +193,7 @@ class Rental < ActiveRecord::Base
   alias dates times
 
   def event_name
-    "#{item_type.name}(#{item_type.id}) - Rental ID: #{id}"
+    "#{str_item_types(true)} - Rental ID: #{id}"
   end
 
   def event_status_color
@@ -159,13 +224,11 @@ class Rental < ActiveRecord::Base
   end
 
   def sum_charges
-    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
-                          .inject(0) { |acc, elem| acc + elem.amount }
+    financial_transactions.where.not('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).sum(:amount)
   end
 
   def sum_payments
-    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name)
-                          .inject(0) { |acc, elem| acc + elem.amount }
+    financial_transactions.where('transactable_type=? OR transactable_type=?', Payment.name, Cancelation.name).sum(:amount)
   end
 
   def balance
@@ -176,35 +239,15 @@ class Rental < ActiveRecord::Base
     (end_time.to_date - start_time.to_date).to_i + 1
   end
 
-  def self.cost(start_time, end_time, item_type)
-    return 0 if start_time > end_time
-
-    # have to add one day at the end 12th to 13th is 2 days, pick up on 12 drop of on 13 is two full days
-    rental_duration = (end_time.to_date - start_time.to_date).to_i + 1
-    no_of_weeks = (rental_duration / 7)
-    # Do not charge for 1/7 days in a rental.
-    days_to_charge_for = rental_duration - no_of_weeks
-    # Long term pricing
-    longterm_prices = longterm_cost(no_of_weeks, item_type.name)
-
-    unless longterm_prices.nil? # catch cases where item is neither 4 nor 6 seat cart
-      return longterm_prices[no_of_weeks] + ((rental_duration % 7) * item_type.fee_per_day)
-    end
-    (days_to_charge_for * item_type.fee_per_day) + item_type.base_fee
-  end
-
-  def self.longterm_cost(weeks, name)
-    if weeks >= 2
-      if name == '4 Seat'
-        { 2 => 500, 3 => 700, 4 => 850 }
-      elsif name == '6 Seat'
-        { 2 => 600, 3 => 900, 4 => 1100 }
-      end
-    end
-  end
-
   def create_financial_transaction
-    rental_amount = Rental.cost(start_time.to_date, end_time.to_date, item_type)
-    FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: self.class, transactable_id: id
+    # create financial transactions for all the rentals
+    rentals_items.each do |ri|
+      rental_amount = ri.item_type.cost(start_time.to_date, end_time.to_date)
+      FinancialTransaction.create rental: self, amount: rental_amount, transactable_type: RentalsItem.name, transactable_id: ri.id
+    end
+  end
+
+  def cost
+    rentals_items.sum { |ri| ri.item_type.cost(start_time.to_date, end_time.to_date) }
   end
 end

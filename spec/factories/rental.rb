@@ -3,48 +3,45 @@ FactoryGirl.define do
   factory :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    association :item_type, name: 'TEST_ITEM_TYPE'
-    association :item, name: 'TEST_ITEM'
     start_time Time.current
     end_time (Time.current + 1.day)
+
+    after(:build) do |rental|
+      # add the rentals_items, no reservation id
+      if rental.rentals_items.empty?
+        rental.rentals_items << build(:rentals_item, reservation_id: nil)
+      end
+    end
+  end
+
+  factory :rental_without_items, parent: :rental do
+    after(:build) do |rental|
+      rental.rentals_items = []
+    end
+  end
+
+  factory :mock_rental, parent: :rental do
+    # reservations are automatically created after create, doing this before will prevent that
+    before(:create) do |rental|
+      # give a reservation id to all of the items
+      rental.rentals_items.each do |r|
+        r.reservation_id = SecureRandom.uuid
+      end
+    end
   end
 
   factory :invalid_rental, parent: :mock_rental do
-    association :creator, factory: :user
-    renter { creator } # set renter equal to creator by default
-    association :item_type
-    association :item
     start_time nil
-    end_time (Time.current + 1.day)
   end
 
   factory :new_rental, parent: :mock_rental do
     creator_id nil
     renter_id nil
-    item_type_id { create(:item_type).id }
-    item_id { create(:item).id }
-    start_time Time.current
-    end_time (Time.current + 1.day)
-  end
-
-  factory :mock_rental, parent: :rental do
-    association :creator, factory: :user
-    renter { creator } # set renter equal to creator by default
-    association :item_type
-    association :item
-    sequence :reservation_id
-    start_time Time.current
-    end_time (Time.current + 1.day)
   end
 
   factory :upcoming_rental, parent: :mock_rental do
     start_time (Time.current + 1.day).to_s
     end_time (Time.current + 5.days).to_s
-  end
-
-  factory :hold_conflicting_rental, parent: :mock_rental do
-    start_time Time.current + 1.day
-    end_time Time.current + 2.days
   end
 
   factory :past_rental, parent: :mock_rental do

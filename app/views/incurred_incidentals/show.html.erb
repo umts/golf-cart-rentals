@@ -8,7 +8,7 @@
       </div>
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
         <p>Rental Status:   <%= @incurred_incidental.rental.rental_status %></p>
-        <p>Item Type:       <%= @incurred_incidental.rental.item_type.name %></p>
+        <p>Item Type:       <%= @incurred_incidental.item.item_type.name %></p>
         <p>Start Date:      <%= @incurred_incidental.rental.start_date.to_date %></p>
         <p>End Date:        <%= @incurred_incidental.rental.end_date.to_date %></p>
       </div>
@@ -25,7 +25,6 @@
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
         <p>Name:                 <%= @incurred_incidental.incidental_type.name %></p>
         <p>Description:          <%= @incurred_incidental.incidental_type.description %></p>
-        <p>Base Fee:             <%= number_to_currency @incurred_incidental.incidental_type.base %></p>
       </div>
     </div>
   </div>
@@ -40,6 +39,7 @@
       <div class="panel-body no-gutter" style="max-height: 10;overflow-y: scroll;">
         <% if @incurred_incidental.financial_transaction %>
           <p>Corresponding Rental: <%= @incurred_incidental.financial_transaction.rental.basic_info %></p>
+          <p>Item: <%= @incurred_incidental.item.name %></p>
           <p>Amount:               <%= number_to_currency @incurred_incidental.financial_transaction.amount %></p>
         <% else %>
           <p>Financial information will be available once the Damage Tracking information is updated with the actual costs.</p>

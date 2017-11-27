@@ -20,4 +20,10 @@ RSpec.describe ItemType, type: :model do
   it 'is invalid with a negative fee_per_day' do
     expect(build(:item_type, fee_per_day: -1)).not_to be_valid
   end
+
+  describe '#cost' do
+    it 'gets cost' do
+      expect(create(:item_type).cost(Date.today, Date.tomorrow)).to be_a_kind_of(Numeric)
+    end
+  end
 end

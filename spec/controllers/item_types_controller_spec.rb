@@ -95,13 +95,13 @@ describe ItemTypesController do
 
     context 'create item_type in api fails' do
       it 'redirects to new_item_types_path' do
-        allow(Inventory).to receive(:create_item_type).and_raise("boom")
+        allow(Inventory).to receive(:create_item_type).and_raise('boom')
         post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
         expect(response).to redirect_to new_item_types_path
       end
 
       it 'populates a danger flash message' do
-        allow(Inventory).to receive(:create_item_type).and_raise("boom")
+        allow(Inventory).to receive(:create_item_type).and_raise('boom')
         post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
         expect(flash[:danger]).to be_present
         expect(flash[:danger]).to eq('That Item Type Already Exists.')
@@ -121,7 +121,7 @@ describe ItemTypesController do
 
     context 'called indepedent of #create_item_type with error' do
       it 'populates a flash danger message' do
-        allow(Inventory).to receive(:item_types).and_raise("boom")
+        allow(Inventory).to receive(:item_types).and_raise('boom')
         get :refresh_item_types
         expect(flash[:danger]).to be_present
         expect(flash[:danger]).to eq('Failed to Refresh Item Types From API. #<RuntimeError: boom>')
