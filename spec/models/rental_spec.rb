@@ -224,6 +224,7 @@ RSpec.describe Rental do
       it2 = create :item_type, base_fee: 3, fee_per_day: 11
       rental = build :rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow,
                               rentals_items_attributes: [{ item_type: it1 }, { item_type: it2 }]
+      # cost is base_fee + duration (days) * fee_per_day
       expect(rental.cost).to eq((5 + 2 * 2) + (3 + 2 * 11))
     end
   end
