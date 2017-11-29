@@ -18,14 +18,4 @@ RSpec.describe ErrorMailer, type: :mailer do
       mail.deliver_now
     end.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
-
-  it 'will send an email when a controller runs into a 500 error' do
-    allow_any_instance_of(HomeController).to receive(:index).and_raise(StandardError.new)
-    # in application controller we rescue exceptions with render 500
-    expect_any_instance_of(ApplicationController).to receive(:render_500)
-    binding.pry
-    get '/home'
-  end
-
-
 end

@@ -16,7 +16,6 @@ RSpec.configure do |config|
   end
 
   config.include FactoryGirl::Syntax::Methods
-  #config.include ControllerHelpers, :type => :controller
 
   config.before :suite do
     Permission.update_permissions_table
