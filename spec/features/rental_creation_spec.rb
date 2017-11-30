@@ -46,7 +46,7 @@ describe 'Creating a new rental', js: true do
           fill_in('rental_end_time', with: Date.today.strftime('%Y-%m-%d'))
 
           expect(page).to have_button('rentalSubmit', disabled: true)
-          check('TOC')
+          # check('TOC')
           expect(page).to have_button('rentalSubmit', disabled: false)
           puts page.html
 
@@ -79,7 +79,7 @@ describe 'Creating a new rental', js: true do
         puts page.html
 
         within 'form.new_rental' do
-          check('TOC')
+          # check('TOC')
         end
 
         find_button('rentalSubmit').trigger('click')

@@ -1,7 +1,7 @@
 include InventoryExceptions
 
-dept = Department.create(name: '_test')
-User.create(first_name: 'Apples', last_name: 'Sauce', spire_id: '00000000', email: "applesauce@xyz.net", phone: '1248279421', department: dept)
+dept = Department.create(name: 'Parking')
+User.create(first_name: 'Apple', last_name: 'Sauce', spire_id: '00000000', email: "applesauce@example.com", phone: '1248279421', department: dept)
 if Rails.env.development?
   puts '*****************************'
   puts 'Seeding development'
