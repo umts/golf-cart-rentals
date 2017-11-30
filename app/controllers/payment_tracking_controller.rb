@@ -6,7 +6,7 @@ class PaymentTrackingController < ApplicationController
     params[:q] ||= {}
 
     # collect rentals with balance over or eq to
-    min = params.permit(:balance_gteq)[:balance_gteq].to_f || 0
+    min = (params.permit(:balance_gteq)[:balance_gteq] || -1).to_f # negative 1 is default because even paid rentals wont have negative balance
     search_area = rentals_visible_to_current_user.with_balance_over(min)
 
     search_q = params[:q].permit(:created_at_gteq, :created_at_lteq)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504201336) do
+ActiveRecord::Schema.define(version: 20170911185405) do
 
   create_table "damages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "location"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20170504201336) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.datetime "deleted_at"
+    t.integer  "item_id"
     t.index ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id", using: :btree
     t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id", using: :btree
   end
@@ -165,23 +166,31 @@ ActiveRecord::Schema.define(version: 20170504201336) do
 
   create_table "rentals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "rental_status",        null: false
-    t.string   "reservation_id"
-    t.integer  "item_type_id",         null: false
     t.datetime "dropped_off_at"
     t.datetime "picked_up_at"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "item_id",              null: false
     t.string   "pickup_name"
     t.string   "dropoff_name"
     t.string   "pickup_phone_number"
     t.string   "dropoff_phone_number"
     t.integer  "creator_id"
     t.integer  "renter_id"
-    t.index ["item_type_id"], name: "index_rentals_on_item_type_id", using: :btree
     t.index ["rental_status"], name: "index_rentals_on_rental_status", using: :btree
+  end
+
+  create_table "rentals_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "rental_id"
+    t.integer  "item_id"
+    t.string   "reservation_id"
+    t.integer  "item_type_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["item_id"], name: "index_rentals_items_on_item_id", using: :btree
+    t.index ["item_type_id"], name: "index_rentals_items_on_item_type_id", using: :btree
+    t.index ["rental_id"], name: "index_rentals_items_on_rental_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

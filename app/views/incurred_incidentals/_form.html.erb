@@ -4,6 +4,14 @@
   </div>
 
   <div class="form-group col-xs-12">
+    <%= f.label :item_id, 'Item', class: 'control-label col-xs-2' %>
+    <div class="col-xs-6">
+      <%= f.select :item_id, options_from_collection_for_select(@rental.items, 'id', 'name', params[:item_id]),
+            { include_blank: "-- Select One --" }, class: "selectpicker form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-xs-12">
     <%= f.label :incidental_type_id, 'Incidental Type', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.select :incidental_type_id, options_from_collection_for_select(@incidental_types, 'id', 'basic_info', params[:incidental_type_id] || @incurred_incidental.incidental_type.try(:id)), { include_blank: "-- Select One --" }, id: "select_incidental_type", class: "selectpicker form-control" %>

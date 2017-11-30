@@ -123,4 +123,16 @@ module ApplicationHelper
       Rental.joins('INNER JOIN users ON users.id=rentals.renter_id OR users.id=rentals.creator_id').where('users.department_id' => dept.id)
     end
   end
+
+  def stringulize_arr(arr, prop, with_ids = false, trnc = 0)
+    str = arr.reduce('') do |acc, obj|
+      part = "#{obj.public_send(prop)}#{'(' + obj.public_send(:id).to_s + ')' if with_ids}"
+      if acc == ''
+        part
+      else
+        "#{acc}, #{part}"
+      end
+    end
+    trnc != 0 ? str.truncate(trnc) : str
+  end
 end

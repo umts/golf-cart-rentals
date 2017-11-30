@@ -64,10 +64,17 @@ RSpec.describe Hold, type: :model do
   end
 
   describe 'handle_conflicting_rentals' do
+    # the start times and end times here are configured to be overlapping for the conflict and non overlapping for the future rental
     let(:shared_item) { create(:item) }
-    let(:hold) { create(:hold, item: shared_item) }
-    let(:conflicting_rental) { create(:hold_conflicting_rental, item: shared_item) }
-    let(:future_rental) { create(:far_future_rental, item: shared_item) }
+    let(:hold) { create(:hold, item: shared_item, start_time: 1.day.from_now, end_time: 10.days.from_now) }
+    let(:conflicting_rental) do
+      create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now,
+                      rentals_items: [build(:rentals_item, item: shared_item)])
+    end
+    let(:future_rental) do
+      create(:rental, start_time: 40.days.from_now, end_time: 42.days.from_now,
+                      rentals_items: [build(:rentals_item, item: shared_item)])
+    end
 
     it 'should cancel a conflicting rental' do
       conflicting_rental
@@ -93,7 +100,7 @@ RSpec.describe Hold, type: :model do
       hold = create :hold, start_time: 1.day.from_now, end_time: 3.days.from_now
 
       # conflicting rental starts in range but ends out side of it
-      create(:hold_conflicting_rental, start_time: 2.days.from_now, end_time: 4.days.from_now, item: hold.item)
+      create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now, rentals_items: [build(:rentals_item, item: hold.item)])
       expect do
         hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)
@@ -125,20 +132,20 @@ RSpec.describe Hold, type: :model do
     it 'identifies a conflicting ongoing rental' do
       rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
       rental.pickup
-      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      hold = create :hold, item: rental.items.first, start_time: 1.day.from_now
       expect(hold.conflicting_ongoing_rental).to eq(rental)
     end
 
     it 'doesnt care if it isnt picked up' do
       rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
-      hold = create :hold, item: rental.item, start_time: 1.day.from_now
+      hold = create :hold, item: rental.items.first, start_time: 1.day.from_now
       expect(hold.conflicting_ongoing_rental).to be nil
     end
 
     it 'doesnt return rentals outside of hold range' do
       rental = create :mock_rental, start_time: Time.now, end_time: 4.days.from_now
       rental.pickup
-      hold = create :hold, item: rental.item, start_time: 5.days.from_now, end_time: 6.days.from_now
+      hold = create :hold, item: rental.items.first, start_time: 5.days.from_now, end_time: 6.days.from_now
       expect(hold.conflicting_ongoing_rental).to be nil
     end
   end
