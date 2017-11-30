@@ -37,7 +37,7 @@
         <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <%  #(:start_time - :end_time) %>
-          <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
+          <%= number_field_tag :date_range, 1, min: 0, disabled: true, id: 'rental_date_range', class: 'form-control' %>
         </div>
       </div>
     </div>
