@@ -52,7 +52,7 @@ describe 'Creating a new rental', js: true do
           page.save_screenshot('page1.png')
           find_button('rentalSubmit').trigger('click')
           page.save_screenshot('page2.png')
-          window.confirm
+          # window.confirm
           #page.find_by_id('rentalSubmit').click
           #page.driver.browser.switch_to.alert.accept
         end
@@ -82,7 +82,7 @@ describe 'Creating a new rental', js: true do
 
         find_button('rentalSubmit').trigger('click')
         #accept_alert
-        window.confirm
+        #window.confirm
         sleep 3
 
         #page.evaluate_script('window.confirm = function() { return true; }')
