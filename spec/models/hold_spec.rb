@@ -135,7 +135,7 @@ RSpec.describe Hold, type: :model do
         hold.handle_conflicting_rentals
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
       # that matching text is pulled right from the body of the email that should be sent
-      expect(ActionMailer::Base.deliveries.last.body).to match(/.*Unfortunately, there is no other cart available for replacement.*/)
+      expect(ActionMailer::Base.deliveries.last.body).to match(/Unfortunately, there is no other cart available for replacement/)
     end
   end
 
