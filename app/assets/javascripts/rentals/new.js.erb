@@ -54,7 +54,9 @@ function costCalculation(){
       },
       error: function () { alert('failed to retreive rental cost'); }
     });
-   }
+  } else {
+    amount.val("0");
+  }
 }
 
 $(document).ready(function () {
