@@ -104,14 +104,14 @@ describe RentalsController do
     it 'searches within a range of item types' do
       r1 = create :mock_rental
       create :mock_rental
-      get :index, params: { item_type_id_in: [r1.item_types.first.id]}
+      get :index, params: { item_type_id_in: [r1.item_types.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
 
     it 'searches within a range of items' do
       r1 = create :mock_rental
       create :mock_rental
-      get :index, params: { item_id_in: [r1.items.first.id]}
+      get :index, params: { item_id_in: [r1.items.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
   end
@@ -265,14 +265,14 @@ describe RentalsController do
     it 'searches within a range of item types' do
       r1 = create :mock_rental
       create :mock_rental
-      get :processing, params: { item_type_id_in: [r1.item_types.first.id]}
+      get :processing, params: { item_type_id_in: [r1.item_types.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
 
     it 'searches within a range of items' do
       r1 = create :mock_rental
       create :mock_rental
-      get :processing, params: { item_id_in: [r1.items.first.id]}
+      get :processing, params: { item_id_in: [r1.items.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
   end
