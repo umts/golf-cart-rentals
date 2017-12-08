@@ -42,8 +42,7 @@ describe RentalsController do
   end
 
   after(:each) do
-    @rental.destroy
-    @rental2.destroy
+    # rentals will be rolled back not necessary to destroy
     Timecop.return
   end
 
@@ -283,7 +282,8 @@ describe RentalsController do
     end
 
     it 'cancels the rental' do
-      expect(Inventory).to receive(:delete_reservation).exactly(@rental.reservation_ids.count).times
+      expect(Inventory).to receive(:delete_reservation).with(/[\w+]{8}-[\w+]{4}-[\w+]{4}-[\w+]{4}-[\w+]{12}/).
+        exactly(@rental.reservation_ids.count).times
       delete :destroy, params: { id: @rental.id }
       expect(@rental.reload.canceled?).to be true
     end
