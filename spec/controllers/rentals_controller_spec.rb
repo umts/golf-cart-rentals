@@ -283,6 +283,7 @@ describe RentalsController do
     end
 
     it 'cancels the rental' do
+      expect(Inventory).to receive(:delete_reservation).exactly(@rental.reservation_ids.count).times
       delete :destroy, params: { id: @rental.id }
       expect(@rental.reload.canceled?).to be true
     end

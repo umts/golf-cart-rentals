@@ -16,7 +16,7 @@ class Rental < ActiveRecord::Base
   before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
 
   # unreserve the items
-  before_destroy :delete_reservations
+  before_destroy :before_destroy_delete_reservations
 
   has_many :rentals_items, dependent: :destroy, inverse_of: :rental
   accepts_nested_attributes_for :rentals_items
@@ -158,7 +158,6 @@ class Rental < ActiveRecord::Base
       errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)
       ri.reservation_id = nil
     end
-    throw(:abort) if errors.any? # abort a #destroy
     errors.empty?
   end
 
@@ -167,6 +166,12 @@ class Rental < ActiveRecord::Base
   rescue
     return false
   end
+
+  # same as delete_reservations but it aborts the destroy
+  def before_destroy_delete_reservations
+    delete_reservations # will add errors to obj
+    throw(:abort) if errors.any? # abort a #destroy
+  end; private :before_destroy_delete_reservations
 
   # join reservation ids togeather as a comma separated str
   def str_reservation_ids(trnc = 0)
