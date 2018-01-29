@@ -172,7 +172,6 @@ class RentalsController < ApplicationController
   def destroy
     if @rental.may_cancel?
       @rental.cancel!
-      @rental.delete_reservations
       flash[:success] = 'Rental Canceled.'
     elsif @rental.canceled?
       flash[:warning] = 'Rental Has Already Been Canceled'
