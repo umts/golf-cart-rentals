@@ -73,7 +73,7 @@ gem 'permanent_records'
 gem 'exception_notification'
 gem 'slack-notifier'
 
-gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'
