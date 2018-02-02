@@ -7,10 +7,54 @@ abort 'The Rails environment is running in production mode!' if Rails.env.produc
 
 require 'spec_helper'
 require 'rspec/rails'
+require 'capybara/rspec'
+require 'selenium/webdriver'
+require 'capybara/poltergeist'
+
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
+end
+
+# Capybara configuration
+# NOTE: Integration tests may not work without a chrome web driver. To install it
+#       type 'brew install chromedriver' into a terminal.
+
+Capybara.register_driver :selenium_chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.register_driver :selenium_chrome_headless do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: %w(headless disable-gpu no-sandbox disable-gpu window-size=1400,900})
+    }
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+end
+
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, :inspector => true)
+end
+
+Capybara.default_max_wait_time = 8
+# Capybara.run_server = true
+Capybara.javascript_driver = :poltergeist_debug
+Capybara.default_driver = :selenium_chrome
+# Capybara.javascript_driver = :selenium_chrome
+
+Capybara.app_host = "http://localhost:3000"
+Capybara.server_host = "localhost"
+Capybara.server_port = 3001
+
+if ENV['TRAVIS']
+  Capybara.app_host = "http://0.0.0.0:3000"
+  Capybara.server_host = "0.0.0.0"
+  Capybara.server_port = 3001
 end

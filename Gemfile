@@ -50,6 +50,7 @@ gem 'rails-jquery-tokeninput'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
 gem 'signature-pad-rails', '~> 0.5'
+gem 'thin' # replacement for webrick
 
 # pagination
 gem 'will_paginate'
@@ -73,6 +74,9 @@ gem 'permanent_records'
 gem 'exception_notification'
 gem 'slack-notifier'
 
+# travis integration testing
+gem 'poltergeist'
+
 gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
@@ -93,10 +97,11 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
-  gem 'vcr', '2.4.0'
-  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
+  gem 'capybara'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'factory_girl_rails'
   gem 'rake'
+  gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'vcr', '2.4.0'
 end

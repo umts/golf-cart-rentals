@@ -119,7 +119,7 @@ class Rental < ActiveRecord::Base
       rentals_items.each do |ri|
         raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
 
-        reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
+        reservation = reservation_response(ri.item_type, start_time, end_time)
         raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
 
         ri.reservation_id = reservation[:uuid]
@@ -249,5 +249,15 @@ class Rental < ActiveRecord::Base
 
   def cost
     rentals_items.sum { |ri| ri.item_type.cost(start_time.to_date, end_time.to_date) }
+  end
+
+  private
+
+  def reservation_response(item_type, start_time, end_time)
+    if Rails.env.development?
+      InventoryMock.create_reservation(item_type.name, start_time, end_time)
+    else
+      Inventory.create_reservation(item_type.name, start_time, end_time)
+    end
   end
 end

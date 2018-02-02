@@ -83,6 +83,16 @@ $(document).ready(function () {
     costCalculation();
   });
 
+  $('#rentals-new-toc').change(function() {
+    var button = document.getElementById('rentalSubmit')
+    if(this.checked) {
+      button.disabled = false;
+    }
+    else {
+      button.disabled = true;
+    }
+  })
+
   $('input.cost-dependent.item-type-quantity-picker').change(function () {
     costCalculation();
   });
