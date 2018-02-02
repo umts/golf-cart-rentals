@@ -100,6 +100,20 @@ describe RentalsController do
       get :index
       expect(response).to render_template :index
     end
+
+    it 'searches within a range of item types' do
+      r1 = create :mock_rental
+      create :mock_rental
+      get :index, params: { item_type_id_in: [r1.item_types.first.id] }
+      expect(assigns[:rentals]).to contain_exactly r1
+    end
+
+    it 'searches within a range of items' do
+      r1 = create :mock_rental
+      create :mock_rental
+      get :index, params: { item_id_in: [r1.items.first.id] }
+      expect(assigns[:rentals]).to contain_exactly r1
+    end
   end
 
   describe 'GET #show' do
@@ -245,6 +259,21 @@ describe RentalsController do
     it 'populates an array of rentals' do
       get :processing
       expect(assigns[:rentals]).to eq([@rental, @rental2])
+      expect(response).to render_template :processing
+    end
+
+    it 'searches within a range of item types' do
+      r1 = create :mock_rental
+      create :mock_rental
+      get :processing, params: { item_type_id_in: [r1.item_types.first.id] }
+      expect(assigns[:rentals]).to contain_exactly r1
+    end
+
+    it 'searches within a range of items' do
+      r1 = create :mock_rental
+      create :mock_rental
+      get :processing, params: { item_id_in: [r1.items.first.id] }
+      expect(assigns[:rentals]).to contain_exactly r1
     end
   end
 

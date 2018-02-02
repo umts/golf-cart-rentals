@@ -77,7 +77,7 @@ gem 'slack-notifier'
 # travis integration testing
 gem 'poltergeist'
 
-gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'

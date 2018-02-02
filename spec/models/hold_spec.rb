@@ -126,6 +126,17 @@ RSpec.describe Hold, type: :model do
         hold.handle_conflicting_rentals
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
     end
+
+    it 'should send an email when there is no suitable replacement rental' do
+      conflicting_rental
+      # wont create a replacement rental
+      allow(Inventory).to receive(:create_reservation).and_raise(AggressiveInventory::Errors::InventoryExceptions::ReservationNotAvailable)
+      expect do
+        hold.handle_conflicting_rentals
+      end.to change { ActionMailer::Base.deliveries.size }.by(1)
+      # that matching text is pulled right from the body of the email that should be sent
+      expect(ActionMailer::Base.deliveries.last.body).to match(/Unfortunately, there is no other cart available for replacement/)
+    end
   end
 
   context 'conflicting_ongoing_rental' do

@@ -6,10 +6,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     (build :financial_transaction, :with_rental).attributes.symbolize_keys
   end
 
-  let(:ft_transact_payment) do
-    (build :financial_transaction, :with_payment).attributes.symbolize_keys
-  end
-
   let(:financial_transaction) do
     (build :financial_transaction).attributes.symbolize_keys
   end
