@@ -13,6 +13,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
+# Persistant queuing backend
+gem 'sidekiq'
+
 # Interaction with jquery and controller without refreshing page
 gem 'fullcalendar-rails'
 gem 'gon'
@@ -73,7 +76,7 @@ gem 'permanent_records'
 gem 'exception_notification'
 gem 'slack-notifier'
 
-gem 'aggressive_inventory', git: 'https://github.com/tomecho/aggressive_inventory.git'
+gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.git'
 
 group :development, :test do
   gem 'pry-byebug'
