@@ -69,10 +69,7 @@ class RentalsController < ApplicationController
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
 
-    base_search_area = rentals_visible_to_current_user.joins(:rentals_items)
-    @q = base_search_area.search(params[:q])
-      @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
-    @upcoming_rentals = @rentals.upcoming_rentals
+    @reservable = Item.all_reservable_items
 
     set_users_to_assign
   end

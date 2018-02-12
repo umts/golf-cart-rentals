@@ -27,10 +27,22 @@
       </div>
 
       <div class="form-group row">
-        <% if @upcoming_rentals %>
-        <% end %>
+          <%= f.label :available, 'Available Items', class: 'control-label col-xs-3' %>
+        <div class="col-xs-9">
+          <table width="400">
+            <tr>
+              <th>Name</th>
+              <th>Item Type</th>
+            <tr/>
+            <% @reservable.each do |item| %>
+            <tr>
+              <td> <%=item.name%> </td>
+              <td> <%=item.item_type.name%></td>
+            </tr>
+            <%end%>
+          </table>
+        </div>
       </div>
-
 
       <div class="form-group row">
         <%= label_tag :amount, 'Cost', class: 'control-label col-xs-3' %>
