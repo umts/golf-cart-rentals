@@ -93,7 +93,7 @@ $(document).ready(function () {
     // need a few inputs with name = "rental[rentals_items_attributes][0][item_type_id]"
     // these will be hidden from user so they think those other inputs are the things that make it work
     item_types_to_arr().forEach(function (it, ind) {
-      $(this).append('<input name=\'rental[rentals_items_attributes][' + ind + '][item_type_id]\' value=\'' + it + '\' hidden>');
+      $(this).append("<input name='rental[rentals_items_attributes][" + ind + "][item_type_id]' value='" + it + "' hidden>");
     });
   });
 });
