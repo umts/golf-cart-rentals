@@ -80,9 +80,6 @@ GEM
     capistrano-rails (1.2.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
     capistrano-stats (1.1.1)
     codeclimate-test-reporter (1.0.5)
       simplecov
@@ -337,7 +334,6 @@ DEPENDENCIES
   capistrano (~> 3.3.0)
   capistrano-passenger
   capistrano-rails (~> 1.1)
-  capistrano-rvm
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   date_validator
