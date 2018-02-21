@@ -11,8 +11,8 @@
     <th>Rental End Date</th>
   </tr>
   <tr>
-    <td><%= rental.item_type.name%></td>
-    <td><%= rental.item.name%></td>
+    <td><%= rental.str_item_types%></td>
+    <td><%= rental.str_items%></td>
     <td><%= number_to_currency(rental.financial_transaction.amount) %></td>
     <td><%= rental.renter.full_name %></td>
     <td><%= rental.department.name %></td>
