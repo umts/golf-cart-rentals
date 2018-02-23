@@ -25,13 +25,13 @@ class IncurredIncidentalsController < ApplicationController
     if @incurred_incidental.save
       flash[:success] = 'Incidental successfully Created'
       if @incurred_incidental.incidental_type.damage_tracked
-        flash[:warning] = 'Please fill out Damage tracking form first'
+        flash[:danger] = 'Please fill out Damage tracking form first'
         redirect_to new_damage_path(incurred_incidental_id: @incurred_incidental)
       else
         redirect_to incurred_incidental_path(@incurred_incidental)
       end
     else
-      flash[:warning] = 'Failed To create Incidental'
+      flash[:danger] = 'Failed To create Incidental'
       @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       redirect_to new_incurred_incidental_path(rental_id: @incurred_incidental.rental)
     end
@@ -59,11 +59,12 @@ class IncurredIncidentalsController < ApplicationController
       flash[:success] = 'Incidental successfully Updated'
       redirect_to incurred_incidental_path(@incurred_incidental)
     else
-      flash[:warning] = 'Failed to update Incidental'
+      flash[:danger] = 'Failed to update Incidental'
       @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
       @rental = @incurred_incidental.rental
       redirect_to edit_incurred_incidental_path
     end
+    binding.pry
   end
 
   private

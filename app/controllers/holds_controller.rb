@@ -25,7 +25,7 @@ class HoldsController < ApplicationController
       check_ongoing_conflicts
       redirect_to @hold
     else
-      flash[:warning] = 'Failed to create Hold'
+      flash[:danger] = 'Failed to create Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -41,7 +41,7 @@ class HoldsController < ApplicationController
       check_ongoing_conflicts
       redirect_to @hold
     else
-      flash[:warning] = 'Failed to update Hold'
+      flash[:danger] = 'Failed to update Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
@@ -51,7 +51,7 @@ class HoldsController < ApplicationController
     if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
-      flash[:warning] = 'Failed to lift Hold'
+      flash[:danger] = 'Failed to lift Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
     end
     redirect_to holds_url

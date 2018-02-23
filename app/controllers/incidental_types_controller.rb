@@ -23,7 +23,7 @@ class IncidentalTypesController < ApplicationController
       flash[:success] = 'Incidental Type successfully Created'
       redirect_to @incidental_type
     else
-      flash[:warning] = 'Failed to create Incidental Type'
+      flash[:danger] = 'Failed to create Incidental Type'
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -34,7 +34,7 @@ class IncidentalTypesController < ApplicationController
       flash[:success] = 'Incidental Type successfully Updated'
       redirect_to @incidental_type
     else
-      flash[:warning] = 'Failed to update Incidental Type'
+      flash[:danger] = 'Failed to update Incidental Type'
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end

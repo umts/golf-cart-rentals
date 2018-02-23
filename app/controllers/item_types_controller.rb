@@ -17,7 +17,7 @@ class ItemTypesController < ApplicationController
       flash[:success] = 'Item Type successfully Updated'
       redirect_to @item_type
     else
-      flash[:warning] = 'Failed to update Item Type'
+      flash[:danger] = 'Failed to update Item Type'
       @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
@@ -45,7 +45,7 @@ class ItemTypesController < ApplicationController
       refresh_items_helper(inv_item_types, base_fee, fee_per_day)
       flash[:success] ||= 'Successfully updated Item Types'
     rescue => error
-      flash[:warning] = "Failed to refresh Item Types from Inventory API: #{error.inspect}"
+      flash[:danger] = "Failed to refresh Item Types from Inventory API: #{error.inspect}"
     end
     redirect_to item_types_path
   end

@@ -117,7 +117,7 @@ class RentalsController < ApplicationController
     elsif @rental.picked_up?
       render :drop_off, locals: { rental: @rental }
     else
-      flash[:warning] = "This rental is in the '#{@rental.rental_status}' state and cannot be processed"
+      flash[:danger] = "This rental is in the '#{@rental.rental_status}' state and cannot be processed"
       render :index
     end
   end
@@ -162,7 +162,7 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental successfully Reserved'
       redirect_to(rental)
     else
-      flash[:warning] = 'Failed to reserve Rental'
+      flash[:danger] = 'Failed to reserve Rental'
       rental.errors.full_messages.each { |e| flash_message :warning, e }
       @rental = rental
       redirect_to action: :new

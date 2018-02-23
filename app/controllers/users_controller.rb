@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
       redirect_to @user
     else
-      flash[:warning] = 'Failed to create User'
+      flash[:danger] = 'Failed to create User'
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
       flash[:success] = 'User successfully Updated'
       redirect_to @user
     else
-      flash[:warning] = 'Failed to update User'
+      flash[:danger] = 'Failed to update User'
       @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
