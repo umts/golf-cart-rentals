@@ -32,7 +32,7 @@ class ItemTypesController < ApplicationController
     if name.present? && base_fee.present? && fee_per_day.present?
       create_item_type_helper(name, base_fee, fee_per_day)
     else
-      flash[:danger] = 'Please Fill All Fields Then Try Again.'
+      flash[:warning] = 'Name, Base Fee, and Fee-per-Day are required fields'
       redirect_to new_item_types_path
     end
   end
@@ -43,9 +43,9 @@ class ItemTypesController < ApplicationController
         memo[i['name']] = i['uuid']
       end
       refresh_items_helper(inv_item_types, base_fee, fee_per_day)
-      flash[:success] ||= 'Successfully Updated Item Types.'
+      flash[:success] ||= 'Successfully updated Item Types'
     rescue => error
-      flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
+      flash[:warning] = "Failed to refresh Item Types from Inventory API: #{error.inspect}"
     end
     redirect_to item_types_path
   end
@@ -54,10 +54,10 @@ class ItemTypesController < ApplicationController
 
   def create_item_type_helper(name, base_fee, fee_per_day)
     Inventory.create_item_type(name)
-    flash[:success] = 'Item Type Successfully Created.'
+    flash[:success] = 'Item Type successfully Created'
     refresh_item_types(base_fee, fee_per_day)
   rescue
-    flash[:danger] = 'That Item Type Already Exists.'
+    flash[:warning] = 'Item Type already exists'
     redirect_to new_item_types_path
   end
 

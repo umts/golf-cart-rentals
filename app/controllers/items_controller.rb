@@ -18,10 +18,10 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      flash[:success] = 'Item Type successfully Updated'
+      flash[:success] = 'Item successfully Updated'
       redirect_to @item
     else
-      flash[:warning] = 'Failed to update Item Type'
+      flash[:warning] = 'Failed to update Item'
       @item.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
-    flash[:success] = 'Cart Successfully Deleted'
+    flash[:success] = 'Item successfully Deleted'
     redirect_to items_path
   end
 
@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
         create_item_helper(itype.uuid, name)
       end
     else
-      flash[:danger] = 'Invalid Cart Name'
+      flash[:warning] = 'Invalid Item name'
       redirect_to new_items_path
     end
   end
@@ -57,9 +57,9 @@ class ItemsController < ApplicationController
         refresh_items_helper(item_type)
       end
 
-      flash[:success] ||= 'Items Successfully Updated'
+      flash[:success] ||= 'Items successfully Updated'
     rescue => error
-      flash[:danger] = "Failed To Refresh Items From API. #{error.inspect}"
+      flash[:warning] = "Failed to refresh Items from Inventory API: #{error.inspect}"
     end
     redirect_to items_path
   end
@@ -71,7 +71,7 @@ class ItemsController < ApplicationController
     flash[:success] = 'Cart Successfully Created'
     refresh_items
   rescue => error
-    flash[:danger] = "Failed To Create Cart In API. #{error.inspect}"
+    flash[:warning] = "Failed to create Item in Inventory API: #{error.inspect}"
     redirect_to new_items_path
   end
 
