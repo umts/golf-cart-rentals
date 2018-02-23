@@ -18,9 +18,10 @@ class DepartmentsController < ApplicationController
     @department = Department.new(department_params)
 
     if @department.save
-      flash[:success] = 'Department Successfully Created.'
+      flash[:success] = 'Department successfully Created.'
       redirect_to @department
     else
+      flash[:warning] = 'Failed to create Department'
       @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -30,10 +31,11 @@ class DepartmentsController < ApplicationController
 
   def update
     if @department.update(department_params)
-      flash[:success] = 'Department Successfully Updated.'
+      flash[:success] = 'Department successfully Updated.'
       redirect_to @department
     else
-      flash[:warning] = 'Invalid Update Parameters'
+      flash[:warning] = 'Failed to update Department'
+      @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
   end

@@ -117,7 +117,7 @@ class RentalsController < ApplicationController
     elsif @rental.picked_up?
       render :drop_off, locals: { rental: @rental }
     else
-      flash[:danger] = 'Error Redirecting To Processing Form'
+      flash[:warning] = "This rental is in the '#{@rental.rental_status}' state and cannot be processed"
       render :index
     end
   end
@@ -159,9 +159,10 @@ class RentalsController < ApplicationController
                                     amount: params[:amount], note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
       end # else use default pricing
 
-      flash[:success] = 'Rental Successfully Reserved'
+      flash[:success] = 'Rental successfully Reserved'
       redirect_to(rental)
     else
+      flash[:warning] = 'Failed to reserve Rental'
       rental.errors.full_messages.each { |e| flash_message :warning, e }
       @rental = rental
       redirect_to action: :new
@@ -172,11 +173,11 @@ class RentalsController < ApplicationController
   def destroy
     if @rental.may_cancel?
       @rental.cancel!
-      flash[:success] = 'Rental Canceled.'
+      flash[:success] = 'Rental successfully Canceled'
     elsif @rental.canceled?
-      flash[:warning] = 'Rental Has Already Been Canceled'
+      flash[:warning] = 'Rental has already been Canceled'
     else
-      flash[:warning] = 'Rental Cannot Be Canceled'
+      flash[:warning] = "This rental is in the '#{@rental.rental_status}' state and cannot be canceled"
     end
     redirect_back(fallback_location: rentals_path)
   end

@@ -25,9 +25,10 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      flash[:success] = 'Group Successfully Created'
+      flash[:success] = 'Group successfully Created'
       redirect_to @group
     else
+      flash[:warning] = 'Failed to create Group'
       @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -35,9 +36,10 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      flash[:success] = 'Group Successfully Updated'
+      flash[:success] = 'Group successfully Updated'
       redirect_to @group
     else
+      flash[:warning] = 'Failed to update Group'
       @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end

@@ -20,9 +20,10 @@ class IncidentalTypesController < ApplicationController
   def create
     @incidental_type = IncidentalType.new(incidental_type_params)
     if @incidental_type.save
-      flash[:success] = 'Incidental Type Successfully Created'
+      flash[:success] = 'Incidental Type successfully Created'
       redirect_to @incidental_type
     else
+      flash[:warning] = 'Failed to create Incidental Type'
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -30,9 +31,10 @@ class IncidentalTypesController < ApplicationController
 
   def update
     if @incidental_type.update(incidental_type_params)
-      flash[:success] = 'Incidental Type Successfully Updated'
+      flash[:success] = 'Incidental Type successfully Updated'
       redirect_to @incidental_type
     else
+      flash[:warning] = 'Failed to update Incidental Type'
       @incidental_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end

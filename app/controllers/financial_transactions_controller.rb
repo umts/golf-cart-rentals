@@ -20,7 +20,9 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction.transactable_type = params[:transactable_type]
 
     # handles transactable_type payment which will be created with this form
-    @financial_transaction.transactable_id = params[:transactable_id] if @financial_transaction.transactable_type != Payment.name
+    if @financial_transaction.transactable_type != Payment.name
+      @financial_transaction.transactable_id = params[:transactable_id]
+    end
   end
 
   # GET /financial_transactions/1/edit
@@ -32,15 +34,19 @@ class FinancialTransactionsController < ApplicationController
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params) # hard fail
       unless payment.save
-        flash[:danger] = 'Please Properly Fill Out Contact And Payment Fields'
+        flash[:warning] = 'Failed to create Payment - please properly fill out Contact And Payment fields.'
+        payment.errors.full_messages.each { |e| flash_message :warning, e, :now }
         render(:new) && return
       end
       @financial_transaction.transactable_id = payment.id
     end
 
     if @financial_transaction.save
-      redirect_to rental_invoice_path(@financial_transaction.rental_id), success: 'Financial Transaction Successfully Created'
+      flash[:success] = 'Financial Transaction successfully created'
+      redirect_to rental_invoice_path(@financial_transaction.rental_id)
     else
+      flash[:warning] = 'Failed to create Financial Transaction'
+      @financial_transaction.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
   end

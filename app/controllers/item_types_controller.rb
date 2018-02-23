@@ -14,9 +14,10 @@ class ItemTypesController < ApplicationController
 
   def update
     if @item_type.update(item_type_params)
-      flash[:success] = 'Item Type Successfully Updated'
+      flash[:success] = 'Item Type successfully Updated'
       redirect_to @item_type
     else
+      flash[:warning] = 'Failed to update Item Type'
       @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end

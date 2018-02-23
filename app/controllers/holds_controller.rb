@@ -19,12 +19,13 @@ class HoldsController < ApplicationController
     @hold = Hold.new(hold_params.merge(active: true))
 
     if @hold.save
-      flash[:success] = 'Hold Successfully Created'
+      flash[:success] = 'Hold successfully Created'
       @hold.handle_conflicting_rentals
 
       check_ongoing_conflicts
       redirect_to @hold
     else
+      flash[:warning] = 'Failed to create Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :new
     end
@@ -34,12 +35,13 @@ class HoldsController < ApplicationController
 
   def update
     if @hold.update(hold_params)
-      flash[:success] = 'Hold Successfully Updated'
+      flash[:success] = 'Hold successfully Updated'
       @hold.handle_conflicting_rentals
 
       check_ongoing_conflicts
       redirect_to @hold
     else
+      flash[:warning] = 'Failed to update Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
       render :edit
     end
@@ -49,6 +51,7 @@ class HoldsController < ApplicationController
     if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold Successfully Resolved'
     else
+      flash[:warning] = 'Failed to lift Hold'
       @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
     end
     redirect_to holds_url
