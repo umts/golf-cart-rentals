@@ -35,7 +35,7 @@ class FinancialTransactionsController < ApplicationController
       payment = Payment.new(payment_params) # hard fail
       unless payment.save
         flash[:danger] = 'Failed to create Payment - please properly fill out Contact And Payment fields.'
-        payment.errors.full_messages.each { |e| flash_message :warning, e, :now }
+        flash[:warning] = payment.errors.full_messages
         render(:new) && return
       end
       @financial_transaction.transactable_id = payment.id
@@ -46,7 +46,7 @@ class FinancialTransactionsController < ApplicationController
       redirect_to rental_invoice_path(@financial_transaction.rental_id)
     else
       flash[:danger] = 'Failed to create Financial Transaction'
-      @financial_transaction.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @financial_transaction.errors.full_messages
       render :new
     end
   end

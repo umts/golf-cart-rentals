@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
       redirect_to @group
     else
       flash[:danger] = 'Failed to create Group'
-      @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @group.errors.full_messages
       render :new
     end
   end
@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
       redirect_to @group
     else
       flash[:danger] = 'Failed to update Group'
-      @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @group.errors.full_messages
       render :edit
     end
   end

@@ -25,7 +25,7 @@ class DamagesController < ApplicationController
       redirect_to @damage
     else
       flash[:danger] = 'Failed to create Damage'
-      @damage.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @damage.errors.full_messages
       render 'new'
     end
   end
@@ -38,7 +38,7 @@ class DamagesController < ApplicationController
       redirect_to @damage
     else
       flash[:danger] = 'Failed to update Damage'
-      @damage.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @damage.errors.full_messages
       render 'edit'
     end
   end

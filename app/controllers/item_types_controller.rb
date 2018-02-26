@@ -18,7 +18,7 @@ class ItemTypesController < ApplicationController
       redirect_to @item_type
     else
       flash[:danger] = 'Failed to update Item Type'
-      @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @item_type.errors.full_messages
       render :edit
     end
   end

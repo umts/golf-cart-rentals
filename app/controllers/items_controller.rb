@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
       redirect_to @item
     else
       flash[:danger] = 'Failed to update Item'
-      @item.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @item.errors.full_messages
       render :edit
     end
   end

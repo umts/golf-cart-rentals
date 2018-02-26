@@ -22,7 +22,7 @@ class DepartmentsController < ApplicationController
       redirect_to @department
     else
       flash[:danger] = 'Failed to create Department'
-      @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @department.errors.full_messages
       render :new
     end
   end
@@ -35,7 +35,7 @@ class DepartmentsController < ApplicationController
       redirect_to @department
     else
       flash[:danger] = 'Failed to update Department'
-      @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:warning] = @department.errors.full_messages
       render :edit
     end
   end

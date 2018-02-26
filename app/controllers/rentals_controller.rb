@@ -163,7 +163,7 @@ class RentalsController < ApplicationController
       redirect_to(rental)
     else
       flash[:danger] = 'Failed to reserve Rental'
-      rental.errors.full_messages.each { |e| flash_message :warning, e }
+      flash[:warning] = rental.errors.full_messages
       @rental = rental
       redirect_to action: :new
     end
