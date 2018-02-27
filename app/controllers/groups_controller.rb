@@ -25,29 +25,29 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      flash[:success] = 'Group successfully Created'
+      flash[:success] = 'Group successfully created'
       redirect_to @group
     else
       flash[:danger] = 'Failed to create Group'
       flash[:warning] = @group.errors.full_messages
-      render :new
+      redirect_to action: :new
     end
   end
 
   def update
     if @group.update(group_params)
-      flash[:success] = 'Group successfully Updated'
+      flash[:success] = 'Group successfully updated'
       redirect_to @group
     else
       flash[:danger] = 'Failed to update Group'
       flash[:warning] = @group.errors.full_messages
-      render :edit
+      redirect_to action: :edit
     end
   end
 
   def destroy
     @group.destroy
-    flash[:success] = 'Group Successfully Deleted'
+    flash[:success] = 'Group successfully deleted'
     redirect_to groups_url
   end
 

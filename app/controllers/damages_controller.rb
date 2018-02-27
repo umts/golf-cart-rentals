@@ -21,7 +21,7 @@ class DamagesController < ApplicationController
     @damage = Damage.create(damage_params)
 
     if @damage.save
-      flash[:success] = 'Damage successfully Created'
+      flash[:success] = 'Damage successfully created'
       redirect_to @damage
     else
       flash[:danger] = 'Failed to create Damage'
@@ -34,7 +34,7 @@ class DamagesController < ApplicationController
 
   def update
     if @damage.update(damage_params)
-      flash[:success] = 'Damage successfully Updated'
+      flash[:success] = 'Damage successfully updated'
       redirect_to @damage
     else
       flash[:danger] = 'Failed to update Damage'

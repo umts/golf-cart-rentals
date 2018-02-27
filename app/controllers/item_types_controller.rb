@@ -32,7 +32,7 @@ class ItemTypesController < ApplicationController
     if name.present? && base_fee.present? && fee_per_day.present?
       create_item_type_helper(name, base_fee, fee_per_day)
     else
-      flash[:warning] = 'Name, Base Fee, and Fee-per-Day are required fields'
+      flash[:warning] = 'Name, Base Fee, and Fee-per-Day are all required fields'
       redirect_to new_item_types_path
     end
   end
@@ -57,7 +57,8 @@ class ItemTypesController < ApplicationController
     flash[:success] = 'Item Type successfully Created'
     refresh_item_types(base_fee, fee_per_day)
   rescue
-    flash[:warning] = 'Item Type already exists'
+    # TODO: validation for unique item types
+    flash[:warning] = 'Failed to create Item Type'
     redirect_to new_item_types_path
   end
 
