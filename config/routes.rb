@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
   get 'rentals/safety_pdf'
   get 'rentals/training_pdf'
+  get 'help', to: 'help#show'
+
   resources :rentals
 
   resources :departments do
