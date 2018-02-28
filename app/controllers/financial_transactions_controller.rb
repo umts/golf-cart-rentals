@@ -4,15 +4,14 @@ class FinancialTransactionsController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
-  # GET /financial_transactions
+  def show
+  end
+
   def index
     @q = FinancialTransaction.search(params[:q])
     @trans_type = FinancialTransaction.all.pluck(:transactable_type).uniq
     @financial_transactions = @q.result.paginate(page: params[:page], per_page: 10)
   end
-
-  # GET /financial_transactions/1
-  def show; end
 
   def new
     @financial_transaction = FinancialTransaction.new
@@ -23,10 +22,6 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction.transactable_id = params[:transactable_id] if @financial_transaction.transactable_type != Payment.name
   end
 
-  # GET /financial_transactions/1/edit
-  def edit; end
-
-  # POST /financial_transactions
   def create
     @financial_transaction = FinancialTransaction.new(financial_transaction_params)
     if @financial_transaction.transactable_type == Payment.name
@@ -45,19 +40,23 @@ class FinancialTransactionsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+  end
+
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_financial_transaction
     @financial_transaction = FinancialTransaction.find(params[:id])
   end
 
-  def payment_params
-    params.permit(:payment_type, :contact_name, :contact_email, :contact_phone, :reference)
-  end
-
-  # Only allow a trusted parameter "white list" through.
   def financial_transaction_params
     params.require(:financial_transaction).permit(:amount, :rental_id, :transactable_type, :transactable_id)
+  end
+
+  def payment_params
+    params.permit(:payment_type, :contact_name, :contact_email, :contact_phone, :reference)
   end
 end
