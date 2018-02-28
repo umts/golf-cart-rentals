@@ -8,6 +8,7 @@ class FinancialTransaction < ActiveRecord::Base
 
   validates :rental_id, :amount, presence: true
   validates :amount, numericality: { greater_than: 0 }
+  
   scope :payments, -> { where(transactable_type: Payment.name) }
 
   def default

@@ -2,18 +2,24 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many   :groups_users, dependent: :destroy
-  has_many   :groups, through: :groups_users
-
-  # user is creator
-  has_many   :created_rentals, class_name: Rental.name, foreign_key: :creator_id
-  # user is renter
-  has_many   :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
-
   belongs_to :department
 
-  validates :first_name, :last_name, :spire_id, :phone, :email, :department, presence: true
-  validates :spire_id, length: { is: 8 }, uniqueness: true
+  has_many :groups_users, dependent: :destroy
+  has_many :groups, through: :groups_users
+
+  # user is creator
+  has_many :created_rentals, class_name: Rental.name, foreign_key: :creator_id
+  # user is renter
+  has_many :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
+
+  validates :first_name, :last_name, :spire_id,
+            :department, :phone, :email, presence: true
+  validates :spire_id, uniqueness: true,
+             format: { with: /\d{8}/, message: 'SpireId should be 8 digits' }
+  validates :phone, format: { with: /\d{10}/,
+                              message: 'Phone number should be 10 digits' }
+  validates :email, format: { with: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/,
+                              message: 'Email improperly formatted'}
 
   scope :active, -> { where(active: true) }
 

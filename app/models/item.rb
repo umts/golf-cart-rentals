@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 class Item < ActiveRecord::Base
   belongs_to :item_type
+  
   validates :name, :item_type_id, presence: true
+
   default_scope { where(deleted_at: nil) }
+
+  delegate :name, :base_fee, :fee_per_day, to: :item_type, prefix: true
 
   def self.deleted
     unscoped.where('deleted_at IS NOT NULL')
@@ -15,6 +19,4 @@ class Item < ActiveRecord::Base
   def basic_info
     "#{name} (#{item_type.name})"
   end
-
-  delegate :name, :base_fee, :fee_per_day, to: :item_type, prefix: true
 end

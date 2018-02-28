@@ -15,8 +15,9 @@ class IncurredIncidental < ActiveRecord::Base
     attributes[:description].blank?
   }
 
-  validates_associated :rental, :incidental_type, :notes, :documents
-
   validates :rental, :notes, :item, presence: true
-  validates :incidental_type, uniqueness: { scope: :rental, message: 'should happen once per rental' }, presence: true
+  validates :incidental_type, presence: true,
+             uniqueness: { scope: :rental, message: 'should happen once per rental' }
+
+  validates_associated :rental, :incidental_type, :notes, :documents
 end

@@ -7,7 +7,8 @@ class Hold < ActiveRecord::Base
   has_one :damage # , dependent: :destroy
 
   validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
-  validates :start_time, :end_time, date: { after: proc { Date.current }, message: 'must be after current date.' }, unless: :persisted?
+  validates :start_time, :end_time, date: { after: proc { Date.current },
+                                            message: 'must be after current date.' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
   # hold lasts between dates inclusive
@@ -21,7 +22,7 @@ class Hold < ActiveRecord::Base
     # only reserved but not picked up
     conflicting_rentals = Rental.reserved.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id')
                                 .where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
-                                       hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+                                        hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
@@ -55,6 +56,6 @@ class Hold < ActiveRecord::Base
     # it couldnt be possible that the same item has already been picked up twice under the same rental
     Rental.picked_up.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id')
           .find_by('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
-                   hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
+                    hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
   end
 end

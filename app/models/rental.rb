@@ -4,32 +4,32 @@ class Rental < ActiveRecord::Base
   include InventoryExceptions
   include ApplicationHelper
 
-  has_many :incurred_incidentals, dependent: :destroy
-
-  has_many :financial_transactions
-  has_one :financial_transaction, as: :transactable
-
   # will skip financial transactions if we plan to create manual pricing
   attr_accessor :skip_financial_transactions
-  after_create :create_financial_transaction, unless: :skip_financial_transactions
-  # create reservation unless it has already been created
-  before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
-
-  # unreserve the items
-  before_destroy :delete_reservations
-
-  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
-  accepts_nested_attributes_for :rentals_items
-  has_many :items, through: :rentals_items
-  has_many :item_types, through: :rentals_items
 
   belongs_to :creator, class_name: User
   belongs_to :renter, class_name: User
 
-  validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
-  validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
-  validates :end_time, date: { after: :start_time, message: 'must be after start' }
+  has_one :financial_transaction, as: :transactable
+  has_many :financial_transactions
+  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
+  has_many :items, through: :rentals_items
+  has_many :item_types, through: :rentals_items
+  has_many :incurred_incidentals, dependent: :destroy
+
+  # create reservation unless it has already been created
+  before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
+  # unreserve the items
+  before_destroy :delete_reservations
+  after_create :create_financial_transaction, unless: :skip_financial_transactions
+
+  accepts_nested_attributes_for :rentals_items
+
   validate :renter_is_assignable
+  validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
+  validates :start_time, :end_time, date: { after: proc { Date.current },
+                                            message: 'must be after current date' }, unless: :persisted?
+  validates :end_time, date: { after: :start_time, message: 'must be after start' }
 
   def renter_is_assignable
     return unless renter && creator # will be validated elsewhere, dont add an error twice

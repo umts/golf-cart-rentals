@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 class Payment < ApplicationRecord
-  has_one :financial_transaction, as: :transactable
   enum payment_type: [:recharge]
-  validates :payment_type, :contact_name, :contact_email, :contact_phone, presence: true
-  validates :contact_phone, length: { is: 10 }
+  has_one :financial_transaction, as: :transactable
+  validates :payment_type, :contact_name, :contact_phone, :contact_email, presence: true
+  validates :contact_phone, format: { with: /\d{10}/,
+                                      message: 'Phone number should be 10 digits' }
+  validates :contact_email, format: { with: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/,
+                                      message: 'Email improperly formatted'}
 end
