@@ -3,7 +3,7 @@
   <%= hidden_field_tag :damage_id, @hold.damage.try(:id) %>
 
   <div class="form-group col-xs-12">
-    <%= f.label :item, 'Choose Cart', class: 'control-label col-xs-2' %>
+    <%= f.label :item, 'Choose Cart*', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <% if @hold.persisted? %>
         <input class="selectpicker form-control" value=<%= "#{@hold.item.basic_info}" %> readonly/>
@@ -22,20 +22,21 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :start_time, 'Start Time', class: 'control-label col-xs-2' %>
+    <%= f.label :start_time, 'Start Time*', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.date_field :start_time, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <%= f.label :end_time, 'End Time', class: 'control-label col-xs-2' %>
+    <%= f.label :end_time, 'End Time*', class: 'control-label col-xs-2' %>
     <div class="col-xs-6">
       <%= f.date_field :end_time, required: true, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
+    <span style="color:red; font-size:11px;" >* = required field </span><br></br>
     <div class="col-xs-offset-2 col-xs-10">
       <%= f.submit class: "btn btn-primary", data: { confirm: 'Are you sure?' } %>
       <%= link_to 'Back', :back, class: "btn btn-default" %>
