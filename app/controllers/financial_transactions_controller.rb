@@ -4,11 +4,12 @@ class FinancialTransactionsController < ApplicationController
 
   def index
     # workaround for unknown Ransack bug
-    if params[:q]
-      @q = FinancialTransaction.search(transactable_type_eq: params[:q][:transactable_type])
-    else
-      @q = FinancialTransaction.search(nil)
+    @q = if params[:q]
+           FinancialTransaction.search(transactable_type_eq: params[:q][:transactable_type])
+         else
+           FinancialTransaction.search(nil)
     end
+    
     @trans_type = FinancialTransaction.all.pluck(:transactable_type).uniq
     @financial_transactions = @q.result.paginate(page: params[:page], per_page: 10)
   end

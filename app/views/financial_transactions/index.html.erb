@@ -1,24 +1,24 @@
-<% provide :page_header, "Financial Transactions" %>
+<% provide :page_header, 'Financial Transactions' %>
 
-<%= search_form_for @q, class: "form-inline" do |f| %>
-  <%= f.label :transactable_type, "Transaction Type" %>
+<%= search_form_for @q, class: 'form-inline' do |f| %>
+  <%= f.label :transactable_type, 'Transaction Type' %>
   <%= f.select :transactable_type, options_for_select(
                                      @trans_type.sort,
                                      selected: (params[:q].try(:[], :transactable_type) || 0)),
                                    { include_blank: true },
-                                   class: "selectpicker form-control col-xs-2" %>
-  <%= f.submit class: "btn btn-default" %>
+                                   class: 'selectpicker form-control col-xs-2' %>
+  <%= f.submit class: 'btn btn-default' %>
 <% end %>
 
 <br>
 
 <%= will_paginate @financial_transactions, renderer: BootstrapPagination::Rails,
                                            params: params.to_unsafe_h %>
-<table class="table table-striped table-bordered table-hover">
+<table class='table table-striped table-bordered table-hover'>
   <tr>
-    <th><%= sort_link(@q, :transactable_type, "Transaction Type") %></th>
-    <th><%= sort_link(@q, :amount, "Amount") %></th>
-    <th><%= sort_link(@q, :updated_at, "Updated Time") %></th>
+    <th><%= sort_link(@q, :transactable_type, 'Transaction Type') %></th>
+    <th><%= sort_link(@q, :amount, 'Amount') %></th>
+    <th><%= sort_link(@q, :updated_at, 'Updated Time') %></th>
   </tr>
 
   <% @financial_transactions.each do |financial_transaction| %>
