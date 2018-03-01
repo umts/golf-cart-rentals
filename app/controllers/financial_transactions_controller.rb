@@ -8,8 +8,8 @@ class FinancialTransactionsController < ApplicationController
            FinancialTransaction.search(transactable_type_eq: params[:q][:transactable_type])
          else
            FinancialTransaction.search(nil)
-    end
-    
+         end
+
     @trans_type = FinancialTransaction.all.pluck(:transactable_type).uniq
     @financial_transactions = @q.result.paginate(page: params[:page], per_page: 10)
   end
@@ -20,9 +20,7 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction.transactable_type = params[:transactable_type]
 
     # handles transactable_type payment which will be created with this form
-    if @financial_transaction.transactable_type != Payment.name
-      @financial_transaction.transactable_id = params[:transactable_id]
-    end
+    @financial_transaction.transactable_id = params[:transactable_id] if @financial_transaction.transactable_type != Payment.name
   end
 
   def create
