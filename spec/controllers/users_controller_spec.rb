@@ -52,6 +52,11 @@ describe UsersController do
         post :create, params: { user: user_attributes }
         expect(response).to redirect_to User.last
       end
+      it 'does not allow letters in the phone number' do
+        expect do
+          post :create, params: { user: attributes_for(:invalid_user).merge(phone: '1a2b3c4e5d') }
+        end.to_not change(User, :count)
+      end
     end
 
     context 'with invalid attributes' do
@@ -63,6 +68,13 @@ describe UsersController do
       it 're-renders the :new template' do
         post :create, params: { user: attributes_for(:invalid_user) }
         expect(response).to render_template :new
+      end
+      it 'sanitizes phone numbers with various non-alphanumeric characters' do
+        standard_phone = '14135457257'
+        expect do
+          post :create, params: { user: user_attributes.merge(phone: '1+(413) 545-7257')}
+        end.to change(User, :count).by(1)
+        expect(User.last.phone).to eq(standard_phone)
       end
     end
   end
