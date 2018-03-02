@@ -115,11 +115,26 @@ hr{
 }
 
 .tab-content-border {
-  border-left: 1px solid #ddd; 
-  border-right: 1px solid #ddd; 
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   padding: 10px;
   border-bottom: 1px solid #ddd;
-  border-radius: 0px 0px 5px 5px; 
+  border-radius: 0px 0px 5px 5px;
   overflow: auto;
   margin-bottom: 20px;
+}
+.required:before{
+  font-weight: bold;
+  font-size: large;
+  content:"*";
+  color: #e32;
+  position: absolute;
+  margin: 2px 0px 0px -20px;
+  padding: 0 5px 0 0;
+}
+
+form.with-required:after{
+  font-weight: bold;
+  content:"* = required fields";
+  color: #e32;
 }
