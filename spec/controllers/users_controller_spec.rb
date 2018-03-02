@@ -81,13 +81,13 @@ describe UsersController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
-        new_phone = '413-545-7257'
+        new_phone = '4135457257'
         post :update, params: { id: user, user: { phone: new_phone } }
         user.reload
         expect(user.phone).to eq(new_phone)
       end
       it 'redirects to the user page' do
-        new_phone = '413-545-7257'
+        new_phone = '4135457257'
         post :update, params: { id: user, user: { phone: new_phone } }
         expect(response).to redirect_to user
       end
@@ -108,7 +108,7 @@ describe UsersController do
 
       context 'unpermited params' do
         it 'ignores the first_name and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { first_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :first_name)
@@ -117,7 +117,7 @@ describe UsersController do
         end
 
         it 'ignores the last_name and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { last_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :last_name)
@@ -126,7 +126,7 @@ describe UsersController do
         end
 
         it 'ignores the spire and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { spire_id: '12345678', phone: new_phone } }
           end.not_to change(user, :spire_id)

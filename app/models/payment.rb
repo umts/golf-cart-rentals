@@ -2,9 +2,14 @@
 class Payment < ApplicationRecord
   enum payment_type: [:recharge]
   has_one :financial_transaction, as: :transactable
+
+  before_validation do
+    self.contact_phone = contact_phone.gsub(/\W/, '') if attribute_present? "contact_phone"
+  end
+
   validates :payment_type, :contact_name, :contact_phone, :contact_email, presence: true
-  validates :contact_phone, format: { with: /\d{10}/,
-                                      message: 'Phone number should be 10 digits' }
-  validates :contact_email, format: { with: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/,
+  validates :contact_phone, format: { with: /\d{8,}/,
+                                      message: 'Phone number should not contain any letters and be at least 8 digits long' }
+  validates :contact_email, format: { with: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
                                       message: 'Email improperly formatted'}
 end

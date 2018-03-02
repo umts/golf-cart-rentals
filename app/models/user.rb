@@ -12,13 +12,17 @@ class User < ActiveRecord::Base
   # user is renter
   has_many :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
 
+  before_validation do
+    self.phone = phone.gsub(/\W/, '') if attribute_present? "phone"
+  end
+
   validates :first_name, :last_name, :spire_id,
             :department, :phone, :email, presence: true
   validates :spire_id, uniqueness: true,
              format: { with: /\d{8}/, message: 'SpireId should be 8 digits' }
-  validates :phone, format: { with: /\d{10}/,
-                              message: 'Phone number should be 10 digits' }
-  validates :email, format: { with: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/,
+  validates :phone, format: { with: /\d{8,}/,
+                              message: 'Phone number should not contain any letters and be at least 8 digits long' }
+  validates :email, format: { with: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
                               message: 'Email improperly formatted'}
 
   scope :active, -> { where(active: true) }

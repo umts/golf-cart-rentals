@@ -17,13 +17,17 @@ class Rental < ActiveRecord::Base
   has_many :item_types, through: :rentals_items
   has_many :incurred_incidentals, dependent: :destroy
 
+  accepts_nested_attributes_for :rentals_items
+
+  before_validation :sanitize_phone_numbers
+
   # create reservation unless it has already been created
   before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
-  # unreserve the items
-  before_destroy :delete_reservations
+
   after_create :create_financial_transaction, unless: :skip_financial_transactions
 
-  accepts_nested_attributes_for :rentals_items
+  # unreserve the items
+  before_destroy :delete_reservations
 
   validate :renter_is_assignable
   validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
@@ -249,5 +253,19 @@ class Rental < ActiveRecord::Base
 
   def cost
     rentals_items.sum { |ri| ri.item_type.cost(start_time.to_date, end_time.to_date) }
+  end
+
+  private
+
+  def sanitize_phone_numbers
+    if attribute_present? "dropoff_phone_number"
+      self.dropoff_phone_number = dropoff_phone_number.gsub(/\W/, '')
+      self.errors.add(:dropoff_phone_number, 'Phone number should not contain any letters and be at least 8 digits long') unless /\d{8,}/ =~ dropoff_phone_number
+    end
+
+    if attribute_present? "pickup_phone_number"
+      self.pickup_phone_number = pickup_phone_number.gsub(/\W/, '')
+      self.errors.add(:pickup_phone_number, 'Phone number should not contain any letters and be at least 8 digits long') unless /\d{8,}/ =~ pickup_phone_number
+    end
   end
 end
