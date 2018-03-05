@@ -29,17 +29,15 @@
       <div class="form-group row">
           <%= f.label :available, 'Available Items', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
-          <table width="400">
+          <table width="150">
             <tr>
-              <th>Name</th>
-              <th>Item Type</th>
+              <th>4 Seat</th>
+              <th>6 Seat</th>
             <tr/>
-            <% @reservable.each do |item| %>
             <tr>
-              <td> <%=item.name%> </td>
-              <td> <%=item.item_type.name%></td>
+              <td> <%=@count4 %> </td>
+              <td> <%=@count6%> </td>
             </tr>
-            <%end%>
           </table>
         </div>
       </div>
