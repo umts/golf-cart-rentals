@@ -1,21 +1,21 @@
 <%= form_for(@user) do |f| %>
   <% if params[:action] != 'edit' %>
     <div class="form-group col-xs-12">
-      <label class="col-xs-2 control-label" for="first_name">First Name*</label>
+      <label class="col-xs-2 control-label" for="first_name">First Name</label>
       <div class="col-xs-6">
         <%= text_field :user, :first_name, size: 20, placeholder: "Jane", class:"form-control", required: true %>
       </div>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-2 control-label" for="last_name">Last Name*</label>
+      <label class="col-xs-2 control-label" for="last_name">Last Name</label>
       <div class="col-xs-6">
         <%= text_field :user, :last_name, size: 20, placeholder: "Doe", class:"form-control", required: true %>
       </div>
     </div>
 
     <div class="form-group col-xs-12">
-      <label class="col-xs-2 control-label" for="spire_id">Spire ID*</label>
+      <label class="col-xs-2 control-label" for="spire_id">Spire ID</label>
       <div class="col-xs-6">
         <%= text_field :user, :spire_id, size: 20, placeholder: "1234567", class:"form-control", required: true %>
       </div>
@@ -23,7 +23,7 @@
   <% end %>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="department_id">Department*</label>
+    <label class="col-xs-2 control-label" for="department_id">Department</label>
     <div class="input-group col-xs-6">
       <%= f.select :department_id, options_from_collection_for_select(@departments, "id", "name", @user.department_id), {}, class: "selectpicker form-control", onchange: "update_disclaimer(this)", required: true %>
       <span class="input-group-btn">
@@ -33,14 +33,14 @@
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="phone">Phone Number*</label>
+    <label class="col-xs-2 control-label" for="phone">Phone Number</label>
     <div class="col-xs-6">
       <%= text_field :user, :phone, size: 20, placeholder: "111-222-3333", class:"form-control", required: true %>
     </div>
   </div>
 
   <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="email">Email Address*</label>
+    <label class="col-xs-2 control-label" for="email">Email Address</label>
     <div class="col-xs-6">
       <%= text_field :user, :email, size: 20, placeholder: "user@example.com", class:"form-control", required: true %>
     </div>
