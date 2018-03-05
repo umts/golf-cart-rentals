@@ -1,71 +1,71 @@
-<% provide(:page_header, "Create A Damage Tracker") %>
+<% provide(:page_header, 'Create A Damage Tracker') %>
 
 <%= form_for @damage do |f| %>
 
   <%= f.hidden_field :incurred_incidental_id %>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Location</label>
-    <div class="col-xs-6">
-      <%= f.text_field :location, placeholder: "On the road betwen these two buildings",
-                                  class: "form-control",
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Location</label>
+    <div class='col-xs-6'>
+      <%= f.text_field :location, placeholder: 'On the road betwen these two buildings',
+                                  class: 'form-control',
                                   required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Description</label>
-    <div class="col-xs-6">
-      <%= f.text_field :description, placeholder: "Left fender dented",
-                                     class: "form-control",
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Description</label>
+    <div class='col-xs-6'>
+      <%= f.text_field :description, placeholder: 'Left fender dented',
+                                     class: 'form-control',
                                      required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Repaired By (optional)</label>
-    <div class="col-xs-6">
-      <%= f.text_field :repaired_by, placeholder: "Joe Schmoe",
-                                     class: "form-control" %>
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Repaired By (optional)</label>
+    <div class='col-xs-6'>
+      <%= f.text_field :repaired_by, placeholder: 'Joe Schmoe',
+                                     class: 'form-control' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Occurred On</label>
-    <div class="col-xs-6">
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Occurred On</label>
+    <div class='col-xs-6'>
       <%= f.date_field :occurred_on, value: Date.today,
-                                     class: "form-control datepicker",
+                                     class: 'form-control datepicker',
                                      required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Repaired On (optional)</label>
-    <div class="col-xs-6">
-      <%= f.date_field :repaired_on, class:"form-control datepicker" %>
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Repaired On (optional)</label>
+    <div class='col-xs-6'>
+      <%= f.date_field :repaired_on, class:'form-control datepicker' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Estimated Cost</label>
-    <div class="col-xs-6">
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Estimated Cost</label>
+    <div class='col-xs-6'>
       <%= f.number_field :estimated_cost, min: 0,
-                                          class:"form-control",
+                                          class:'form-control',
                                           required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label">Actual Cost (optional)</label>
-    <div class="col-xs-6">
-      <%= f.number_field :actual_cost, min: 0, class:"form-control" %>
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'>Actual Cost (optional)</label>
+    <div class='col-xs-6'>
+      <%= f.number_field :actual_cost, min: 0, class:'form-control' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", data: { confirm: "Are you sure?" } %>
-      <%= link_to "Back", :back, class: "btn btn-default" %>
+  <div class='form-group col-xs-12'>
+    <div class='col-xs-offset-2 col-xs-10'>
+      <%= f.submit class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>

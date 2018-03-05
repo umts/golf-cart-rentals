@@ -1,7 +1,7 @@
 <% provide( :page_header, 'Drop Off' ) %>
 
-<table class="table table-bordered table-hover">
-  <tr class="info">
+<table class='table table-bordered table-hover'>
+  <tr class='info'>
     <th>Car Type</th>
     <th>Car Name</th>
     <th>Amount</th>
@@ -23,42 +23,42 @@
 
 <%= form_for rental, html: { id: 'signature_image' } do |f| %>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label" for="plugged-in">Vehicle plugged in?</label>
-    <div class="col-xs-6">
-      <input type="checkbox" name="plugged-in" data-on-text='Yes' data-off-text='No' required>
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label' for='plugged-in'>Vehicle plugged in?</label>
+    <div class='col-xs-6'>
+      <input type='checkbox' name='plugged-in' data-on-text='Yes' data-off-text='No' required>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
+  <div class='form-group col-xs-12'>
     <%= f.label :dropoff_name, 'Dropped Off By:', class: 'col-xs-2 control-label'%>
-    <div class="col-xs-6">
+    <div class='col-xs-6'>
       <%= f.text_field :dropoff_name, placeholder: 'Name', required: true, class: 'form-control' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <label class="col-xs-2 control-label"></label>
-    <div class="col-xs-6">
+  <div class='form-group col-xs-12'>
+    <label class='col-xs-2 control-label'></label>
+    <div class='col-xs-6'>
       <%= f.telephone_field :dropoff_phone_number, placeholder: 'XXX-XXX-XXXX', required: true, class: 'form-control' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit 'Drop Off', class: "btn btn-primary", data: { confirm: 'Are you sure?' } %>
-      <%= link_to 'Back', :back, class: "btn btn-default" %>
+  <div class='form-group col-xs-12'>
+    <div class='col-xs-offset-2 col-xs-10'>
+      <%= f.submit 'Drop Off', class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
 
 <script>
-  $("[name='plugged-in']").bootstrapSwitch();
+  $('[name='plugged-in']').bootstrapSwitch();
 
   var options = {
     drawOnly : true
-    , defaultAction : "drawIt"
-    , onFormError : "context"
+    , defaultAction : 'drawIt'
+    , onFormError : 'context'
     , lineTop : 55
   }
 </script>

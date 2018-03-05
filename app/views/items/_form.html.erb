@@ -1,25 +1,25 @@
 <%= form_for(@item) do |f| %>
-  <div class="form-group col-xs-12">
-    <%= f.label :name, "Name", class: "control-label col-xs-2" %>
-    <div class="col-xs-6">
-      <%= f.text_field :name, class: "form-control", required: true %>
+  <div class='form-group col-xs-12'>
+    <%= f.label :name, 'Name', class: 'control-label col-xs-2' %>
+    <div class='col-xs-6'>
+      <%= f.text_field :name, class: 'form-control', required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <%= f.label :item_type_id, "Type", class: "control-label col-xs-2" %>
-    <div class="col-xs-6">
+  <div class='form-group col-xs-12'>
+    <%= f.label :item_type_id, 'Type', class: 'control-label col-xs-2' %>
+    <div class='col-xs-6'>
       <%= f.select :item_type_id, options_from_collection_for_select(
                                     @item_types.all.order(name: :asc),
-                                    "id", "name"),
-                                  {}, class: "selectpicker form-control" %>
+                                    'id', 'name'),
+                                  {}, class: 'selectpicker form-control' %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", data: { confirm: "Are you sure?" } %>
-      <%= link_to "Back", :back, class: "btn btn-default" %>
+  <div class='form-group col-xs-12'>
+    <div class='col-xs-offset-2 col-xs-10'>
+      <%= f.submit class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
