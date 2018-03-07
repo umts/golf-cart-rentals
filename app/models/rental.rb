@@ -258,14 +258,20 @@ class Rental < ActiveRecord::Base
   private
 
   def sanitize_phone_numbers
-    if attribute_present? "dropoff_phone_number"
+    if attribute_present? 'dropoff_phone_number'
       self.dropoff_phone_number = dropoff_phone_number.gsub(/\W/, '')
-      self.errors.add(:dropoff_phone_number, 'Phone number should not contain any letters and be at least 8 digits long') unless /\d{8,}/ =~ dropoff_phone_number
+
+      unless /\d{8,}/ =~ dropoff_phone_number
+        errors.add(:dropoff_phone_number, 'Phone number should not contain any letters and be at least 8 digits long')
+      end
     end
 
-    if attribute_present? "pickup_phone_number"
+    if attribute_present? 'pickup_phone_number'
       self.pickup_phone_number = pickup_phone_number.gsub(/\W/, '')
-      self.errors.add(:pickup_phone_number, 'Phone number should not contain any letters and be at least 8 digits long') unless /\d{8,}/ =~ pickup_phone_number
+
+      unless /\d{8,}/ =~ pickup_phone_number
+        errors.add(:pickup_phone_number, 'Phone number should not contain any letters and be at least 8 digits long')
+      end
     end
   end
 end

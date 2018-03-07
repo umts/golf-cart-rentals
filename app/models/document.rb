@@ -7,7 +7,7 @@ class Document < ActiveRecord::Base
   enum filetype: %i(picture other)
 
   belongs_to :documentable, polymorphic: true
-  
+
   before_validation :write_file
   # all set during write_file, except desc
   validates :filename, :filetype, :original_filename, :description, presence: true
