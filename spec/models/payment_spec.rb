@@ -23,7 +23,7 @@ RSpec.describe Payment, type: :model do
       expect(build(:payment, contact_phone: nil)).not_to be_valid
     end
 
-    it 'requires length contact_phone to be 8' do
+    it 'requires contact_phone length to be at least 8' do
       expect(build(:payment, contact_phone: '1' * 7)).not_to be_valid
     end
 
