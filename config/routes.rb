@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root 'application#root'
 
-  resources :financial_transactions
-
   resources :home, only: [:index]
 
   get 'rentals/processing', to: 'rentals#processing', as: 'rentals_processing'
@@ -43,7 +41,7 @@ Rails.application.routes.draw do
   resources :holds do
     post :lift, on: :member
   end
-  resources :financial_transaction, except: %i(destroy update)
+  resources :financial_transactions, only: %i(index new create)
   resources :items, except: [:new, :create] do
     collection do
       get :new_item, as: 'new'

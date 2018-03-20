@@ -58,12 +58,6 @@ gem 'will_paginate-bootstrap'
 # searchable pages
 gem 'ransack'
 
-# deployment
-gem 'capistrano', '~> 3.3.0'
-gem 'capistrano-passenger'
-gem 'capistrano-rails', '~> 1.1'
-gem 'capistrano-rvm'
-
 gem 'unicode_utils', '~> 1.4'
 
 # permanent records
@@ -86,6 +80,9 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'better_errors'
+  gem 'capistrano', '~> 3.3.0'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rails', '~> 1.1'
   gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
