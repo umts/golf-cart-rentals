@@ -1,13 +1,18 @@
 <% provide :page_header, 'Help' %>
 
-<body>
-  <h4>Schedule Rental Form </h4>
-    <ol>
-      <li>Chose a Renter from dropdown menu.</li>
-      <li>Select Pickup and Dropoff dates</li>
-      <li>Select the amount of 4 seat and 6 seat carts to be rented.</li>
-      <li>Click 'Create Rental' button.</li>
-    </ol>
+  <body>
+    <h4>Rental Processing Help</h4>
+      <li><%= link_to 'Schedule Rental', schedule_path %></li>
 
-    <%= image_tag 'RentalReservation.png', length: 1000, height: 300 %>
-</body>
+    <h4>Asset Administration Help</h4>
+      <li><%= link_to 'New Item Type', new_item_type_help_path %></li>
+      <li><%= link_to 'New Item', new_item_help_path %></li>
+      <li><%= link_to 'New Incidental Type', new_incidental_type_help_path %></li>
+      <li><%= link_to 'New Hold', new_hold_help_path %></li>
+
+    <h4>User Managment Help</h4>
+      <li><%= link_to 'New Group', new_group_help_path %></li>
+      <li><%= link_to 'New User', new_user_help_path %></li>
+      <li><%= link_to 'New Department', new_department_help_path %></li>
+
+  </body>

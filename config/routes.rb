@@ -11,10 +11,19 @@ Rails.application.routes.draw do
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
   get 'rentals/safety_pdf'
   get 'rentals/training_pdf'
+
+  #---Help Forms-------------------------------------------------------------
   get 'help', to: 'help#show'
-
+  get 'help/schedule', to: 'help#schedule' , as: 'schedule'
+  get 'help/new_hold', to: 'help#new_hold' , as: 'new_hold_help'
+  get 'help/new_incidental_type', to: 'help#new_incidental_type', as: 'new_incidental_type_help'
+  get 'help/new_item_type', to: 'help#new_item_type' , as: 'new_item_type_help'
+  get 'help/new_item', to: 'help#new_item' , as: 'new_item_help'
+  get 'help/new_group', to: 'help#new_group' , as: 'new_group_help'
+  get 'help/new_user', to: 'help#new_user' , as: 'new_user_help'
+  get 'help/new_department', to: 'help#new_department' , as: 'new_department_help'
+  #----------------------------------------------------------------------------
   resources :rentals
-
   resources :departments do
     post :remove_user, on: :member
   end
