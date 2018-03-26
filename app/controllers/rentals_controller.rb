@@ -68,19 +68,7 @@ class RentalsController < ApplicationController
     @rental ||= Rental.new # conditionally assign because it could be set already by a method that calls this one
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-
-    @reservable = Item.all_reservable_items
-    @count4 = 0
-    @count6 = 0
-
-    @reservable.each do |item|
-      if(item.item_type.name == "4 Seat")
-        @count4 = @count4 + 1
-      else
-        @count6 = @count6 + 1
-      end
-    end
-
+    
     set_users_to_assign
   end
 
