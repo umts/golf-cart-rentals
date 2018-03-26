@@ -22,14 +22,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    it 'assigns the requested financial_transaction as @financial_transaction' do
-      financial_transaction = create :financial_transaction, :with_rental
-      get :show, params: { id: financial_transaction.to_param }
-      expect(assigns(:financial_transaction)).to eq(financial_transaction)
-    end
-  end
-
   describe 'GET #new' do
     it 'properly creates @financial_transaction for a rental based FinancialTransaction' do
       rental = create :rental
@@ -55,14 +47,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
       rental = create :rental
       get :new, params: { rental_id: 0, transactable_type: Rental.name, transactable_id: rental.id }
       expect(response.code).to eq('404')
-    end
-  end
-
-  describe 'GET #edit' do
-    it 'assigns the requested financial_transaction as @financial_transaction' do
-      financial_transaction = create :financial_transaction, :with_rental
-      get :edit, params: { id: financial_transaction.to_param }
-      expect(assigns(:financial_transaction)).to eq(financial_transaction)
     end
   end
 
@@ -136,24 +120,6 @@ RSpec.describe FinancialTransactionsController, type: :controller do
         expect(assigns(:financial_transaction).transactable_type).to eq(Payment.name)
         expect(response).to render_template('new')
       end
-    end
-  end
-
-  describe 'PUT #update' do
-    it 'cannot find a route' do
-      ft = create :financial_transaction
-      expect do
-        put :update, params: { id: ft.to_param }
-      end.to raise_error AbstractController::ActionNotFound
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'cannot find a route' do
-      ft = create :financial_transaction
-      expect do
-        delete :destroy, params: { id: ft.to_param }
-      end.to raise_error AbstractController::ActionNotFound
     end
   end
 end
