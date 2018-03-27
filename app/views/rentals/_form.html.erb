@@ -27,18 +27,19 @@
       </div>
 
       <div class="form-group row">
-          <%= f.label :available, 'Available Items', class: 'control-label col-xs-3' %>
+        <%= f.label :available, 'Available Items', class: 'control-label col-xs-3' %>
         <div class="col-xs-9">
           <table width="150">
             <tr>
               <% @item_types.each do |it| %>
                 <th> <%= it.name %> </th>
               <% end %> 
-            <tr>
+            </tr>
             <tr>
               <% @item_types.each do |it| %>
                 <td> <%= it.available_items_count %> </td>
               <% end %>
+            </tr>
           </table>
         </div>
       </div>
