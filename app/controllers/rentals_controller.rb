@@ -26,7 +26,7 @@ class RentalsController < ApplicationController
     # this probably isnt the most efficient way to do it
 
     @q = base_search_area.search(params[:q])
-      @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
+    @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     gon.reservations = Rental.to_json_reservations
   end
 
@@ -68,7 +68,7 @@ class RentalsController < ApplicationController
     @rental ||= Rental.new # conditionally assign because it could be set already by a method that calls this one
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
-    
+
     set_users_to_assign
   end
 

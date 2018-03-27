@@ -24,7 +24,7 @@ class ItemType < ActiveRecord::Base
 
   # returns the number of reservable items of this item_type
   def available_items_count
-    self.item.select { |i| Inventory.item(i.uuid)[:reservable] }.size
+    item.select { |i| Inventory.item(i.uuid)[:reservable] }.size
   end
 
   private
