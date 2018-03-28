@@ -4,17 +4,9 @@ lock '3.3.5'
 set :application, 'probable-engine'
 set :repo_url, 'git@github.com:umts/probable-engine.git'
 set :deploy_to, '/var/www/probable-engine'
-set :rvm_type, :system
+set :migration_role, :app
+
 set :linked_files, %w{config/database.yml config/config.yml config/secrets.yml config/inventory_api_keys.yml}
 SSHKit.config.umask = '002'
 remote_user = Net::SSH::Config.for('umaps-web2.oit.umass.edu')[:user] || ENV['USER']
 set :tmp_dir, "/tmp/#{remote_user}"
-
-namespace :deploy do
-  task :restart do
-    on roles(:web), in: :sequence, wait: 5 do
-      # this is magic which lets passenger know it is supposed to restart when it can
-      execute :touch, release_path.join("tmp/restart.txt")
-    end
-  end
-end
