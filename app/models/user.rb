@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :spire_id,
             :department, :phone, :email, presence: true
   validates :spire_id, uniqueness: true,
-            format: { with: /\A\d{8}\z/, message: 'SpireId should be 8 digits' }
+                       format: { with: /\A\d{8}\z/, message: 'SpireId should be 8 digits' }
   validates :phone, format: { with: /\A\d{8,}\z/,
                               message: 'Phone number should not contain any letters and be at least 8 digits long' }
   validates :email, format: { with: /\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\z/,
