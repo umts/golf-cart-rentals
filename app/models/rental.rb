@@ -7,22 +7,6 @@ class Rental < ActiveRecord::Base
   # will skip financial transactions if we plan to create manual pricing
   attr_accessor :skip_financial_transactions
 
-  belongs_to :creator, class_name: User
-  belongs_to :renter, class_name: User
-
-  has_one :financial_transaction, as: :transactable
-  has_many :financial_transactions
-  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
-  has_many :items, through: :rentals_items
-  has_many :item_types, through: :rentals_items
-  has_many :incurred_incidentals, dependent: :destroy
-
-  accepts_nested_attributes_for :rentals_items
-
-  # this does not happen as a general validation because it only applies to pickups/dropoffs
-  # when rental is undergoing transform a != pickup/dropoff, validation would automatically fail
-  before_validation :sanitize_phone_numbers, :validate_phone_numbers
-
   # create reservation unless it has already been created
   before_save :create_reservations, unless: proc { |rental| rental.reservation_ids.any? }
 
@@ -30,6 +14,21 @@ class Rental < ActiveRecord::Base
 
   # unreserve the items
   before_destroy :delete_reservations
+
+  belongs_to :creator, class_name: User
+  belongs_to :renter, class_name: User
+
+  has_one :financial_transaction, as: :transactable
+  has_many :financial_transactions
+  has_many :incurred_incidentals, dependent: :destroy
+  has_many :rentals_items, dependent: :destroy, inverse_of: :rental
+  has_many :items, through: :rentals_items
+  has_many :item_types, through: :rentals_items
+
+  accepts_nested_attributes_for :rentals_items
+
+  # clean phone numbers before saving them, if necessary
+  before_validation :sanitize_phone_numbers
 
   validate :renter_is_assignable
   validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
@@ -158,7 +157,6 @@ class Rental < ActiveRecord::Base
   end
 
   def delete_reservations
-    #binding.pry
     return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
     rentals_items.each do |ri|
       next if ri.reservation_id.nil? # nothing to delete here
@@ -261,21 +259,12 @@ class Rental < ActiveRecord::Base
   private
 
   def sanitize_phone_numbers
-    self.dropoff_phone_number = dropoff_phone_number.gsub(/\W/, '') if attribute_present? 'dropoff_phone_number'
-    self.pickup_phone_number = pickup_phone_number.gsub(/\W/, '') if attribute_present? 'pickup_phone_number'
-  end
-
-  def validate_phone_numbers
-    if attribute_present? 'dropoff_phone_number'
-      unless /\d{8,}/ =~ dropoff_phone_number
-        errors.add(:dropoff_phone_number, 'Phone number should not contain any letters and be at least 8 digits long')
-      end
+    if attribute_present? 'pickup_phone_number'
+      self.pickup_phone_number = pickup_phone_number.gsub(/\W/, '')
     end
 
-    if attribute_present? 'pickup_phone_number'
-      unless /\d{8,}/ =~ pickup_phone_number
-        errors.add(:pickup_phone_number, 'Phone number should not contain any letters and be at least 8 digits long')
-      end
+    if attribute_present? 'dropoff_phone_number'
+      self.dropoff_phone_number = dropoff_phone_number.gsub(/\W/, '')
     end
   end
 end
