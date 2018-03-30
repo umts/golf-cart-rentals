@@ -14,8 +14,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'therubyracer', platform: :ruby
 
 # Persistant queuing backend
-gem 'sidekiq'
 gem 'capistrano-sidekiq'
+gem 'sidekiq'
 
 # Interaction with jquery and controller without refreshing page
 gem 'fullcalendar-rails'
