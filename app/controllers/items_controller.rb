@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   after_action :set_return_url, only: [:index]
 
@@ -10,7 +10,8 @@ class ItemsController < ApplicationController
     @items = @q.result.paginate(page: params[:page], per_page: 8)
   end
 
-  def show; end
+  def show
+  end
 
   def edit
     @item_types = ItemType.all
@@ -28,7 +29,6 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    @item = Item.find(params[:id])
     @item.destroy
     flash[:success] = 'Item successfully Deleted'
     redirect_to items_path
@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
       end
     else
       flash[:warning] = 'Name is a required field'
-      redirect_to new_items_path
+      render :new_item
     end
   end
 
@@ -61,7 +61,7 @@ class ItemsController < ApplicationController
     rescue => error
       flash[:danger] = "Failed to refresh Items from Inventory API: #{error.inspect}"
     end
-    redirect_to items_path
+    render :index
   end
 
   private
@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
     refresh_items
   rescue => error
     flash[:danger] = "Failed to create Item in Inventory API: #{error.inspect}"
-    redirect_to new_items_path
+    render :new_item
   end
 
   def refresh_items_helper(item_type)

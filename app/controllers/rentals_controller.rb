@@ -52,20 +52,21 @@ class RentalsController < ApplicationController
           end
         end
       rescue => err
-        render(json: { errors: ["item not found #{err.message}"] }, status: 400) && (return)
+        render json: { errors: ["item not found #{err.message}"] }, status: 400 and return
       end
 
       render json: cost.merge(_total: cost.values.reduce(:+))
     else
-      render status: 400, json: { errors: [
-        "missing_params: #{(required_params - cost_params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}"
-      ] }
+      render status: 400,
+             json: { errors:
+                       [ "missing_params: #{(required_params - cost_params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}" ] }
     end
   end
 
   # GET /rentals/new
   def new
-    @rental ||= Rental.new # conditionally assign because it could be set already by a method that calls this one
+    # conditionally assign because it could be set already by a method that calls this one
+    @rental ||= Rental.new
     @start_date = params['start_date'].try(:to_date) || Time.zone.today
     @admin_status = @current_user.has_group? Group.where(name: 'admin')
 
@@ -104,8 +105,10 @@ class RentalsController < ApplicationController
     # this probably isnt the most efficient way to do it
 
     @q = base_search_area.search(params[:q])
-    @rentals = @q.result(distinct: true).where('start_time >= ? AND start_time <= ?', Time.current.beginning_of_day,
-                                               Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
+    @rentals = @q.result(distinct: true)
+                 .where('start_time >= ? AND start_time <= ?',
+                        Time.current.beginning_of_day,
+                        Time.current.end_of_day).paginate(page: params[:page], per_page: @per_page)
   end
 
   # GET /rentals/1/transform
@@ -153,19 +156,22 @@ class RentalsController < ApplicationController
                                          @current_user.has_permission?('rentals', 'cost_adjustment')
 
     if rental.save
-      if rental.skip_financial_transactions # use that special pricing, we already verified their perms
+      # use that special pricing, we already verified their perms
+      if rental.skip_financial_transactions
         # create a single custom financial transaction for entire rental
-        FinancialTransaction.create rental: rental, transactable_type: Rental.name, transactable_id: rental.id,
-                                    amount: params[:amount], note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
+        FinancialTransaction.create rental: rental, transactable_type: Rental.name,
+                                    transactable_id: rental.id,
+                                    amount: params[:amount],
+                                    note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
       end # else use default pricing
 
       flash[:success] = 'Rental successfully Reserved'
-      redirect_to(rental)
+      redirect_to rental
     else
       flash[:danger] = 'Failed to reserve Rental'
       flash[:warning] = rental.errors.full_messages
       @rental = rental
-      redirect_to action: :new
+      render :new
     end
   end
 
@@ -200,7 +206,7 @@ class RentalsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_rental
     @rental = Rental.find(params[:id])
-    render_401 && return unless rentals_visible_to_current_user.include? @rental
+    render_401 and return unless rentals_visible_to_current_user.include? @rental
   end
 
   def set_financial_transactions

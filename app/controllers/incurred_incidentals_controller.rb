@@ -33,7 +33,7 @@ class IncurredIncidentalsController < ApplicationController
     else
       flash[:danger] = 'Failed to create Incidental'
       flash[:warning] = @incurred_incidental.errors.full_messages
-      redirect_to new_incurred_incidental_path(rental_id: @incurred_incidental.rental)
+      render :new, rental_id: @incurred_incidental.rental
     end
   end
 
@@ -62,9 +62,8 @@ class IncurredIncidentalsController < ApplicationController
       flash[:danger] = 'Failed to update Incidental'
       flash[:warning] = @incurred_incidental.errors.full_messages
       @rental = @incurred_incidental.rental
-      redirect_to edit_incurred_incidental_path
+      render :edit
     end
-    binding.pry
   end
 
   private
@@ -82,21 +81,28 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :item_id,
-                                                             :amount, notes_attributes: [:note],
-                                                                      documents_attributes: [:description, :uploaded_file],
-                                                                      financial_transaction_attributes: [:amount, :id])
+    incidental = params.require(:incurred_incidental)
+                       .permit(:rental_id, :incidental_type_id, :item_id,
+                               :amount, notes_attributes: [:note],
+                               documents_attributes: [:description, :uploaded_file],
+                               financial_transaction_attributes: [:amount, :id])
+ 
     incidental[:financial_transaction_attributes][:rental_id] = incidental[:rental_id]
     filter_empty_docs(incidental)
   end
 
   def incidental_update_params
     # we can allow id here for the notes
-    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id, :item_id,
-                                                             :amount, notes_attributes: [:note],
-                                                                      documents_attributes: [:description, :uploaded_file, :id],
-                                                                      financial_transaction_attributes: [:amount, :id])
-    incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id if incidental[:financial_transaction_attributes]
+    incidental = params.require(:incurred_incidental)
+                       .permit(:id, :rental_id, :incidental_type_id,
+                               :item_id, :amount, notes_attributes: [:note],
+                               documents_attributes: [:description, :uploaded_file, :id],
+                               financial_transaction_attributes: [:amount, :id])
+ 
+    if incidental[:financial_transaction_attributes]
+      incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id
+    end
+ 
     filter_empty_docs(incidental)
   end
 

@@ -11,9 +11,9 @@ class DamagesController < ApplicationController
   end
 
   def new
-    @damage = Damage.new(new_params)
+    @damage = Damage.new
     unless @damage.incurred_incidental
-      flash[:danger] = 'Damage created without an attached Incurred Incidental'
+      flash[:danger] = 'Creating Damage without an attached Incurred Incidental'
     end
   end
 
@@ -26,11 +26,12 @@ class DamagesController < ApplicationController
     else
       flash[:danger] = 'Failed to create Damage'
       flash[:warning] = @damage.errors.full_messages
-      render 'new'
+      render :new
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @damage.update(damage_params)
@@ -39,7 +40,7 @@ class DamagesController < ApplicationController
     else
       flash[:danger] = 'Failed to update Damage'
       flash[:warning] = @damage.errors.full_messages
-      render 'edit'
+      render :edit
     end
   end
 

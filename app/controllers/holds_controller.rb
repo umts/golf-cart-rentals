@@ -5,14 +5,15 @@ class HoldsController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
-  def show; end
+  def show
+  end
 
   def index
     @holds = Hold.all
   end
 
   def new
-    @hold = Hold.new(new_hold_params)
+    @hold = Hold.new
   end
 
   def create
@@ -21,7 +22,6 @@ class HoldsController < ApplicationController
     if @hold.save
       flash[:success] = 'Hold successfully Created'
       @hold.handle_conflicting_rentals
-
       check_ongoing_conflicts
       redirect_to @hold
     else
@@ -65,7 +65,8 @@ class HoldsController < ApplicationController
 
   def new_hold_params
     # find_by returns 1 or nil
-    { damage: Damage.find_by(id: params.fetch(:damage_id, nil)), item_id: params.fetch(:item_id, nil) }
+    { damage: Damage.find_by(id: params.fetch(:damage_id, nil)),
+              item_id: params.fetch(:item_id, nil) }
   end
 
   def hold_params
@@ -74,7 +75,8 @@ class HoldsController < ApplicationController
     # will evaluate to nil or an instance of damage
     damage = Damage.find_by id: params.fetch(:damage_id, nil)
     params.require(:hold).permit(:hold_reason, :item_id,
-                                 :start_time, :end_time).merge(item_type_id: item_type_id, damage: damage)
+                                 :start_time, :end_time).merge(item_type_id:
+                                                               item_type_id, damage: damage)
   end
 
   def check_ongoing_conflicts

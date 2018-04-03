@@ -8,9 +8,11 @@ class ItemTypesController < ApplicationController
     @item_types = ItemType.all
   end
 
-  def show; end
+  def show
+  end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @item_type.update(item_type_params)
@@ -23,7 +25,8 @@ class ItemTypesController < ApplicationController
     end
   end
 
-  def new_item_type; end
+  def new_item_type
+  end
 
   def create_item_type
     name = params[:name]
@@ -33,7 +36,7 @@ class ItemTypesController < ApplicationController
       create_item_type_helper(name, base_fee, fee_per_day)
     else
       flash[:warning] = 'Name, Base Fee, and Fee-per-Day are all required fields'
-      redirect_to new_item_types_path
+      render :new
     end
   end
 
@@ -59,7 +62,7 @@ class ItemTypesController < ApplicationController
   rescue
     # TODO: validation for unique item types
     flash[:warning] = 'Failed to create Item Type'
-    redirect_to new_item_types_path
+    render :new_item_type
   end
 
   def refresh_items_helper(inv_item_types, base_fee = 0, fee_per_day = 0)
@@ -69,7 +72,8 @@ class ItemTypesController < ApplicationController
       end
 
       unless item_types.keys.include?(inv_item_type[0])
-        ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1], base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
+        ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1],
+                       base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
       end
     end
   end

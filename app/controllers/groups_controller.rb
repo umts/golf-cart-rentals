@@ -1,22 +1,18 @@
 # frozen_string_literal: true
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user, :enable_permission]
-
+  before_action :set_group, except: [:index, :new, :create]
+ 
   after_action :set_return_url, only: [:index]
 
   def index
     @groups = Group.all
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @group = Group.new
-    @permissions = Permission.all
-    @users = User.all
-  end
-
-  def edit
     @permissions = Permission.all
     @users = User.all
   end
@@ -30,8 +26,13 @@ class GroupsController < ApplicationController
     else
       flash[:danger] = 'Failed to create Group'
       flash[:warning] = @group.errors.full_messages
-      redirect_to action: :new
+      render :new
     end
+  end
+
+  def edit
+    @permissions = Permission.all
+    @users = User.all
   end
 
   def update
@@ -41,7 +42,7 @@ class GroupsController < ApplicationController
     else
       flash[:danger] = 'Failed to update Group'
       flash[:warning] = @group.errors.full_messages
-      redirect_to action: :edit
+      render :edit
     end
   end
 

@@ -5,6 +5,9 @@ class IncidentalTypesController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
+  def show
+  end
+
   def index
     @incidental_types = IncidentalType.all
   end
@@ -12,10 +15,6 @@ class IncidentalTypesController < ApplicationController
   def new
     @incidental_type = IncidentalType.new
   end
-
-  def edit; end
-
-  def show; end
 
   def create
     @incidental_type = IncidentalType.new(incidental_type_params)
@@ -27,6 +26,9 @@ class IncidentalTypesController < ApplicationController
       flash[:warning] = @incidental_type.errors.full_messages
       render :new
     end
+  end
+
+  def edit
   end
 
   def update
