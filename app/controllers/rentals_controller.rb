@@ -171,7 +171,7 @@ class RentalsController < ApplicationController
       flash[:danger] = 'Failed to reserve Rental'
       flash[:warning] = rental.errors.full_messages
       @rental = rental
-      render :new
+      redirect_to action: :new
     end
   end
 

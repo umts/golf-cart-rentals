@@ -33,7 +33,7 @@ class IncurredIncidentalsController < ApplicationController
     else
       flash[:danger] = 'Failed to create Incidental'
       flash[:warning] = @incurred_incidental.errors.full_messages
-      render :new, rental_id: @incurred_incidental.rental
+      redirect_to new_incurred_incidental_path(rental_id: @incurred_incidental.rental)
     end
   end
 
@@ -62,7 +62,7 @@ class IncurredIncidentalsController < ApplicationController
       flash[:danger] = 'Failed to update Incidental'
       flash[:warning] = @incurred_incidental.errors.full_messages
       @rental = @incurred_incidental.rental
-      render :edit
+      redirect_to edit_incurred_incidental_path
     end
   end
 

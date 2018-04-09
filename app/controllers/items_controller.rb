@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
       end
     else
       flash[:warning] = 'Name is a required field'
-      render :new_item
+      redirect_to new_items_path
     end
   end
 
@@ -61,7 +61,7 @@ class ItemsController < ApplicationController
     rescue => error
       flash[:danger] = "Failed to refresh Items from Inventory API: #{error.inspect}"
     end
-    render :index
+    redirect_to items_path
   end
 
   private
@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
     refresh_items
   rescue => error
     flash[:danger] = "Failed to create Item in Inventory API: #{error.inspect}"
-    render :new_item
+    redirect_to new_items_path
   end
 
   def refresh_items_helper(item_type)

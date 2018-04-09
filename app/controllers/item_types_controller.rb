@@ -36,7 +36,7 @@ class ItemTypesController < ApplicationController
       create_item_type_helper(name, base_fee, fee_per_day)
     else
       flash[:warning] = 'Name, Base Fee, and Fee-per-Day are all required fields'
-      render :new
+      redirect_to new_item_types_path
     end
   end
 
@@ -60,9 +60,9 @@ class ItemTypesController < ApplicationController
     flash[:success] = 'Item Type successfully Created'
     refresh_item_types(base_fee, fee_per_day)
   rescue
-    # TODO: validation for unique item types
-    flash[:warning] = 'Failed to create Item Type'
-    render :new_item_type
+    # TODO: some kind of validation for unique item types?
+    flash[:danger] = 'Item Type already exists'
+    redirect_to new_item_types_path
   end
 
   def refresh_items_helper(inv_item_types, base_fee = 0, fee_per_day = 0)

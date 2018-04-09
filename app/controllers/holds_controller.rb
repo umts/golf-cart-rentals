@@ -75,8 +75,8 @@ class HoldsController < ApplicationController
     # will evaluate to nil or an instance of damage
     damage = Damage.find_by id: params.fetch(:damage_id, nil)
     params.require(:hold).permit(:hold_reason, :item_id,
-                                 :start_time, :end_time).merge(item_type_id:
-                                                               item_type_id, damage: damage)
+                                 :start_time, :end_time).merge(item_type_id: item_type_id,
+                                                               damage: damage)
   end
 
   def check_ongoing_conflicts
