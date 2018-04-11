@@ -2,43 +2,47 @@
 
   <%= hidden_field_tag :damage_id, @hold.damage.try(:id) %>
 
-  <div class="form-group col-xs-12">
+  <div class='form-group col-xs-12'>
     <%= f.label :item, 'Choose Cart', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
+    <div class='col-xs-6'>
       <% if @hold.persisted? %>
-        <input class="selectpicker form-control" value=<%= "#{@hold.item.basic_info}" %> readonly/>
+        <input class='selectpicker form-control' value=<%= "#{@hold.item.basic_info}" %> readonly/>
         <%= f.hidden_field :item_id, value: @hold.item.try(:id) %>
       <% else %>
-        <%= f.select :item_id, options_from_collection_for_select(Item.all_reservable_items, 'id', 'basic_info', @hold.item_id), {}, required: true, class: "selectpicker form-control" %>
+        <%= f.select :item_id,
+                      options_from_collection_for_select(
+                        Item.all_reservable_items, 'id', 'basic_info',
+                        @hold.item_id),
+                      {}, class: 'selectpicker form-control', required: true %>
       <% end %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
+  <div class='form-group col-xs-12'>
     <%= f.label :hold_reason, 'Reason for Hold', class: 'control-label col-xs-2'%>
-    <div class="col-xs-6">
-      <%= f.text_field :hold_reason, required: true, class: 'form-control' %>
+    <div class='col-xs-6'>
+      <%= f.text_field :hold_reason, class: 'form-control', required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
+  <div class='form-group col-xs-12'>
     <%= f.label :start_time, 'Start Time', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :start_time, required: true, class: "form-control" %>
+    <div class='col-xs-6'>
+      <%= f.date_field :start_time, class: 'form-control', required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
+  <div class='form-group col-xs-12'>
     <%= f.label :end_time, 'End Time', class: 'control-label col-xs-2' %>
-    <div class="col-xs-6">
-      <%= f.date_field :end_time, required: true, class: "form-control" %>
+    <div class='col-xs-6'>
+      <%= f.date_field :end_time, class: 'form-control', required: true %>
     </div>
   </div>
 
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", data: { confirm: 'Are you sure?' } %>
-      <%= link_to 'Back', :back, class: "btn btn-default" %>
+  <div class='form-group col-xs-12'>
+    <div class='col-xs-offset-2 col-xs-10'>
+      <%= f.submit class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
