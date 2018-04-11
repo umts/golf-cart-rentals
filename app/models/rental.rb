@@ -23,8 +23,8 @@ class Rental < ActiveRecord::Base
   has_many :items, through: :rentals_items
   has_many :item_types, through: :rentals_items
 
-  belongs_to :creator, class_name: User
-  belongs_to :renter, class_name: User
+  belongs_to :creator, class_name: 'User'
+  belongs_to :renter, class_name: 'User'
 
   validates :renter, :creator, :start_time, :end_time, :rentals_items, presence: true
   validates :start_time, date: { after: proc { Date.current }, message: 'must be no earlier than today' }, unless: :persisted?
