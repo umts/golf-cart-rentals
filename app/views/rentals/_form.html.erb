@@ -1,56 +1,87 @@
 <%= form_for @rental, method: :post do |f| %>
-  <div class="row">
-    <div class="col-xs-6">
-      <div class="form-group row">
+  <div class='row'>
+    <div class='col-xs-6'>
+      <div class='form-group row'>
         <%= f.label :renter, 'Renter', class: 'control-label col-xs-3' %>
-        <div class="col-xs-9">
+        <div class='col-xs-9'>
           <%= f.text_field :renter_id,
             data: { tokeninput:
                     { collection: @users,
-                      options: {tokenLimit: 1, propertyToSearch: :tag, tokenDelimiter: '', prePopulate: [{id: @current_user.id, tag: @current_user.tag}]}}},
-          required: true, class: "form-control" %>
+                      options: { tokenLimit: 1,
+                                 propertyToSearch: :tag,
+                                 tokenDelimiter: '',
+                                 prePopulate: [
+                                   { id: @current_user.id, tag: @current_user.tag }
+                                 ] } } },
+            class: 'form-control', required: true %>
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class='form-group row'>
         <%= f.label :start_time, 'Pickup Date', class: 'control-label col-xs-3' %>
-        <div class="col-xs-9">
-          <%= f.date_field :start_time, value: @start_date, required: true, id: 'rental_start_time', class: "form-control cost-dependent" %>
+        <div class='col-xs-9'>
+          <%= f.date_field :start_time, value: @start_date,
+                                        id: 'rental_start_time',
+                                        class: 'form-control cost-dependent',
+                                        required: true %>
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class='form-group row'>
         <%= f.label :end_time, 'Dropoff Date', class: 'control-label col-xs-3' %>
-        <div class="col-xs-9">
-          <%= f.date_field :end_time, value: @start_date, required: true, id: 'rental_end_time', class: "form-control cost-dependent" %>
+        <div class='col-xs-9'>
+          <%= f.date_field :end_time, value: @start_date,
+                                      id: 'rental_end_time',
+                                      class: 'form-control cost-dependent',
+                                      required: true %>
         </div>
       </div>
 
-
       <div class="form-group row">
+        <%= f.label :available, 'Available Items', class: 'control-label col-xs-3' %>
+        <div class="col-xs-9">
+          <table width="150">
+            <tr>
+              <% @item_types.each do |it| %>
+                <th> <%= it.name %> </th>
+              <% end %> 
+            </tr>
+            <tr>
+              <% @item_types.each do |it| %>
+                <td> <%= it.available_items_count %> </td>
+              <% end %>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class='form-group row'>
         <%= label_tag :amount, 'Cost', class: 'control-label col-xs-3' %>
-        <div class="col-xs-9">
-          <%= number_field_tag :amount, nil, min: 0, required: true, disabled: !@current_user.has_permission?("rentals", "cost_adjustment"), id: 'rental_amount', class: 'form-control' %>
+        <div class='col-xs-9'>
+          <%= number_field_tag :amount, nil,
+                                        disabled: !@current_user.has_permission?('rentals', 'cost_adjustment'),
+                                        min: 0, id: 'rental_amount',
+                                        class: 'form-control', required: true %>
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class='form-group row'>
         <%= label_tag :date_range, 'Number of Days', class: 'control-label col-xs-3' %>
-        <div class="col-xs-9">
+        <div class='col-xs-9'>
           <%  #(:start_time - :end_time) %>
           <%= number_field_tag :date_range, 1, min: 0, disabled: true, class: 'form-control' %>
         </div>
       </div>
     </div>
 
-    <div class="col-xs-6">
-      <div class="list-group">
+    <div class='col-xs-6'>
+      <div class='list-group'>
         <% @item_types.each do |it| %>
-          <div class="input-group selectable-item-type">
+          <div class='input-group selectable-item-type'>
             <%= link_to it.name, '#', class: 'list-group-item' %>
             <!-- we use _name attr because any ele with a name attr is submitted to server, this is a dummy field, we have to fix it latter so it submitts properly -->
-            <span class="input-group-addon">
-              <input type="number" _name="<%= it.id %>" step="1" value="0" max="99" min="0" class="item-type-quantity-picker cost-dependent">
+            <span class='input-group-addon'>
+              <input type='number' _name="<%= it.id %>" step='1' value='0' max='99' min='0' class='item-type-quantity-picker cost-dependent'>
             </span>
           </div>
         <% end %>
@@ -58,8 +89,8 @@
     </div>
   </div>
 
-  <div class="form-group row">
-    <div class="col-xs-offset-4 col-xs-6">
+  <div class='form-group row'>
+    <div class='col-xs-offset-4 col-xs-6'>
       <p>
       <%= link_to 'Download Safety PDF', rentals_safety_pdf_url %>
       |
@@ -76,17 +107,20 @@
       });
     </script>
   <% else %>
-    <div class="form-group row">
-      <div class="col-xs-offset-2 col-xs-6">
-        <label><input type="checkbox" name="TOC" value="Accept" onClick="accept_and_enable(this)"> I agree to the safety and training regulations in the above documents</label>
+    <div class='form-group row'>
+      <div class='col-xs-offset-2 col-xs-6'>
+        <label>
+          <input type='checkbox' name='TOC' value='Accept' onClick='accept_and_enable(this)'>
+          I agree to the safety and training regulations in the above documents
+        </label>
       </div>
     </div>
   <% end %>
 
-  <div class="form-group col-xs-12">
-    <div class="col-xs-offset-2 col-xs-10">
-      <%= f.submit class: "btn btn-primary", id: 'rentalSubmit', disabled: "disabled", data: { confirm: 'Are you sure?' } %>
-      <%= link_to 'Back', :back, class: "btn btn-default" %>
+  <div class='form-group col-xs-12'>
+    <div class='col-xs-offset-2 col-xs-10'>
+      <%= f.submit class: 'btn btn-primary', id: 'rentalSubmit', disabled: 'disabled', data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
