@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
   include SessionsHelper
-  # include Errors::ErrorHandler
+  include InventoryExceptionsHandler
 
   before_action :current_user
   before_action :check_permission

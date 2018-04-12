@@ -1,5 +1,11 @@
-<h1> Inventory Exception: <%= error_class %> <h1>
+<% provide(:page_header, "Inventory Error") %>
 
-<p> An error occurred processing the request: </p>
-<%= error_message %>
-<p> Please contact UMass Parking Services to resolve this issue </p>
+<h3> The following error occurred processing the request: </h3>
+
+<p> <%= error_class %> </p>
+<ul>
+  <li> <%= error_message %> </li>
+</ul>
+<br />
+
+<p> A message has been sent to IT </p>

@@ -160,8 +160,7 @@ class RentalsController < ApplicationController
       if rental.skip_financial_transactions
         # create a single custom financial transaction for entire rental
         FinancialTransaction.create rental: rental, transactable_type: Rental.name,
-                                    transactable_id: rental.id,
-                                    amount: params[:amount],
+                                    transactable_id: rental.id, amount: params[:amount],
                                     note_field: "custom rental pricing by #{@current_user.full_name} (#{@current_user.id})"
       end # else use default pricing
 

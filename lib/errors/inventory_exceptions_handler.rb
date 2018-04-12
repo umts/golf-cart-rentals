@@ -1,4 +1,4 @@
-module InventoryErrorHandler
+module InventoryExceptionsHandler
   def self.included(klass)
     klass.class_eval do
       rescue_from InventoryExceptions::AuthError, with: :error_response
@@ -25,9 +25,12 @@ module InventoryErrorHandler
   private
 
   def error_response(e)
-   render template: 'errors/inventory_exception.html.erb',
-          locals: { error_class: e.class, error_message: e.message },
-          status: 500
+    # this module is currently only included in ApplicationController and relies on
+    # ApplicationController's private `send_error_email` method
+    send_error_email(e)
+    render template: 'errors/inventory_exception.html.erb',
+           locals: { error_class: e.class, error_message: e.message },
+           status: 500
   end
 
 end
