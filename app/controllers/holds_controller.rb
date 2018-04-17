@@ -13,7 +13,7 @@ class HoldsController < ApplicationController
   end
 
   def new
-    @hold = Hold.new
+    @hold = Hold.new(new_hold_params)
   end
 
   def create

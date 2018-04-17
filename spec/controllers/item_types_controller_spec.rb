@@ -88,7 +88,7 @@ describe ItemTypesController do
           allow(Inventory).to receive(:create_item_type).and_return([create(:item_type)])
           post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
           expect(flash[:success]).to be_present
-          expect(flash[:success]).to eq('Item Type Successfully Created.')
+          expect(flash[:success]).to eq('Item Type successfully Created')
         end.to change { ItemType.count }.by(1)
       end
     end
@@ -104,7 +104,7 @@ describe ItemTypesController do
         allow(Inventory).to receive(:create_item_type).and_raise('boom')
         post :create_item_type, params: { name: item_type.name, base_fee: item_type.base_fee, fee_per_day: item_type.fee_per_day }
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('That Item Type Already Exists.')
+        expect(flash[:danger]).to eq('Item Type already exists')
       end
     end
   end
@@ -115,7 +115,7 @@ describe ItemTypesController do
         allow(Inventory).to receive(:item_types).and_return([create(:item_type)])
         get :refresh_item_types
         expect(flash[:success]).to be_present
-        expect(flash[:success]).to eq('Successfully Updated Item Types.')
+        expect(flash[:success]).to eq('Successfully updated Item Types')
       end
     end
 
@@ -124,7 +124,7 @@ describe ItemTypesController do
         allow(Inventory).to receive(:item_types).and_raise('boom')
         get :refresh_item_types
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Failed to Refresh Item Types From API. #<RuntimeError: boom>')
+        expect(flash[:danger]).to eq('Failed to refresh Item Types from Inventory API: #<RuntimeError: boom>')
       end
     end
 
