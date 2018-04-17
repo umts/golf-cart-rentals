@@ -10,8 +10,6 @@ class ItemsController < ApplicationController
     @items = @q.result.paginate(page: params[:page], per_page: 8)
   end
 
-  def show; end
-
   def edit
     @item_types = ItemType.all
   end

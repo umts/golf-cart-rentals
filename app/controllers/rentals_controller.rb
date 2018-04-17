@@ -30,9 +30,6 @@ class RentalsController < ApplicationController
     gon.reservations = Rental.to_json_reservations
   end
 
-  # GET /rentals/1
-  def show; end
-
   # GET /rentals/cost?end_time=time&start_time=time&item_types=...
   def cost
     cost_params = params.permit(:start_time, :end_time, item_types: [])
@@ -186,9 +183,6 @@ class RentalsController < ApplicationController
     end
     redirect_back(fallback_location: rentals_path)
   end
-
-  # GET /rentals/1/invoice
-  def invoice; end
 
   private
 

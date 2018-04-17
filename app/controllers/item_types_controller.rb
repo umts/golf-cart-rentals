@@ -8,10 +8,6 @@ class ItemTypesController < ApplicationController
     @item_types = ItemType.all
   end
 
-  def show; end
-
-  def edit; end
-
   def update
     if @item_type.update(item_type_params)
       flash[:success] = 'Item Type successfully Updated'

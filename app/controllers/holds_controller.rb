@@ -5,8 +5,6 @@ class HoldsController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
-  def show; end
-
   def index
     @holds = Hold.all
   end
@@ -29,8 +27,6 @@ class HoldsController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     if @hold.update(hold_params)

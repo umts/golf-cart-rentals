@@ -4,8 +4,6 @@ class DamagesController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
-  def show; end
-
   def index
     @damages = Damage.all
   end
@@ -29,8 +27,6 @@ class DamagesController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     if @damage.update(damage_params)
