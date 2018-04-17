@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 class GroupsController < ApplicationController
   before_action :set_group, except: [:index, :new, :create]
- 
+
   after_action :set_return_url, only: [:index]
 
   def index
     @groups = Group.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @group = Group.new

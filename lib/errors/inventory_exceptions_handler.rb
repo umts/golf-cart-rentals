@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module InventoryExceptionsHandler
   def self.included(klass)
     klass.class_eval do
@@ -32,5 +33,4 @@ module InventoryExceptionsHandler
            locals: { error_class: e.class, error_message: e.message },
            status: 500
   end
-
 end

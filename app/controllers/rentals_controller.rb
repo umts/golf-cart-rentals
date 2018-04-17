@@ -59,7 +59,7 @@ class RentalsController < ApplicationController
     else
       render status: 400,
              json: { errors:
-                       [ "missing_params: #{(required_params - cost_params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}" ] }
+                       ["missing_params: #{(required_params - cost_params.to_h.keys).inject('') { |acc, part| acc.blank? ? part.to_s : "#{acc}, #{part}" }}"] }
     end
   end
 

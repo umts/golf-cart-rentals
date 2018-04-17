@@ -5,8 +5,7 @@ class HoldsController < ApplicationController
 
   after_action :set_return_url, only: [:index]
 
-  def show
-  end
+  def show; end
 
   def index
     @holds = Hold.all
@@ -66,7 +65,7 @@ class HoldsController < ApplicationController
   def new_hold_params
     # find_by returns 1 or nil
     { damage: Damage.find_by(id: params.fetch(:damage_id, nil)),
-              item_id: params.fetch(:item_id, nil) }
+      item_id: params.fetch(:item_id, nil) }
   end
 
   def hold_params

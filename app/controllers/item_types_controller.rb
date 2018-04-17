@@ -8,11 +8,9 @@ class ItemTypesController < ApplicationController
     @item_types = ItemType.all
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @item_type.update(item_type_params)
@@ -25,8 +23,7 @@ class ItemTypesController < ApplicationController
     end
   end
 
-  def new_item_type
-  end
+  def new_item_type; end
 
   def create_item_type
     name = params[:name]
@@ -60,7 +57,6 @@ class ItemTypesController < ApplicationController
     flash[:success] = 'Item Type successfully Created'
     refresh_item_types(base_fee, fee_per_day)
   rescue
-    # TODO: some kind of validation for unique item types?
     flash[:danger] = 'Item Type already exists'
     redirect_to new_item_types_path
   end

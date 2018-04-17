@@ -30,8 +30,7 @@ class DamagesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @damage.update(damage_params)
