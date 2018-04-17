@@ -34,6 +34,8 @@ module ProbableEngine
     config.autoload_paths += Dir["#{config.root}/app/models/inventory/**"]
     config.time_zone = 'Eastern Time (US & Canada)'
 
+    config.active_job.queue_adapter = :sidekiq
+
     ActiveSupport.halt_callback_chains_on_return_false = false
     HTTParty::Basement.default_options.update(verify: false) # do not verify certs
   end
