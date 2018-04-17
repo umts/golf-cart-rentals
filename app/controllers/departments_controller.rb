@@ -8,6 +8,8 @@ class DepartmentsController < ApplicationController
     @departments = Department.all
   end
 
+  def show; end
+
   def new
     @department = Department.new
   end
@@ -24,6 +26,8 @@ class DepartmentsController < ApplicationController
       render :new
     end
   end
+
+  def edit; end
 
   def update
     if @department.update(department_params)
