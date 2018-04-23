@@ -2,18 +2,28 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
-  has_many   :groups_users, dependent: :destroy
-  has_many   :groups, through: :groups_users
-
-  # user is creator
-  has_many   :created_rentals, class_name: Rental.name, foreign_key: :creator_id
-  # user is renter
-  has_many   :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
-
   belongs_to :department
 
-  validates :first_name, :last_name, :spire_id, :phone, :email, :department, presence: true
-  validates :spire_id, length: { is: 8 }, uniqueness: true
+  has_many :groups_users, dependent: :destroy
+  has_many :groups, through: :groups_users
+
+  # user is creator
+  has_many :created_rentals, class_name: Rental.name, foreign_key: :creator_id
+  # user is renter
+  has_many :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
+
+  before_validation do
+    self.phone = phone.gsub(/\W/, '') if attribute_present? 'phone'
+  end
+
+  validates :first_name, :last_name, :spire_id,
+            :department, :phone, :email, presence: true
+  validates :spire_id, uniqueness: true,
+                       format: { with: /\A\d{8}\z/, message: 'SpireId should be 8 digits' }
+  validates :phone, format: { with: /\A\d{8,}\z/,
+                              message: 'Phone number should not contain any letters and be at least 8 digits long' }
+  validates :email, format: { with: /\A[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\z/,
+                              message: 'Email improperly formatted' }
 
   scope :active, -> { where(active: true) }
 

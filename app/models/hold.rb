@@ -7,7 +7,8 @@ class Hold < ActiveRecord::Base
   has_one :damage # , dependent: :destroy
 
   validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
-  validates :start_time, :end_time, date: { after: proc { Date.current }, message: 'must be after current date.' }, unless: :persisted?
+  validates :start_time, :end_time, date: { after: proc { Date.current },
+                                            message: 'must be after current date.' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
 
   # hold lasts between dates inclusive
