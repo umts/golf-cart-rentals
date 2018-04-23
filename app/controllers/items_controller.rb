@@ -2,7 +2,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update]
 
-  after_action :set_return_url, only: [:index, :new_item, :edit]
+  after_action :set_return_url, only: %i[index new_item edit]
 
   def index
     @item_types = ItemType.all
