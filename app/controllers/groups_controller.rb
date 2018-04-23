@@ -23,7 +23,6 @@ class GroupsController < ApplicationController
       flash[:success] = 'Group successfully created'
       redirect_to @group
     else
-      flash[:danger] = 'Failed to create Group'
       flash[:warning] = @group.errors.full_messages
       render :new
     end
@@ -39,7 +38,6 @@ class GroupsController < ApplicationController
       flash[:success] = 'Group successfully updated'
       redirect_to @group
     else
-      flash[:danger] = 'Failed to update Group'
       flash[:warning] = @group.errors.full_messages
       render :edit
     end

@@ -167,7 +167,6 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental successfully Reserved'
       redirect_to rental
     else
-      flash[:danger] = 'Failed to reserve Rental'
       flash[:warning] = rental.errors.full_messages
       @rental = rental
       redirect_to action: :new

@@ -24,7 +24,6 @@ class DamagesController < ApplicationController
       flash[:success] = 'Damage successfully created'
       redirect_to @damage
     else
-      flash[:danger] = 'Failed to create Damage'
       flash[:warning] = @damage.errors.full_messages
       render :new
     end
@@ -37,7 +36,6 @@ class DamagesController < ApplicationController
       flash[:success] = 'Damage successfully updated'
       redirect_to @damage
     else
-      flash[:danger] = 'Failed to update Damage'
       flash[:warning] = @damage.errors.full_messages
       render :edit
     end

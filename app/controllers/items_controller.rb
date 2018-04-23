@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
       flash[:success] = 'Item successfully Updated'
       redirect_to @item
     else
-      flash[:danger] = 'Failed to update Item'
       flash[:warning] = @item.errors.full_messages
       render :edit
     end
