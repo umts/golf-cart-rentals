@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
-  after_action :set_return_url, only: %i[index new]
 
   def index
     # workaround for unknown Ransack bug

@@ -2,8 +2,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user, :enable_permission]
 
-  after_action :set_return_url, only: %i[index new edit]
-
   def index
     @groups = Group.all
   end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class PaymentTrackingController < ApplicationController
-  after_action :set_return_url, only: [:index]
 
   def index
     params[:q] ||= {}
