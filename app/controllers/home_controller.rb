@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class HomeController < ApplicationController
-
   @per_page = 5
 
   def index
