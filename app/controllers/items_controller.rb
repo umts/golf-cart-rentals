@@ -2,8 +2,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update]
 
-  after_action :set_return_url, only: [:index]
-
   def index
     @item_types = ItemType.all
     @q = Item.search(params[:q])
