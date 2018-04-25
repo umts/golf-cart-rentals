@@ -21,7 +21,7 @@ class DepartmentsController < ApplicationController
       flash[:success] = 'Department successfully created.'
       redirect_to @department
     else
-      flash[:warning] = @department.errors.full_messages
+      flash[:danger] = @department.errors.full_messages
       render :new
     end
   end
@@ -33,7 +33,7 @@ class DepartmentsController < ApplicationController
       flash[:success] = 'Department successfully updated.'
       redirect_to @department
     else
-      flash[:warning] = @department.errors.full_messages
+      flash[:danger] = @department.errors.full_messages
       render :edit
     end
   end

@@ -13,7 +13,7 @@ class DamagesController < ApplicationController
   def new
     @damage = Damage.new
     unless @damage.incurred_incidental
-      flash[:danger] = 'Creating Damage without an attached Incurred Incidental'
+      flash[:warning] = 'Creating Damage without an attached Incurred Incidental'
     end
   end
 
@@ -24,7 +24,7 @@ class DamagesController < ApplicationController
       flash[:success] = 'Damage successfully created'
       redirect_to @damage
     else
-      flash[:warning] = @damage.errors.full_messages
+      flash[:danger] = @damage.errors.full_messages
       render :new
     end
   end
@@ -36,7 +36,7 @@ class DamagesController < ApplicationController
       flash[:success] = 'Damage successfully updated'
       redirect_to @damage
     else
-      flash[:warning] = @damage.errors.full_messages
+      flash[:danger] = @damage.errors.full_messages
       render :edit
     end
   end

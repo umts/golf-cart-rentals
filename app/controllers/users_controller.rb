@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
       redirect_to @user
     else
-      flash[:warning] = @user.errors.full_messages
+      flash[:danger] = @user.errors.full_messages
       render :new
     end
   end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       flash[:success] = 'User successfully updated'
       redirect_to @user
     else
-      flash[:warning] = @user.errors.full_messages
+      flash[:danger] = @user.errors.full_messages
       render :edit
     end
   end

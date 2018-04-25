@@ -25,7 +25,7 @@ class FinancialTransactionsController < ApplicationController
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params)
       unless payment.save
-        flash[:warning] = payment.errors.full_messages
+        flash[:danger] = payment.errors.full_messages
         render :new and return
       end
       @financial_transaction.transactable_id = payment.id
@@ -35,7 +35,7 @@ class FinancialTransactionsController < ApplicationController
       flash[:success] = 'Financial Transaction successfully created'
       redirect_to rental_invoice_path(@financial_transaction.rental_id)
     else
-      flash[:warning] = @financial_transaction.errors.full_messages
+      flash[:danger] = @financial_transaction.errors.full_messages
       render :new
     end
   end

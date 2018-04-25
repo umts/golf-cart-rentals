@@ -167,7 +167,7 @@ class RentalsController < ApplicationController
       flash[:success] = 'Rental successfully Reserved'
       redirect_to rental
     else
-      flash[:warning] = rental.errors.full_messages
+      flash[:danger] = rental.errors.full_messages
       @rental = rental
       redirect_to action: :new
     end
@@ -181,7 +181,7 @@ class RentalsController < ApplicationController
     elsif @rental.canceled?
       flash[:warning] = 'Rental has already been Canceled'
     else
-      flash[:warning] = "This rental is in the '#{@rental.rental_status}' state and cannot be canceled"
+      flash[:danger] = "This rental is in the '#{@rental.rental_status}' state and cannot be canceled"
     end
     redirect_back(fallback_location: rentals_path)
   end

@@ -24,7 +24,7 @@ class HoldsController < ApplicationController
       check_ongoing_conflicts
       redirect_to @hold
     else
-      flash[:warning] = @hold.errors.full_messages
+      flash[:danger] = @hold.errors.full_messages
       render :new
     end
   end
@@ -39,7 +39,7 @@ class HoldsController < ApplicationController
       check_ongoing_conflicts
       redirect_to @hold
     else
-      flash[:warning] = @hold.errors.full_messages
+      flash[:danger] = @hold.errors.full_messages
       render :edit
     end
   end
@@ -48,7 +48,7 @@ class HoldsController < ApplicationController
     if @hold.update(active: false) && @hold.lift_hold
       flash[:success] = 'Hold successfully Resolved'
     else
-      flash[:warning] = @hold.errors.full_messages
+      flash[:danger] = @hold.errors.full_messages
     end
     redirect_to holds_url
   end

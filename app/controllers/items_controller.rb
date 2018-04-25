@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
       flash[:success] = 'Item successfully Updated'
       redirect_to @item
     else
-      flash[:warning] = @item.errors.full_messages
+      flash[:danger] = @item.errors.full_messages
       render :edit
     end
   end
@@ -44,7 +44,7 @@ class ItemsController < ApplicationController
         create_item_helper(itype.uuid, name)
       end
     else
-      flash[:warning] = 'Name is a required field'
+      flash[:danger] = 'Name is a required field'
       redirect_to new_items_path
     end
   end

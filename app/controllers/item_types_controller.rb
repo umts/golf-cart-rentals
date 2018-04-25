@@ -17,7 +17,7 @@ class ItemTypesController < ApplicationController
       flash[:success] = 'Item Type successfully Updated'
       redirect_to @item_type
     else
-      flash[:warning] = @item_type.errors.full_messages
+      flash[:danger] = @item_type.errors.full_messages
       render :edit
     end
   end
@@ -31,7 +31,7 @@ class ItemTypesController < ApplicationController
     if name.present? && base_fee.present? && fee_per_day.present?
       create_item_type_helper(name, base_fee, fee_per_day)
     else
-      flash[:warning] = 'Name, Base Fee, and Fee-per-Day are all required fields'
+      flash[:danger] = 'Name, Base Fee, and Fee-per-Day are all required fields'
       redirect_to new_item_types_path
     end
   end

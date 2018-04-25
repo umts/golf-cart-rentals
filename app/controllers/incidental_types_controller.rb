@@ -21,7 +21,7 @@ class IncidentalTypesController < ApplicationController
       flash[:success] = 'Incidental Type successfully created'
       redirect_to @incidental_type
     else
-      flash[:warning] = @incidental_type.errors.full_messages
+      flash[:danger] = @incidental_type.errors.full_messages
       render :new
     end
   end
@@ -33,7 +33,7 @@ class IncidentalTypesController < ApplicationController
       flash[:success] = 'Incidental Type successfully updated'
       redirect_to @incidental_type
     else
-      flash[:warning] = @incidental_type.errors.full_messages
+      flash[:danger] = @incidental_type.errors.full_messages
       render :edit
     end
   end
