@@ -76,6 +76,5 @@
     <% if @rental.balance != 0 %>
       <%= link_to 'Process Payment', new_financial_transaction_path(rental_id: @rental.id, transactable_type: Payment.name), class: "btn btn-primary"%>
     <% end %>
-    <%= link_back 'Back', rentals_path, class: "btn btn-default" %>
   </div>
 </div>

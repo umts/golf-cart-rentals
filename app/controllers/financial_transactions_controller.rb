@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
-  after_action :set_return_url, only: [:index]
-
   def index
     # workaround for unknown Ransack bug
     @q = FinancialTransaction.search(transactable_type_eq: params[:q].try(:[], :transactable_type))
