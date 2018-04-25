@@ -9,7 +9,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
+gem 'coffee-rails', '~> 4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
@@ -32,7 +32,7 @@ gem 'turbolinks', '~> 5.0.1'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for tracking created/updated user info on a per model basis
-gem 'paper_trail'
+gem 'paper_trail', '~> 9.0.1'
 
 # for handling the state machine behind rental statuses
 gem 'aasm'
@@ -53,7 +53,7 @@ gem 'rails-jquery-tokeninput'
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
-gem 'signature-pad-rails'
+gem 'signature-pad-rails', '~> 1.0'
 
 # pagination
 gem 'will_paginate'

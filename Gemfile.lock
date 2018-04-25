@@ -357,7 +357,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.1)
   capistrano-sidekiq
   codeclimate-test-reporter
-  coffee-rails
+  coffee-rails (~> 4.2.2)
   date_validator
   exception_notification
   factory_bot_rails
@@ -370,7 +370,7 @@ DEPENDENCIES
   js-routes
   momentjs-rails (>= 2.8.1)
   mysql2
-  paper_trail
+  paper_trail (~> 9.0.1)
   permanent_records
   pry-byebug
   rails (~> 5.1)
@@ -383,7 +383,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sidekiq
-  signature-pad-rails
+  signature-pad-rails (~> 1.0)
   simplecov
   slack-notifier
   spring
