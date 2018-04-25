@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :hold do
     hold_reason 'TEST_HOLD_REASON'
     association :item, name: 'TEST_ITEM'
