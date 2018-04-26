@@ -216,6 +216,9 @@ GEM
       rack
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
+    rack_session_access (0.1.1)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails (5.1.6)
       actioncable (= 5.1.6)
       actionmailer (= 5.1.6)
@@ -401,6 +404,7 @@ DEPENDENCIES
   permanent_records
   pry-byebug
   puma (~> 3.7)
+  rack_session_access
   rails (~> 5.1)
   rails-controller-testing
   rails-jquery-tokeninput

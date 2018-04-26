@@ -49,6 +49,10 @@ def current_user(user = nil)
   controller.instance_variable_set('@current_user', @current_user)
 end
 
+def set_current_user(user)
+  page.set_rack_session user_id: user.id
+end
+
 def super_user
   create(:user, groups: [create(:group, permissions: Permission.all)])
 end

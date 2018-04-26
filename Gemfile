@@ -97,6 +97,7 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'factory_bot_rails'
   gem 'puma', '~> 3.7'
+  gem 'rack_session_access'
   gem 'rake'
   gem 'selenium-webdriver'
   gem 'simplecov'
