@@ -1,6 +1,11 @@
 <div class="page-header">
 	<div class="container">
-		<a href="http://umass.edu/"><%= image_tag "umass-wordmark-wht.png", alt: "UMass Amherst", width: "175", height: "23" %></a>
+    <a href="http://umass.edu/">
+      <%= image_tag "umass-wordmark-wht.png",
+        alt: "UMass Amherst",
+        width: "175", height: "23",
+      skip_pipeline: true%>
+    </a>
 
 
 		<form class="pull-right" action="https://googlebox.oit.umass.edu/search" method="get" name="gs" onsubmit="if (this.q.value==&#39;Search UMass Amherst&#39;) return false;" style="margin: 0; padding: 0" id="gs">
