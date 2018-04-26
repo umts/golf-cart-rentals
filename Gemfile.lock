@@ -48,6 +48,10 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
     arel (8.0.0)
     ast (2.4.0)
     autoprefixer-rails (8.3.0)
@@ -85,6 +89,18 @@ GEM
       capistrano
       sidekiq (>= 3.4)
     capistrano-stats (1.1.1)
+    capybara (3.0.2)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      xpath (~> 3.0)
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.2.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
     codeclimate-test-reporter (1.0.7)
       simplecov
     coderay (1.1.2)
@@ -131,6 +147,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    io-like (0.3.0)
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
       jquery-rails
@@ -192,6 +209,8 @@ GEM
     pry-byebug (3.6.0)
       byebug (~> 10.0)
       pry (~> 0.10)
+    public_suffix (3.0.2)
+    puma (3.11.4)
     rack (2.0.5)
     rack-protection (2.0.1)
       rack
@@ -267,6 +286,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
+    rubyzip (1.2.1)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -281,6 +301,9 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    selenium-webdriver (3.11.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.2)
     sidekiq (5.1.3)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -340,6 +363,8 @@ GEM
     will_paginate (3.1.6)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    xpath (3.0.0)
+      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
@@ -356,6 +381,8 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails (~> 1.1)
   capistrano-sidekiq
+  capybara
+  chromedriver-helper
   codeclimate-test-reporter
   coffee-rails (~> 4.2.2)
   date_validator
@@ -373,6 +400,7 @@ DEPENDENCIES
   paper_trail (~> 9.0.1)
   permanent_records
   pry-byebug
+  puma (~> 3.7)
   rails (~> 5.1)
   rails-controller-testing
   rails-jquery-tokeninput
@@ -382,6 +410,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  selenium-webdriver
   sidekiq
   signature-pad-rails (~> 1.0)
   simplecov

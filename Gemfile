@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1'
@@ -86,14 +87,18 @@ group :development do
   gem 'capistrano', '~> 3.3.0'
   gem 'capistrano-passenger'
   gem 'capistrano-rails', '~> 1.1'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'web-console', '~> 2.0'
 end
 
 group :test do
-  gem 'factory_bot_rails'
-  gem 'vcr', '2.4.0'
+  gem 'capybara'
+  gem 'chromedriver-helper'
   gem 'codeclimate-test-reporter', require: nil
+  gem 'factory_bot_rails'
+  gem 'puma', '~> 3.7'
   gem 'rake'
+  gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'vcr', '2.4.0'
 end
