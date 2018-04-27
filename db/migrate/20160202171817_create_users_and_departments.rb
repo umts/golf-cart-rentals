@@ -1,4 +1,4 @@
-class CreateUsersAndDepartments < ActiveRecord::Migration
+class CreateUsersAndDepartments < ActiveRecord::Migration[4.2]
   def change
   	create_table :users do |t|
       t.string :first_name, limit: 30, null: false
