@@ -2,8 +2,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, except: %i[index new create]
 
-  after_action :set_return_url, only: [:index]
-
   def index
     @groups = Group.all
   end

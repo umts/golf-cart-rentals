@@ -2,8 +2,6 @@
 class DepartmentsController < ApplicationController
   before_action :set_department, only: [:show, :edit, :update, :destroy, :remove_user]
 
-  after_action :set_return_url, only: [:index, :show]
-
   def index
     @departments = Department.all
   end

@@ -4,8 +4,6 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
 
-  after_action :set_return_url, only: [:index]
-
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
   end

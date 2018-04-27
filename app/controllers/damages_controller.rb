@@ -2,8 +2,6 @@
 class DamagesController < ApplicationController
   before_action :find_damage, only: [:show, :edit, :update]
 
-  after_action :set_return_url, only: [:index]
-
   def show; end
 
   def index
