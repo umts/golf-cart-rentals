@@ -102,8 +102,8 @@ RSpec.describe ItemsController, type: :controller do
     context 'with no name' do
       it 'populates a danger flash message' do
         post :create_item, params: { name: nil, type: item_type.name }
-        expect(flash[:warning]).to be_present
-        expect(flash[:warning]).to eq('Name is a required field')
+        expect(flash[:danger]).to be_present
+        expect(flash[:danger]).to eq('Name is a required field')
       end
     end
 

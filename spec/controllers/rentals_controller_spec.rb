@@ -218,7 +218,7 @@ describe RentalsController do
           post :create, params: { rental: rental_create } # sends valid params
         end.not_to change(Rental, :count)
 
-        expect(flash[:warning]).to be_any { |warning| warning =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
+        expect(flash[:danger]).to be_any { |danger| danger =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
         expect(response).to redirect_to(action: :new)
       end
     end
