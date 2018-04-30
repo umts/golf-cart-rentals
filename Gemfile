@@ -93,7 +93,7 @@ end
 
 group :test do
   gem 'capybara', '~> 2.13'
-  gem 'chromedriver-helper'
+  # gem 'chromedriver-helper'
   gem 'codeclimate-test-reporter', require: nil
   gem 'factory_bot_rails'
   gem 'puma', '~> 3.7'
