@@ -1,4 +1,4 @@
-class CreateFinancialTransactions < ActiveRecord::Migration
+class CreateFinancialTransactions < ActiveRecord::Migration[4.2]
   def change
     create_table :financial_transactions do |t|
       t.belongs_to :rental, index: true

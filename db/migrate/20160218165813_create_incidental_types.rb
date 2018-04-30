@@ -1,4 +1,4 @@
-class CreateIncidentalTypes < ActiveRecord::Migration
+class CreateIncidentalTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :incidental_types do |t|
       t.string :name
