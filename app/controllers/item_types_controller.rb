@@ -12,10 +12,10 @@ class ItemTypesController < ApplicationController
 
   def update
     if @item_type.update(item_type_params)
-      flash[:success] = 'Item Type Successfully Updated'
+      flash[:success] = 'Item Type successfully Updated'
       redirect_to @item_type
     else
-      @item_type.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @item_type.errors.full_messages
       render :edit
     end
   end
@@ -29,7 +29,7 @@ class ItemTypesController < ApplicationController
     if name.present? && base_fee.present? && fee_per_day.present?
       create_item_type_helper(name, base_fee, fee_per_day)
     else
-      flash[:danger] = 'Please Fill All Fields Then Try Again.'
+      flash[:danger] = 'Name, Base Fee, and Fee-per-Day are all required fields'
       redirect_to new_item_types_path
     end
   end
@@ -40,9 +40,9 @@ class ItemTypesController < ApplicationController
         memo[i['name']] = i['uuid']
       end
       refresh_items_helper(inv_item_types, base_fee, fee_per_day)
-      flash[:success] ||= 'Successfully Updated Item Types.'
+      flash[:success] ||= 'Successfully updated Item Types'
     rescue => error
-      flash[:danger] = "Failed to Refresh Item Types From API. #{error.inspect}"
+      flash[:danger] = "Failed to refresh Item Types from Inventory API: #{error.inspect}"
     end
     redirect_to item_types_path
   end
@@ -51,10 +51,10 @@ class ItemTypesController < ApplicationController
 
   def create_item_type_helper(name, base_fee, fee_per_day)
     Inventory.create_item_type(name)
-    flash[:success] = 'Item Type Successfully Created.'
+    flash[:success] = 'Item Type successfully Created'
     refresh_item_types(base_fee, fee_per_day)
   rescue
-    flash[:danger] = 'That Item Type Already Exists.'
+    flash[:danger] = 'Item Type already exists'
     redirect_to new_item_types_path
   end
 
@@ -65,7 +65,8 @@ class ItemTypesController < ApplicationController
       end
 
       unless item_types.keys.include?(inv_item_type[0])
-        ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1], base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
+        ItemType.where(name: inv_item_type[0], uuid: inv_item_type[1],
+                       base_fee: base_fee, fee_per_day: fee_per_day).first_or_create
       end
     end
   end

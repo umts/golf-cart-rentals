@@ -42,6 +42,8 @@ engines:
         enabled: false
       Rubocop/Style/IfUnlessModifier:
         enabled: false
+      Rubocop/Style/GuardClause:
+        enabled: false
       Rubocop/Rails/DynamicFindBy:
         enabled: false
       Rubocop/Metrics/BlockLength:

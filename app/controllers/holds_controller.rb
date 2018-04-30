@@ -17,13 +17,12 @@ class HoldsController < ApplicationController
     @hold = Hold.new(hold_params.merge(active: true))
 
     if @hold.save
-      flash[:success] = 'Hold Successfully Created'
+      flash[:success] = 'Hold successfully Created'
       @hold.handle_conflicting_rentals
-
       check_ongoing_conflicts
       redirect_to @hold
     else
-      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @hold.errors.full_messages
       render :new
     end
   end
@@ -32,22 +31,22 @@ class HoldsController < ApplicationController
 
   def update
     if @hold.update(hold_params)
-      flash[:success] = 'Hold Successfully Updated'
+      flash[:success] = 'Hold successfully Updated'
       @hold.handle_conflicting_rentals
 
       check_ongoing_conflicts
       redirect_to @hold
     else
-      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @hold.errors.full_messages
       render :edit
     end
   end
 
   def lift
     if @hold.update(active: false) && @hold.lift_hold
-      flash[:success] = 'Hold Successfully Resolved'
+      flash[:success] = 'Hold successfully Resolved'
     else
-      @hold.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @hold.errors.full_messages
     end
     redirect_to holds_url
   end
@@ -60,7 +59,8 @@ class HoldsController < ApplicationController
 
   def new_hold_params
     # find_by returns 1 or nil
-    { damage: Damage.find_by(id: params.fetch(:damage_id, nil)), item_id: params.fetch(:item_id, nil) }
+    { damage: Damage.find_by(id: params.fetch(:damage_id, nil)),
+      item_id: params.fetch(:item_id, nil) }
   end
 
   def hold_params
@@ -69,7 +69,8 @@ class HoldsController < ApplicationController
     # will evaluate to nil or an instance of damage
     damage = Damage.find_by id: params.fetch(:damage_id, nil)
     params.require(:hold).permit(:hold_reason, :item_id,
-                                 :start_time, :end_time).merge(item_type_id: item_type_id, damage: damage)
+                                 :start_time, :end_time).merge(item_type_id: item_type_id,
+                                                               damage: damage)
   end
 
   def check_ongoing_conflicts
