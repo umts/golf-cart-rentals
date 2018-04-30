@@ -12,14 +12,11 @@ Rails.application.routes.draw do
 
   #---Help Forms-------------------------------------------------------------
   get 'help', to: 'help#show'
-  get 'help/schedule', to: 'help#schedule' , as: 'schedule'
-  get 'help/new_hold', to: 'help#new_hold' , as: 'new_hold_help'
-  get 'help/new_incidental_type', to: 'help#new_incidental_type', as: 'new_incidental_type_help'
-  get 'help/new_item_type', to: 'help#new_item_type' , as: 'new_item_type_help'
-  get 'help/new_item', to: 'help#new_item' , as: 'new_item_help'
-  get 'help/new_group', to: 'help#new_group' , as: 'new_group_help'
-  get 'help/new_user', to: 'help#new_user' , as: 'new_user_help'
-  get 'help/new_department', to: 'help#new_department' , as: 'new_department_help'
+
+  %w[ schedule new_hold new_incidental_type new_item_type
+      new_item new_group new_user new_department].each do |help_page|
+    get "help/#{help_page}", to: "help\##{help_page}", as: "#{help_page}_help"
+  end
   #----------------------------------------------------------------------------
   resources :rentals
   resources :departments do
