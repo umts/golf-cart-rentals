@@ -1,8 +1,3 @@
 <% provide( :page_header, 'Rental Reservation' ) %>
 
-<%# TODO: What is @rental_status? Where is that set? Will it ever exist? %>
-<% unless @rental_status %>
-  <%= render('form') %>
-<% else %>
-  <%= (params["item_type"] ? render('form') : content_tag(:h1, "Please schedule a rental through the Rental Scheduler.")) %>
-<% end %>
+<%= render('form') %>
