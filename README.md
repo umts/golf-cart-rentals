@@ -5,6 +5,8 @@
 
 Probable Engine is a piece of web-based rental control software.
 
+For instructions on setting up probable-engine, see the [Wiki](https://github.com/umts/probable-engine/wiki/Getting-Started-with-probable-engine!)
+
 Items have multiple reservations, defining the days and user/department they are reserved for.
 Items have 1 type, each type having its own associated fee schedule and agreement terms.
 Users belong to 1 department, which will be invoiced for rentals.
