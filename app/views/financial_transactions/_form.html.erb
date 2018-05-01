@@ -1,16 +1,4 @@
 <%= form_for(financial_transaction) do |f| %>
-  <% if financial_transaction.errors.any? %>
-    <div id='error_explanation'>
-      <h2><%= pluralize(financial_transaction.errors.count, 'error') %> prohibited this financial_transaction from being saved:</h2>
-
-      <ul>
-      <% financial_transaction.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= f.hidden_field :rental_id %>
   <%= f.hidden_field :transactable_type %>
   <%= f.hidden_field :transactable_id %>
