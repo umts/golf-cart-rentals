@@ -1,0 +1,6 @@
+development:
+  inventory_api_key: 1538ca99447e125da8ec558db792d10f
+test:
+  inventory_api_key: 1538ca99447e125da8ec558db792d10f
+production:
+  inventory_api_key: censored
