@@ -59,15 +59,15 @@ class ApplicationController < ActionController::Base
       user_from_shibboleth
 
       # try to retrieve user from session if didn't log in
-      user_from_session if @current_user.nil?
+      @current_user ||= user_from_session
 
       # raise error if user failed to log in
       raise MissingUserError unless @current_user
 
     # assign the first user when in development
     else
-      @current_user = User.first
-      session[:user_id] = @current_user.id
+      @current_user ||= ( user_from_session || User.first)
+      session[:user_id] = @current_user.try(:id)
     end
   end
 
