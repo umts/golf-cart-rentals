@@ -175,10 +175,10 @@ describe ApplicationController do
   end
 
   describe '#current_user' do
-    it 'assigns the first user to @current_user in development' do
+    it 'assigns a user to @current_user in development' do
       allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
       subject.current_user
-      expect(assigns[:current_user]).to eq(User.first)
+      expect(assigns[:current_user]).to be_present
     end
   end
 
