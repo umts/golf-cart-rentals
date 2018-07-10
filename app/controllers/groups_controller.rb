@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :update_permission, :remove_permission, :remove_user, :enable_user, :enable_permission]
-
-  after_action :set_return_url, only: [:index]
+  before_action :set_group, except: %i[index new create]
 
   def index
     @groups = Group.all
@@ -16,36 +14,36 @@ class GroupsController < ApplicationController
     @users = User.all
   end
 
+  def create
+    @group = Group.new(group_params)
+
+    if @group.save
+      flash[:success] = 'Group successfully created'
+      redirect_to @group
+    else
+      flash[:danger] = @group.errors.full_messages
+      render :new
+    end
+  end
+
   def edit
     @permissions = Permission.all
     @users = User.all
   end
 
-  def create
-    @group = Group.new(group_params)
-
-    if @group.save
-      flash[:success] = 'Group Successfully Created'
-      redirect_to @group
-    else
-      @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
-      render :new
-    end
-  end
-
   def update
     if @group.update(group_params)
-      flash[:success] = 'Group Successfully Updated'
+      flash[:success] = 'Group successfully updated'
       redirect_to @group
     else
-      @group.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @group.errors.full_messages
       render :edit
     end
   end
 
   def destroy
     @group.destroy
-    flash[:success] = 'Group Successfully Deleted'
+    flash[:success] = 'Group successfully deleted'
     redirect_to groups_url
   end
 

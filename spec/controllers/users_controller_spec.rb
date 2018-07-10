@@ -52,6 +52,11 @@ describe UsersController do
         post :create, params: { user: user_attributes }
         expect(response).to redirect_to User.last
       end
+      it 'does not allow letters in the phone number' do
+        expect do
+          post :create, params: { user: attributes_for(:invalid_user).merge(phone: '1a2b3c4e5d') }
+        end.to_not change(User, :count)
+      end
     end
 
     context 'with invalid attributes' do
@@ -63,6 +68,13 @@ describe UsersController do
       it 're-renders the :new template' do
         post :create, params: { user: attributes_for(:invalid_user) }
         expect(response).to render_template :new
+      end
+      it 'sanitizes phone numbers with various non-alphanumeric characters' do
+        standard_phone = '14135457257'
+        expect do
+          post :create, params: { user: user_attributes.merge(phone: '1+(413) 545-7257')}
+        end.to change(User, :count).by(1)
+        expect(User.last.phone).to eq(standard_phone)
       end
     end
   end
@@ -81,13 +93,13 @@ describe UsersController do
   describe 'POST #update' do
     context 'with valid attributes' do
       it 'updates the user in the database' do
-        new_phone = '413-545-7257'
+        new_phone = '4135457257'
         post :update, params: { id: user, user: { phone: new_phone } }
         user.reload
         expect(user.phone).to eq(new_phone)
       end
       it 'redirects to the user page' do
-        new_phone = '413-545-7257'
+        new_phone = '4135457257'
         post :update, params: { id: user, user: { phone: new_phone } }
         expect(response).to redirect_to user
       end
@@ -108,7 +120,7 @@ describe UsersController do
 
       context 'unpermited params' do
         it 'ignores the first_name and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { first_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :first_name)
@@ -117,7 +129,7 @@ describe UsersController do
         end
 
         it 'ignores the last_name and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { last_name: 'fidel castro', phone: new_phone } }
           end.not_to change(user, :last_name)
@@ -126,7 +138,7 @@ describe UsersController do
         end
 
         it 'ignores the spire and does what it can' do
-          new_phone = '413-545-7257'
+          new_phone = '4135457257'
           expect do
             post :update, params: { id: user, user: { spire_id: '12345678', phone: new_phone } }
           end.not_to change(user, :spire_id)

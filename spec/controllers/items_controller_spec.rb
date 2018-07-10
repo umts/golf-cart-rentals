@@ -103,7 +103,7 @@ RSpec.describe ItemsController, type: :controller do
       it 'populates a danger flash message' do
         post :create_item, params: { name: nil, type: item_type.name }
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Invalid Cart Name')
+        expect(flash[:danger]).to eq('Name is a required field')
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:create_item).and_raise('boom')
         post :create_item, params: { name: item.name, type: item_type.name }
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Failed To Create Cart In API. #<RuntimeError: boom>')
+        expect(flash[:danger]).to eq('Failed to create Item in Inventory API: #<RuntimeError: boom>')
       end
     end
   end
@@ -129,7 +129,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:items_by_type).and_return([create(:item)])
         get :refresh_items
         expect(flash[:success]).to be_present
-        expect(flash[:success]).to eq('Items Successfully Updated')
+        expect(flash[:success]).to eq('Items successfully Updated')
       end
     end
 
@@ -138,7 +138,7 @@ RSpec.describe ItemsController, type: :controller do
         allow(Inventory).to receive(:items_by_type).and_raise('boom')
         get :refresh_items
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eq('Failed To Refresh Items From API. #<RuntimeError: boom>')
+        expect(flash[:danger]).to eq('Failed to refresh Items from Inventory API: #<RuntimeError: boom>')
       end
     end
 

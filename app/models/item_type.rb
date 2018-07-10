@@ -22,6 +22,13 @@ class ItemType < ActiveRecord::Base
     (days_to_charge_for * fee_per_day) + base_fee
   end
 
+  # returns the number of reservable items of this item_type
+  def available_items_count
+    item.select { |i| Inventory.item(i.uuid)[:reservable] }.size
+  end
+
+  private
+
   def longterm_cost(weeks)
     # prices are specially defined
     if weeks >= 2
@@ -31,5 +38,5 @@ class ItemType < ActiveRecord::Base
         { 2 => 600, 3 => 900, 4 => 1100 }
       end
     end
-  end; private :longterm_cost
+  end
 end

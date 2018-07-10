@@ -2,8 +2,6 @@
 class DepartmentsController < ApplicationController
   before_action :set_department, only: [:show, :edit, :update, :destroy, :remove_user]
 
-  after_action :set_return_url, only: [:index, :show]
-
   def index
     @departments = Department.all
   end
@@ -18,10 +16,10 @@ class DepartmentsController < ApplicationController
     @department = Department.new(department_params)
 
     if @department.save
-      flash[:success] = 'Department Successfully Created.'
+      flash[:success] = 'Department successfully created.'
       redirect_to @department
     else
-      @department.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @department.errors.full_messages
       render :new
     end
   end
@@ -30,10 +28,10 @@ class DepartmentsController < ApplicationController
 
   def update
     if @department.update(department_params)
-      flash[:success] = 'Department Successfully Updated.'
+      flash[:success] = 'Department successfully updated.'
       redirect_to @department
     else
-      flash[:warning] = 'Invalid Update Parameters'
+      flash[:danger] = @department.errors.full_messages
       render :edit
     end
   end

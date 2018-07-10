@@ -3,8 +3,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :enable]
   before_action :set_department
 
-  after_action :set_return_url, only: [:index]
-
   def index
     @users = User.all
   end
@@ -21,35 +19,35 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:success] = 'User Successfully Created'
-      flash[:warning] = 'User Has No Permissions'
+      flash[:success] = 'User successfully created'
+      flash[:warning] = 'User has no Permissions'
 
       redirect_to @user
     else
-      @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @user.errors.full_messages
       render :new
     end
   end
 
   def update
     if @user.update(update_user_params)
-      flash[:success] = 'User Successfully Updated'
+      flash[:success] = 'User successfully updated'
       redirect_to @user
     else
-      @user.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @user.errors.full_messages
       render :edit
     end
   end
 
   def destroy
     @user.update(active: false)
-    flash[:success] = 'User Successfully Disabled'
+    flash[:success] = 'User successfully disabled'
     redirect_to users_url
   end
 
   def enable
     @user.update(active: true)
-    flash[:success] = 'User Successfully Enabled'
+    flash[:success] = 'User successfully enabled'
     redirect_to users_url
   end
 
