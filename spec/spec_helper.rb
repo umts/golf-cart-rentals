@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'simplecov'
 
 SimpleCov.start
@@ -15,7 +15,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.before :suite do
     Permission.update_permissions_table

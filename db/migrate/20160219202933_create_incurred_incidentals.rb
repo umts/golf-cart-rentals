@@ -1,4 +1,4 @@
-class CreateIncurredIncidentals < ActiveRecord::Migration
+class CreateIncurredIncidentals < ActiveRecord::Migration[4.2]
   def change
     create_table :incurred_incidentals do |t|
       t.references :incidental_type, index: true

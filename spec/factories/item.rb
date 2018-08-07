@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :item do
     sequence(:name) { |n| "TestCar#{n}" }
     item_type_id 1
