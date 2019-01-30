@@ -165,7 +165,7 @@ GEM
       railties (>= 3.1)
     multi_json (1.12.1)
     multi_xml (0.6.0)
-    mysql2 (0.4.5)
+    mysql2 (0.4.10)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.0.1)
@@ -360,7 +360,7 @@ DEPENDENCIES
   jquery-ui-rails
   js-routes
   momentjs-rails (>= 2.8.1)
-  mysql2
+  mysql2 (~> 0.4.10)
   paper_trail (~> 4.2.0)
   permanent_records
   pry-byebug
@@ -390,4 +390,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.15.4
+   1.17.3
