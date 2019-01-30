@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 $( ".datepicker" ).datetimepicker(); //datepicker initialization
 
-/* Adds a red asterix next to required fields */
+/* Adds a red asterisk next to required fields */
 $(function(){
   $("[required]").each(function(index, element){
     $(element).parent().addClass("required");
