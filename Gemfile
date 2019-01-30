@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.2'
+gem 'rails', '5.1.4'
 # Use mariadb as the database for Active Record
 gem 'mysql2', '~> 0.4.10'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platform: :ruby
 
@@ -53,7 +53,7 @@ gem 'rails-jquery-tokeninput'
 # sorts tables ui side, very useful when columns are not columns in the database
 gem 'jquery-datatables-rails', '~> 3.4.0'
 # Use signature pad
-gem 'signature-pad-rails', '~> 0.5'
+gem 'signature-pad-rails'
 
 # pagination
 gem 'will_paginate'
@@ -94,7 +94,7 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'vcr', '2.4.0'
   # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'codeclimate-test-reporter', require: nil

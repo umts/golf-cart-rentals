@@ -2,8 +2,6 @@
 class DamagesController < ApplicationController
   before_action :find_damage, only: [:show, :edit, :update]
 
-  after_action :set_return_url, only: [:index]
-
   def show; end
 
   def index
@@ -11,19 +9,21 @@ class DamagesController < ApplicationController
   end
 
   def new
-    @damage = Damage.new(new_params)
-    flash[:danger] = 'Damage Created Without An Attached Incurred Incidental' unless @damage.incurred_incidental
+    @damage = Damage.new
+    unless @damage.incurred_incidental
+      flash[:warning] = 'Creating Damage without an attached Incurred Incidental'
+    end
   end
 
   def create
     @damage = Damage.create(damage_params)
 
     if @damage.save
-      flash[:success] = 'Damage Successfully Created'
+      flash[:success] = 'Damage successfully created'
       redirect_to @damage
     else
-      flash[:warning] = 'Failed To Create Damage'
-      render 'new'
+      flash[:danger] = @damage.errors.full_messages
+      render :new
     end
   end
 
@@ -31,11 +31,11 @@ class DamagesController < ApplicationController
 
   def update
     if @damage.update(damage_params)
-      flash[:success] = 'Damage Successfully Updated'
+      flash[:success] = 'Damage successfully updated'
       redirect_to @damage
     else
-      flash[:warning] = 'Failed To Update Damage'
-      render 'edit'
+      flash[:danger] = @damage.errors.full_messages
+      render :edit
     end
   end
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 class FinancialTransactionsController < ApplicationController
-  after_action :set_return_url, only: [:index]
-
   def index
     # workaround for unknown Ransack bug
     @q = FinancialTransaction.search(transactable_type_eq: params[:q].try(:[], :transactable_type))
@@ -15,7 +13,9 @@ class FinancialTransactionsController < ApplicationController
     @financial_transaction.transactable_type = params[:transactable_type]
 
     # handles transactable_type payment which will be created with this form
-    @financial_transaction.transactable_id = params[:transactable_id] if @financial_transaction.transactable_type != Payment.name
+    if @financial_transaction.transactable_type != Payment.name
+      @financial_transaction.transactable_id = params[:transactable_id]
+    end
   end
 
   def create
@@ -23,17 +23,17 @@ class FinancialTransactionsController < ApplicationController
     if @financial_transaction.transactable_type == Payment.name
       payment = Payment.new(payment_params)
       unless payment.save
-        flash[:danger] = 'Please Properly Fill Out Contact And Payment Fields'
+        flash[:danger] = payment.errors.full_messages
         render :new and return
       end
-
       @financial_transaction.transactable_id = payment.id
     end
 
     if @financial_transaction.save
-      redirect_to rental_invoice_path(@financial_transaction.rental_id),
-                  success: 'Financial Transaction Successfully Created'
+      flash[:success] = 'Financial Transaction successfully created'
+      redirect_to rental_invoice_path(@financial_transaction.rental_id)
     else
+      flash[:danger] = @financial_transaction.errors.full_messages
       render :new
     end
   end
@@ -41,7 +41,8 @@ class FinancialTransactionsController < ApplicationController
   private
 
   def financial_transaction_params
-    params.require(:financial_transaction).permit(:amount, :rental_id, :transactable_type, :transactable_id)
+    params.require(:financial_transaction).permit(:amount, :rental_id,
+                                                  :transactable_type, :transactable_id)
   end
 
   def payment_params

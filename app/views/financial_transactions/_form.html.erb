@@ -1,16 +1,4 @@
 <%= form_for(financial_transaction) do |f| %>
-  <% if financial_transaction.errors.any? %>
-    <div id='error_explanation'>
-      <h2><%= pluralize(financial_transaction.errors.count, 'error') %> prohibited this financial_transaction from being saved:</h2>
-
-      <ul>
-      <% financial_transaction.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= f.hidden_field :rental_id %>
   <%= f.hidden_field :transactable_type %>
   <%= f.hidden_field :transactable_id %>
@@ -64,7 +52,6 @@
   <div class='form-group col-xs-12'>
     <div class='col-xs-offset-2 col-xs-10'>
       <%= f.submit 'Submit Payment', class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
-      <%= link_to 'Back', :back, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>

@@ -4,8 +4,6 @@ class IncurredIncidentalsController < ApplicationController
   before_action :set_incidental_types, only: [:new, :edit, :create, :update]
   before_action :set_rentals, only: [:new, :edit, :create, :update]
 
-  after_action :set_return_url, only: [:index]
-
   def show
     @incurred_incidental = IncurredIncidental.find(params[:id])
   end
@@ -23,16 +21,15 @@ class IncurredIncidentalsController < ApplicationController
   def create
     @incurred_incidental = IncurredIncidental.new(incidental_params)
     if @incurred_incidental.save
-      flash[:success] = 'Incidental Successfully Created'
+      flash[:success] = 'Incidental successfully created'
       if @incurred_incidental.incidental_type.damage_tracked
-        flash[:warning] = 'Please Create Associated Damage Tracking'
+        flash[:warning] = 'Please fill out additional Damage tracking form'
         redirect_to new_damage_path(incurred_incidental_id: @incurred_incidental)
       else
         redirect_to incurred_incidental_path(@incurred_incidental)
       end
     else
-      flash[:error] = 'Failed To Create Incidental'
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @incurred_incidental.errors.full_messages
       redirect_to new_incurred_incidental_path(rental_id: @incurred_incidental.rental)
     end
   end
@@ -56,11 +53,10 @@ class IncurredIncidentalsController < ApplicationController
         end
       end
 
-      flash[:success] = 'Incidental Successfully Updated'
+      flash[:success] = 'Incidental successfully updated'
       redirect_to incurred_incidental_path(@incurred_incidental)
     else
-      flash[:error] = 'Failed To Update Incidental'
-      @incurred_incidental.errors.full_messages.each { |e| flash_message :warning, e, :now }
+      flash[:danger] = @incurred_incidental.errors.full_messages
       @rental = @incurred_incidental.rental
       redirect_to edit_incurred_incidental_path
     end
@@ -81,21 +77,28 @@ class IncurredIncidentalsController < ApplicationController
   end
 
   def incidental_params
-    incidental = params.require(:incurred_incidental).permit(:rental_id, :incidental_type_id, :item_id,
-                                                             :amount, notes_attributes: [:note],
-                                                                      documents_attributes: [:description, :uploaded_file],
-                                                                      financial_transaction_attributes: [:amount, :id])
+    incidental = params.require(:incurred_incidental)
+                       .permit(:rental_id, :incidental_type_id, :item_id, :amount,
+                               notes_attributes: [:note],
+                               documents_attributes: [:description, :uploaded_file],
+                               financial_transaction_attributes: [:amount, :id])
+
     incidental[:financial_transaction_attributes][:rental_id] = incidental[:rental_id]
     filter_empty_docs(incidental)
   end
 
   def incidental_update_params
     # we can allow id here for the notes
-    incidental = params.require(:incurred_incidental).permit(:id, :rental_id, :incidental_type_id, :item_id,
-                                                             :amount, notes_attributes: [:note],
-                                                                      documents_attributes: [:description, :uploaded_file, :id],
-                                                                      financial_transaction_attributes: [:amount, :id])
-    incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id if incidental[:financial_transaction_attributes]
+    incidental = params.require(:incurred_incidental)
+                       .permit(:id, :rental_id, :incidental_type_id, :item_id, :amount,
+                               notes_attributes: [:note],
+                               documents_attributes: [:description, :uploaded_file, :id],
+                               financial_transaction_attributes: [:amount, :id])
+
+    if incidental[:financial_transaction_attributes]
+      incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id
+    end
+
     filter_empty_docs(incidental)
   end
 

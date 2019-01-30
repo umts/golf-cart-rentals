@@ -1,4 +1,4 @@
-class CreateRentals < ActiveRecord::Migration
+class CreateRentals < ActiveRecord::Migration[4.2]
   def change
     create_table :rentals do |t|
       t.string :rental_status, null: false

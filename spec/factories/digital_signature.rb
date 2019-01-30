@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :digital_signature do
     association :rental, factory: :mock_rental
     image 'fake image'

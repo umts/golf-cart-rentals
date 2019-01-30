@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :group do
     sequence(:name) { |n| "Group #{n}" }
     description 'Description'

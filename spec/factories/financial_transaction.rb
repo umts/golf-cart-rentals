@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-FactoryGirl.define do
+FactoryBot.define do
   factory :financial_transaction do |f|
     f.note_field 'Property of Factory Girl'
     f.created_at DateTime.now

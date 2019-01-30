@@ -1,4 +1,4 @@
-class ChangeRentalStartEndToDatetime < ActiveRecord::Migration
+class ChangeRentalStartEndToDatetime < ActiveRecord::Migration[4.2]
   def change
     remove_column :rentals, :start_date
     add_column :rentals, :start_time, :datetime

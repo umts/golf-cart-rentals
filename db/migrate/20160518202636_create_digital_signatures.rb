@@ -1,4 +1,4 @@
-class CreateDigitalSignatures < ActiveRecord::Migration
+class CreateDigitalSignatures < ActiveRecord::Migration[4.2]
   def change
     create_table :digital_signatures do |t|
       t.text :image

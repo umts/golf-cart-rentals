@@ -4,20 +4,18 @@ module InventoryExceptions
   class InventoryError < StandardError; end # 500 server error or anything remaining
 
   class ItemTypeError < InventoryError; end
-  class ItemError < InventoryError; end
-  class ReservationError < InventoryError; end
-
+  class InvalidItemTypeCreation < ItemTypeError; end
+  class InvalidUpdateItemTypeMetadata < ItemTypeError; end
   class ItemTypeNotFound < ItemTypeError; end # 404 not found
-  class ReservationNotFound < ReservationError; end
+
+  class ItemError < InventoryError; end
+  class InvalidItemCreation < ItemError; end
+  class InvalidUpdateItem < ItemError; end
   class ItemNotFound < ItemError; end
 
+  class ReservationError < InventoryError; end
   class ReservationNotAvailable < ReservationError; end
   class InvalidUpdateReservationTime < ReservationError; end
   class InvalidUpdateReservationMetadata < ReservationError; end
-
-  class InvalidUpdateItemTypeMetadata < ItemTypeError; end
-  class InvalidItemTypeCreation < ItemTypeError; end
-
-  class InvalidItemCreation < ItemError; end
-  class InvalidUpdateItem < ItemError; end
+  class ReservationNotFound < ReservationError; end
 end
