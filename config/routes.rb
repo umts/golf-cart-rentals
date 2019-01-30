@@ -11,11 +11,17 @@ Rails.application.routes.draw do
   get 'rentals/training_pdf'
 
   #---Help Forms-------------------------------------------------------------
-  get 'help', to: 'help#show'
-
-  %w[ schedule new_hold new_incidental_type new_item_type
-      new_item new_group new_user new_department].each do |help_page|
-    get "help/#{help_page}", to: "help\##{help_page}", as: "#{help_page}_help"
+  resources :help, only: [:index] do
+    collection do
+      get :schedule
+      get :new_hold
+      get :new_incidental_type
+      get :new_item_type
+      get :new_item
+      get :new_group
+      get :new_user
+      get :new_department
+    end
   end
   #----------------------------------------------------------------------------
   resources :rentals
