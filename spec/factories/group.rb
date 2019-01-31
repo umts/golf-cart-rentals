@@ -3,11 +3,6 @@ FactoryBot.define do
   factory :group do
     sequence(:name) { |n| "Group #{n}" }
     description 'Description'
-
-    trait :with_permissions do
-      permissions { [create(:permission)] }
-    end
-
   end
 
   factory :group_with_users_and_permissions, parent: :group do
