@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+describe User do
   let(:user) { create :user }
 
   context 'validations' do
@@ -70,69 +70,59 @@ RSpec.describe User, type: :model do
   end
 
   describe '#has_permission?' do
-    it 'returns true if the user has a permission with the requested controller, action, and no id_field' do
-      group = create(:group)
-      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
-
-      group.permissions << permission
-      user.groups << group
-
-      expect(user).to have_permission permission.controller,
-                                      permission.action,
-                                      nil
+    let(:permission) { create :permission }
+    let(:group) { create :group, permissions: [ permission ] }
+    let :call do
+      user.has_permission?(
+        permission.controller, permission.action, permission.id_field
+      )
     end
-
-    it 'returns true if the user has a permission with the requested controller, action, and an id_field,
-                        and their id matches the id of the requested instance' do
-      group = create(:group)
-      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
-
-      group.permissions << permission
-      user.groups << group
-
-      expect(user).to have_permission permission.controller,
-                                      permission.action,
-                                      user.id
+    context 'user is has a permission with no id field' do
+      it 'returns true' do
+        user.groups << group
+        expect(user).to have_permission permission.controller,
+                                        permission.action,
+                                        nil
+      end
     end
-
-    it 'returns false if the user does not have a permission with the requested controller, action' do
-      group = create(:group)
-      permission = create(:permission, controller: 'user', action: 'show', id_field: nil)
-
-      user.groups << group
-
-      expect(user).not_to have_permission permission.controller,
-                                          permission.action,
-                                          nil
+    context 'user has a permission with an id_field that matches their ID' do
+      it 'returns true' do
+        permission.update_attributes id_field: 'id'
+        user.groups << group
+        expect(user).to have_permission permission.controller,
+                                        permission.action,
+                                        user.id
+      end
     end
-
-    it 'returns false if the user has a permission with the requested controller, action, and an id_field,
-                        and their id matches the id of the requested instance but the user is inactive' do
-      user.active = false
-      user.save!
-      group = create(:group)
-      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
-
-      group.permissions << permission
-      user.groups << group
-
-      expect(user).not_to have_permission permission.controller,
-                                          permission.action,
-                                          user.id
+    context 'user does not have a given permission' do
+      it 'returns false' do
+        expect(user).not_to have_permission permission.controller,
+                                            permission.action,
+                                            nil
+      end
     end
+    context 'user has the permission but is inactive' do
+      it 'returns false' do
+        user.groups << group
+        user.update_attributes active: false
+        expect(user).not_to have_permission permission.controller,
+                                            permission.action,
+                                            user.id
+      end
+    end
+    context 'user has the permission but the id_field does not match theirs' do
+      it 'returns false' do
+        user2 = create(:user)
+        group = create(:group)
+        permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
 
-    it 'returns false if the user has a permission with the requested controller, action and an id_field,
-                         and their id does not match the id of the requested instance' do
-      user2 = create(:user)
-      group = create(:group)
-      permission = create(:permission, controller: 'user', action: 'show', id_field: 'id')
+        group.permissions << permission
+        user.groups << group
 
-      group.permissions << permission
-      user.groups << group
-
-      expect(user).not_to have_permission permission.controller,
-                                          permission.action,
-                                          user2.id
+        expect(user).not_to have_permission permission.controller,
+                                            permission.action,
+                                            user2.id
+      end
     end
   end
 
