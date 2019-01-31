@@ -96,7 +96,6 @@ end
 group :test do
   gem 'factory_bot_rails'
   gem 'vcr', '2.4.0'
-  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'codeclimate-test-reporter', require: nil
   gem 'rake'
   gem 'simplecov'
