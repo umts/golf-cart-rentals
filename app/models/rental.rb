@@ -15,8 +15,8 @@ class Rental < ActiveRecord::Base
   # unreserve the items
   before_destroy :delete_reservations
 
-  belongs_to :creator, class_name: User
-  belongs_to :renter, class_name: User
+  belongs_to :creator, class_name: 'User'
+  belongs_to :renter, class_name: 'User'
 
   has_one :financial_transaction, as: :transactable
   has_many :financial_transactions
