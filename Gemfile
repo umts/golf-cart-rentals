@@ -32,7 +32,7 @@ gem 'turbolinks', '~> 5.0.1'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for tracking created/updated user info on a per model basis
-gem 'paper_trail', '~> 4.2.0'
+gem 'paper_trail'
 
 # for handling the state machine behind rental statuses
 gem 'aasm'
