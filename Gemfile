@@ -76,7 +76,7 @@ gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.g
 group :development, :test do
   gem 'pry-byebug'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '3.5.0.beta2'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'timecop'
 end
