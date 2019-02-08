@@ -103,3 +103,11 @@ Rails.application.configure do
   # Inventory api url
   config.inventory_api_uri = 'https://rentalapi.parking.umass.edu/v1/' # not sure what this is yet
 end
+
+GolfCartRentals::Application.config.middleware.user ExceptionNotification::Rack,
+email: {
+  email_prefix: "Golf-Cart-Rentals Exception: ",
+  sender_address: %{"Golf-Cart-Rentals" <parkserv@umass.edu>},
+  exception_recipients: %w{parking-it@admin.umass.edu}
+
+}
