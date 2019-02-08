@@ -372,7 +372,7 @@ DEPENDENCIES
   jquery-ui-rails
   js-routes
   momentjs-rails (>= 2.8.1)
-  mysql2 (~> 0.4.0)
+  mysql2 (~> 0.4.10)
   paper_trail (~> 4.2.0)
   permanent_records
   pry-byebug
@@ -402,4 +402,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.16.2
+   1.17.3
