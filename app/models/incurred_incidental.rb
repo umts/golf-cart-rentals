@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class IncurredIncidental < ActiveRecord::Base
+  has_paper_trail
+
   belongs_to :rental
   belongs_to :item
   belongs_to :incidental_type
