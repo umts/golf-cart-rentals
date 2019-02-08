@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class IncurredIncidental < ActiveRecord::Base
   has_paper_trail
 
