@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.4'
+gem 'rails', '~> 5.2'
 # Use mariadb as the database for Active Record
 gem 'mysql2', '~> 0.4.0'
 # Use SCSS for stylesheets
@@ -82,6 +82,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'listen'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'better_errors'
   gem 'capistrano', '~> 3.3.0'
