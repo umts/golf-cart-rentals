@@ -23,7 +23,7 @@ class RentalsController < ApplicationController
     end
     # this probably isnt the most efficient way to do it
 
-    @q = base_search_area.search(params[:q])
+    @q = base_search_area.ransack(params[:q])
     @rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
     gon.reservations = Rental.to_json_reservations
   end
@@ -102,7 +102,7 @@ class RentalsController < ApplicationController
     end
     # this probably isnt the most efficient way to do it
 
-    @q = base_search_area.search(params[:q])
+    @q = base_search_area.ransack(params[:q])
     @rentals = @q.result(distinct: true)
                  .where('start_time >= ? AND start_time <= ?',
                         Time.current.beginning_of_day,

@@ -19,7 +19,7 @@ class HomeController < ApplicationController
     @ongoing_rentals = @rentals.picked_up
     @no_show_rentals = @rentals.no_show_rentals
     @future_rentals = @rentals.all_future_rentals
-    @q = Rental.inactive_rentals.search(params[:q])
+    @q = Rental.inactive_rentals.ransack(params[:q])
     @past_rentals = @q.result(distinct: true).paginate(page: params[:page], per_page: @per_page)
   end
 end
