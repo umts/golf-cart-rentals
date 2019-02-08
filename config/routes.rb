@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'rentals/:id/invoice', to: 'rentals#invoice', as: 'rental_invoice'
   get 'rentals/safety_pdf'
   get 'rentals/training_pdf'
+  resources :rentals
 
   #---Help Forms-------------------------------------------------------------
   resources :help, only: [:index] do
@@ -24,7 +25,6 @@ Rails.application.routes.draw do
     end
   end
   #----------------------------------------------------------------------------
-  resources :rentals
   resources :departments do
     post :remove_user, on: :member
   end
