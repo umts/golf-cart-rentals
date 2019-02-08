@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
