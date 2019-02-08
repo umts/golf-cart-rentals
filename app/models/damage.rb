@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Damage < ApplicationRecord
   has_one :item, through: :incurred_incidental
 
