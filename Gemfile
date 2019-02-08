@@ -64,9 +64,6 @@ gem 'ransack'
 
 gem 'unicode_utils', '~> 1.4'
 
-# permanent records
-gem 'permanent_records'
-
 # exception notifier
 gem 'exception_notification'
 gem 'slack-notifier'
