@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
   # Set auto papertrail
   before_action :set_paper_trail_whodunnit
 
-  rescue_from RuntimeError, Exception, with: :render_500 unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
   rescue_from MissingUserError, with: :render_401
 
@@ -27,20 +26,6 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render template: 'errors/404.html.erb', status: 404 }
       format.all { render body: nil, status: 404 }
-    end
-  end
-
-  def render_500(error)
-    # make sure to log the error
-    logger.error error.message
-    logger.error error.backtrace.join("\n")
-
-    # send email to IT
-    send_error_email(error)
-
-    respond_to do |format|
-      format.html { render template: 'errors/500.html.erb', status: 500 }
-      format.all { render body: nil, status: 500 }
     end
   end
 
