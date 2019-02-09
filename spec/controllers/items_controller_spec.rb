@@ -149,13 +149,11 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'locates an item record' do
+    let :submit do
       delete :destroy, params: { id: item.id }
-      item.reload
-      expect(item.deleted_at).not_to eq(nil)
     end
-    it 'renders the items index' do
-      delete :destroy, params: { id: item.id }
+    it 'deletes an item record' do
+      expect{ submit }.to change{ Item.count }.by (-1)
       expect(response).to redirect_to items_path
     end
   end
