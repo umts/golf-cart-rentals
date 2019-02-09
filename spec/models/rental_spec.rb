@@ -3,9 +3,6 @@ require 'rails_helper'
 
 RSpec.describe Rental do
   describe '#validations' do
-    it 'has a can build with alias date designations' do
-      expect(build(:rental, start_date: Time.current, end_date: (Time.current + 1.day))).to be_valid
-    end
     it 'is invalid without a renter_id' do
       expect(build(:rental, renter_id: nil)).not_to be_valid
     end
