@@ -44,20 +44,21 @@ describe HoldsController do
 
   describe 'POST #create' do
     context 'with valid attributes' do
+      let(:item) { create :item }
       it 'saves the new hold in the database' do
         expect do
-          post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
+          post :create, params: { hold: attributes_for(:hold, item_id: item) }
         end.to change(Hold, :count).by(1)
       end
 
       it 'redirects to the hold show page' do
-        post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
+        post :create, params: { hold: attributes_for(:hold, item_id: item) }
         expect(response).to redirect_to Hold.last
       end
 
       it 'sets the damage given the params for damage' do
         damage = create :damage
-        post :create, params: { hold: attributes_for(:hold, item_id: Item.first).merge(damage: damage) }
+        post :create, params: { hold: attributes_for(:hold, item_id: item).merge(damage: damage) }
       end
 
       it 'warns user of ongoing rentals' do
