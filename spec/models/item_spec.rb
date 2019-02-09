@@ -17,26 +17,4 @@ RSpec.describe Item, type: :model do
       expect(Item.all_reservable_items).to eq(Item.all)
     end
   end
-
-  describe '.deleted' do
-    it 'returns an empty collection when no records are present' do
-      expect(Item.deleted).to be_empty
-    end
-
-    it 'returns an empty collection, when no deleted items exist' do
-      create(:item)
-      expect(Item.deleted).to be_empty
-    end
-
-    it 'returns a collection with records when one deleted item exists' do
-      (item = create(:item)) && item.destroy
-      expect(Item.deleted).to include(item)
-    end
-
-    it 'returns the correct records, when many records exist' do
-      (item = create(:item)) && item.destroy
-      item_two = create(:item)
-      expect(Item.deleted).to contain_exactly(item)
-    end
-  end
 end

@@ -11,7 +11,7 @@ RSpec.describe Note, type: :model do
   context 'properly builds association with incurred_incidental' do
     before(:each) do
       @incident = create(:incurred_incidental)
-      @incident.notes << create(:note)
+      @incident.notes << build(:note)
       @note = Note.first
     end
 

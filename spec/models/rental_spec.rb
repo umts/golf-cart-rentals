@@ -10,7 +10,7 @@ RSpec.describe Rental do
       expect(build(:rental, creator_id: nil)).not_to be_valid
     end
     it 'is invalid without any items' do
-      rental = create(:rental)
+      rental = build(:rental)
       rental.rentals_items = []
       expect(rental).not_to be_valid
     end
@@ -26,24 +26,12 @@ RSpec.describe Rental do
       expect(build(:rental, end_time: nil)).not_to be_valid
     end
     it 'does not allow duplicate reservation_id' do
-      rental = create :mock_rental
+      rental = build :mock_rental
       expect(build(:rental, rentals_items: [build(:rentals_item, reservation_id: rental.reservation_ids.first)])).not_to be_valid
     end
     context 'start time before today' do
       it 'is invalid with a start_time before today' do
         expect(build(:rental, start_time: Time.zone.yesterday)).not_to be_valid
-      end
-
-      context 'time travel' do
-        it 'is valid if it is persisted' do
-          rental = create(:rental, start_time: Time.zone.today, end_time: Time.zone.tomorrow)
-          Timecop.travel(4.days.from_now) # rental.start_time is before today
-          expect(rental).to be_valid
-        end
-
-        after do
-          Timecop.return
-        end
       end
     end
     it 'is invalid with an end_time before the start_time' do
@@ -114,20 +102,17 @@ RSpec.describe Rental do
     end
 
     it 'with_balance_over' do
-      rental_expensive = create :mock_rental, rentals_items: [build(:rentals_item, item_type: (create :item_type, base_fee: 1000, fee_per_day: 0))]
-      create :mock_rental, rentals_items: [build(:rentals_item, item_type: (create :item_type, base_fee: 900, fee_per_day: 0))]
-      rental_paid = create :mock_rental
-      create :mock_rental # unpaid
-
+      unpaid_rental = create :mock_rental # unpaid
+      paid_rental = create :mock_rental
       # get amount from the transaction created by rental
-      amount = rental_paid.balance
+      amount = paid_rental.balance
 
       # pay for rental
-      create :financial_transaction, :with_payment, amount: amount, rental: rental_paid
+      create :financial_transaction, :with_payment, amount: amount, rental: paid_rental
       # now rental_paid has no balance due
 
       # that unpaid rental doesnt meet the minimum balance over
-      expect(Rental.with_balance_over(900)).to contain_exactly rental_expensive
+      expect(Rental.with_balance_over(100)).to contain_exactly unpaid_rental
     end
   end
 
@@ -184,6 +169,7 @@ RSpec.describe Rental do
 
       it 'adds to errors if it fails to delete reservation' do
         # will try to roll back but we wont let it
+        # what in the ever-loving shit is going on in this test?
         allow(Inventory).to receive(:delete_reservation).and_raise(StandardError)
 
         r = build(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
