@@ -79,7 +79,9 @@ describe HoldsController do
       end
 
       it 're-renders the :new template' do
-        post :create, params: { hold: attributes_for(:invalid_date_time_hold, item_id: Item.first) }
+        post :create, params: { 
+          hold: attributes_for(:invalid_date_time_hold, item_id: (create :item))
+        }
         expect(response).to render_template :new
       end
     end
