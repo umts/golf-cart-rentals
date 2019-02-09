@@ -2,9 +2,7 @@
 require 'rails_helper'
 
 describe HoldsController do
-  let!(:hold) { create :hold }
-  let(:item) { create(:item, name: 'TEST_ITEM') }
-  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+  let(:hold) { create :hold }
 
   describe 'GET #show' do
     it 'assigns the requested hold to @hold' do
