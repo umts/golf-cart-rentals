@@ -5,7 +5,6 @@ RSpec.describe ItemsController, type: :controller do
   let!(:item) { create(:item) }
   let!(:item2) { create(:item) }
   let!(:item_type) { create(:item_type) }
-  let!(:item_type2) { create(:item_type) }
 
   describe 'GET #index' do
     it 'populates an array of items' do
@@ -72,7 +71,7 @@ RSpec.describe ItemsController, type: :controller do
   describe 'GET #new_item' do
     it 'it populates an array of item_types' do
       get :new_item
-      expect(assigns[:item_types]).to eq([item_type, item_type2])
+      expect(assigns[:item_types]).to eq ItemType.all
     end
     it 'renders the :new_item view' do
       get :new_item
