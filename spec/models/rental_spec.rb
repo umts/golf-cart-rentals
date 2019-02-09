@@ -10,7 +10,9 @@ RSpec.describe Rental do
       expect(build(:rental, creator_id: nil)).not_to be_valid
     end
     it 'is invalid without any items' do
-      expect(build(:rental_without_items)).not_to be_valid
+      rental = create(:rental)
+      rental.rentals_items = []
+      expect(rental).not_to be_valid
     end
     it 'is invalid without a start_time' do
       expect(build(:rental, start_time: nil)).not_to be_valid
