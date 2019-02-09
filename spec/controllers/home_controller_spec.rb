@@ -70,12 +70,14 @@ describe HomeController do
       before(:each) do
         @user = current_user
         @other_user = create(:admin_user)
+        @rental = create :mock_rental, renter_id: @user.id, creator_id: @user.id
+        @rental2 = create :ongoing_rental, renter_id: @user.id, creator_id: @user.id
+        @rental3 = create :mock_rental, renter_id: @other_user.id, creator_id: @other_user.id
       end
 
       it 'filters out rentals not belonging to the current user' do
         get :index
-        expect(assigns[:rentals]).to include(create(:mock_rental, renter_id: @user.id, creator_id: @user.id), create(:ongoing_rental, renter_id: @user.id, creator_id: @user.id))
-        expect(assigns[:rentals]).not_to include(create(:mock_rental, renter_id: @other_user.id, creator_id: @other_user.id))
+        expect(assigns[:rentals]).to contain_exactly @rental, @rental2
       end
     end
 
