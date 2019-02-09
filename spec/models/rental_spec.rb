@@ -3,9 +3,6 @@ require 'rails_helper'
 
 RSpec.describe Rental do
   describe '#validations' do
-    it 'has a valid factory' do
-      expect(build(:rental)).to be_valid
-    end
     it 'has a can build with alias date designations' do
       expect(build(:rental, start_date: Time.current, end_date: (Time.current + 1.day))).to be_valid
     end
