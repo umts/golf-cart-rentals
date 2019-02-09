@@ -2,7 +2,7 @@
 FactoryBot.define do
   factory :group do
     sequence(:name) { |n| "Group #{n}" }
-    description 'Description'
+    description { 'Description' }
   end
 
   factory :group_with_users_and_permissions, parent: :group do
@@ -11,12 +11,12 @@ FactoryBot.define do
   end
 
   factory :admin_group, parent: :group do
-    name 'admin'
-    description 'admin group'
+    name { 'admin' }
+    description { 'admin group' }
     permissions { Permission.all }
   end
 
   factory :invalid_group, parent: :group do
-    name nil
+    name { nil }
   end
 end

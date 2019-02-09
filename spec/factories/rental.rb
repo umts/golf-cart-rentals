@@ -3,8 +3,8 @@ FactoryBot.define do
   factory :rental do
     association :creator, factory: :user
     renter { creator } # set renter equal to creator by default
-    start_time Time.current
-    end_time (Time.current + 1.day)
+    start_time { Time.current }
+    end_time { (Time.current + 1.day) }
 
     after(:build) do |rental|
       # add the rentals_items, no reservation id
@@ -31,29 +31,29 @@ FactoryBot.define do
   end
 
   factory :invalid_rental, parent: :mock_rental do
-    start_time nil
+    start_time { nil }
   end
 
   factory :new_rental, parent: :mock_rental do
-    creator_id nil
-    renter_id nil
+    creator_id { nil }
+    renter_id { nil }
   end
 
   factory :upcoming_rental, parent: :mock_rental do
-    start_time (Time.current + 1.day).to_s
-    end_time (Time.current + 5.days).to_s
+    start_time { (Time.current + 1.day).to_s }
+    end_time { (Time.current + 5.days).to_s }
   end
 
   factory :past_rental, parent: :mock_rental do
-    rental_status 'dropped_off'
+    rental_status { 'dropped_off' }
   end
 
   factory :far_future_rental, parent: :mock_rental do
-    start_time (Time.current + 8.days).to_s
-    end_time (Time.current + 9.days).to_s
+    start_time { (Time.current + 8.days).to_s }
+    end_time { (Time.current + 9.days).to_s }
   end
 
   factory :ongoing_rental, parent: :mock_rental do
-    rental_status 'picked_up'
+    rental_status { 'picked_up' }
   end
 end

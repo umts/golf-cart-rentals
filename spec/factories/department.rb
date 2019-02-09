@@ -5,6 +5,6 @@ FactoryBot.define do
   end
 
   factory :invalid_department, parent: :department do
-    name nil
+    name {nil}
   end
 end
