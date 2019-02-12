@@ -121,7 +121,6 @@ class Rental < ActiveRecord::Base
     # if we fail half way through creating reservations we should roll them all back
     created_reservations = []
     begin
-      raise RecordInvalid, 'Rental invalid' unless valid?
       rentals_items.each do |ri|
         raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
 
