@@ -64,7 +64,7 @@ describe HoldsController do
       it 'warns user of ongoing rentals' do
         current_user(super_user)
 
-        rental = create :mock_rental # only has one item
+        rental = create :rental # only has one item
         rental.pickup
         post :create, params: { hold: attributes_for(:hold).merge(item_id: rental.items.first.id) }
         expect(flash[:warning]).to include rental.id.to_s
