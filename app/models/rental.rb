@@ -68,7 +68,9 @@ class Rental < ActiveRecord::Base
 
   def reservations
     rentals_items.collect(&:reservation_id)
-  end; alias reservation_ids reservations
+  end
+
+  alias reservation_ids reservations
 
   aasm column: :rental_status do
     state :reserved, initial: true

@@ -96,11 +96,9 @@ class IncurredIncidentalsController < ApplicationController
                                notes_attributes: [:note],
                                documents_attributes: [:description, :uploaded_file, :id],
                                financial_transaction_attributes: [:amount, :id])
-
     if incidental[:financial_transaction_attributes]
       incidental[:financial_transaction_attributes][:rental_id] = @incurred_incidental.rental_id
     end
-
     filter_empty_docs(incidental)
   end
 
