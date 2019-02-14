@@ -6,7 +6,7 @@ RSpec.describe FinancialTransaction, type: :model do
     it 'creates a valid financial transaction from a rental' do
       expect do
         expect(build(:financial_transaction, :with_rental)).to be_valid
-      end.to change { FinancialTransaction.count }.by(1)
+      end
     end
 
     it 'does not create a financial transaction from an invalid rental' do
