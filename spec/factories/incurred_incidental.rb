@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 FactoryBot.define do
   factory :incurred_incidental do
-    association :rental, factory: :mock_rental
+    association :rental
     association :incidental_type
 
     after(:build) do |incidental|

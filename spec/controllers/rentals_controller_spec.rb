@@ -17,10 +17,8 @@ describe RentalsController do
     rental
   end
 
-  let(:mock_rental) { create :mock_rental }
-
+  let(:rental) { create :rental }
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
-
   let(:item) { create(:item, name: 'TEST_ITEM') }
 
   before(:each) do
@@ -37,8 +35,8 @@ describe RentalsController do
   end
 
   before(:each) do
-    @rental = create(:mock_rental)
-    @rental2 = create(:mock_rental)
+    @rental = create(:rental)
+    @rental2 = create(:rental)
   end
 
   after(:each) do
@@ -102,15 +100,15 @@ describe RentalsController do
     end
 
     it 'searches within a range of item types' do
-      r1 = create :mock_rental
-      create :mock_rental
+      r1 = create :rental
+      create :rental
       get :index, params: { item_type_id_in: [r1.item_types.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
 
     it 'searches within a range of items' do
-      r1 = create :mock_rental
-      create :mock_rental
+      r1 = create :rental
+      create :rental
       get :index, params: { item_id_in: [r1.items.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
@@ -263,15 +261,15 @@ describe RentalsController do
     end
 
     it 'searches within a range of item types' do
-      r1 = create :mock_rental
-      create :mock_rental
+      r1 = create :rental
+      create :rental
       get :processing, params: { item_type_id_in: [r1.item_types.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
 
     it 'searches within a range of items' do
-      r1 = create :mock_rental
-      create :mock_rental
+      r1 = create :rental
+      create :rental
       get :processing, params: { item_id_in: [r1.items.first.id] }
       expect(assigns[:rentals]).to contain_exactly r1
     end
@@ -302,19 +300,18 @@ describe RentalsController do
 
   describe 'GET #transform' do
     it 'redirects to drop_off page if it was checked out' do
-      rental = mock_rental
       rental.pickup
       get :transform, params: { id: rental.id }
       expect(response).to render_template :drop_off
     end
 
     it 'redirects to pickup page if it was reserved' do
-      get :transform, params: { id: mock_rental.id }
+      get :transform, params: { id: rental.id }
       expect(response).to render_template :pickup
     end
 
     it 'handles the no show flag correctly' do
-      rental = create(:mock_rental, start_time: Date.current, end_time: DateTime.current.next_day)
+      rental = create(:rental, start_time: Date.current, end_time: DateTime.current.next_day)
       Timecop.freeze(DateTime.current + 23.hours)
       get :transform, params: { id: rental.id }
       expect(response).to render_template :pickup
@@ -325,7 +322,6 @@ describe RentalsController do
     end
 
     it 'redirects to rentals if passed a rental that is not reserved or picked up' do
-      rental = mock_rental
       rental.cancel!
       get :transform, params: { id: rental.id }
       expect(response).to render_template :index

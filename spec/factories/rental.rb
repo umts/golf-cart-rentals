@@ -7,11 +7,13 @@ FactoryBot.define do
     end_time { (Time.current + 1.day) }
 
     after(:build) do |rental|
-      # add the rentals_items, no reservation id
       if rental.rentals_items.empty?
-        rental.rentals_items << build(:rentals_item, reservation_id: nil)
+        item = create :item
+        rentals_item = build(:rentals_item, item: item)
+        rental.rentals_items << rentals_item
       end
     end
+
   end
 
   factory :rental_without_items, parent: :rental do
