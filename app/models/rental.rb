@@ -124,7 +124,7 @@ class Rental < ActiveRecord::Base
     created_reservations = []
     begin
       rentals_items.each do |ri|
-        raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
+        raise ActiveRecord::RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
 
         reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
         raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
