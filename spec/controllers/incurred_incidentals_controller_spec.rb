@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'rails_helper'
-include ActionDispatch::TestProcess
+                                   
 describe IncurredIncidentalsController do
   let(:incurred_incidental_create) do
     inc = attributes_for(:incurred_incidental)
