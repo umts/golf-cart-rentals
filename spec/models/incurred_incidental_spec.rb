@@ -3,8 +3,8 @@ require 'rails_helper'
 
 RSpec.describe IncurredIncidental, type: :model do
   context 'properly does validations' do
-    it 'builds a IncurredIncidental given proper parameters' do
-      expect(build(:incurred_incidental)).to be_valid
+    it 'creates a IncurredIncidental given proper parameters' do
+      expect(create(:incurred_incidental)).to be_valid
     end
 
     it 'doesnt build when incidental_type_id is nil' do
