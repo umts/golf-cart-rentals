@@ -126,7 +126,6 @@ RSpec.describe Rental do
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it for realzies
       allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: create(:item).name })
-
       rental = create :rental
       expect(rental).to be_reserved
       expect(rental.reservation_ids).to contain_exactly '42'
@@ -318,8 +317,7 @@ RSpec.describe Rental do
       end
     end
     it 'creates a finacial transaction based on the item_type' do
-      rental = build(:rental)
-      expect(rental.financial_transaction).to be(nil)
+      rental = create(:rental)
       rental.save
       expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
     end
