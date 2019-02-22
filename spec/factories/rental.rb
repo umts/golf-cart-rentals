@@ -22,16 +22,6 @@ FactoryBot.define do
     end
   end
 
-  factory :mock_rental, parent: :rental do
-    # reservations are automatically created after create, doing this before will prevent that
-    before(:create) do |rental|
-      # give a reservation id to all of the items
-      rental.rentals_items.each do |r|
-        r.reservation_id = SecureRandom.uuid
-      end
-    end
-  end
-
   factory :invalid_rental, parent: :mock_rental do
     start_time { nil }
   end
