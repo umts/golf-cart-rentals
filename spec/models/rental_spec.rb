@@ -117,12 +117,7 @@ RSpec.describe Rental do
     end
   end
 
-  describe '#create_rental' do
-    it 'creates a rental with valid parameters' do
-      @rent = create :mock_rental
-      expect(@rent).to be_valid
-      expect(Rental.find(@rent.id)).to eq(@rent)
-    end
+  describe 'creating a rental' do
 
     it 'creates associated reservation' do
       # mock up the api so it doesnt make it for realzies
