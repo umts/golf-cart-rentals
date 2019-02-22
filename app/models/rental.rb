@@ -124,7 +124,9 @@ class Rental < ActiveRecord::Base
     begin
       rentals_items.each do |ri|
         reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
-        raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
+        unless reservation[:uuid].present?
+          raise 'Reservation UUID was not present in response.'
+        end
 
         ri.reservation_id = reservation[:uuid]
         created_reservations << reservation[:uuid]
