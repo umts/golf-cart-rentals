@@ -156,7 +156,8 @@ class Rental < ActiveRecord::Base
   end
 
   def delete_reservations
-    return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    return true if end_time < Time.current 
     rentals_items.each do |ri|
       next if ri.reservation_id.nil? # nothing to delete here
       errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)
