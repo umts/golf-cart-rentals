@@ -118,7 +118,6 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  # Note, rspec will mock this so we wont communicate with the api
   def create_reservations
     # if we fail half way through creating reservations we should roll them all back
     created_reservations = []
