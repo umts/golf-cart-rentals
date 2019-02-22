@@ -146,7 +146,8 @@ RSpec.describe Rental do
     end
 
     context 'rolls reservation if any reservations fail to create' do
-      let(:fail_rentals_item) { build(:rentals_item, reservation_id: nil) }
+      let(:renter) { create :user }
+      let(:fail_rentals_item) { build :rentals_item, reservation_id: nil }
       before(:each) do
         # fail on one reservation but not the other
         allow(Inventory).to receive(:create_reservation).with(fail_rentals_item.item_type.name, anything, anything).and_raise(StandardError)
@@ -161,14 +162,15 @@ RSpec.describe Rental do
 
       it 'adds to errors if it fails to delete reservation' do
         # will try to roll back but we wont let it
-        # what in the ever-loving shit is going on in this test?
         allow(Inventory).to receive(:delete_reservation).and_raise(StandardError)
 
-        r = build(:rental, rentals_items: [build(:rentals_item, reservation_id: nil), fail_rentals_item])
-        expect do
-          r.save!
-        end.to(raise_error(ActiveRecord::RecordNotSaved)) && change(Rental, :count).by(0) && change(RentalsItem, :count).by(0)
-        messages = r.errors.messages[:base]
+        rentals_item = build :rentals_item, reservation_id: nil
+        rental = build :rental,
+          rentals_items: [rentals_item, fail_rentals_item],
+          creator: renter
+        expect{ rental.save! }.to raise_error ActiveRecord::RecordNotSaved
+        
+        messages = rental.errors.messages[:base]
         expect(messages.count).to eq 2
 
         # expect messages to contain 'partially rolled back' and 'failed to delete reservations from api'
