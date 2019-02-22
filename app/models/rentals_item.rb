@@ -8,7 +8,6 @@ class RentalsItem < ActiveRecord::Base
   # TODO: remove item_type from rentals_item.
   belongs_to :item_type
   # we dont validate item, that will be assigned by the rental
-  validates :rental, presence: true 
   validates :reservation_id, uniqueness: true, allow_nil: true
 
   alias_attribute :reservation, :reservation_id
