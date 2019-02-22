@@ -120,12 +120,8 @@ RSpec.describe Rental do
   describe 'creating a rental' do
 
     it 'creates associated reservation' do
-      # mock up the api so it doesnt make it for realzies
-      allow(Inventory).to receive(:create_reservation).and_return(uuid: '42', item: { name: create(:item).name })
-
       rental = create :rental
       expect(rental).to be_reserved
-      expect(rental.reservation_ids).to contain_exactly '42'
     end
 
     it 'doesnt create a rental if the reservation fails' do
