@@ -19,15 +19,16 @@ RSpec.describe Rental do
     end
     it "doesn't allow a zero day rental" do
       time = Time.current
-      rent = build(:mock_rental, start_time: time, end_time: time)
+      rent = build(:rental, start_time: time, end_time: time)
       expect(rent).not_to be_valid
     end
     it 'is invalid without a end_time' do
       expect(build(:rental, end_time: nil)).not_to be_valid
     end
     it 'does not allow duplicate reservation_id' do
-      rental = build :mock_rental
-      expect(build(:rental, rentals_items: [build(:rentals_item, reservation_id: rental.reservation_ids.first)])).not_to be_valid
+      rental = create :rental
+      rentals_item = build :rentals_item, reservation_id: rental.reservation_ids.first
+      expect(rentals_item).not_to be_valid
     end
     context 'start time before today' do
       it 'is invalid with a start_time before today' do
@@ -47,7 +48,7 @@ RSpec.describe Rental do
       end
 
       it 'allows assignment of user inside dept w/o perm' do
-        expect(build(:mock_rental, creator: @dept_one_users.first, renter: @dept_one_users.second)).to be_valid
+        expect(build(:rental, creator: @dept_one_users.first, renter: @dept_one_users.second)).to be_valid
       end
 
       it 'allows assignment of user outside dept with permission' do
@@ -58,11 +59,11 @@ RSpec.describe Rental do
         u.groups << g
         u.save
         # renter is outside dept but has permissions
-        expect(create(:mock_rental, creator: u, renter: @dept_one_users.first)).to be_valid
+        expect(create(:rental, creator: u, renter: @dept_one_users.first)).to be_valid
       end
 
       it 'denies outside deparment' do
-        r = build(:mock_rental, creator: @other_users.first, renter: @dept_one_users.first)
+        r = build(:rental, creator: @other_users.first, renter: @dept_one_users.first)
         expect(r).not_to be_valid
         expect(r.errors[:renter].size).to eq(1)
       end
@@ -78,8 +79,8 @@ RSpec.describe Rental do
       creator_two = create :user, groups: [g]
       renter = create :user
       renter_two = create :user
-      rentals_one = create_list :mock_rental, 4, creator: creator, renter: renter_two
-      rentals_two = create_list :mock_rental, 4, renter: renter, creator: creator_two
+      rentals_one = create_list :rental, 4, creator: creator, renter: renter_two
+      rentals_two = create_list :rental, 4, renter: renter, creator: creator_two
       expect(Rental.created_by(creator)).to eq rentals_one
       expect(Rental.created_by(renter)).to be_empty
       expect(Rental.rented_by(renter)).to eq rentals_two
@@ -88,8 +89,8 @@ RSpec.describe Rental do
 
     it 'with_balance_due' do
       # create our mock rentals
-      rental_paid = create :mock_rental
-      rental_unpaid = create :mock_rental # unpaid
+      rental_paid = create :rental
+      rental_unpaid = create :rental # unpaid
 
       # get amount from the transaction created by rental
       amount = rental_paid.balance
@@ -102,8 +103,8 @@ RSpec.describe Rental do
     end
 
     it 'with_balance_over' do
-      unpaid_rental = create :mock_rental # unpaid
-      paid_rental = create :mock_rental
+      unpaid_rental = create :rental # unpaid
+      paid_rental = create :rental
       # get amount from the transaction created by rental
       amount = paid_rental.balance
 
@@ -190,7 +191,7 @@ RSpec.describe Rental do
 
   describe '#delete_rental' do
     before :each do
-      @rent = create :mock_rental
+      @rent = create :rental
     end
 
     it 'deletes a rental properly' do
@@ -213,7 +214,7 @@ RSpec.describe Rental do
 
   describe '#times' do
     before :each do
-      @rental = create :mock_rental
+      @rental = create :rental
     end
 
     it 'returns a string with times' do
@@ -224,7 +225,7 @@ RSpec.describe Rental do
 
   describe '#balance' do
     before :each do
-      @rental = create :mock_rental
+      @rental = create :rental
     end
 
     it 'return the sum of all @rental\'s financial transation amounts' do
@@ -249,7 +250,7 @@ RSpec.describe Rental do
 
   describe 'rental_status' do
     before :each do
-      @rental = create :mock_rental
+      @rental = create :rental
     end
 
     it 'is reserved upon creation' do
@@ -331,7 +332,7 @@ RSpec.describe Rental do
 
   describe '#event_status_color' do
     before :each do
-      @rental = create :mock_rental
+      @rental = create :rental
     end
     it 'returns #0092ff when reserved' do
       expect(@rental.event_status_color).to eq('#0092ff')
@@ -360,31 +361,31 @@ RSpec.describe Rental do
 
   describe '#str_item_types' do
     it 'returns basic info of new rental' do
-      rental = create :mock_rental
+      rental = create :rental
       expect(rental.str_item_types).to eq(rental.item_types.first.name)
     end
 
     it 'returns a list of item types if there are multiple items' do
-      rental = create :mock_rental, rentals_items: build_list(:rentals_item, 2)
+      rental = create :rental, rentals_items: build_list(:rentals_item, 2)
       expect(rental.str_item_types).to eq("#{rental.item_types.first.name}, #{rental.item_types.second.name}")
     end
   end
 
   describe '#basic_info' do
     it 'returns basic info of single item rental' do
-      rental = create :mock_rental
+      rental = create :rental
       expect(rental.basic_info).to eq("#{rental.item_types.first.name}:(#{rental.start_time.to_date} -> #{rental.end_time.to_date})")
     end
 
     it 'returns a list of item types if there are multiple' do
-      rental = create :mock_rental, rentals_items: build_list(:rentals_item, 2)
+      rental = create :rental, rentals_items: build_list(:rentals_item, 2)
       expect(rental.basic_info).to eq("#{rental.str_item_types}:(#{rental.start_time.to_date} -> #{rental.end_time.to_date})")
     end
   end
 
   describe '#event_name' do
     it 'returns event name of single item rental' do
-      rental = create :mock_rental
+      rental = create :rental
       expect(rental.event_name).to eq("#{rental.item_types.first.name}(#{rental.item_types.first.id}) - Rental ID: #{rental.id}")
     end
 
@@ -402,64 +403,64 @@ RSpec.describe Rental do
 
   describe '#department' do
     it 'delegates to renter' do
-      rental = create :mock_rental
+      rental = create :rental
       expect(rental.department).to eq(rental.renter.department)
     end
   end
 
   context 'rentals and financial transactions' do
     it 'creates a 1 day financial transaction' do
-      rent = create :mock_rental, end_time: (Time.current + 1.second)
+      rent = create :rental, end_time: (Time.current + 1.second)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
     end
     it 'creates a 2 day financial transaction' do
-      rent = create :mock_rental
+      rent = create :rental
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([120])
     end
     it 'creates a 3 day financial transaction' do
-      rent = create :mock_rental, end_time: (Time.current + 2.days)
+      rent = create :rental, end_time: (Time.current + 2.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([130])
     end
     it 'creates a 7 day financial transaction(1 day free)' do
-      rent = create :mock_rental, end_time: (Time.current + 6.days)
+      rent = create :rental, end_time: (Time.current + 6.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([160])
     end
     it 'creates a 8 day financial transaction(1 day free)' do
-      rent = create :mock_rental, end_time: (Time.current + 7.days)
+      rent = create :rental, end_time: (Time.current + 7.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([170])
     end
     it 'creates a 15 day financial transaction(2 days free)' do
-      rent = create :mock_rental, end_time: (Time.current + 14.days)
+      rent = create :rental, end_time: (Time.current + 14.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([230])
     end
     it 'creates a 2 day financial transaction with different fees' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20))]
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: create(:item_type, name: 'Test 220', base_fee: 200, fee_per_day: 20))]
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([240])
     end
     let!(:four_seat) { create(:item_type, name: '4 Seat') }
     it 'creates a 4 Seat 14 day financial transaction(longterm 2 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 13.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 13.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([500])
     end
     it 'creates a 4 Seat 21 day financial transaction(longterm 3 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 20.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 20.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([700])
     end
     it 'creates a 4 Seat 28 day financial transaction(longterm 4 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 27.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: four_seat)], end_time: (Time.current + 27.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([850])
     end
     let!(:six_seat) { create(:item_type, name: '6 Seat') }
     it 'creates a 6 Seat 14 day financial transaction(longterm 2 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 13.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 13.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([600])
     end
     it 'creates a 6 Seat 21 day financial transaction(longterm 3 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 20.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 20.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([900])
     end
     it 'creates a 6 Seat 28 day financial transaction(longterm 4 week)' do
-      rent = create :mock_rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 27.days)
+      rent = create :rental, rentals_items: [build(:rentals_item, item_type: six_seat)], end_time: (Time.current + 27.days)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([1100])
     end
   end
@@ -467,7 +468,7 @@ RSpec.describe Rental do
   describe '#delete_reservation' do
     context 'error thrown' do
       it 'logs the error and returns false' do
-        r = create(:mock_rental)
+        r = create(:rental)
         allow(Inventory).to receive(:delete_reservation).and_raise(InventoryExceptions::AuthError)
         expect do
           r.destroy # will call delete reservation before_destroy
