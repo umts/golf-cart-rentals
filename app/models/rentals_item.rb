@@ -5,6 +5,7 @@ class RentalsItem < ActiveRecord::Base
   # use inverse of so we can create this with rental blank at first
   belongs_to :rental, inverse_of: :rentals_items
   belongs_to :item, optional: true
+  # TODO: remove item_type from rentals_item.
   belongs_to :item_type
   # we dont validate item, that will be assigned by the rental
   validates :rental, presence: true 
