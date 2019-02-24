@@ -7,6 +7,9 @@ FactoryBot.define do
     end_time { (Time.current + 1.day) }
 
     after(:build) do |rental|
+      # a rental is invalid if its renter doesn't have permission to assign.
+      # a user can't have permissions for anything if they're not persisted.
+      rental.renter.save if rental.renter.present?
       if rental.rentals_items.empty?
         item = create :item
         rentals_item = build(:rentals_item, item: item)
