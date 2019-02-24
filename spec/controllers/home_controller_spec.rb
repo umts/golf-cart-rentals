@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 describe HomeController do
-  let(:rental) { create :mock_rental }
-  let(:rental2) { create :mock_rental }
+  let(:rental) { create :rental }
+  let(:rental2) { create :rental }
   let(:upcoming) { create :upcoming_rental }
   let(:upcoming2) { create :upcoming_rental, start_time: DateTime.current }
   let(:past) { create :past_rental }
@@ -11,7 +11,7 @@ describe HomeController do
   let(:future) { create :far_future_rental }
   let(:ongoing) { create :ongoing_rental }
   let(:ongoing2) { create :ongoing_rental }
-  let(:canceled) { create :mock_rental, rental_status: 'canceled' }
+  let(:canceled) { create :rental, rental_status: 'canceled' }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -70,9 +70,9 @@ describe HomeController do
       before(:each) do
         @user = current_user
         @other_user = create(:admin_user)
-        @rental = create :mock_rental, renter_id: @user.id, creator_id: @user.id
+        @rental = create :rental, renter_id: @user.id, creator_id: @user.id
         @rental2 = create :ongoing_rental, renter_id: @user.id, creator_id: @user.id
-        @rental3 = create :mock_rental, renter_id: @other_user.id, creator_id: @other_user.id
+        @rental3 = create :rental, renter_id: @other_user.id, creator_id: @other_user.id
       end
 
       it 'filters out rentals not belonging to the current user' do
