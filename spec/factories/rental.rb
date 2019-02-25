@@ -17,6 +17,16 @@ FactoryBot.define do
       end
     end
 
+    trait :ongoing do
+      rental_status { 'picked_up' }
+    end
+    trait :upcoming do
+      start_time { (Time.current + 1.day).to_s }
+      end_time { (Time.current + 5.days).to_s }
+    end
+    trait :past do
+      rental_status { 'dropped_off' }
+    end
   end
 
   factory :rental_without_items, parent: :rental do
@@ -34,21 +44,4 @@ FactoryBot.define do
     renter_id { nil }
   end
 
-  factory :upcoming_rental, parent: :mock_rental do
-    start_time { (Time.current + 1.day).to_s }
-    end_time { (Time.current + 5.days).to_s }
-  end
-
-  factory :past_rental, parent: :mock_rental do
-    rental_status { 'dropped_off' }
-  end
-
-  factory :far_future_rental, parent: :mock_rental do
-    start_time { (Time.current + 8.days).to_s }
-    end_time { (Time.current + 9.days).to_s }
-  end
-
-  factory :ongoing_rental, parent: :mock_rental do
-    rental_status { 'picked_up' }
-  end
 end

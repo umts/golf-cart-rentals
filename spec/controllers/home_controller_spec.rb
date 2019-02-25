@@ -2,16 +2,20 @@
 require 'rails_helper'
 
 describe HomeController do
-  let(:rental) { create :rental }
-  let(:rental2) { create :rental }
-  let(:upcoming) { create :upcoming_rental }
-  let(:upcoming2) { create :upcoming_rental, start_time: DateTime.current }
-  let(:past) { create :past_rental }
-  let(:past2) { create :past_rental }
-  let(:future) { create :far_future_rental }
-  let(:ongoing) { create :ongoing_rental }
-  let(:ongoing2) { create :ongoing_rental }
-  let(:canceled) { create :rental, rental_status: 'canceled' }
+  let!(:rental) { create :rental }
+  let!(:rental2) { create :rental }
+  let!(:upcoming) { create :rental, :upcoming }
+  let!(:upcoming2) { create :rental, :upcoming, start_time: DateTime.current }
+  let!(:past) { create :rental, :past }
+  let!(:past2) { create :rental, :past }
+  let!(:future) do
+    create :rental,
+      start_time: 8.days.since,
+      end_time: 9.days.since
+  end
+  let!(:ongoing) { create :rental, :ongoing }
+  let!(:ongoing2) { create :rental, :ongoing}
+  let!(:canceled) { create :rental, rental_status: 'canceled' }
 
   let!(:item_type) { create(:item_type) }
   let!(:item_type2) { create(:item_type) }
@@ -20,14 +24,8 @@ describe HomeController do
     describe 'for admin user' do
       before(:each) do
         current_user(create(:admin_user))
-        rental
-        upcoming
-        ongoing
-        past
-        future
       end
       it 'populates an array of rentals' do
-        rental2
         get :index
         expect(assigns[:rentals]).to include(rental, upcoming, past, future, rental2, ongoing)
       end
@@ -71,7 +69,7 @@ describe HomeController do
         @user = current_user
         @other_user = create(:admin_user)
         @rental = create :rental, renter_id: @user.id, creator_id: @user.id
-        @rental2 = create :ongoing_rental, renter_id: @user.id, creator_id: @user.id
+        @rental2 = create :rental, :ongoing, renter_id: @user.id, creator_id: @user.id
         @rental3 = create :rental, renter_id: @other_user.id, creator_id: @other_user.id
       end
 
