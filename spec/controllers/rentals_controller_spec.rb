@@ -2,20 +2,6 @@
 require 'rails_helper'
 
 describe RentalsController do
-  let(:rental_create) do
-    attributes_for(:new_rental)
-      .merge(renter_id: create(:user),
-             rentals_items_attributes: [
-               { item_type_id: create(:item_type) },
-               { item_type_id: create(:item_type) }
-             ])
-  end
-
-  let(:invalid_create) do
-    rental = attributes_for(:invalid_rental)
-    rental[:renter_id] = create(:user, first_name: 'Test_User').id
-    rental
-  end
 
   let(:rental) { create :rental }
   let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
@@ -170,22 +156,30 @@ describe RentalsController do
   end
 
   describe 'POST #create' do
+    let(:rental_attributes) do
+      attributes_for(:rental).merge(
+        renter_id: (create :user).id,
+        rentals_items_attributes: [
+          { item_type_id: create(:item_type).id },
+          { item_type_id: create(:item_type).id },
+        ])
+    end
     context 'with valid attributes' do
       it 'saves the new rental in the database' do
         expect do
-          post :create, params: { rental: rental_create }
+          post :create, params: { rental: rental_attributes }
         end.to change(Rental, :count).by(1)
       end
       it 'redirects to the rental show page' do
-        post :create, params: { rental: rental_create }
+        post :create, params: { rental: rental_attributes }
         expect(response).to redirect_to Rental.last
       end
 
       it 'can handle a renter_id passed as an array or not' do
         # token input gives array so we are testing renter id as array
-        rental_create[:renter_id] = [rental_create[:renter_id]]
+        rental_attributes[:renter_id] = [rental_attributes[:renter_id]]
         expect do
-          post :create, params: { rental: rental_create }
+          post :create, params: { rental: rental_attributes }
         end.to change(Rental, :count).by(1)
         expect(response).to redirect_to Rental.last
       end
@@ -194,7 +188,7 @@ describe RentalsController do
         fixed_uuid = SecureRandom.uuid
         allow(Inventory).to receive(:create_reservation) { { uuid: fixed_uuid, item: { name: create(:item).name } } }
         expect do
-          post :create, params: { rental: rental_create }
+          post :create, params: { rental: rental_attributes }
         end.to change(RentalsItem, :count).by(2)
         expect(RentalsItem.last(2).collect(&:reservation_id)).to contain_exactly fixed_uuid, fixed_uuid
       end
@@ -202,8 +196,9 @@ describe RentalsController do
 
     context 'with invalid attributes' do
       it 'does not save the new rental in the database' do
+        rental_attributes[:start_time] = nil
         expect do
-          post :create, params: { rental: invalid_create }
+          post :create, params: { rental: rental_attributes }
         end.to_not change(Rental, :count)
         expect(response).to redirect_to(action: :new)
       end
@@ -213,7 +208,7 @@ describe RentalsController do
       it 'renders new and flashes warning if inventory api returns invalid response' do
         allow(Inventory).to receive(:create_reservation).and_return({}) # wont do it
         expect do
-          post :create, params: { rental: rental_create } # sends valid params
+          post :create, params: { rental: rental_attributes } # sends valid params
         end.not_to change(Rental, :count)
 
         expect(flash[:danger]).to be_any { |danger| danger =~ /Reservations  rolled back #<RuntimeError: Reservation UUID was not present in response\.>/ }
@@ -237,7 +232,7 @@ describe RentalsController do
         current_user(u) # set current_user to u in the controller
 
         expect do
-          post :create, params: { rental: rental_create, amount: cost + 1 }
+          post :create, params: { rental: rental_attributes, amount: cost + 1 }
         end.to change(FinancialTransaction, :count).by(1) && change(Rental, :count).by(1)
 
         expect(FinancialTransaction.last.amount).to eq cost + 1
@@ -245,8 +240,8 @@ describe RentalsController do
 
       it 'ignores if the user does not have permission' do # by default does not have this permission
         expect do
-          post :create, params: { rental: rental_create, amount: cost + 1 }
-        end.to(change(FinancialTransaction, :count).by(rental_create[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
+          post :create, params: { rental: rental_attributes, amount: cost + 1 }
+        end.to(change(FinancialTransaction, :count).by(rental_attributes[:rentals_items_attributes].count)) && change(Rental, :count).by(1)
 
         expect(FinancialTransaction.last.amount).to eq cost # we asked for cost+1, but they ignored because we dont have perms
       end
