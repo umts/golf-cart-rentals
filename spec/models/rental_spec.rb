@@ -309,8 +309,7 @@ RSpec.describe Rental do
       rental.save
     end
     it 'creates a finacial transaction based on the item_type' do
-      rental = build(:rental)
-      expect(rental.financial_transaction).to be(nil)
+      rental = create(:rental)
       rental.save
       expect(rental.financial_transaction).to be_an_instance_of(FinancialTransaction)
     end
