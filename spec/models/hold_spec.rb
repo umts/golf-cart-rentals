@@ -64,35 +64,35 @@ RSpec.describe Hold, type: :model do
   end
 
   describe 'handle_conflicting_rentals' do
-    # the start times and end times here are configured to be overlapping for the conflict and non overlapping for the future rental
-    let(:shared_item) { create(:item) }
-    let(:hold) { create(:hold, item: shared_item, start_time: 1.day.from_now, end_time: 10.days.from_now) }
-    let(:conflicting_rental) do
-      create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now,
-                      rentals_items: [build(:rentals_item, item: shared_item)])
-    end
-    let(:future_rental) do
-      create(:rental, start_time: 40.days.from_now, end_time: 42.days.from_now,
-                      rentals_items: [build(:rentals_item, item: shared_item)])
+    # the start times and end times here are configured to be overlapping
+    # for the conflict and non overlapping for the future rental
+    before :each do
+      @shared_item = create :item
+      @hold = create :hold, item: @shared_item, start_time: 1.day.from_now, end_time: 10.days.from_now
+      @conflicting_rental = create :rental,
+        start_time: 2.days.from_now,
+        end_time: 4.days.from_now
+      @conflicting_rental.rentals_items = [build(:rentals_item, item: @shared_item)]
+      @future_rental = create :rental,
+        start_time: 40.days.from_now,
+        end_time: 42.days.from_now
+      @future_rental.rentals_items = [build(:rentals_item, item: @shared_item)]
     end
 
     it 'should cancel a conflicting rental' do
-      conflicting_rental
-      hold.handle_conflicting_rentals
-      expect(conflicting_rental.reload).to be_canceled
+      @hold.handle_conflicting_rentals
+      expect(@conflicting_rental.reload).to be_canceled
     end
 
     it 'should not affect a future rental' do
-      future_rental
       expect do
-        hold.handle_conflicting_rentals
-      end.not_to change(future_rental, :rental_status)
+        @hold.handle_conflicting_rentals
+      end.not_to change(@future_rental, :rental_status)
     end
 
     it 'should create a new rental when there is a conflicting rental' do
-      conflicting_rental
       expect do
-        hold.handle_conflicting_rentals
+        @hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)
     end
 
@@ -100,39 +100,47 @@ RSpec.describe Hold, type: :model do
       hold = create :hold, start_time: 1.day.from_now, end_time: 3.days.from_now
 
       # conflicting rental starts in range but ends out side of it
-      create(:rental, start_time: 2.days.from_now, end_time: 4.days.from_now, rentals_items: [build(:rentals_item, item: hold.item)])
+      new_rental = create :rental,
+        start_time: 2.days.from_now,
+        end_time: 4.days.from_now
+      new_rental.rentals_items = [build(:rentals_item, item: hold.item)]
       expect do
         hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(1)
     end
 
     it 'should not create a new rental when there is not a conflicting rental' do
-      future_rental
+      @conflicting_rental.update_attributes(
+        start_time: 40.days.from_now,
+        end_time: 42.days.from_now
+      )
       expect do
-        hold.handle_conflicting_rentals
+        @hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(0)
     end
 
     it 'should not create a new rental when the rental is on a different item' do
-      create :mock_rental
+      @conflicting_rental.update_attributes(
+        start_time: 40.days.from_now,
+        end_time: 42.days.from_now
+      )
+      create :rental
       expect do
-        hold.handle_conflicting_rentals
+        @hold.handle_conflicting_rentals
       end.to change(Rental, :count).by(0)
     end
 
     it 'should send an email when there is a conflicting rental' do
-      conflicting_rental
       expect do
-        hold.handle_conflicting_rentals
+        @hold.handle_conflicting_rentals
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
     end
 
     it 'should send an email when there is no suitable replacement rental' do
-      conflicting_rental
       # wont create a replacement rental
       allow(Inventory).to receive(:create_reservation).and_raise(AggressiveInventory::Errors::InventoryExceptions::ReservationNotAvailable)
       expect do
-        hold.handle_conflicting_rentals
+        @hold.handle_conflicting_rentals
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
       # that matching text is pulled right from the body of the email that should be sent
       expect(ActionMailer::Base.deliveries.last.body).to match(/Unfortunately, there is no other cart available for replacement/)

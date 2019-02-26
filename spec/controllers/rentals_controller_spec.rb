@@ -218,8 +218,8 @@ describe RentalsController do
 
     context 'cost adjustment' do
       let(:cost) do
-        ItemType.find(rental_create[:rentals_items_attributes].first[:item_type_id].id) # that item_type_id is actually the object itself
-                .cost(rental_create[:start_time], rental_create[:end_time])
+        ItemType.find(rental_attributes[:rentals_items_attributes].first[:item_type_id])
+                .cost(rental_attributes[:start_time], rental_attributes[:end_time])
       end
 
       it 'adjusts the related financial transaction' do

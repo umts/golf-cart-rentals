@@ -65,7 +65,7 @@ RSpec.describe Rental do
       it 'denies outside deparment' do
         r = build(:rental, creator: @other_users.first, renter: @dept_one_users.first)
         expect(r).not_to be_valid
-        expect(r.errors[:renter].size).to eq(1)
+        expect(r.errors[:creator].size).to eq(1)
       end
     end
   end
@@ -305,11 +305,8 @@ RSpec.describe Rental do
   describe '#create_financial_transaction' do
     it '.create_financial_transaction callback is triggered on create' do
       rental = build(:rental)
-      # Critical section.
-      Mutex.new.synchronize do
-        expect(rental).to receive(:create_financial_transaction)
-        rental.save
-      end
+      expect(rental).to receive(:create_financial_transaction)
+      rental.save
     end
     it 'creates a finacial transaction based on the item_type' do
       rental = build(:rental)

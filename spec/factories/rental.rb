@@ -34,14 +34,4 @@ FactoryBot.define do
       rental.rentals_items = []
     end
   end
-
-  factory :invalid_rental, parent: :mock_rental do
-    start_time { nil }
-  end
-
-  factory :new_rental, parent: :mock_rental do
-    creator_id { nil }
-    renter_id { nil }
-  end
-
 end
