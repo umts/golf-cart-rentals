@@ -4,7 +4,7 @@
 <a href="https://codeclimate.com/github/umts/golf-cart-rentals"><img src="https://codeclimate.com/github/umts/golf-cart-rentals/badges/gpa.svg" /></a>
 <a href="https://codeclimate.com/github/umts/golf-cart-rentals/coverage"><img src="https://codeclimate.com/github/umts/golf-cart-rentals/badges/coverage.svg" /></a>
 
-Gold Cart Rentals is a piece of web-based rental control software.
+Golf Cart Rentals is a piece of web-based rental control software.
 
 For instructions on setting up golf-cart-rentals, see the [Wiki](https://github.com/umts/golf-cart-rentals/wiki/Getting-Started-with-golf-cart-rentals!)
 
