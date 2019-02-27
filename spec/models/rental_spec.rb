@@ -399,7 +399,7 @@ RSpec.describe Rental do
 
   context 'rentals and financial transactions' do
     it 'creates a 1 day financial transaction' do
-      rent = create :rental, end_time: (Time.current + 1.second)
+      rent = create :rental, end_time: (Time.current + 5.seconds)
       expect(FinancialTransaction.where(rental: rent).map(&:amount)).to eq([110])
     end
     it 'creates a 2 day financial transaction' do

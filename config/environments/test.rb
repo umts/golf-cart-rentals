@@ -49,4 +49,7 @@ Rails.application.configure do
 
   # inventory api uri
   config.inventory_api_uri = 'http://localhost:4000/v1/'
+
+  # let test environment access rack session for logging users in
+  config.middleware.use RackSessionAccess::Middleware
 end

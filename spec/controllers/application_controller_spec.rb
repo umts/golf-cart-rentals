@@ -174,14 +174,6 @@ describe ApplicationController do
     end
   end
 
-  describe '#current_user' do
-    it 'assigns the first user to @current_user in development' do
-      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
-      subject.current_user
-      expect(assigns[:current_user]).to eq(User.first)
-    end
-  end
-
   describe '#has_permission?' do
     it 'returns true in test' do
       expect(subject.has_permission?).to be true

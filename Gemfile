@@ -92,6 +92,10 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'chromedriver-helper'
+  gem 'rack_session_access'
+  gem 'selenium-webdriver'
   gem 'factory_bot_rails'
   gem 'vcr', '2.4.0'
   gem 'codeclimate-test-reporter', require: nil
