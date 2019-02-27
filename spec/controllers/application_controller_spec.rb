@@ -145,22 +145,6 @@ describe ApplicationController do
     end
   end
 
-  describe 'when an error occurs' do
-    before :each do
-      allow_any_instance_of(ApplicationController).to receive(:root).and_raise('test root error')
-    end
-
-    it 'calls the render_500 method' do
-      get :root
-      expect(response).to render_template('errors/500.html.erb')
-    end
-
-    it 'sends an error email' do
-      expect(subject).to receive(:send_error_email)
-      get :root
-    end
-  end
-
   describe '#root' do
     it 'redirects to the home index action' do
       get :root

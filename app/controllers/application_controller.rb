@@ -73,13 +73,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def send_error_email(error)
-    user = @current_user
-    serializable_error = { class: error.class.to_s, message: error.message, trace: error.backtrace }
-    ErrorMailer.error_email('parking-it@admin.umass.edu', request.fullpath, user,
-                            serializable_error).deliver_later
-  end
-
   def check_permission
     return if has_permission?
     flash[:warning] = 'Your account does not have access to this page'

@@ -78,12 +78,5 @@ describe HomeController do
         expect(assigns[:rentals]).not_to include(create(:mock_rental, renter_id: @other_user.id, creator_id: @other_user.id))
       end
     end
-
-    it 'handles an error by sending an email' do
-      allow_any_instance_of(HomeController).to receive(:index).and_raise(StandardError.new)
-      # in application controller we rescue exceptions with render 500
-      expect_any_instance_of(ApplicationController).to receive(:render_500)
-      get :index
-    end
   end
 end
