@@ -28,7 +28,7 @@ RSpec.describe Hold, type: :model do
     end
 
     it 'does not allow a past start time' do
-      expect(build(:hold, start_time: Time.current - 1.day)).not_to be_valid
+      expect(build(:hold, start_time: 1.day.ago)).not_to be_valid
     end
 
     it 'does not allow a past end time' do
