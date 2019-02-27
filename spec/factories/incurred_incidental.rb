@@ -22,6 +22,5 @@ FactoryBot.define do
 
   factory :invalid_incidental, parent: :incurred_incidental do
     rental_id { nil }
-    # financial_transaction_attributes amount: 5
   end
 end

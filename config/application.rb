@@ -7,7 +7,7 @@ require 'httparty'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module ProbableEngine
+module GolfCartRentals
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     # Settings in config/environments/* take precedence over those specified here.

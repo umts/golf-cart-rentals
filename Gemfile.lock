@@ -378,7 +378,7 @@ DEPENDENCIES
   js-routes
   listen
   momentjs-rails (>= 2.8.1)
-  mysql2 (~> 0.4.0)
+  mysql2 (~> 0.4.10)
   paper_trail
   pry-byebug
   rails (~> 5.2)

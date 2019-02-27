@@ -10,7 +10,7 @@ class ErrorMailer < ActionMailer::Base
 
     @host = Rails.env.production? ? 'hub.parking.umass.edu' : 'localhost:3000'
 
-    subject = "Probable-Engine Error Occured #{Time.zone.now}"
+    subject = "Golf-Cart-Rentals Error Occured #{Time.zone.now}"
     mail(to: email, subject: subject)
   end
 end

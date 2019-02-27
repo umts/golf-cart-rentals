@@ -11,6 +11,20 @@ Rails.application.routes.draw do
   get 'rentals/training_pdf'
   resources :rentals
 
+  #---Help Forms-------------------------------------------------------------
+  resources :help, only: [:index] do
+    collection do
+      get :schedule
+      get :new_hold
+      get :new_incidental_type
+      get :new_item_type
+      get :new_item
+      get :new_group
+      get :new_user
+      get :new_department
+    end
+  end
+  #----------------------------------------------------------------------------
   resources :departments do
     post :remove_user, on: :member
   end
