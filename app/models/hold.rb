@@ -23,7 +23,6 @@ class Hold < ActiveRecord::Base
     conflicting_rentals = Rental.reserved.joins(:rentals_items)
                                 .where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
                                        hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
-    # Rental.where('start_time <= ? AND end_time >= ?', end_time, start_time) also works
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?
     start_hold
   end
