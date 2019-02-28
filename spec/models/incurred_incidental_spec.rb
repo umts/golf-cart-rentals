@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe IncurredIncidental, type: :model do
+RSpec.describe IncurredIncidental do
   context 'properly does validations' do
     it 'builds a IncurredIncidental given proper parameters' do
-      expect(build(:incurred_incidental)).to be_valid
+      rental = create :rental
+      # not valid without a (persisted) rental, actually.
+      expect(build :incurred_incidental, rental: rental).to be_valid
     end
 
     it 'doesnt build when incidental_type_id is nil' do

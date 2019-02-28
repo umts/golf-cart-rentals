@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 describe PaymentTrackingController do
   include ActiveJob::TestHelper
-  let(:unpaid_rental) { create :mock_rental } # unpaid by default
+  let(:unpaid_rental) { create :rental } # unpaid by default
   let(:paid_rental) do
-    rental_paid = create :mock_rental
+    rental_paid = create :rental
 
     # pay for rental
     create :financial_transaction, :with_payment, amount: rental_paid.balance, rental: rental_paid

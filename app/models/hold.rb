@@ -6,7 +6,7 @@ class Hold < ActiveRecord::Base
   # maybe destroy the damage, maybe not, that will destroy the incurred_incidental as well
   has_one :damage # , dependent: :destroy
 
-  validates :hold_reason, :item_id, :item_type_id, :start_time, :end_time, presence: true
+  validates :hold_reason, :start_time, :end_time, presence: true
   validates :start_time, :end_time, date: { after: proc { Date.current },
                                             message: 'must be after current date.' }, unless: :persisted?
   validates :end_time, date: { after: :start_time, message: 'must be after start time' }
@@ -20,7 +20,7 @@ class Hold < ActiveRecord::Base
   def handle_conflicting_rentals
     # if rental falls between data range of our hold
     # only reserved but not picked up
-    conflicting_rentals = Rental.reserved.joins('INNER JOIN rentals_items ON rentals_items.rental_id = rentals.id')
+    conflicting_rentals = Rental.reserved.joins(:rentals_items)
                                 .where('start_time <= :hold_end_time AND end_time >= :hold_start_time AND rentals_items.item_id = :hold_item_id',
                                        hold_start_time: start_time, hold_end_time: end_time, hold_item_id: item.id)
     conflicting_rentals.each { |r| replace_rental(r) } unless conflicting_rentals.empty?

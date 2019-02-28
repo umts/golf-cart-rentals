@@ -2,9 +2,7 @@
 require 'rails_helper'
 
 describe HoldsController do
-  let!(:hold) { create :hold }
-  let(:item) { create(:item, name: 'TEST_ITEM') }
-  let(:item_type) { create(:item_type, name: 'TEST_ITEM_TYPE') }
+  let(:hold) { create :hold }
 
   describe 'GET #show' do
     it 'assigns the requested hold to @hold' do
@@ -46,26 +44,27 @@ describe HoldsController do
 
   describe 'POST #create' do
     context 'with valid attributes' do
+      let(:item) { create :item }
       it 'saves the new hold in the database' do
         expect do
-          post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
+          post :create, params: { hold: attributes_for(:hold, item_id: item) }
         end.to change(Hold, :count).by(1)
       end
 
       it 'redirects to the hold show page' do
-        post :create, params: { hold: attributes_for(:hold, item_id: Item.first) }
+        post :create, params: { hold: attributes_for(:hold, item_id: item) }
         expect(response).to redirect_to Hold.last
       end
 
       it 'sets the damage given the params for damage' do
         damage = create :damage
-        post :create, params: { hold: attributes_for(:hold, item_id: Item.first).merge(damage: damage) }
+        post :create, params: { hold: attributes_for(:hold, item_id: item).merge(damage: damage) }
       end
 
       it 'warns user of ongoing rentals' do
         current_user(super_user)
 
-        rental = create :mock_rental # only has one item
+        rental = create :rental # only has one item
         rental.pickup
         post :create, params: { hold: attributes_for(:hold).merge(item_id: rental.items.first.id) }
         expect(flash[:warning]).to include rental.id.to_s
@@ -80,7 +79,9 @@ describe HoldsController do
       end
 
       it 're-renders the :new template' do
-        post :create, params: { hold: attributes_for(:invalid_date_time_hold, item_id: Item.first) }
+        post :create, params: { 
+          hold: attributes_for(:invalid_date_time_hold, item_id: (create :item))
+        }
         expect(response).to render_template :new
       end
     end

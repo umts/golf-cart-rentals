@@ -65,9 +65,9 @@ class ApplicationController < ActionController::Base
       raise MissingUserError unless @current_user
 
     # assign the first user when in development
-    elsif Rails.env.development?
-      @current_user = User.first
-      session[:user_id] = @current_user.id
+    else
+      @current_user ||= User.find_by(id: session[:user_id]) || User.first
+      session[:user_id] = @current_user.try(:id)
     end
   end
 

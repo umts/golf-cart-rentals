@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class FinancialTransactionsController < ApplicationController
   def index
     # workaround for unknown Ransack bug
-    @q = FinancialTransaction.search(transactable_type_eq: params[:q].try(:[], :transactable_type))
+    @q = FinancialTransaction.ransack(transactable_type_eq: params[:q].try(:[], :transactable_type))
     @trans_type = FinancialTransaction.all.pluck(:transactable_type).uniq
     @financial_transactions = @q.result.paginate(page: params[:page], per_page: 10)
   end

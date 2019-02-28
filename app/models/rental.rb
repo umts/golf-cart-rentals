@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Rental < ActiveRecord::Base
   include AASM
   include InventoryExceptions
@@ -15,8 +16,8 @@ class Rental < ActiveRecord::Base
   # unreserve the items
   before_destroy :delete_reservations
 
-  belongs_to :creator, class_name: User
-  belongs_to :renter, class_name: User
+  belongs_to :creator, class_name: 'User'
+  belongs_to :renter, class_name: 'User'
 
   has_one :financial_transaction, as: :transactable
   has_many :financial_transactions
@@ -39,7 +40,7 @@ class Rental < ActiveRecord::Base
   def renter_is_assignable
     return unless renter && creator # will be validated elsewhere, dont add an error twice
     if creator.assignable_renters.exclude? renter
-      errors.add :renter, 'must have permission to assign'
+      errors.add :creator, 'must have permission to assign'
     end
   end
 
@@ -67,7 +68,9 @@ class Rental < ActiveRecord::Base
 
   def reservations
     rentals_items.collect(&:reservation_id)
-  end; alias reservation_ids reservations
+  end
+
+  alias reservation_ids reservations
 
   aasm column: :rental_status do
     state :reserved, initial: true
@@ -115,15 +118,11 @@ class Rental < ActiveRecord::Base
     end
   end
 
-  # Note, rspec will mock this so we wont communicate with the api
   def create_reservations
     # if we fail half way through creating reservations we should roll them all back
     created_reservations = []
     begin
-      raise RecordInvalid, 'Rental invalid' unless valid?
       rentals_items.each do |ri|
-        raise RecordInvalid, 'Rental item is invalid' unless ri.valid? # check if the current rental item is valid
-
         reservation = Inventory.create_reservation(ri.item_type.name, start_time, end_time)
         raise 'Reservation UUID was not present in response.' unless reservation[:uuid].present?
 
@@ -157,7 +156,8 @@ class Rental < ActiveRecord::Base
   end
 
   def delete_reservations
-    return true if end_time < Time.current # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    # deleting it is pointless, it wont inhibit new rentals and it will destroy a record.
+    return true if end_time < Time.current 
     rentals_items.each do |ri|
       next if ri.reservation_id.nil? # nothing to delete here
       errors.add(:rentals_items, "Failed to delete reservation (uuid #{ri.reservation_id})") unless delete_reservation(ri.reservation_id)

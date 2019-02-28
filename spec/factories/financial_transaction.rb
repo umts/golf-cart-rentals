@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 FactoryBot.define do
-  factory :financial_transaction do |f|
-    f.note_field 'Property of Factory Girl'
-    f.created_at DateTime.now
-    f.updated_at DateTime.now
-    f.amount 1
-    rental
+  factory :financial_transaction do
+    note_field { 'Property of Factory Girl' }
+    amount { 1 }
+    association :rental
 
     trait :with_rental do
       after(:build) { |o| o.transactable = o.rental }

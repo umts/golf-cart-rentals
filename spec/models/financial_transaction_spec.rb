@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe FinancialTransaction, type: :model do
+RSpec.describe FinancialTransaction do
   describe 'testing initial financial transaction params' do
     it 'creates a valid financial transaction from a rental' do
       expect do
         expect(build(:financial_transaction, :with_rental)).to be_valid
-      end.to change { FinancialTransaction.count }.by(1)
+      end
     end
 
     it 'does not create a financial transaction from an invalid rental' do
-      expect { create :invalid_rental }.to raise_error ActiveRecord::RecordInvalid
+      expect { create :rental, start_time: nil }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'does not create a financial transaction without first creating a rental' do

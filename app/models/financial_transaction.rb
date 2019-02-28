@@ -4,9 +4,9 @@ class FinancialTransaction < ActiveRecord::Base
   after_save :send_updated_invoice
 
   belongs_to :rental
-  belongs_to :transactable, polymorphic: true
+  belongs_to :transactable, polymorphic: true, optional: true
 
-  validates :rental_id, :amount, presence: true
+  validates :amount, presence: true
   validates :amount, numericality: { greater_than: 0 }
 
   scope :payments, -> { where(transactable_type: Payment.name) }

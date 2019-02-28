@@ -5,7 +5,6 @@ RSpec.describe ItemsController, type: :controller do
   let!(:item) { create(:item) }
   let!(:item2) { create(:item) }
   let!(:item_type) { create(:item_type) }
-  let!(:item_type2) { create(:item_type) }
 
   describe 'GET #index' do
     it 'populates an array of items' do
@@ -72,7 +71,7 @@ RSpec.describe ItemsController, type: :controller do
   describe 'GET #new_item' do
     it 'it populates an array of item_types' do
       get :new_item
-      expect(assigns[:item_types]).to eq([item_type, item_type2])
+      expect(assigns[:item_types]).to eq ItemType.all
     end
     it 'renders the :new_item view' do
       get :new_item
@@ -150,13 +149,11 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'locates an item record' do
+    let :submit do
       delete :destroy, params: { id: item.id }
-      item.reload
-      expect(item.deleted_at).not_to eq(nil)
     end
-    it 'renders the items index' do
-      delete :destroy, params: { id: item.id }
+    it 'deletes an item record' do
+      expect{ submit }.to change{ Item.count }.by (-1)
       expect(response).to redirect_to items_path
     end
   end

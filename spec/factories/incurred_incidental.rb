@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 FactoryBot.define do
   factory :incurred_incidental do
-    association :rental, factory: :mock_rental
+    association :rental
     association :incidental_type
 
     after(:build) do |incidental|
       incidental.notes = FactoryBot.build_list(:note, 1)
-      # in reality it will be one of the rentals_items from the rental, always the first is good enough
+      # in reality it will be one of the rentals_items from the rental,
+      # always the first is good enough
       if incidental.rental.present?
         incidental.item = incidental.rental.rentals_items.first.item
       end
@@ -20,7 +21,6 @@ FactoryBot.define do
   end
 
   factory :invalid_incidental, parent: :incurred_incidental do
-    rental_id nil
-    financial_transaction_attributes amount: 5
+    rental_id { nil }
   end
 end
