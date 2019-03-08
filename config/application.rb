@@ -9,17 +9,16 @@ Bundler.require(*Rails.groups)
 
 module GolfCartRentals
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    # once you uncomment every line in the file
+    # config/initializers/new_framework_defaults_5_2,
+    # you can remove this line
+    config.load_defaults 5.0
 
     config.generators do |g|
       g.assets         false
@@ -36,7 +35,6 @@ module GolfCartRentals
 
     config.active_job.queue_adapter = :sidekiq
 
-    ActiveSupport.halt_callback_chains_on_return_false = false
     HTTParty::Basement.default_options.update(verify: false) # do not verify certs
   end
 end

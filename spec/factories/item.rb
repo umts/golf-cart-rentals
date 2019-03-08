@@ -2,11 +2,11 @@
 FactoryBot.define do
   factory :item do
     sequence(:name) { |n| "TestCar#{n}" }
-    item_type_id 1
+    association :item_type
     uuid { SecureRandom.uuid }
   end
 
   factory :invalid_item, parent: :item do
-    name nil
+    name { nil }
   end
 end

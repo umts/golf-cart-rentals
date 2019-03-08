@@ -42,13 +42,17 @@ RSpec.describe DamagesController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new damage in the database' do
+        params = attributes_for :damage
+        params.merge!(incurred_incidental_id: (create :incurred_incidental).id)
         expect do
-          post :create, params: { damage: build(:damage).attributes }
+          post :create, params: { damage: params }
         end.to change(Damage, :count).by(1)
       end
 
       it 'redirects to the damage page' do
-        post :create, params: { damage: build(:damage).attributes }
+        params = attributes_for :damage
+        params.merge!(incurred_incidental_id: (create :incurred_incidental).id)
+        post :create, params: { damage: params }
         expect(response).to redirect_to Damage.last
       end
     end

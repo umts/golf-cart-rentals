@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
   has_many :groups, through: :groups_users
 
   # user is creator
-  has_many :created_rentals, class_name: Rental.name, foreign_key: :creator_id
+  has_many :created_rentals, class_name: 'Rental', foreign_key: :creator_id
   # user is renter
-  has_many :rented_rentals, class_name: Rental.name, foreign_key: :renter_id
+  has_many :rented_rentals, class_name:  'Rental', foreign_key: :renter_id
 
   before_validation do
     self.phone = phone.gsub(/\W/, '') if attribute_present? 'phone'

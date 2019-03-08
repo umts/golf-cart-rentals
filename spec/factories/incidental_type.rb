@@ -2,12 +2,12 @@
 FactoryBot.define do
   factory :incidental_type do
     sequence(:name) { |n| "name #{n}" }
-    description 'description'
-    base 1
-    damage_tracked false
+    description { 'description' }
+    base { 1 }
+    damage_tracked { false }
   end
 
   factory :invalid_type, parent: :incidental_type do
-    name nil
+    name { nil }
   end
 end

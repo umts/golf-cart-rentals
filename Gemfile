@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.4'
+gem 'rails', '~> 5.2'
 # Use mariadb as the database for Active Record
 gem 'mysql2', '~> 0.4.10'
 # Use SCSS for stylesheets
@@ -32,7 +32,7 @@ gem 'turbolinks', '~> 5.0.1'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for tracking created/updated user info on a per model basis
-gem 'paper_trail', '~> 4.2.0'
+gem 'paper_trail'
 
 # for handling the state machine behind rental statuses
 gem 'aasm'
@@ -66,9 +66,6 @@ gem 'ransack'
 
 gem 'unicode_utils', '~> 1.4'
 
-# permanent records
-gem 'permanent_records'
-
 # exception notifier
 gem 'exception_notification'
 gem 'slack-notifier'
@@ -78,12 +75,13 @@ gem 'aggressive_inventory', git: 'https://github.com/umts/aggressive_inventory.g
 group :development, :test do
   gem 'pry-byebug'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '3.5.0.beta2'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'timecop'
 end
 
 group :development do
+  gem 'listen'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'better_errors'
   gem 'capistrano', '~> 3.3.0'
@@ -96,9 +94,12 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'chromedriver-helper'
+  gem 'rack_session_access'
+  gem 'selenium-webdriver'
   gem 'factory_bot_rails'
   gem 'vcr', '2.4.0'
-  # gem 'capybara', git: 'https://github.com/jnicklas/capybara.git'
   gem 'codeclimate-test-reporter', require: nil
   gem 'rake'
   gem 'simplecov'

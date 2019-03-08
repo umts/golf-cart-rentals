@@ -1,15 +1,16 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe ReplacementMailer, type: :mailer do
+RSpec.describe ReplacementMailer do
   let(:replacement_mail) do
-    rental = create :mock_rental
+    rental = create :rental
     hold = create :hold, item: rental.items.first, item_type: rental.item_types.first
-    ReplacementMailer.replacement_email(User.first, hold, rental, create(:mock_rental))
+    ReplacementMailer.replacement_email(User.first, hold, rental, create(:rental))
   end
 
   let(:no_replacement_mail) do
-    rental = create :mock_rental
+    rental = create :rental
     hold = create :hold, item: rental.items.first, item_type: rental.item_types.first
     ReplacementMailer.no_replacement_email(User.first, hold, rental)
   end

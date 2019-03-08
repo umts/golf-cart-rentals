@@ -26,7 +26,7 @@ RSpec.describe Permission, type: :model do
     end
 
     it 'returns the nil if the permission does not link to a model' do
-      p = create(:permission)
+      p = create :permission, controller: 'fake'
       expect(p.model).to be_nil
     end
   end

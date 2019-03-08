@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911185405) do
+ActiveRecord::Schema.define(version: 2019_02_08_181853) do
 
-  create_table "damages", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "damages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "location"
     t.string "repaired_by"
     t.text "description"
@@ -24,14 +24,14 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.integer "hold_id"
   end
 
-  create_table "departments", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "departments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "documents", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "documents", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "filename", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.string "original_filename"
   end
 
-  create_table "financial_transactions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "financial_transactions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "rental_id"
     t.integer "transactable_id"
     t.string "transactable_type"
@@ -54,14 +54,14 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["transactable_id"], name: "index_financial_transactions_on_transactable_id"
   end
 
-  create_table "groups", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "groups_permissions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "groups_permissions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "group_id"
     t.integer "permission_id"
     t.datetime "created_at", null: false
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["permission_id"], name: "index_groups_permissions_on_permission_id"
   end
 
-  create_table "groups_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "groups_users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "group_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
 
-  create_table "holds", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "holds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "hold_reason"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.boolean "active"
   end
 
-  create_table "incidental_types", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "incidental_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.decimal "base", precision: 10
@@ -103,40 +103,37 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.boolean "damage_tracked"
   end
 
-  create_table "incurred_incidentals", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "incurred_incidentals", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "incidental_type_id"
     t.integer "rental_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.integer "item_id"
     t.index ["incidental_type_id"], name: "index_incurred_incidentals_on_incidental_type_id"
     t.index ["rental_id"], name: "index_incurred_incidentals_on_rental_id"
   end
 
-  create_table "item_types", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "item_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.float "base_fee", limit: 24
-    t.float "fee_per_day", limit: 24
+    t.float "base_fee"
+    t.float "fee_per_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uuid", null: false
     t.index ["uuid"], name: "index_item_types_on_uuid", unique: true
   end
 
-  create_table "items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "item_type_id", null: false
     t.string "uuid", null: false
-    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_items_on_deleted_at"
     t.index ["item_type_id"], name: "index_items_on_item_type_id"
     t.index ["uuid"], name: "index_items_on_uuid", unique: true
   end
 
-  create_table "notes", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "notes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "note"
     t.string "noteable_type"
     t.integer "noteable_id"
@@ -145,7 +142,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id"
   end
 
-  create_table "payments", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "payments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "payment_type"
     t.string "contact_name"
     t.string "contact_phone"
@@ -155,7 +152,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.string "reference"
   end
 
-  create_table "permissions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "permissions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "controller", null: false
     t.string "action", null: false
     t.string "id_field"
@@ -164,7 +161,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.boolean "active", default: true
   end
 
-  create_table "rentals", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "rentals", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "rental_status", null: false
     t.datetime "dropped_off_at"
     t.datetime "picked_up_at"
@@ -181,7 +178,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["rental_status"], name: "index_rentals_on_rental_status"
   end
 
-  create_table "rentals_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "rentals_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "rental_id"
     t.integer "item_id"
     t.string "reservation_id"
@@ -193,7 +190,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["rental_id"], name: "index_rentals_items_on_rental_id"
   end
 
-  create_table "users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "first_name", limit: 30, null: false
     t.string "last_name", limit: 30, null: false
     t.string "email", null: false
@@ -206,7 +203,7 @@ ActiveRecord::Schema.define(version: 20170911185405) do
     t.index ["spire_id"], name: "index_users_on_spire_id", unique: true
   end
 
-  create_table "versions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "versions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
     t.string "event", null: false
