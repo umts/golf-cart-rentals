@@ -17,3 +17,7 @@ Admin users can create, edit, and delete users, items, item types, departments, 
 The home page shows a view of the current users reservations, and can be used to view item availability and if the user is an admin, all existing reservations.
 
 ![Proposed table relationships](https://github.com/umts/golf-cart-rentals/blob/master/Golfcart%20Schema.png)
+
+# Archived
+
+We decided not to move forward with this (unfinished, not-yet-deployed) app since we abandoned microservices and also canceled the (planned, not-yet-started) customer-facing Field Trip app (which might've used some portions/concepts from this app). We reviewed the Golf Cart rental process and recommended tools like Trello to Parking staff (they opted to simply stick with email and a calendar). 
