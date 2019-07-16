@@ -100,21 +100,14 @@ Rails.application.configure do
     port: 25
   }
 
-  config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :email_prefix => "[ERROR] ",
-    :sender_address => %{"notifier" <parking@umass.edu>},
-    :exception_recipients => %w{parking-it@umass.edu}
-  },
-  :slack => {
-    :webhook_url => "https://hooks.slack.com/services/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",
-    :channel => "#probably-exceptions",
-    :additional_parameters => {
-      :icon_url => "http://image.jpg",
-      :mrkdwn => true
-    }
-  }
-
   # Inventory api url
   config.inventory_api_uri = 'https://rentalapi.parking.umass.edu/v1/' # not sure what this is yet
 end
+
+GolfCartRentals::Application.config.middleware.use ExceptionNotification::Rack,
+email: {
+  email_prefix: "Golf-Cart-Rentals Exception: ",
+  sender_address: %{"Golf-Cart-Rentals" <parkserv@umass.edu>},
+  exception_recipients: %w{parking-it@admin.umass.edu}
+
+}

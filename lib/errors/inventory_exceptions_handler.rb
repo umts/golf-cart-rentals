@@ -27,9 +27,7 @@ module InventoryExceptionsHandler
   private
 
   def error_response(e)
-    # this module is currently only included in ApplicationController and relies on
-    # ApplicationController's private `send_error_email` method
-    send_error_email(e)
+    ExceptionNotifier.notify_exception(e)
     render template: 'errors/inventory_exception.html.erb',
            locals: { error_class: e.class, error_message: e.message },
            status: 500
